@@ -78,9 +78,6 @@
             <version>3.8.1</version>
             <configuration>
                 <encoding>iso-8859-1</encoding>
-                <includes>
-                    <include>src/**/*.java</include>
-                </includes>
                 <source>15</source>
                 <target>15</target>
                 <compilerArgs>
