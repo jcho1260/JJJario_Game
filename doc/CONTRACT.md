@@ -10,8 +10,8 @@ Adam Hufstetler (akh47)
 ## Contract
 * Team meetings:
     * when and how often to meet
-        * at least 2 times a week outside the lab meetings
-        * zoom call over the weekends
+        * meet Sun/Tues at 8 pm, Fri at 5 pm
+        * zoom call to program together as deadlines approach
     * how to communicate action items made during the meeting
         * stand-up/scrum every start of the meeting for overview
         * further discussion as necessary
