@@ -37,7 +37,7 @@ Root
 
 # Collision File (for TrianglePlayer) - ResourceBundle
 
-TriangleEnemy = loseHealth, bounceMovement
+TriangleEnemy = loseHealth, bounceMovement  
 RectangleObstacle = stopMovement
 
 # Non-Playable File (for TrianglePlayer) - XML
@@ -95,8 +95,8 @@ Root
 # Sprites
 Sprites
 - Sprite1
-    - Sprite Type: 
-    - Sprite Image: 
+    - Sprite Type:
+    - Sprite Image:
 - Sprite2
 - Sprite3...
 
