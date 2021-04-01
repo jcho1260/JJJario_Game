@@ -54,7 +54,7 @@ Adam Hufstetler (akh47)
 7. The user defeats an enemy on screen and that enemy disappears
 8. The user navigates from the level screen back to the game menu screen
 9. The user can never move the sprite beyond the screen, toleranced-drag model of rendering
-10. The user can change the settings of the specific game through the game settings menu
+10. The user dies before completing the level and is displayed with a game over screen displaying their score
 
 ## Jessica use cases:
 1. Backend location changes can be reflected in the frontend
