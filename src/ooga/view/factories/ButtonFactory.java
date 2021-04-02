@@ -12,7 +12,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class ButtonFactory {
-  private final ResourceBundle buttonKeys = ResourceBundle.getBundle("view/images/factory_bundles/ButtonKeys");
+  private final ResourceBundle buttonKeys = ResourceBundle.getBundle(
+      "view/factory_bundles/ButtonKeys");
 
   public Button makeButton(Element buttonElem)
       throws NoSuchMethodException, ClassNotFoundException, InvocationTargetException, IllegalAccessException {
