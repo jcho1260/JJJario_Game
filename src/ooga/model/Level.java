@@ -1,3 +1,5 @@
+package ooga.model;
+
 import java.util.List;
 
 /**

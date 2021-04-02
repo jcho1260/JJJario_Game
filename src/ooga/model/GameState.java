@@ -1,3 +1,4 @@
+package ooga.model;
 
 /**
  * 

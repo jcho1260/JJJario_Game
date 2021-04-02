@@ -1,3 +1,5 @@
+package ooga.model;
+
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
