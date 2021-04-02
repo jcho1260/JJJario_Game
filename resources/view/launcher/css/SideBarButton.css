@@ -1,0 +1,13 @@
+.button {
+    -fx-text-fill: white;
+    -fx-font-family: "Roboto Light";
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-background-color: darkslateblue;
+    -fx-pref-width: 285px;
+    -fx-pref-height: 100px;
+}
+
+.button:hover {
+    -fx-background-color: slateblue;
+}

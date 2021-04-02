@@ -1,0 +1,34 @@
+<?xml version = "1.0" ?>
+<Scene>
+  <Width>300</Width>
+  <Height>750</Height>
+  <Image>
+    <Width>285</Width>
+    <Height>100</Height>
+    <Path>view/launcher/images/HorizontalLogo.png</Path>
+  </Image>
+  <Button>
+    <Text>Dashboard</Text>
+    <Image>view/images/icons/Home.png</Image>
+    <Style>view/launcher/css/SideBarButton.css</Style>
+    <!--<Action>TODO</Action>-->
+  </Button>
+  <Button>
+    <Text>Game Library</Text>
+    <Image>view/images/icons/BookHalf.png</Image>
+    <Style>view/launcher/css/SideBarButton.css</Style>
+    <!--<Action>TODO</Action>-->
+  </Button>
+  <Button>
+    <Text>Stage Builder</Text>
+    <Image>view/images/icons/HammerAnvil.png</Image>
+    <Style>view/launcher/css/SideBarButton.css</Style>
+    <!--<Action>TODO</Action>-->
+  </Button>
+  <Button>
+    <Text>Settings</Text>
+    <Image>view/images/icons/Gears.png</Image>
+    <Style>view/launcher/css/SideBarButton.css</Style>
+    <!--<Action>TODO</Action>-->
+  </Button>
+</Scene>
