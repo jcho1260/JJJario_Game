@@ -20,7 +20,10 @@
         <x>0</x>
         <y>0</y>
       </Location>
-      <Velocity>10</Velocity>
+      <Velocity>
+        <x>5</x>
+        <y>0</y>
+      </Velocity>
     </Entity>
     <Entity>
       <Name>badguy</Name>
@@ -28,7 +31,10 @@
         <x>20</x>
         <y>0</y>
       </Location>
-      <Velocity>10</Velocity>
+      <Velocity>
+        <x>3</x>
+        <y>1</y>
+      </Velocity>
     </Entity>
     <Entity>
       <Name>badguy</Name>
@@ -36,7 +42,10 @@
         <x>50</x>
         <y>0</y>
       </Location>
-      <Velocity>10</Velocity>
+      <Velocity>
+        <x>25</x>
+        <y>-1</y>
+      </Velocity>
     </Entity>
   </Layout>
 </Level>
