@@ -4,13 +4,12 @@ import java.util.*;
 /**
  * 
  */
-public class NonPlayableMethodsParser {
+public class SideScrollerApplication {
 
     /**
      * Default constructor
      */
-    public NonPlayableMethodsParser() {
+    public SideScrollerApplication() {
     }
-
 
 }
