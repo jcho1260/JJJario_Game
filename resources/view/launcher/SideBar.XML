@@ -11,7 +11,7 @@
     <Text>Dashboard</Text>
     <ImageView>
       <Image>
-        <Path>view/images/icons/Home.png</Path>
+        <Path>view/images/button_icons/Home.png</Path>
       </Image>
       <Ratio>true</Ratio>
       <Height>80</Height>
@@ -23,7 +23,7 @@
     <Text>Game Library</Text>
     <ImageView>
       <Image>
-        <Path>view/images/icons/BookHalf.png</Path>
+        <Path>view/images/button_icons/BookHalf.png</Path>
       </Image>
       <Ratio>true</Ratio>
       <Height>80</Height>
@@ -35,7 +35,7 @@
     <Text>Stage Builder</Text>
     <ImageView>
       <Image>
-        <Path>view/images/icons/HammerAnvil.png</Path>
+        <Path>view/images/button_icons/HammerAnvil.png</Path>
       </Image>
       <Ratio>true</Ratio>
       <Height>80</Height>
@@ -47,7 +47,7 @@
     <Text>Settings</Text>
     <ImageView>
       <Image>
-        <Path>view/images/icons/Gears.png</Path>
+        <Path>view/images/button_icons/Gears.png</Path>
       </Image>
       <Ratio>true</Ratio>
       <Height>80</Height>
@@ -59,7 +59,7 @@
     <Text>Logout</Text>
     <ImageView>
       <Image>
-        <Path>view/images/icons/Logout.png</Path>
+        <Path>view/images/button_icons/Logout.png</Path>
       </Image>
       <Ratio>true</Ratio>
       <Height>80</Height>
@@ -71,7 +71,7 @@
     <Text>Exit</Text>
     <ImageView>
       <Image>
-        <Path>view/images/icons/OnOff.png</Path>
+        <Path>view/images/button_icons/OnOff.png</Path>
       </Image>
       <Ratio>true</Ratio>
       <Height>80</Height>
