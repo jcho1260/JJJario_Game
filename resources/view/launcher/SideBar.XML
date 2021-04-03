@@ -1,34 +1,82 @@
 <?xml version = "1.0" ?>
 <Scene>
-  <Width>300</Width>
-  <Height>750</Height>
-  <Image>
+  <ImageView id="Logo">
+    <Image>
+      <Path>view/images/logo/HorizontalLogo.png</Path>
+    </Image>
     <Width>285</Width>
     <Height>100</Height>
-    <Path>view/launcher/images/HorizontalLogo.png</Path>
-  </Image>
-  <Button>
+  </ImageView>
+  <Button id="DashboardButton">
     <Text>Dashboard</Text>
-    <Image>view/images/icons/Home.png</Image>
-    <Style>view/launcher/css/SideBarButton.css</Style>
+    <ImageView>
+      <Image>
+        <Path>view/images/icons/Home.png</Path>
+      </Image>
+      <Ratio>true</Ratio>
+      <Height>80</Height>
+      <Width>80</Width>
+    </ImageView>
     <!--<Action>TODO</Action>-->
   </Button>
-  <Button>
+  <Button id="GameLibraryButton">
     <Text>Game Library</Text>
-    <Image>view/images/icons/BookHalf.png</Image>
-    <Style>view/launcher/css/SideBarButton.css</Style>
+    <ImageView>
+      <Image>
+        <Path>view/images/icons/BookHalf.png</Path>
+      </Image>
+      <Ratio>true</Ratio>
+      <Height>80</Height>
+      <Width>80</Width>
+    </ImageView>
     <!--<Action>TODO</Action>-->
   </Button>
-  <Button>
+  <Button id="StageBuilderButton">
     <Text>Stage Builder</Text>
-    <Image>view/images/icons/HammerAnvil.png</Image>
-    <Style>view/launcher/css/SideBarButton.css</Style>
+    <ImageView>
+      <Image>
+        <Path>view/images/icons/HammerAnvil.png</Path>
+      </Image>
+      <Ratio>true</Ratio>
+      <Height>80</Height>
+      <Width>80</Width>
+    </ImageView>
     <!--<Action>TODO</Action>-->
   </Button>
-  <Button>
+  <Button id="SettingsButton">
     <Text>Settings</Text>
-    <Image>view/images/icons/Gears.png</Image>
-    <Style>view/launcher/css/SideBarButton.css</Style>
+    <ImageView>
+      <Image>
+        <Path>view/images/icons/Gears.png</Path>
+      </Image>
+      <Ratio>true</Ratio>
+      <Height>80</Height>
+      <Width>80</Width>
+    </ImageView>
+    <!--<Action>TODO</Action>-->
+  </Button>
+  <Button id="LogoutButton">
+    <Text>Logout</Text>
+    <ImageView>
+      <Image>
+        <Path>view/images/icons/Logout.png</Path>
+      </Image>
+      <Ratio>true</Ratio>
+      <Height>80</Height>
+      <Width>80</Width>
+    </ImageView>
+    <!--<Action>TODO</Action>-->
+  </Button>
+  <Button id="ExitButton">
+    <Text>Exit</Text>
+    <ImageView>
+      <Image>
+        <Path>view/images/icons/OnOff.png</Path>
+      </Image>
+      <Ratio>true</Ratio>
+      <Height>80</Height>
+      <Width>80</Width>
+    </ImageView>
     <!--<Action>TODO</Action>-->
   </Button>
 </Scene>
