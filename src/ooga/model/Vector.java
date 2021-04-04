@@ -61,4 +61,12 @@ public class Vector {
   public Vector copy() {
     return new Vector(xVal, yVal);
   }
+
+  public boolean equals(Object o) {
+    if (o instanceof Vector) {
+      Vector vec = (Vector) o;
+      return xVal == vec.getX() && yVal == vec.getY();
+    }
+    return false;
+  }
 }

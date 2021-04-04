@@ -7,7 +7,7 @@ import java.util.*;
  */
 public class CollisionCheck {
 
-    List<GameObject> collisions;
+    private List<GameObject> collisions;
 
     /**
      * Default constructor
@@ -19,8 +19,16 @@ public class CollisionCheck {
     /**
      *
      */
-    public void handleAllCollisions() {
+    public void detectAllCollisions() {
         // TODO implement here
+
+    }
+
+    /**
+     *
+     */
+    public void executeAllCollisions() {
+
     }
 
 }

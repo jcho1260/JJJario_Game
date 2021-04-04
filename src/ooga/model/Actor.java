@@ -5,19 +5,37 @@ import java.beans.PropertyChangeEvent;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class Actor extends GameObject {
   private int lives;
   private int health;
+  private boolean isDead;
+  private Queue<Method> collisions;
   private List<PropertyChangeListener> myListeners;
 
   /**
-   * Default constructor
+   * Default constructor with default lives, health values
    */
-  public Actor(int startLife, int startHealth) {
+  public Actor(List<String> entityTypes, Vector position, Vector velocity, double gravity) {
+    super(entityTypes, position, velocity, gravity);
+    lives = 5;
+    health = 10;
+    gravity = 1;
+    myListeners = new ArrayList<>();
+    collisions = new PriorityQueue();
+  }
+
+  /**
+   * Constructor to specify initial number of lives and amount of health
+   */
+  public Actor(List<String> entityTypes, Vector position, Vector velocity, double gravity, int startLife, int startHealth) {
+    super(entityTypes, position, velocity, gravity);
     lives = startLife;
     health = startHealth;
     myListeners = new ArrayList<>();
+    collisions = new PriorityQueue();
   }
 
   /**
@@ -40,41 +58,45 @@ public class Actor extends GameObject {
 
   /**
    *
+   */
+  public boolean isAlive() {
+    // TODO implement here
+    return !isDead;
+  }
+
+  /**
+   *
    * @param change
    */
   protected void incrementHealth(int change) {
     // TODO implement here
     lives += change;
+    if (lives == 0) { isDead = true; }
   }
 
   /**
-   *
+   * create a Queue of all methods to invoke on self for collisions with other GameObjects
    */
   public void handleCollision(List<String> methods){
-    List<Method> collisionEffects = new ArrayList<>();
     for(String m : methods) {
       try {
         Method collisionResponse = this.getClass().getDeclaredMethod(m);
-        collisionEffects.add(collisionResponse);
-      } catch (Exception e) {
-      }
-    }
-    for(Method m : collisionEffects) {
-      try {
-        m.invoke(this);
-      } catch (Exception e) {
-      }
+        collisions.add(collisionResponse);
+      } catch (Exception e) { }
     }
   }
 
   /**
-   *
+   * execute all impacts of collisions with other GameObjects to self
    */
-  public boolean isAlive() {
-    // TODO implement here
-    return true;
+  public void executeCollisions() {
+    while (!collisions.isEmpty()) {
+      Method curr = collisions.remove();
+      try {
+        curr.invoke(this);
+      } catch(Exception e) { }
+    }
   }
-
 
   /**
    * Add List of listeners.
