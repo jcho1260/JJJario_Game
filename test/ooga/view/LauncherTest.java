@@ -14,7 +14,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import ooga.view.factories.ComponentFactory;
+import ooga.view.factories.LeafComponentFactory;
+import ooga.view.factories.ParentComponentFactory;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.w3c.dom.Document;
@@ -37,30 +38,33 @@ class LauncherTest extends ApplicationTest {
    */
   @Override
   public void start(Stage stage) throws Exception {
-    ids = new ArrayList<>();
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
     Document doc = dBuilder.parse(new File("resources/view/launcher/SideBar.XML"));
     doc.getDocumentElement().normalize();
-    ComponentFactory bFactory = new ComponentFactory();
-    NodeList nl = doc.getElementsByTagName("Scene").item(0).getChildNodes();
-    VBox vbox = new VBox();
-    vbox.setPadding(new Insets(10,10,10,10));
-    vbox.setSpacing(10);
-    vbox.setBackground(new Background(new BackgroundFill(Color.DARKSLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-    vbox.getStylesheets().add("view/launcher/css/SideBarButton.css");
-    Group root = new Group();
-    for (int i = 0; i < nl.getLength(); i++) {
-      if (nl.item(i).getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
-        Element el = (Element) nl.item(i);
-        ids.add("#"+el.getAttribute("id"));
-        vbox.getChildren().add((Node) bFactory.makeComponent(el));
-      }
-    }
-    root.getChildren().add(vbox);
-    Scene scene = new Scene(root, 300, 750);
+
+    ParentComponentFactory pcf = new ParentComponentFactory();
+    Element rootE = (Element) doc.getElementsByTagName("VBox").item(0);
+    ids = getIds(rootE, new ArrayList<>());
+    VBox vbox = (VBox) pcf.make(rootE);
+    Scene scene = new Scene(vbox, 300, 750);
     stage.setScene(scene);
     stage.show();
+  }
+
+  private ArrayList<String> getIds(Element e, ArrayList<String> ids) {
+    if (e.hasAttribute("id")) {
+      ids.add("#"+e.getAttribute("id"));
+    }
+
+    NodeList nl = e.getChildNodes();
+    for (int i = 0; i < nl.getLength(); i++) {
+      if (nl.item(0).getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+        ids.addAll(getIds((Element) nl.item(0), ids));
+      }
+    }
+
+    return ids;
   }
 
   /**

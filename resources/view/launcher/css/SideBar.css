@@ -15,3 +15,9 @@
 .button:hover {
     -fx-background-color: slateblue;
 }
+
+VBox {
+    -fx-padding: 10;
+    -fx-spacing: 10;
+    -fx-background-color: darkslateblue;
+}

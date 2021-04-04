@@ -3,88 +3,54 @@ package ooga.view.factories;
 import java.beans.Statement;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Objects;
 import java.util.ResourceBundle;
-import javafx.scene.image.Image;
 import javafx.scene.Node;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class ComponentFactory {
+public abstract class ComponentFactory {
+  //TODO: FIX THE THROWS
+  public abstract Object make(Element e) throws Exception;
 
-  private ResourceBundle componentKeys;
-
-  public Object makeComponent(Element elem)
+  protected void addChild(ResourceBundle rb, Node component, Element e)
       throws Exception {
-    if (elem.getNodeName().equals("Image")) {
-      return makeImage(elem);
-    }
-
-    String compName = elem.getNodeName();
-    componentKeys = ResourceBundle.getBundle("view/factory_bundles/" + compName + "Keys");
-    Node component = (Node) makeComponentBase(compName);
-    component.setId(elem.getAttribute("id"));
-    NodeList nl = elem.getChildNodes();
-
-    for (int i = 0; i < nl.getLength(); i++) {
-      org.w3c.dom.Node tempNode = nl.item(i);
-      if (tempNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
-        Element childElem = (Element) tempNode;
-        if (hasChildElements(childElem)) {
-          editComponentParent(component, childElem);
-        } else {
-          editComponentLeaf(component, childElem);
-        }
-      }
-    }
-
-    return component;
-  }
-
-  private Image makeImage(Element elem) {
-    String imagePath = elem.getElementsByTagName("Path").item(0).getTextContent();
-    return new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(imagePath)));
-  }
-
-  private void editComponentParent(Node component, Element e)
-      throws Exception {
-    String mName = getMethodNameFromXML(e);
-    Object[] mArgs = new Object[]{makeComponent(e)};
+    String mName = getMethodNameFromXML(rb, e);
+    Object[] mArgs = new Object[]{make(e)};
     new Statement(component, mName, mArgs).execute();
   }
 
-  private void editComponentLeaf(Node component, Element e)
+  protected void editProperty(ResourceBundle rb, Node component, Element e)
       throws Exception {
-    String mName = getMethodNameFromXML(e);
-    Object[] mArgs = getMethodArgsFromXML(e);
+    String mName = getMethodNameFromXML(rb, e);
+    Object[] mArgs = getMethodArgsFromXML(rb, e);
     new Statement(component, mName, mArgs).execute();
   }
 
-  private String getMethodNameFromXML(Element e) {
-    return componentKeys.getString(e.getNodeName().toUpperCase());
+  protected String getMethodNameFromXML(ResourceBundle rb, Element e) {
+    return rb.getString(e.getNodeName().toUpperCase());
   }
 
-  private Object[] getMethodArgsFromXML(Element e)
+  protected Object[] getMethodArgsFromXML(ResourceBundle rb, Element e)
       throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-    Method parseMethod = getTagRetrieval(e);
+    Method parseMethod = getTagRetrieval(rb, e);
     parseMethod.setAccessible(true);
     return new Object[]{parseMethod.invoke(this, e)};
   }
 
-  private Object makeComponentBase(String compName)
+  protected Object makeComponentBase(ResourceBundle rb, String compName)
       throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException,
       InvocationTargetException, InstantiationException {
-    Class<?> compClass = Class.forName(componentKeys.getString(compName.toUpperCase()));
+    Class<?> compClass = Class.forName(rb.getString(compName.toUpperCase()));
     return compClass.getDeclaredConstructor().newInstance();
   }
 
-  private Method getTagRetrieval(Element e) throws NoSuchMethodException {
-    String dataType = componentKeys.getString(e.getNodeName().toUpperCase() + "_PARAM");
+  protected Method getTagRetrieval(ResourceBundle rb, Element e) throws NoSuchMethodException {
+    String dataType = rb.getString(e.getNodeName().toUpperCase() + "_PARAM");
     String mName = "get" + dataType + "FromTag";
     return ComponentFactory.class.getDeclaredMethod(mName, Element.class);
   }
 
-  private boolean hasChildElements(Element el) {
+  protected boolean hasChildElements(Element el) {
     NodeList children = el.getChildNodes();
     for (int i = 0; i < children.getLength(); i++) {
       if (children.item(i).getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {

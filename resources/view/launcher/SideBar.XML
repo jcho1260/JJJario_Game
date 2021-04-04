@@ -1,5 +1,5 @@
 <?xml version = "1.0" ?>
-<Scene>
+<VBox id="SideBar" style="view/launcher/css/SideBar.css">
   <ImageView id="Logo">
     <Image>
       <Path>view/images/logo/HorizontalLogo.png</Path>
@@ -79,4 +79,4 @@
     </ImageView>
     <!--<Action>TODO</Action>-->
   </Button>
-</Scene>
+</VBox>
