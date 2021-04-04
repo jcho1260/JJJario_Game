@@ -77,8 +77,8 @@ public class Actor extends GameObject {
   /**
    * create a Queue of all methods to invoke on self for collisions with other GameObjects
    */
-  public void handleCollision(List<String> methods){
-    for(String m : methods) {
+  public void addCollision(List<String> method){
+    for (String m : method) {
       try {
         Method collisionResponse = this.getClass().getDeclaredMethod(m);
         collisions.add(collisionResponse);

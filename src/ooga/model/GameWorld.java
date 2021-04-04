@@ -2,16 +2,27 @@ package ooga.model;
 
 import java.beans.PropertyChangeListener;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 
  */
 public class GameWorld {
+    private List<GameObject> allGameObjects;
+    private List<GameObject> allActors;
+    private CollisionCheck collisionCheck;
 
     /**
      * Default constructor
      */
-    public GameWorld() {
+    public GameWorld(Map<String, Map<String, List<String>>> collisionMethods, List<GameObject> gameObjects) {
+        allGameObjects = gameObjects;
+        collisionCheck = new CollisionCheck(collisionMethods, gameObjects);
+    }
+
+    public void stepFrame() {
+        collisionCheck.detectAllCollisions();
+        collisionCheck.executeAllCollisions();
     }
 
     /**
@@ -35,7 +46,7 @@ public class GameWorld {
      */
     public List<GameObject> getAllGameObjects() {
         // TODO implement here
-        return null;
+        return allGameObjects;
     }
 
     /**
