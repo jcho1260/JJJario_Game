@@ -4,15 +4,16 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.Map;
 
 public class Actor extends GameObject {
+  public Map<String, Class[]> methodBank;
   private int lives;
   private int health;
   private boolean isDead;
-  private Queue<Method> collisions;
+  public List<Method> collisions;
   private List<PropertyChangeListener> myListeners;
 
   /**
@@ -24,7 +25,8 @@ public class Actor extends GameObject {
     health = 10;
     gravity = 1;
     myListeners = new ArrayList<>();
-    collisions = new PriorityQueue();
+    collisions = new ArrayList<>();
+    methodBank = makeMethodBank();
   }
 
   /**
@@ -35,7 +37,18 @@ public class Actor extends GameObject {
     lives = startLife;
     health = startHealth;
     myListeners = new ArrayList<>();
-    collisions = new PriorityQueue();
+    collisions = new ArrayList<>();
+    methodBank = makeMethodBank();
+  }
+
+  private Map<String, Class[]> makeMethodBank() {
+    Map<String, Class[]> ret = new HashMap<>();
+    Method[] methods = this.getClass().getDeclaredMethods();
+    for(Method m : methods) {
+      Class[] parameterTypes = m.getParameterTypes();
+      ret.put(m.getName(), parameterTypes);
+    }
+    return ret;
   }
 
   /**
@@ -59,19 +72,9 @@ public class Actor extends GameObject {
   /**
    *
    */
-  public boolean isAlive() {
+  public boolean isDead() {
     // TODO implement here
-    return !isDead;
-  }
-
-  /**
-   *
-   * @param change
-   */
-  protected void incrementHealth(int change) {
-    // TODO implement here
-    lives += change;
-    if (lives == 0) { isDead = true; }
+    return isDead;
   }
 
   /**
@@ -79,10 +82,16 @@ public class Actor extends GameObject {
    */
   public void addCollision(List<String> method){
     for (String m : method) {
+      if(!methodBank.containsKey(m)) {
+        //throw error that method doesnt exist
+        return;
+      }
       try {
-        Method collisionResponse = this.getClass().getDeclaredMethod(m);
+        Class[] paramTypes = methodBank.get(m);
+        Method collisionResponse = this.getClass().getDeclaredMethod(m, paramTypes);
         collisions.add(collisionResponse);
-      } catch (Exception e) { }
+      } catch (Exception e) {
+      }
     }
   }
 
@@ -91,11 +100,24 @@ public class Actor extends GameObject {
    */
   public void executeCollisions() {
     while (!collisions.isEmpty()) {
-      Method curr = collisions.remove();
+      Method curr = collisions.remove(0);
       try {
         curr.invoke(this);
       } catch(Exception e) { }
     }
+  }
+
+  protected void kill() {
+    isDead = true;
+  }
+
+  /**
+   * changes health of an actor
+   * @param change the amount the actor's health should change
+   */
+  protected void incrementHealth(int change) {
+    lives += change;
+    if (lives == 0) { isDead = true; }
   }
 
   /**

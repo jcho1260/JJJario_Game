@@ -22,7 +22,7 @@ public class GameWorld {
 
     public void stepFrame() {
         collisionCheck.detectAllCollisions();
-        collisionCheck.executeAllCollisions();
+        allGameObjects = collisionCheck.executeAllCollisions();
     }
 
     /**

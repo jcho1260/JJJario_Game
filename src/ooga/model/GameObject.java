@@ -1,9 +1,11 @@
 package ooga.model;
 
+import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GameObject {
-
   private List<String> entityTypes;
   protected int frameCount;
   private PhysicsEngine movement;
@@ -16,8 +18,9 @@ public class GameObject {
    * Default constructor
    */
   public GameObject(List<String> entityTypes, Vector position, Vector velocity, double gravity) {
-
   }
+
+
 
 
   /**

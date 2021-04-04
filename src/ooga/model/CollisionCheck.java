@@ -40,10 +40,14 @@ public class CollisionCheck {
     /**
      *
      */
-    public void executeAllCollisions() {
+    public List<GameObject> executeAllCollisions() {
         for (Actor actor : collisions) {
             actor.executeCollisions();
+            if (actor.isDead()) {
+                //remove from the game objects list
+            }
         }
+        return allGameObjects;
     }
 
 }

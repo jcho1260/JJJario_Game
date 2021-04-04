@@ -15,7 +15,7 @@ public class PhysicsEngine {
    * Returns new Vector describing new position after applying given parameters.
    *
    * @param mass
-   * @param gravity
+   * @param gravityScale
    * @param velocity
    * @param position
    * @param acceleration
@@ -24,9 +24,12 @@ public class PhysicsEngine {
   public Vector move(double mass, double gravityScale, Vector velocity, Vector position, Vector acceleration) {
     double newXVal, newYVal;
 
-    newXVal = calculateCoordinate(double);
-    newYVal = calculateCoordinate(double);
+    newXVal = calculateCoordinate(1);
+    newYVal = calculateCoordinate(1);
+    return null;
   }
 
-  private double calculateCoordinate(double m)
+  private double calculateCoordinate(double m) {
+    return 0;
+  }
 }
