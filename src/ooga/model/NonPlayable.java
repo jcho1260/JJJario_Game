@@ -19,7 +19,7 @@ public class NonPlayable extends Actor {
    * @param finalPosition
    */
   public NonPlayable(List<String> entityTypes, Vector initialPosition, Vector initialVelocity, double gravity,
-      int id, double size, Vector finalPosition) {
+      int id, Vector size, Vector finalPosition) {
     super(entityTypes, initialPosition, initialVelocity, gravity, id, size);
     startPosition = initialPosition;
     endPosition = finalPosition;
@@ -32,20 +32,21 @@ public class NonPlayable extends Actor {
    */
   public void stepMovement(double elapsedTime) {
     if (isPastStart() && isPastEnd()) {
-      velocity = velocity.multiply(new Vector(-1, -1));
+      Vector newVelocity = getVelocity().multiply(new Vector(-1, -1));
+      setVelocity(newVelocity);
     }
 
-    position = movePosition(elapsedTime);
+    setPosition(movePosition(elapsedTime));
   }
 
   private boolean isPastStart() {
-    return (isStartLessThanEndX() == position.getX() < startPosition.getX())
-        && (isStartLessThanEndY() == position.getY() < startPosition.getY());
+    return (isStartLessThanEndX() == getPosition().getX() < startPosition.getX())
+        && (isStartLessThanEndY() == getPosition().getY() < startPosition.getY());
   }
 
   private boolean isPastEnd() {
-    return (isStartLessThanEndX() == position.getX() > endPosition.getX())
-        && (isStartLessThanEndY() == position.getY() > endPosition.getY());
+    return (isStartLessThanEndX() == getPosition().getX() > endPosition.getX())
+        && (isStartLessThanEndY() == getPosition().getY() > endPosition.getY());
   }
 
   private boolean isStartLessThanEndX() {
@@ -60,8 +61,8 @@ public class NonPlayable extends Actor {
     double newX;
     double newY;
 
-    newX = position.getX() + (elapsedTime * velocity.getX());
-    newY = position.getY() + (elapsedTime * velocity.getY());
+    newX = getPosition().getX() + (elapsedTime * getVelocity().getX());
+    newY = getPosition().getY() + (elapsedTime * getVelocity().getY());
 
     return new Vector(newX, newY);
   }

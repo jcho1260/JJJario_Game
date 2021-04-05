@@ -11,15 +11,11 @@ import java.util.List;
  */
 public class GameObject {
   private List<String> entityTypes;
-  protected int frameCount;
-  private PhysicsEngine movement;
-  protected Vector position;
-  protected Vector velocity;
-  protected Vector acceleration;
-  protected double gravityScale;
-  protected int id;
-  protected boolean isActive;
-  protected Vector size;
+  private Vector position;
+  private Vector velocity;
+  private double gravityScale;
+  private int id;
+  private Vector size;
 
   /**
    * Default constructor
@@ -31,7 +27,6 @@ public class GameObject {
     this.gravityScale = gravityScale;
     this.id = id;
     this.size = size;
-    isActive = checkActiveStatus();
   }
 
   private boolean checkActiveStatus() {
@@ -44,22 +39,12 @@ public class GameObject {
    *
    * @return x coordinate
    */
-  public double getX() {
-    return position.getX();
+  public Vector getPosition() {
+    return position.copy();
   }
 
-  /**
-   * Returns y coordinate of position. // TODO return the position vector instead?
-   *
-   * @return y coordinate
-   */
-  public double getY() {
-    return position.getY();
-  }
-
-  public Vector getVelocity() {
-    // todo: return new vector
-    return velocity;
+  protected void setPosition(Vector newPosition) {
+    position = newPosition;
   }
 
   /**
@@ -74,13 +59,23 @@ public class GameObject {
     return id;
   }
 
+  protected double getGravityScale() {
+    return gravityScale;
+  }
+
+  public Vector getSize() {
+    return size.copy();
+  }
+
   /**
    * @param b
    */
   public List<String> isCollision(GameObject b) {
     List<String> ret = new ArrayList<>();
-    if (b.getX() == position.getX() && b.getX() <= position.getX() + size.getX()) {
-      if (b.getY() >= position.getY() && b.getY() <= position.getY() + size.getY()) {
+    double bX = b.getPosition().getX();
+    double bY = b.getPosition().getY();
+    if (bX== position.getX() && bX<= position.getX() + size.getX()) {
+      if (bY >= position.getY() && bY <= position.getY() + size.getY()) {
         List<String> collisionInfo = b.getEntityType();
         Vector bDirection = b.getVelocity().multiply(new Vector(-1,-1));
         String collisionDirection = bDirection.getDirection().toString();
@@ -90,18 +85,6 @@ public class GameObject {
       }
     }
     return ret;
-  }
-
-  /**
-   *
-   */
-  public boolean isActive() {
-    return isActive;
-  }
-
-  private void updateActive() {
-    isActive = true;
-    //todo: implement
   }
 
   /**
@@ -116,7 +99,7 @@ public class GameObject {
    * @param vel
    */
   public void setVelocity(Vector vel) {
-    // TODO implement here
+    velocity = vel;
   }
 
   /**
@@ -125,6 +108,6 @@ public class GameObject {
    * @return velocity
    */
   protected Vector getVelocity() {
-    return velocity;
+    return velocity.copy();
   }
 }

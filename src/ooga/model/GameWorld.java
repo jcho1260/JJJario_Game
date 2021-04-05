@@ -23,11 +23,12 @@ public class GameWorld {
   /**
    * Default constructor
    */
-  public GameWorld(Map<String, Map<String, List<MethodBundle>>> collisionMethods,
-      List<GameObject> gameObjects, List<GameObject> actors, double gravity, double stepTime) {
+  public GameWorld(Player gamePlayer, Map<String, Map<String, List<MethodBundle>>> collisionMethods,
+      List<GameObject> gameObjects, List<GameObject> actors, double levelGravity, double frameRate) {
+    player = gamePlayer;
     allGameObjects = gameObjects;
-    this.gravity = gravity;
-    this.stepTime = stepTime;
+    gravity = levelGravity;
+    stepTime = frameRate;
     allActiveGameObjects = reduceActiveObjects(allGameObjects);
     allActors = actors;
     allActiveActors = reduceActiveObjects(allActors);
