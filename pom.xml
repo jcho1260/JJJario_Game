@@ -65,6 +65,9 @@
         <resource>
             <directory>data</directory>
         </resource>
+        <resource>
+            <directory>resources</directory>
+        </resource>
         <!-- internal resource files also need to be included, but not directly -->
         <resource>
             <directory>src</directory>

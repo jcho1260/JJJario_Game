@@ -1,0 +1,2 @@
+## Folder Purpose
+The purpose of this folder is to store any resources associated with the project that are required for running the application. Any resources associated for testing or purposes outside the scope of just running the application should be placed elsewhere.

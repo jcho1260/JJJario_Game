@@ -2,7 +2,7 @@ package ooga;
 
 
 /**
- * Feel free to completely change this code or delete it entirely. 
+ * Feel free to completely change this code or delete it entirely.
  */
 public class Main {
     /**
@@ -19,3 +19,4 @@ public class Main {
         System.out.println("Hello world");
     }
 }
+
