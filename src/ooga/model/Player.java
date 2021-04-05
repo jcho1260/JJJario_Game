@@ -5,14 +5,15 @@ import java.util.*;
 /**
  * 
  */
-public class Player {
+public class Player extends Actor{
 
     private int score;
     private List<GameObject> activePowerUps;
     /**
      * Default constructor
      */
-    public Player() {
+    public Player(List<String> entityTypes, Vector position, Vector velocity, double gravity, int id, Vector size) {
+        super(entityTypes, position, velocity, gravity, id, size);
     }
 
     /**
@@ -32,4 +33,7 @@ public class Player {
     }
 
 
+    @Override
+    void stepMovement(double elapsedTime) {
+    }
 }
