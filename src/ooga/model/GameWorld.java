@@ -4,9 +4,12 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 /**
- * 
+ *
  */
 public class GameWorld {
     private List<GameObject> allGameObjects;
@@ -14,6 +17,12 @@ public class GameWorld {
     private List<GameObject> allActors;
     private List<GameObject> allActiveActors;
     private CollisionCheck collisionCheck;
+
+    private static final Timeline animation = new Timeline();
+    private static final int FRAMES_PER_SECOND = 100;
+    public static final double FRAME_ELAPSED_TIME = 1.0 / FRAMES_PER_SECOND;
+
+    public static final double GAME_GRAVITY;
 
     /**
      * Default constructor
@@ -26,7 +35,7 @@ public class GameWorld {
         collisionCheck = new CollisionCheck(collisionMethods, gameObjects, actors);
     }
 
-    public void stepFrame() {
+    public void stepFrame(double elapsedTime) {
         collisionCheck.detectAllCollisions();
         allGameObjects = collisionCheck.executeAllCollisions();
     }
@@ -63,27 +72,35 @@ public class GameWorld {
         return allGameObjects;
     }
 
-    /**
-     * 
-     */
-    public List<GameObject> getActiveGameObjects() {
-        // TODO implement here
-        return null;
-    }
+  /**
+   *
+   */
+  public List<GameObject> getActiveGameObjects() {
+    // TODO implement here
+    return null;
+  }
 
-    /**
-     * 
-     */
-    public List<PropertyChangeListener> getAllListeners() {
-        // TODO implement here
-        return null;
-    }
+  /**
+   *
+   */
+  public List<PropertyChangeListener> getAllListeners() {
+    // TODO implement here
+    return null;
+  }
 
-    /**
-     * 
-     */
-    public void acceptAllListeners(List<PropertyChangeListener> listeners) {
-        // TODO implement here
-    }
+  /**
+   *
+   */
+  public void acceptAllListeners(List<PropertyChangeListener> listeners) {
+    // TODO implement here
+  }
+
+  private void startAnimation() {
+    KeyFrame frame = new KeyFrame(Duration.seconds(FRAME_ELAPSED_TIME),
+        evt -> stepFrame(FRAME_ELAPSED_TIME));
+    animation.setCycleCount(Timeline.INDEFINITE);
+    animation.getKeyFrames().add(frame);
+    animation.play();
+  }
 
 }
