@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Actor extends GameObject {
+public abstract class Actor extends GameObject {
   public Map<String, Class[]> methodBank;
   private int lives;
   private int health;
@@ -40,6 +40,8 @@ public class Actor extends GameObject {
     collisions = new ArrayList<>();
     methodBank = makeMethodBank();
   }
+
+  abstract void stepMovement(double elapsedTime);
 
   private Map<String, Class[]> makeMethodBank() {
     Map<String, Class[]> ret = new HashMap<>();
