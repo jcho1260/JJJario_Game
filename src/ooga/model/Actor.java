@@ -19,8 +19,8 @@ public class Actor extends GameObject {
   /**
    * Default constructor with default lives, health values
    */
-  public Actor(List<String> entityTypes, Vector position, Vector velocity, double gravity) {
-    super(entityTypes, position, velocity, gravity);
+  public Actor(List<String> entityTypes, Vector position, Vector velocity, double gravity, int id, double size) {
+    super(entityTypes, position, velocity, gravity, id, size);
     lives = 5;
     health = 10;
     gravity = 1;
@@ -32,8 +32,8 @@ public class Actor extends GameObject {
   /**
    * Constructor to specify initial number of lives and amount of health
    */
-  public Actor(List<String> entityTypes, Vector position, Vector velocity, double gravity, int startLife, int startHealth) {
-    super(entityTypes, position, velocity, gravity);
+  public Actor(List<String> entityTypes, Vector position, Vector velocity, double gravity, int id, double size, int startLife, int startHealth) {
+    super(entityTypes, position, velocity, gravity, id, size);
     lives = startLife;
     health = startHealth;
     myListeners = new ArrayList<>();

@@ -1,9 +1,6 @@
 package ooga.model;
 
-import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class GameObject {
   private List<String> entityTypes;
@@ -12,15 +9,27 @@ public class GameObject {
   protected Vector position;
   protected Vector velocity;
   protected Vector acceleration;
-  protected double gravity;
+  protected double gravityScale;
+  protected int id;
+  protected boolean isActive;
+  protected double size;
 
   /**
    * Default constructor
    */
-  public GameObject(List<String> entityTypes, Vector position, Vector velocity, double gravity) {
+  public GameObject(List<String> entityTypes, Vector position, Vector velocity, double gravityScale, int id, double size) {
+    this.entityTypes = entityTypes;
+    this.position = position;
+    this.velocity = velocity;
+    this.gravityScale = gravityScale;
+    this.id = id;
+    this.size = size;
+    isActive = checkActiveStatus();
   }
 
-
+  private boolean checkActiveStatus() {
+    return true;
+  }
 
 
   /**

@@ -1,6 +1,7 @@
 package ooga.model;
 
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,15 +10,20 @@ import java.util.Map;
  */
 public class GameWorld {
     private List<GameObject> allGameObjects;
+    private List<GameObject> allActiveGameObjects;
     private List<GameObject> allActors;
+    private List<GameObject> allActiveActors;
     private CollisionCheck collisionCheck;
 
     /**
      * Default constructor
      */
-    public GameWorld(Map<String, Map<String, List<String>>> collisionMethods, List<GameObject> gameObjects) {
+    public GameWorld(Map<String, Map<String, List<String>>> collisionMethods, List<GameObject> gameObjects, List<GameObject> actors) {
         allGameObjects = gameObjects;
-        collisionCheck = new CollisionCheck(collisionMethods, gameObjects);
+        allActiveGameObjects = reduceActiveObjects(allGameObjects);
+        allActors = actors;
+        allActiveActors = reduceActiveObjects(allActors);
+        collisionCheck = new CollisionCheck(collisionMethods, gameObjects, actors);
     }
 
     public void stepFrame() {
@@ -25,12 +31,20 @@ public class GameWorld {
         allGameObjects = collisionCheck.executeAllCollisions();
     }
 
+    private List<GameObject> reduceActiveObjects(List<GameObject> allObjects) {
+        List<GameObject> ret = new ArrayList<>();
+        for(GameObject o : allObjects) {
+            if(o.isActive()) { ret.add(o); }
+        }
+        return ret;
+    }
+
     /**
      * 
      */
     public List<GameObject> getAllActors() {
         // TODO implement here
-        return null;
+        return allActors;
     }
 
     /**
@@ -38,7 +52,7 @@ public class GameWorld {
      */
     public List<GameObject> getActiveActors() {
         // TODO implement here
-        return null;
+        return allActiveActors;
     }
 
     /**

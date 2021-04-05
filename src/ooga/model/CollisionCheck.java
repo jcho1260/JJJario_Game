@@ -8,13 +8,13 @@ import java.util.*;
 public class CollisionCheck {
     private Map<String, Map<String, List<String>>> collisionMethods;
     private List<GameObject> allGameObjects;
-    private List<Actor> allActors;
+    private List<GameObject> allActors;
     private Set<Actor> collisions;
 
     /**
      * Default constructor
      */
-    public CollisionCheck(Map<String, Map<String, List<String>>> collisionMethods, List<GameObject> allGameObjects) {
+    public CollisionCheck(Map<String, Map<String, List<String>>> collisionMethods, List<GameObject> allGameObjects, List<GameObject> allActors) {
         this.collisionMethods = collisionMethods;
         this.allGameObjects = allGameObjects;
         collisions = new HashSet<>();
@@ -26,12 +26,12 @@ public class CollisionCheck {
      */
     public void detectAllCollisions() {
         // TODO implement here
-        for (Actor actor : allActors) {
+        for (GameObject actor : allActors) {
             for (GameObject collisionObject : allGameObjects) {
                 if (actor.isCollision(collisionObject)) {
                     List<String> actorCollisionMethods = collisionMethods.get(actor).get(collisionObject);
-                    actor.addCollision(actorCollisionMethods);
-                    collisions.add(actor);
+                    ((Actor)actor).addCollision(actorCollisionMethods);
+                    collisions.add(((Actor)actor));
                 }
             }
         }
@@ -41,13 +41,14 @@ public class CollisionCheck {
      *
      */
     public List<GameObject> executeAllCollisions() {
+        List<GameObject> toDelete = new ArrayList<>();
         for (Actor actor : collisions) {
             actor.executeCollisions();
             if (actor.isDead()) {
-                //remove from the game objects list
+                toDelete.add(actor);
             }
         }
-        return allGameObjects;
+        return toDelete;
     }
 
 }

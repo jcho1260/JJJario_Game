@@ -1,11 +1,9 @@
 package ooga.model;
 
-import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,7 +42,7 @@ public class CollisionsTest {
     Vector position = new Vector(0, 0);
     Vector velocity = new Vector(0, 0);
     double gravity = 1;
-    Actor ret = new Actor(entityTypes, position, velocity, gravity);
+    Actor ret = new Actor(entityTypes, position, velocity, gravity, 1, 1);
     return ret;
   }
 
