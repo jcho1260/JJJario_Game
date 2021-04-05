@@ -30,24 +30,11 @@ public abstract class ComponentFactory {
     return rb.getString(e.getNodeName().toUpperCase());
   }
 
-  protected Object[] getMethodArgsFromXML(ResourceBundle rb, Element e)
-      throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-    Method parseMethod = getTagRetrieval(rb, e);
-    parseMethod.setAccessible(true);
-    return new Object[]{parseMethod.invoke(this, e)};
-  }
-
   protected Object makeComponentBase(ResourceBundle rb, String compName)
       throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException,
       InvocationTargetException, InstantiationException {
     Class<?> compClass = Class.forName(rb.getString(compName.toUpperCase()));
     return compClass.getDeclaredConstructor().newInstance();
-  }
-
-  protected Method getTagRetrieval(ResourceBundle rb, Element e) throws NoSuchMethodException {
-    String dataType = rb.getString(e.getNodeName().toUpperCase() + "_PARAM");
-    String mName = "get" + dataType + "FromTag";
-    return ComponentFactory.class.getDeclaredMethod(mName, Element.class);
   }
 
   protected boolean hasChildElements(Element el) {
@@ -58,6 +45,19 @@ public abstract class ComponentFactory {
       }
     }
     return false;
+  }
+
+  private Object[] getMethodArgsFromXML(ResourceBundle rb, Element e)
+      throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    Method parseMethod = getTagRetrieval(rb, e);
+    parseMethod.setAccessible(true);
+    return new Object[]{parseMethod.invoke(this, e)};
+  }
+
+  private Method getTagRetrieval(ResourceBundle rb, Element e) throws NoSuchMethodException {
+    String dataType = rb.getString(e.getNodeName().toUpperCase() + "_PARAM");
+    String mName = "get" + dataType + "FromTag";
+    return ComponentFactory.class.getDeclaredMethod(mName, Element.class);
   }
 
   private String getStringFromTag(Element e) {
