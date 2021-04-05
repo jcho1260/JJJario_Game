@@ -69,18 +69,18 @@ public class Vector {
       return new Vector(xVal, 0);
   }
 
-  public Movement getDirection() {
+  public Action getDirection() {
     Vector cardinal = toCardinal();
     if(cardinal.getX() < 0) {
-      return Movement.LEFT;
+      return Action.LEFT;
     } else if(cardinal.getX() > 0) {
-      return Movement.RIGHT;
+      return Action.RIGHT;
     } else if(cardinal.getY() < 0) {
-      return Movement.UP;
+      return Action.UP;
     } else if(cardinal.getY() > 0) {
-      return Movement.DOWN;
+      return Action.DOWN;
     } else {
-      return Movement.DOWN;
+      return Action.DOWN;
       // todo: fix later
     }
   }

@@ -37,7 +37,7 @@ public class GameWorld {
     collisionCheck = new CollisionCheck(collisionMethods, gameObjects, actors);
   }
 
-  public void stepFrame(Movement pressEffect) throws NoSuchMethodException {
+  public void stepFrame(Action pressEffect) throws NoSuchMethodException {
     collisionCheck.detectAllCollisions();
     List<Integer> forDeletion = collisionCheck.executeAllCollisions();
     removeDeadActors(forDeletion);

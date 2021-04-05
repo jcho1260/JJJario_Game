@@ -1,5 +1,5 @@
 package ooga.model;
 
-public enum Movement {
+public enum Action {
   UP, DOWN, LEFT, RIGHT
 }
