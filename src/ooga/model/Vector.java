@@ -62,6 +62,29 @@ public class Vector {
     return new Vector(xVal, yVal);
   }
 
+  private Vector toCardinal() {
+    if (Math.abs(yVal) >= Math.abs(xVal)) {
+      return new Vector(0, yVal);
+    }
+      return new Vector(xVal, 0);
+  }
+
+  public Movement getDirection() {
+    Vector cardinal = toCardinal();
+    if(cardinal.getX() < 0) {
+      return Movement.LEFT;
+    } else if(cardinal.getX() > 0) {
+      return Movement.RIGHT;
+    } else if(cardinal.getY() < 0) {
+      return Movement.UP;
+    } else if(cardinal.getY() > 0) {
+      return Movement.DOWN;
+    } else {
+      return Movement.DOWN;
+      // todo: fix later
+    }
+  }
+
   public boolean equals(Object o) {
     if (o instanceof Vector) {
       Vector vec = (Vector) o;

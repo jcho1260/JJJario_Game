@@ -1,5 +1,5 @@
 package ooga.model;
 
-public enum KeyEffects {
+public enum Movement {
   UP, DOWN, LEFT, RIGHT
 }

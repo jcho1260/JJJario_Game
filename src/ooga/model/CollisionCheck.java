@@ -6,17 +6,17 @@ import java.util.*;
  *
  */
 public class CollisionCheck {
-    private Map<String, Map<String, List<String>>> collisionMethods;
-    private List<GameObject> allGameObjects;
-    private List<GameObject> allActors;
+    private Map<String, Map<String, List<MethodBundle>>> collisionMethods;
+    private List<GameObject> activeGameObjects;
+    private List<GameObject> activeActors;
     private Set<Actor> collisions;
 
     /**
      * Default constructor
      */
-    public CollisionCheck(Map<String, Map<String, List<String>>> collisionMethods, List<GameObject> allGameObjects, List<GameObject> allActors) {
+    public CollisionCheck(Map<String, Map<String, List<MethodBundle>>> collisionMethods, List<GameObject> activeGameObjects, List<GameObject> activeActors) {
         this.collisionMethods = collisionMethods;
-        this.allGameObjects = allGameObjects;
+        this.activeGameObjects = activeGameObjects;
         collisions = new HashSet<>();
     }
 
@@ -24,12 +24,15 @@ public class CollisionCheck {
     /**
      *
      */
-    public void detectAllCollisions() {
+    public void detectAllCollisions() throws NoSuchMethodException {
         // TODO implement here
-        for (GameObject actor : allActors) {
-            for (GameObject collisionObject : allGameObjects) {
-                if (actor.isCollision(collisionObject)) {
-                    List<String> actorCollisionMethods = collisionMethods.get(actor).get(collisionObject);
+        for (GameObject actor : activeActors) {
+            for (GameObject collisionObject : activeGameObjects) {
+                if (actor.equals(collisionObject)) {
+                    continue;
+                }
+                if (actor.isCollision(collisionObject).size() != 0) {
+                    List<MethodBundle> actorCollisionMethods = collisionMethods.get(actor).get(collisionObject);
                     ((Actor)actor).addCollision(actorCollisionMethods);
                     collisions.add(((Actor)actor));
                 }
@@ -40,12 +43,12 @@ public class CollisionCheck {
     /**
      *
      */
-    public List<GameObject> executeAllCollisions() {
-        List<GameObject> toDelete = new ArrayList<>();
+    public List<Integer> executeAllCollisions() {
+        List<Integer> toDelete = new ArrayList<>();
         for (Actor actor : collisions) {
             actor.executeCollisions();
             if (actor.isDead()) {
-                toDelete.add(actor);
+                toDelete.add(actor.getId());
             }
         }
         return toDelete;

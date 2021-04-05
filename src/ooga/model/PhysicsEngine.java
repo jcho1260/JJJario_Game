@@ -1,16 +1,16 @@
 package ooga.model;
 
 public class PhysicsEngine {
-  private final double defaultGravity;
+  private final double gravity;
   private final double stepTime;
 
   /**
    * Constructor for the PhysicsEngine.
    *
    */
-  public PhysicsEngine() {
-    defaultGravity = GameWorld.GAME_GRAVITY;
-    stepTime = GameWorld.FRAME_ELAPSED_TIME;
+  public PhysicsEngine(double gravity, double stepTime) {
+    this.gravity = gravity;
+    this.stepTime = stepTime;
   }
 
   /**
@@ -24,7 +24,7 @@ public class PhysicsEngine {
    */
   public Vector move(double gravityScale, Vector velocity, Vector position, Vector acceleration) {
     double newPositionX, newPositionY;
-    double adjustedYAccel = acceleration.getY() - gravityScale * defaultGravity;
+    double adjustedYAccel = acceleration.getY() - gravityScale * gravity;
 
     newPositionX = calculateKinematicPosition(position.getX(), velocity.getX(), acceleration.getX());
     newPositionY = calculateKinematicPosition(position.getY(), velocity.getY(), adjustedYAccel);
