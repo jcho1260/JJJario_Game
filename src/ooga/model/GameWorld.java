@@ -29,7 +29,7 @@ public class GameWorld {
         collisionCheck = new CollisionCheck(collisionMethods, gameObjects, actors);
     }
 
-    public void stepFrame() {
+    public void stepFrame(KeyEffects pressEffect) {
         collisionCheck.detectAllCollisions();
         allGameObjects = collisionCheck.executeAllCollisions();
     }
