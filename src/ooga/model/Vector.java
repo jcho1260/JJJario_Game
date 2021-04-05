@@ -85,6 +85,15 @@ public class Vector {
     }
   }
 
+  public boolean insideBox(Vector topL, Vector botR) {
+    if (xVal > topL.getX() && xVal < botR.getX()) {
+      if (yVal < botR.getY() && yVal > topL.getY()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public boolean equals(Object o) {
     if (o instanceof Vector) {
       Vector vec = (Vector) o;
