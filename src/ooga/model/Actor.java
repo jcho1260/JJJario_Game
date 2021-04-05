@@ -41,7 +41,7 @@ public abstract class Actor extends GameObject {
     methodBank = makeMethodBank();
   }
 
-  abstract void stepMovement(double elapsedTime);
+  abstract void stepMovement(double elapsedTime, double gameGravity);
 
   private Map<String, Class[]> makeMethodBank() {
     Map<String, Class[]> ret = new HashMap<>();
