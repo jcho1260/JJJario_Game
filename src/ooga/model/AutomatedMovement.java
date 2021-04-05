@@ -1,7 +1,7 @@
 package ooga.model;
 
 /**
- * Handles automovement for moving GameObjects.
+ * Handles auto movement for moving GameObjects.
  *
  * @author Jessica Yang
  */
@@ -34,8 +34,8 @@ public class AutomatedMovement {
       velocity = velocity.multiply(new Vector(-1, -1));
     }
 
-    double newX = position.getX() + (elapsedTime * position.getX());
-    double newY = position.getY() + (elapsedTime * position.getY())
+    double newX = position.getX() + (elapsedTime * velocity.getX());
+    double newY = position.getY() + (elapsedTime * velocity.getY())
         - (elapsedTime * gameGravity * gravityScale);
 
     return new Vector(newX, newY);
