@@ -3,6 +3,12 @@ package ooga.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents GameObject - any component of the game that has position and associate movement
+ * properties.
+ *
+ * @author Jin Cho, Jessica Yang
+ */
 public class GameObject {
   private List<String> entityTypes;
   protected int frameCount;
@@ -34,19 +40,21 @@ public class GameObject {
 
 
   /**
+   * Returns x coordinate of position.  // TODO return the position vector instead?
    *
+   * @return x coordinate
    */
-  public int getX() {
-    // TODO implement here
-    return 0;
+  public double getX() {
+    return position.getX();
   }
 
   /**
+   * Returns y coordinate of position. // TODO return the position vector instead?
    *
+   * @return y coordinate
    */
-  public int getY() {
-    // TODO implement here
-    return 0;
+  public double getY() {
+    return position.getY();
   }
 
   public Vector getVelocity() {
@@ -111,4 +119,12 @@ public class GameObject {
     // TODO implement here
   }
 
+  /**
+   * Returns velocity of GameObject for child classes.
+   *
+   * @return velocity
+   */
+  protected Vector getVelocity() {
+    return velocity;
+  }
 }
