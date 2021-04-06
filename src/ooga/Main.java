@@ -24,9 +24,9 @@ public class Main {
      */
     public static void main (String[] args)
         throws IOException, SAXException, ParserConfigurationException {
-//        LevelParser levelParser = new LevelParser();
-//        levelParser.createLevel(new File("data/testgame/level.xml"));
-        CollisionsParser collisionsParser = new CollisionsParser();
-        collisionsParser.parseCollisions(new File("data/testgame/collisions.xml"));
+        LevelParser levelParser = new LevelParser();
+        levelParser.createLevel(new File("data/testgame/level.xml"));
+//        CollisionsParser collisionsParser = new CollisionsParser();
+//        collisionsParser.parseCollisions(new File("data/testgame/collisions.xml"));
     }
 }

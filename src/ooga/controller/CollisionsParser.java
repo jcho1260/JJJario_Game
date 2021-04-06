@@ -47,9 +47,9 @@ public class CollisionsParser {
     List<MethodBundle> methods = new ArrayList<>();
     for (int i = 0; i < methodNodes.getLength(); i++) {
       Element methodNode = (Element) methodNodes.item(i);
-      String name = ((Element) methodNode).getElementsByTagName("Name").item(0).getTextContent();
+      String name = methodNode.getElementsByTagName("Name").item(0).getTextContent();
 
-      NodeList arguments = ((Element) ((Element) methodNode).getElementsByTagName("Args").item(0)).getElementsByTagName("Args");
+      NodeList arguments = ((Element) methodNode.getElementsByTagName("Args").item(0)).getElementsByTagName("Args");
       double[] args = new double[arguments.getLength()];
       for (int j = 0; j < arguments.getLength(); j++) {
         args[i] = Double.parseDouble(arguments.item(i).getTextContent());

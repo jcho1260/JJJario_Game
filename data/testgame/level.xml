@@ -9,6 +9,10 @@
       </Tags>
       <Type>Player</Type>
       <Gravity>10</Gravity>
+      <Size>
+        <SizeX>10</SizeX>
+        <SizeY>20</SizeY>
+      </Size>
     </GameObject>
     <GameObject>
       <Name>badguy</Name>
@@ -18,6 +22,10 @@
       </Tags>
       <Type>NonPlayable</Type>
       <Gravity>10</Gravity>
+      <Size>
+        <SizeX>10</SizeX>
+        <SizeY>20</SizeY>
+      </Size>
     </GameObject>
     <GameObject>
       <Name>block</Name>
@@ -26,6 +34,10 @@
       </Tags>
       <Type>GameObject</Type>
       <Gravity>10</Gravity>
+      <Size>
+        <SizeX>10</SizeX>
+        <SizeY>20</SizeY>
+      </Size>
     </GameObject>
   </GameObjects>
 
