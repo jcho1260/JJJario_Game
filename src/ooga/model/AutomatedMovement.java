@@ -10,9 +10,14 @@ public class AutomatedMovement {
   private final Vector startPosition;
   private final Vector endPosition;
   private Vector velocity;
+  // TODO make gravityScale a part of movement?
 
   /**
    * Default constructor for AutomatedMovement.
+   *
+   * @param initialPosition Vector
+   * @param finalPosition Vector
+   * @param initialVelocity Vector
    */
   public AutomatedMovement(Vector initialPosition, Vector finalPosition, Vector initialVelocity) {
     startPosition = initialPosition;
@@ -36,23 +41,24 @@ public class AutomatedMovement {
 
     double newX = position.getX() + (elapsedTime * velocity.getX());
     double newY = position.getY() + (elapsedTime * velocity.getY())
-        - (elapsedTime * gameGravity * gravityScale);
+        - (elapsedTime * gameGravity * gravityScale); // up = -, down = +
 
     return new Vector(newX, newY);
   }
 
   private boolean isInPath(Vector position) {
-    return (isStartLessThanEndX() == (position.getX() >= startPosition.getX()))
-        && (isStartLessThanEndY() == (position.getY() >= startPosition.getY()))
-        && (isStartLessThanEndX() == (position.getX() <= endPosition.getX()))
-        && (isStartLessThanEndY() == (position.getY() <= endPosition.getY()));
+    boolean withinStartX = isStartLessThanEndX() == (position.getX() >= startPosition.getX());
+    boolean withinStartY = isStartGreaterThanEndY() == (position.getY() <= startPosition.getY());
+    boolean withinEndX = isStartLessThanEndX() == (position.getX() <= endPosition.getX());
+    boolean withinEndY = isStartGreaterThanEndY() == (position.getY() >= endPosition.getY());
+    return withinStartX && withinStartY && withinEndX && withinEndY;
   }
 
   private boolean isStartLessThanEndX() {
     return startPosition.getX() < endPosition.getX();
   }
 
-  private boolean isStartLessThanEndY() {
-    return startPosition.getY() < endPosition.getY();
+  private boolean isStartGreaterThanEndY() {
+    return startPosition.getY() > endPosition.getY();
   }
 }
