@@ -12,8 +12,7 @@ public abstract class ComponentFactory {
   //TODO: FIX THE THROWS
   public abstract Object make(Element e) throws Exception;
 
-  protected void addChild(ResourceBundle rb, Node component, Element e)
-      throws Exception {
+  protected void addChild(ResourceBundle rb, Node component, Element e) throws Exception {
     String mName = getMethodNameFromXML(rb, e);
     Object[] mArgs = new Object[]{make(e)};
     new Statement(component, mName, mArgs).execute();
@@ -26,6 +25,7 @@ public abstract class ComponentFactory {
     new Statement(component, mName, mArgs).execute();
   }
 
+  // Consider migrating into LeafComponentFactory
   protected String getMethodNameFromXML(ResourceBundle rb, Element e) {
     return rb.getString(e.getNodeName().toUpperCase());
   }
