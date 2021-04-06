@@ -5,16 +5,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class NonPlayableAutomatedMovementTest {
+public class MovingDestroyableMovementTest {
   Vector start = new Vector(0, 0);
   Vector end = new Vector(5, -5);
   Vector velocity = new Vector(1, -1);
-  NonPlayable npc;
+  MovingDestroyable npc;
 
   @BeforeEach
   public void init() {
-    npc = new NonPlayable(new ArrayList<>(), start, velocity, 0, 0,
-        new Vector(1, 1), end);
+    npc = new MovingDestroyable(new ArrayList<>(), start, 1, new Vector(1, 1),
+    3, 3, velocity, end, 1);
   }
 
   /**
@@ -22,7 +22,7 @@ public class NonPlayableAutomatedMovementTest {
    */
   @Test
   void movementNoTurn() {
-    npc.stepMovement(1, 5);
+    npc.step(1, 5);
     assertTrue(npc.getPosition().getX() == 1 && npc.getPosition().getY() == -1);
   }
 
@@ -31,12 +31,12 @@ public class NonPlayableAutomatedMovementTest {
    */
   @Test
   void movementEndTurn() {
-    npc.stepMovement(5, 5);
+    npc.step(5, 5);
     assertTrue(npc.getPosition().getX() == 5 && npc.getPosition().getY() == -5);
-    npc.stepMovement(1, 5);
-    npc.stepMovement(1, 5);
+    npc.step(1, 5);
+    npc.step(1, 5);
     assertTrue(npc.getPosition().getX() == 5 && npc.getPosition().getY() == -5);
-    npc.stepMovement(1, 5);
+    npc.step(1, 5);
     assertTrue(npc.getPosition().getX() == 4 && npc.getPosition().getY() == -4);
   }
 
@@ -45,15 +45,15 @@ public class NonPlayableAutomatedMovementTest {
    */
   @Test
   void movementStartTurn() {
-    npc.stepMovement(5, 5);
-    npc.stepMovement(1, 5);
-    npc.stepMovement(1, 5);
+    npc.step(5, 5);
+    npc.step(1, 5);
+    npc.step(1, 5);
     assertTrue(npc.getPosition().getX() == 5 && npc.getPosition().getY() == -5);
-    npc.stepMovement(5, 5);
-    npc.stepMovement(1, 5);
-    npc.stepMovement(1, 5);
+    npc.step(5, 5);
+    npc.step(1, 5);
+    npc.step(1, 5);
     assertTrue(npc.getPosition().getX() == 0 && npc.getPosition().getY() == 0);
-    npc.stepMovement(1, 5);
+    npc.step(1, 5);
     assertTrue(npc.getPosition().getX() == 1 && npc.getPosition().getY() == -1);
   }
 }
