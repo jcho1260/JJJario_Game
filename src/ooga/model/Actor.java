@@ -9,11 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class Actor extends GameObject {
-  private Map<String, Class[]> methodBank;
   private int lives;
   private int health;
   private boolean isDead;
-  private List<Method> collisions;
+  private Map<Method, List<double[]>> collisions; //TODO: refactor so its not a list of arrays?
   private List<PropertyChangeListener> myListeners;
 
   /**
@@ -25,8 +24,7 @@ public abstract class Actor extends GameObject {
     health = 10;
     gravity = 1;
     myListeners = new ArrayList<>();
-    collisions = new ArrayList<>();
-    methodBank = makeMethodBank();
+    collisions = new HashMap<>();
   }
 
   /**
@@ -37,28 +35,16 @@ public abstract class Actor extends GameObject {
     lives = startLife;
     health = startHealth;
     myListeners = new ArrayList<>();
-    collisions = new ArrayList<>();
-    methodBank = makeMethodBank();
+    collisions = new HashMap<>();
   }
 
   abstract void stepMovement(double elapsedTime, double gameGravity);
-
-  private Map<String, Class[]> makeMethodBank() {
-    Map<String, Class[]> ret = new HashMap<>();
-    Method[] methods = this.getClass().getDeclaredMethods();
-    for(Method m : methods) {
-      Class[] parameterTypes = m.getParameterTypes();
-      ret.put(m.getName(), parameterTypes);
-    }
-    return ret;
-  }
 
   /**
    *
    * @return
    */
   public int getLives() {
-    // TODO implement here
     return lives;
   }
 
@@ -67,7 +53,6 @@ public abstract class Actor extends GameObject {
    * @return
    */
   public int getHealth() {
-    // TODO implement here
     return health;
   }
 
@@ -75,16 +60,17 @@ public abstract class Actor extends GameObject {
    *
    */
   public boolean isDead() {
-    // TODO implement here
     return isDead;
   }
 
   /**
    * create a Queue of all methods to invoke on self for collisions with other GameObjects
    */
-  public void addCollision(List<MethodBundle> method) throws NoSuchMethodException {
-    for (MethodBundle m : method) {
-      collisions.add(m.makeMethod(this));
+  public void addCollision(List<MethodBundle> methods) throws NoSuchMethodException {
+    for (MethodBundle m : methods) {
+      Method method = m.makeMethod(this);
+      collisions.putIfAbsent(method, new ArrayList<>());
+      collisions.get(method).add(m.getParameters());
     }
   }
 
@@ -92,11 +78,13 @@ public abstract class Actor extends GameObject {
    * execute all impacts of collisions with other GameObjects to self
    */
   public void executeCollisions() {
-    while (!collisions.isEmpty()) {
-      Method curr = collisions.remove(0);
-      try {
-        curr.invoke(this);
-      } catch(Exception e) { }
+    for (Method m : collisions.keySet()) {
+      for (double[] params : collisions.get(m)) {
+        try {
+          m.invoke(this, params);
+        } catch(Exception e) { }
+      }
+
     }
   }
 
