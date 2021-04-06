@@ -5,7 +5,7 @@ import java.util.*;
 /**
  *
  */
-public class CollisionCheck {
+public class WorldCollisionHandling {
 
   private Map<String, Map<String, List<MethodBundle>>> collisionMethods;
   private List<GameObject> activeGameObjects;
@@ -15,7 +15,7 @@ public class CollisionCheck {
   /**
    * Default constructor
    */
-  public CollisionCheck(Map<String, Map<String, List<MethodBundle>>> collisionMethodsMap,
+  public WorldCollisionHandling(Map<String, Map<String, List<MethodBundle>>> collisionMethodsMap,
       List<GameObject> activeGameObjectsList, List<GameObject> activeActorsList) {
     collisionMethods = collisionMethodsMap;
     activeGameObjects = activeGameObjectsList;

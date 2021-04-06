@@ -14,7 +14,7 @@ public class GameWorld {
   private List<GameObject> allActiveGameObjects;
   private List<GameObject> allActors;
   private List<GameObject> allActiveActors;
-  private CollisionCheck collisionCheck;
+  private WorldCollisionHandling worldCollisionHandling;
   private int score;
   private Player player;
   private Vector windowSize;
@@ -35,12 +35,12 @@ public class GameWorld {
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allActors = actors;
     allActiveActors = findActiveObjects(allActors);
-    collisionCheck = new CollisionCheck(collisionMethods, gameObjects, actors);
+    worldCollisionHandling = new WorldCollisionHandling(collisionMethods, gameObjects, actors);
   }
 
   public void stepFrame(Action pressEffect) throws NoSuchMethodException {
-    collisionCheck.detectAllCollisions();
-    List<Integer> forDeletion = collisionCheck.executeAllCollisions();
+    worldCollisionHandling.detectAllCollisions();
+    List<Integer> forDeletion = worldCollisionHandling.executeAllCollisions();
     removeDeadActors(forDeletion);
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allActiveActors = findActiveObjects(allActors);
