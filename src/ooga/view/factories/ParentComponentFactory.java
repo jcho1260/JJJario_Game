@@ -29,7 +29,8 @@ public class ParentComponentFactory extends ComponentFactory {
         Element childElem = (Element) tempNode;
         if (hasChildElements(childElem)) {
           if (e.getAttribute("type").equals("Pane")){
-            ((Pane) parent).getChildren().add((Node) make(childElem));
+            Node child = (Node) make(childElem);
+            ((Pane) parent).getChildren().add(child);
           } else {
             addChild(currRB, parent, childElem);
           }

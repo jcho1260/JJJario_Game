@@ -1,5 +1,5 @@
 <?xml version = "1.0" ?>
-<ScrollPane id="GameLibraryScrollable" type="Control" style="view_resources/launcher/css/GameLibraryScroll.css">
+<ScrollPane id="MenuTabView" type="Control" style="view_resources/launcher/css/GameLibraryScroll.css">
   <VBox id="GameLibraryVBox" type="Pane" style="view_resources/launcher/css/GameLibrary.css">
     <Height>1080</Height>
     <HBox id="GameLibraryHBox1" type="Pane" style="view_resources/launcher/css/GameLibraryRow.css">
@@ -7,7 +7,7 @@
         <Text>Super JJJario Bros.</Text>
         <Action>
           <Type>NewScreen</Type>
-          <Path>resources/view_resources/game/SuperMarioMenu.XML</Path>
+          <Path>resources/view_resources/game/JJJarioMenu.XML</Path>
         </Action>
       </Button>
       <Button id="Game2Button" type="Leaf">
@@ -20,42 +20,6 @@
       </Button>
       <Button id="Game4Button" type="Leaf">
         <Text>Game 4</Text>
-        <!--<Action>TODO</Action>-->
-      </Button>
-    </HBox>
-    <HBox id="GameLibraryHBox2" type="Pane" style="view_resources/launcher/css/GameLibraryRow.css">
-      <Button id="Game5Button" type="Leaf">
-        <Text>Game 5</Text>
-        <!--<Action>TODO</Action>-->
-      </Button>
-      <Button id="Game6Button" type="Leaf">
-        <Text>Game 6</Text>
-        <!--<Action>TODO</Action>-->
-      </Button>
-      <Button id="Game7Button" type="Leaf">
-        <Text>Game 7</Text>
-        <!--<Action>TODO</Action>-->
-      </Button>
-      <Button id="Game8Button" type="Leaf">
-        <Text>Game 8</Text>
-        <!--<Action>TODO</Action>-->
-      </Button>
-    </HBox>
-    <HBox id="GameLibraryHBox3" type="Pane" style="view_resources/launcher/css/GameLibraryRow.css">
-      <Button id="Game9Button" type="Leaf">
-        <Text>Game 9</Text>
-        <!--<Action>TODO</Action>-->
-      </Button>
-      <Button id="Game10Button" type="Leaf">
-        <Text>Game 10</Text>
-        <!--<Action>TODO</Action>-->
-      </Button>
-      <Button id="Game11Button" type="Leaf">
-        <Text>Game 11</Text>
-        <!--<Action>TODO</Action>-->
-      </Button>
-      <Button id="Game12Button" type="Leaf">
-        <Text>Game 12</Text>
         <!--<Action>TODO</Action>-->
       </Button>
     </HBox>

@@ -2,6 +2,7 @@ package ooga.view.factories;
 
 import java.io.File;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -10,16 +11,15 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class RootFactory {
+public class SceneFactory {
 
-  public Pane make(String filePath) throws Exception {
+  public Scene make(String filePath) throws Exception {
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
     Document doc = dBuilder.parse(new File(filePath));
     doc.getDocumentElement().normalize();
 
     ParentComponentFactory pcf = new ParentComponentFactory();
-
     Element sceneElem = (Element) doc.getElementsByTagName("Scene").item(0);
     Element rootElem = (Element) sceneElem.getElementsByTagName("Root").item(0);
     Pane root = (Pane) pcf.make((Element) rootElem.getElementsByTagName("*").item(0));
@@ -35,6 +35,6 @@ public class RootFactory {
       }
     }
 
-    return root;
+    return new Scene(root);
   }
 }
