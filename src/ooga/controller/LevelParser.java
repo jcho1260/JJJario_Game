@@ -45,6 +45,10 @@ public class LevelParser {
       String type = ((Element) objects.item(i)).getElementsByTagName("Type").item(0).getTextContent();
       double gravity = Double.parseDouble(((Element) objects.item(i)).getElementsByTagName("Gravity").item(0).getTextContent());
 
+      Element size = (Element) ((Element) objects.item(i)).getElementsByTagName("Size").item(0);
+      double sizeX = Double.parseDouble(size.getElementsByTagName("SizeX").item(0).getTextContent());
+      double sizeY = Double.parseDouble(size.getElementsByTagName("SizeY").item(0).getTextContent());
+
       ArrayList<String> tags = new ArrayList<>();
       Element tagsElement = (Element) ((Element) objects.item(i)).getElementsByTagName("Tags").item(0);
       NodeList tagElement = tagsElement.getElementsByTagName("Tag");
@@ -52,9 +56,7 @@ public class LevelParser {
         tags.add(tagElement.item(j).getTextContent());
       }
 
-      System.out.println(tags);
-
-      GameObjectInfo gameObjectInfo = new GameObjectInfo(type, tags, gravity);
+      GameObjectInfo gameObjectInfo = new GameObjectInfo(type, tags, gravity, sizeX, sizeY);
       gameObjects.put(name, gameObjectInfo);
     }
     return gameObjects;
@@ -66,14 +68,18 @@ public class LevelParser {
 
   private class GameObjectInfo {
 
-    public final String type;
-    public final List<String> tags;
-    public final double gravity;
+    final String type;
+    final List<String> tags;
+    final double gravity;
+    double sizeX;
+    double sizeY;
 
-    public GameObjectInfo(String type, List<String> tags, double gravity) {
+    public GameObjectInfo(String type, List<String> tags, double gravity, double sizeX, double sizeY) {
       this.type = type;
       this.tags = tags;
       this.gravity = gravity;
+      this.sizeX = sizeX;
+      this.sizeY = sizeY;
     }
   }
 }
