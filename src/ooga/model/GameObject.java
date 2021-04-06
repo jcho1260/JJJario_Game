@@ -10,12 +10,11 @@ import java.util.List;
  *
  * @author Jin Cho, Juhyoung Lee, Jessica Yang
  */
-public class GameObject implements Observable {
+public class GameObject extends Observable {
   private List<String> entityTypes;
   private Vector position;
   private int id;
   private Vector size;
-  private List<PropertyChangeListener> allListeners;
 
   /**
    * Default constructor
@@ -64,32 +63,12 @@ public class GameObject implements Observable {
     // TODO implement here
   }
 
+  public void step(double elapsedTime, double gameGravity) {
+
+  }
+
   public Vector getVelocity() {
     return new Vector(0,0);
   }
 
-  /**
-   * Adds List of PropertyChangeListeners to allListeners.
-   *
-   * @param newListeners
-   */
-  @Override
-  public void addMultipleListeners(List<PropertyChangeListener> newListeners) {
-    allListeners.addAll(newListeners);
-  }
-
-  /**
-   * Notify added listeners of a change.
-   *
-   * @param property
-   * @param oldValue
-   * @param newValue
-   * @return
-   */
-  @Override
-  public void notifyListeners(String property, Object oldValue, Object newValue) {
-    for (PropertyChangeListener l : allListeners) {
-      l.propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
-    }
-  }
 }

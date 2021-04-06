@@ -10,7 +10,7 @@ import ooga.JjjanException;
 /**
  *
  */
-public class GameWorld {
+public class GameWorld extends Observable {
 
   private List<GameObject> allGameObjects;
   private List<GameObject> allActiveGameObjects;
