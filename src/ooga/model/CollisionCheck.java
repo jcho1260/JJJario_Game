@@ -10,7 +10,7 @@ public class CollisionCheck {
   private Map<String, Map<String, List<MethodBundle>>> collisionMethods;
   private List<GameObject> activeGameObjects;
   private List<GameObject> activeActors;
-  private Set<Actor> collisions;
+  private Set<Destroyable> collisions;
 
   /**
    * Default constructor
@@ -37,8 +37,8 @@ public class CollisionCheck {
         if (actor.isCollision(collisionObject).size() != 0) {
           List<MethodBundle> actorCollisionMethods = collisionMethods.get(actor)
               .get(collisionObject);
-          ((Actor) actor).addCollision(actorCollisionMethods);
-          collisions.add(((Actor) actor));
+          ((Destroyable) actor).addCollision(actorCollisionMethods);
+          collisions.add(((Destroyable) actor));
         }
       }
     }
@@ -49,10 +49,10 @@ public class CollisionCheck {
    */
   public List<Integer> executeAllCollisions() {
     List<Integer> toDelete = new ArrayList<>();
-    for (Actor actor : collisions) {
-      actor.executeCollisions();
-      if (actor.isDead()) {
-        toDelete.add(actor.getId());
+    for (Destroyable destroyable : collisions) {
+      destroyable.executeCollisions(destroyable);
+      if (destroyable.isDead()) {
+        toDelete.add(destroyable.getId());
       }
     }
     return toDelete;
@@ -63,7 +63,7 @@ public class CollisionCheck {
    */
   public void collidedActors() {
     StringBuilder
-    for (Actor a : collisions) {
+    for (Destroyable a : collisions) {
       for (String tag : a.getEntityType()) {
 
       }

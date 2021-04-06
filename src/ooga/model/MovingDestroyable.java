@@ -2,13 +2,13 @@ package ooga.model;
 
 import java.util.List;
 
-public class MovingDestroyable extends GameObject {
+public class MovingDestroyable extends Destroyable {
 
   private final AutomatedMovement autoMove;
 
   public MovingDestroyable(List<String> entityTypes, Vector initialPosition, int id, Vector size,
-      Vector initialVelocity, Vector finalPosition, double gravityScale) {
-    super(entityTypes, initialPosition, id, size);
+      int startLife, int startHealth, Vector initialVelocity, Vector finalPosition, double gravityScale) {
+    super(entityTypes, initialPosition, id, size, startLife, startHealth);
     autoMove = new AutomatedMovement(initialPosition, finalPosition, initialVelocity, gravityScale);
   }
 
@@ -25,3 +25,4 @@ public class MovingDestroyable extends GameObject {
     return autoMove.getVelocity();
   }
 }
+

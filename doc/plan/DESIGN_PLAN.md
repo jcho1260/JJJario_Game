@@ -76,7 +76,7 @@ The goal of this project is to construct a flexible Game Engine that allows for 
         - Pros: Easy to implement game variations that utilize the same set of actors.
         - Cons: Hard coded actors make adapting to new game types difficult. Actor classes are heavily dependent on each other for collision checks.
     - We decided to create `NonPlayable` that contains all the possible collision methods. Data files specify which methods are called for which collisions.
-        - Pros: Easy to implement multiple game types. Doesn't force actor categorization.
+        - Pros: Easy to implement multiple game types. Doesn't force destroyable categorization.
         - Cons: Necessitates multiple data files that need to be checked for consistency. The Collision file specifically needs to ensure the same collisions aren't handled in multiple ways.
 - Lambda Collision Handling
     - We considered using lambda expressions to handle collisions instead of using method calls.

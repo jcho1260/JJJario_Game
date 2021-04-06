@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @author Jessica Yang
  */
-public class NonPlayable extends Actor {
+public class NonPlayable extends Destroyable {
 
   private final AutomatedMovement autoMove;
 

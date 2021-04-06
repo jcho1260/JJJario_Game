@@ -64,6 +64,6 @@ Adam Hufstetler (akh47)
 5. Backend player score can be reflected in the front end
 6. Collision movement follows physics
 7. Non actors should not be affected by collisions
-8. Actor-actor collisions will impacts each correctly based on the other actor
+8. Actor-destroyable collisions will impacts each correctly based on the other destroyable
 9. Animation clocking in the backend creates changes that are reflected in the frontend
 10. Collisions can use reflection to select correct effect
