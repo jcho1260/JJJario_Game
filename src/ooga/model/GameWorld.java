@@ -127,21 +127,6 @@ public class GameWorld extends Observable {
     return stepTime;
   }
 
-  /**
-   *
-   */
-  public List<PropertyChangeListener> getAllListeners() {
-    // TODO implement here
-    return null;
-  }
-
-  /**
-   *
-   */
-  public void acceptAllListeners(List<PropertyChangeListener> listeners) {
-    // TODO implement here
-  }
-
 
   /**
    * Returns score of the Player.

@@ -9,12 +9,12 @@ public class MovingDestroyableMovementTest {
   Vector start = new Vector(0, 0);
   Vector end = new Vector(5, -5);
   Vector velocity = new Vector(1, -1);
-  MovingDestroyable npc;
+  GameObject npc;
 
   @BeforeEach
   public void init() {
     npc = new MovingDestroyable(new ArrayList<>(), start, 1, new Vector(1, 1),
-    3, 3, velocity, end, 1);
+    3, 3, velocity, end, 0);
   }
 
   /**

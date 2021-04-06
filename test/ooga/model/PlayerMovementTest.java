@@ -39,4 +39,6 @@ public class PlayerMovementTest {
     assertTrue(user.getPosition().getX() == 1 && user.getPosition().getY() == -1);
   }
 
+
+
 }
