@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Jessica Yang
  */
-public class Player extends Actor {
+public class Player extends Destroyable {
 
   private int score;
   private List<GameObject> activePowerUps;

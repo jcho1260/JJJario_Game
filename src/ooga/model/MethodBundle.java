@@ -12,14 +12,14 @@ public class MethodBundle {
     this.parameters = parameters;
   }
 
-  public Method makeMethod(Actor actor) throws NoSuchMethodException {
+  public Method makeMethod(Class destroyableClass) throws NoSuchMethodException {
     Class[] paramTypes = new Class[parameters.length];
     Double doubleClass = 1.0;
     for(int i = 0; i < parameters.length; i++) {
       paramTypes[i] = doubleClass.getClass();
     }
     try {
-      Method collisionResponse = actor.getClass().getDeclaredMethod(methodName, paramTypes);
+      Method collisionResponse = destroyableClass.getDeclaredMethod(methodName, paramTypes);
       return collisionResponse;
     } catch (Exception e){
       throw new NoSuchMethodException("method doesn't exist sorry :(");
