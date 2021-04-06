@@ -15,6 +15,7 @@ public class GameWorld {
   private List<GameObject> allActors;
   private List<GameObject> allActiveActors;
   private CollisionCheck collisionCheck;
+  private int score;
   private Player player;
   private Vector windowSize;
 
@@ -135,5 +136,15 @@ public class GameWorld {
    */
   public void acceptAllListeners(List<PropertyChangeListener> listeners) {
     // TODO implement here
+  }
+
+
+  /**
+   * Returns score of the Player.
+   *
+   * @return score
+   */
+  public int getScore() {
+    return score;
   }
 }

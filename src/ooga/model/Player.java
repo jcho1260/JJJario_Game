@@ -12,7 +12,6 @@ import java.util.List;
  */
 public class Player extends Destroyable {
 
-  private int score;
   private List<GameObject> activePowerUps;
   private final UserInputMovement userMovement;
   private final Class<?> userMovementClass;
@@ -20,10 +19,10 @@ public class Player extends Destroyable {
   /**
    * Default constructor
    */
-  public Player(List<String> entityTypes, Vector position, Vector velocity, double gravity,
-      int id, Vector vector, Vector size) throws ClassNotFoundException {
-    super(entityTypes, position, velocity, gravity, id, size);
-    userMovement = new UserInputMovement(velocity);
+  public Player(List<String> entityTypes, Vector initialPosition, int id, Vector size,
+      int startLife, int startHealth, Vector velocityMagnitude, double gravity) throws ClassNotFoundException {
+    super(entityTypes, initialPosition, id, size, startLife, startHealth);
+    userMovement = new UserInputMovement(velocityMagnitude, gravity);
     userMovementClass = Class.forName("ooga.model.UserInputMovement");
   }
 
@@ -47,19 +46,6 @@ public class Player extends Destroyable {
     Method moveMethod = userMovementClass.getMethod(methodName, paramClasses);
     Vector deltaPosition = (Vector) moveMethod.invoke(userMovement, elapsedTime, gameGravity, gravityScale);
     setPosition(new Vector((deltaPosition.getX() + getPosition().getX()), (deltaPosition.getY() + getPosition().getY())));
-  }
-
-  @Override
-  public void stepMovement(double elapsedTime, double gameGravity) {
-  }
-
-  /**
-   * Returns score of the Player.
-   *
-   * @return score
-   */
-  public int getScore() {
-    return score;
   }
 
   /**
