@@ -12,8 +12,8 @@ public class GameWorld {
 
   private List<GameObject> allGameObjects;
   private List<GameObject> allActiveGameObjects;
-  private List<GameObject> allActors;
-  private List<GameObject> allActiveActors;
+  private List<GameObject> allDestroyables;
+  private List<GameObject> allActiveDestroyables;
   private WorldCollisionHandling worldCollisionHandling;
   private int score;
   private Player player;
@@ -33,8 +33,8 @@ public class GameWorld {
     gravity = levelGravity;
     stepTime = frameRate;
     allActiveGameObjects = findActiveObjects(allGameObjects);
-    allActors = actors;
-    allActiveActors = findActiveObjects(allActors);
+    allDestroyables = actors;
+    allActiveDestroyables = findActiveObjects(allDestroyables);
     worldCollisionHandling = new WorldCollisionHandling(collisionMethods, gameObjects, actors);
   }
 
@@ -43,7 +43,8 @@ public class GameWorld {
     List<Integer> forDeletion = worldCollisionHandling.executeAllCollisions();
     removeDeadActors(forDeletion);
     allActiveGameObjects = findActiveObjects(allGameObjects);
-    allActiveActors = findActiveObjects(allActors);
+    allActiveDestroyables = findActiveObjects(allDestroyables);
+    worldCollisionHandling.updateActiveGameObjects(allActiveGameObjects, allActiveDestroyables);
   }
 
   // TODO: refactor out isActive from GameObject and calculate active status here DO THIS !!!!!
@@ -71,7 +72,7 @@ public class GameWorld {
 
   private void removeDeadActors(List<Integer> deadActors) {
     allGameObjects = removeIndicesFromList(allGameObjects, deadActors);
-    allActors = removeIndicesFromList(allActors, deadActors);
+    allDestroyables = removeIndicesFromList(allDestroyables, deadActors);
   }
 
   private List<GameObject> removeIndicesFromList(List<GameObject> objects, List<Integer> deadActors) {
@@ -86,9 +87,9 @@ public class GameWorld {
   /**
    *
    */
-  public List<GameObject> getAllActors() {
+  public List<GameObject> getAllDestroyables() {
     // TODO implement here
-    return allActors;
+    return allDestroyables;
   }
 
   /**
@@ -96,7 +97,7 @@ public class GameWorld {
    */
   public List<GameObject> getActiveActors() {
     // TODO implement here
-    return allActiveActors;
+    return allActiveDestroyables;
   }
 
   /**
