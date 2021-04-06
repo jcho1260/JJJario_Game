@@ -1,7 +1,6 @@
 package ooga.model;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,30 +17,15 @@ public abstract class Destroyable extends GameObject{
     super(entityTypes, position, id, size);
     collisions = new HashMap<>();
     collisionHandler = new DestroyableCollisionHandling();
+    health = new Health(startHealth);
   }
 
-  /**
-   *
-   * @return
-   */
-  public int getLives() {
-    return 0;
-  }
-
-  /**
-   *
-   * @return
-   */
-  public int getHealth() {
-    return 0;
-  }
+  public void incrementHealth(int increment) {health.incrementHealth(increment);}
 
   /**
    *
    */
-  public boolean isDead() {
-    return true;
-  }
+  public boolean isDead() { return !health.isAlive(); }
 
   /**
    * create a Queue of all methods to invoke on self for collisions with other GameObjects
