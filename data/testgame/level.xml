@@ -1,18 +1,34 @@
 <Level>
+  <GlobalGravity>5</GlobalGravity>
   <GameObjects>
     <GameObject>
       <Name>hero</Name>
+      <Tags>
+        <Tag>player</Tag>
+        <Tag>hero</Tag>
+      </Tags>
       <Type>Player</Type>
+      <Gravity>10</Gravity>
     </GameObject>
     <GameObject>
       <Name>badguy</Name>
+      <Tags>
+        <Tag>enemy</Tag>
+        <Tag>goomba</Tag>
+      </Tags>
       <Type>NonPlayable</Type>
+      <Gravity>10</Gravity>
     </GameObject>
     <GameObject>
       <Name>block</Name>
+      <Tags>
+        <Tag>block</Tag>
+      </Tags>
       <Type>GameObject</Type>
+      <Gravity>10</Gravity>
     </GameObject>
   </GameObjects>
+
   <Layout>
     <Entity>
       <Name>hero</Name>
