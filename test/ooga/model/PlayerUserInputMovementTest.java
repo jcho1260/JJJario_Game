@@ -18,8 +18,8 @@ public class PlayerUserInputMovementTest {
   @Test
   public void init() {
     try {
-      user = new Player(new ArrayList<>(), initPosition, velocityMagnitude, 1,
-          0, new Vector(1, 1), new Vector(0, 0));
+      user = new Player(new ArrayList<>(), initPosition, 0, new Vector(1, 1),
+      1, 1, velocityMagnitude, 1);
     } catch (ClassNotFoundException e) {
       System.out.println(e.getMessage());
     }
