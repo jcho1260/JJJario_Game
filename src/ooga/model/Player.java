@@ -16,13 +16,16 @@ public class Player extends Destroyable {
   private final UserInputMovement userMovement;
   private final Class<?> userMovementClass;
 
+  private boolean notInAir;
+
   /**
-   * Default constructor
+   * Default constructor for Player.
    */
   public Player(List<String> entityTypes, Vector initialPosition, int id, Vector size,
-      int startLife, int startHealth, Vector velocityMagnitude, double gravity) throws ClassNotFoundException {
+      int startLife, int startHealth, double jumpTime, Vector velocityMagnitude, double gravity)
+      throws ClassNotFoundException {
     super(entityTypes, initialPosition, id, size, startLife, startHealth);
-    userMovement = new UserInputMovement(velocityMagnitude, gravity);
+    userMovement = new UserInputMovement(jumpTime, velocityMagnitude, gravity);
     userMovementClass = Class.forName("ooga.model.UserInputMovement");
   }
 
@@ -32,20 +35,26 @@ public class Player extends Destroyable {
    * @param direction
    * @param elapsedTime
    * @param gameGravity
-   * @param gravityScale
    */
-  public void userStepMovement(Action direction, double elapsedTime, double gameGravity,
-      double gravityScale) throws NoSuchMethodException, SecurityException, IllegalAccessException,
+  public void userStepMovement(Action direction, double elapsedTime, double gameGravity)
+      throws NoSuchMethodException, SecurityException, IllegalAccessException,
       IllegalArgumentException, InvocationTargetException {
     String methodName = "move" + direction.toString();
-    Class<?>[] paramClasses = new Class[3];
-    for (int i = 0; i < 3; i++) {
+    Class<?>[] paramClasses = new Class[2];
+    for (int i = 0; i < 2; i++) {
       paramClasses[i] = Double.class;
     }
 
     Method moveMethod = userMovementClass.getMethod(methodName, paramClasses);
-    Vector deltaPosition = (Vector) moveMethod.invoke(userMovement, elapsedTime, gameGravity, gravityScale);
-    setPosition(new Vector((deltaPosition.getX() + getPosition().getX()), (deltaPosition.getY() + getPosition().getY())));
+    Vector deltaPosition = (Vector) moveMethod.invoke(userMovement, elapsedTime, gameGravity);
+    setPosition(getPosition().add(deltaPosition));
+  }
+
+  /**
+   * Collision method for whenever the bottom of player collides with something.
+   */
+  private void generalBottomCollision() {
+    userMovement.hasHitGround();
   }
 
   /**

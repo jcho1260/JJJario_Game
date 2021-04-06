@@ -2,45 +2,92 @@ package ooga.model;
 
 /**
  * Handles movement based on user input for Player. Invoked using reflection.
+ *
+ * @author Jessica Yang
  */
 public class UserInputMovement {
 
-  private Vector velocityMagnitude;
+  private final double jumpTimeLimit;
+  private Vector stepVelocityMagnitude;
   private double gravityScale;
+  private double jumpTimeCounter;
 
   /**
    * Constructor for UserInputMovement.
+   * jumpTime should be based of the animation frame stuff TODO ask noah about it
    *
    * @param defaultVelocity per step
    */
-  public UserInputMovement(Vector defaultVelocity, double gravity) {
-    velocityMagnitude = defaultVelocity;
+  public UserInputMovement(double jumpTime, Vector defaultVelocity, double gravity) {
+    jumpTimeLimit = jumpTime;
+    stepVelocityMagnitude = defaultVelocity;
     gravityScale = gravity;
+    jumpTimeCounter = 0;
   }
 
+  /**
+   * Returns vector of change in position as a result of UP.
+   *
+   * @param elapsedTime
+   * @param gameGravity
+   * @return deltaPosition
+   */
   public Vector moveUP(Double elapsedTime, Double gameGravity) {
-    return deltaPosition(elapsedTime, gameGravity, new Vector(0, -1));
-    // TODO limit how long player can effectively jump
+    jumpTimeCounter += elapsedTime;
+    if (jumpTimeCounter <= jumpTimeLimit) {
+      return deltaPosition(elapsedTime, gameGravity, new Vector(0, -1));
+    } else {
+      return new Vector(0, 0);
+    }
   }
 
+  /**
+   * Returns vector of change in position as a result of DOWN.
+   *
+   * @param elapsedTime
+   * @param gameGravity
+   * @return deltaPosition
+   */
   public Vector moveDOWN(Double elapsedTime, Double gameGravity) {
     return deltaPosition(elapsedTime, gameGravity, new Vector(0, 1));
   }
 
+  /**
+   * Returns vector of change in position as a result of RIGHT.
+   *
+   * @param elapsedTime
+   * @param gameGravity
+   * @return deltaPosition
+   */
   public Vector moveRIGHT(Double elapsedTime, Double gameGravity) {
     return deltaPosition(elapsedTime, gameGravity, new Vector(1, 0));
   }
 
+  /**
+   * Returns vector of change in position as a result of LEFT.
+   *
+   * @param elapsedTime
+   * @param gameGravity
+   * @return deltaPosition
+   */
   public Vector moveLEFT(Double elapsedTime, Double gameGravity) {
     return deltaPosition(elapsedTime, gameGravity, new Vector(-1, 0));
   }
 
+  // TODO refactor duplicate code w/ automatedmovement
   private Vector deltaPosition(double elapsedTime, double gameGravity, Vector change) {
-    double newX = elapsedTime * velocityMagnitude.getX() * change.getX();
-    double newY = (elapsedTime * velocityMagnitude.getY() * change.getY())
+    double newX = elapsedTime * stepVelocityMagnitude.getX() * change.getX();
+    double newY = (elapsedTime * stepVelocityMagnitude.getY() * change.getY())
         + ((Math.abs(change.getY()) - 1) * elapsedTime * gameGravity * gravityScale);
-      // TODO make sure that gameobjects/player can't sink into the ground - actually when are we using DOWN lol
 
     return new Vector(newX, newY);
+  }
+
+  /**
+   * Player has hit a jumpable object.
+   *
+   */
+  public void hasHitGround() {
+    jumpTimeCounter = 0;
   }
 }
