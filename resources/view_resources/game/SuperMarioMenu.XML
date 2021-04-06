@@ -1,0 +1,9 @@
+<?xml version = "1.0" ?>
+<Scene>
+  <Root>
+    <HBox id="SuperMarioMenu" type="Parent" style="view_resources/launcher/css/LauncherScreen.css">
+      <Height>810</Height>
+      <Width>1440</Width>
+    </HBox>
+  </Root>
+</Scene>
