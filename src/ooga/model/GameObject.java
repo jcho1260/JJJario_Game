@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author Jin Cho, Jessica Yang
  */
-public abstract class GameObject {
+public class GameObject {
   private List<String> entityTypes;
   private Vector position;
   private int id;
@@ -62,5 +62,7 @@ public abstract class GameObject {
     // TODO implement here
   }
 
-  public abstract double getVelocty();
+  public Vector getVelocity() {
+    return new Vector(0,0);
+  }
 }
