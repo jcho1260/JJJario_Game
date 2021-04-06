@@ -16,8 +16,6 @@ public class Player extends Destroyable {
   private final UserInputMovement userMovement;
   private final Class<?> userMovementClass;
 
-  private boolean notInAir;
-
   /**
    * Default constructor for Player.
    */
@@ -51,9 +49,9 @@ public class Player extends Destroyable {
   }
 
   /**
-   * Collision method for whenever the bottom of player collides with something.
+   * Collision method for whenever the bottom of player lands on something.
    */
-  private void generalBottomCollision() {
+  public void generalBottomCollision() {
     userMovement.hasHitGround();
   }
 

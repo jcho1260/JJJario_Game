@@ -1,5 +1,5 @@
 package ooga.model;
 
 public enum Action {
-  UP, DOWN, LEFT, RIGHT
+  UP, DOWN, LEFT, RIGHT, NONE
 }

@@ -26,7 +26,19 @@ public class UserInputMovement {
   }
 
   /**
-   * Returns vector of change in position as a result of UP.
+   * Returns vector of change in position as a result of NONE. Should fall.
+   *
+   * @param elapsedTime
+   * @param gameGravity
+   * @return deltaPosiiton
+   */
+  public Vector moveNONE(Double elapsedTime, Double gameGravity) {
+    return deltaPosition(elapsedTime, gameGravity, new Vector(0, 0));
+  }
+
+  /**
+   * Returns vector of change in position as a result of UP. Once the jump has reached its peak,
+   * it should hold briefly, then begin to fall.
    *
    * @param elapsedTime
    * @param gameGravity
@@ -37,7 +49,7 @@ public class UserInputMovement {
     if (jumpTimeCounter <= jumpTimeLimit) {
       return deltaPosition(elapsedTime, gameGravity, new Vector(0, -1));
     } else {
-      return new Vector(0, 0);
+      return moveNONE(elapsedTime, gameGravity);
     }
   }
 
@@ -78,13 +90,13 @@ public class UserInputMovement {
   private Vector deltaPosition(double elapsedTime, double gameGravity, Vector change) {
     double newX = elapsedTime * stepVelocityMagnitude.getX() * change.getX();
     double newY = (elapsedTime * stepVelocityMagnitude.getY() * change.getY())
-        + ((Math.abs(change.getY()) - 1) * elapsedTime * gameGravity * gravityScale);
+        + ((1 + change.getY()) * elapsedTime * gameGravity * gravityScale);
 
     return new Vector(newX, newY);
   }
 
   /**
-   * Player has hit a jumpable object.
+   * Player has landed on a jumpable object.
    *
    */
   public void hasHitGround() {
