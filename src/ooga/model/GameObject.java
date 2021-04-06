@@ -62,5 +62,5 @@ public abstract class GameObject {
     // TODO implement here
   }
 
-  public abstract double getVelocty();
+  public abstract Vector getVelocty();
 }
