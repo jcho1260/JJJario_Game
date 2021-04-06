@@ -26,4 +26,8 @@ public class MethodBundle {
     }
   }
 
+  public double[] getParameters() {
+    return parameters;
+  }
+
 }
