@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class NonPlayableTest {
+public class NonPlayableAutomatedMovementTest {
   Vector start = new Vector(0, 0);
   Vector end = new Vector(5, -5);
   Vector velocity = new Vector(1, -1);

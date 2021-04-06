@@ -17,20 +17,20 @@ public class UserInputMovement {
     velocity = defaultVelocity;
   }
 
-  public Vector moveUP(double elapsedTime, double gameGravity, double gravityScale) {
+  public Vector moveUP(Double elapsedTime, Double gameGravity, Double gravityScale) {
     return deltaPosition(elapsedTime, gameGravity, gravityScale, new Vector(0, -1));
     // TODO limit how long player can effectively jump
   }
 
-  public Vector moveDOWN(double elapsedTime, double gameGravity, double gravityScale) {
+  public Vector moveDOWN(Double elapsedTime, Double gameGravity, Double gravityScale) {
     return deltaPosition(elapsedTime, gameGravity, gravityScale, new Vector(0, 1));
   }
 
-  public Vector moveRIGHT(double elapsedTime, double gameGravity, double gravityScale) {
+  public Vector moveRIGHT(Double elapsedTime, Double gameGravity, Double gravityScale) {
     return deltaPosition(elapsedTime, gameGravity, gravityScale, new Vector(1, 0));
   }
 
-  public Vector moveLEFT(double elapsedTime, double gameGravity, double gravityScale) {
+  public Vector moveLEFT(Double elapsedTime, Double gameGravity, Double gravityScale) {
     return deltaPosition(elapsedTime, gameGravity, gravityScale, new Vector(-1, 0));
   }
 

@@ -21,7 +21,7 @@ public class Player extends Actor {
    * Default constructor
    */
   public Player(List<String> entityTypes, Vector position, Vector velocity, double gravity,
-      int id, Vector size) throws ClassNotFoundException {
+      int id, Vector vector, Vector size) throws ClassNotFoundException {
     super(entityTypes, position, velocity, gravity, id, size);
     userMovement = new UserInputMovement(velocity);
     userMovementClass = Class.forName("ooga.model.UserInputMovement");
@@ -45,9 +45,9 @@ public class Player extends Actor {
     }
 
     Method moveMethod = userMovementClass.getMethod(methodName, paramClasses);
-    setPosition((Vector) moveMethod.invoke(userMovement, elapsedTime, gameGravity, gravityScale));
+    Vector deltaPosition = (Vector) moveMethod.invoke(userMovement, elapsedTime, gameGravity, gravityScale);
+    setPosition(new Vector((deltaPosition.getX() + getPosition().getX()), (deltaPosition.getY() + getPosition().getY())));
   }
-
 
   @Override
   public void stepMovement(double elapsedTime, double gameGravity) {
