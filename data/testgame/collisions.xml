@@ -12,8 +12,8 @@
       <Method>
         <Name>move</Name>
         <Args>
-          <Arg>10</Arg>
-          <Arg>0</Arg>
+          <Arg>8</Arg>
+          <Arg>7</Arg>
         </Args>
       </Method>
     </GameObject>

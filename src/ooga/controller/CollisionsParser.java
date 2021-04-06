@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import ooga.model.MethodBundle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -37,7 +38,6 @@ public class CollisionsParser {
       }
     }
 
-    System.out.println(collisions);
     return collisions;
   }
 
@@ -49,10 +49,10 @@ public class CollisionsParser {
       Element methodNode = (Element) methodNodes.item(i);
       String name = methodNode.getElementsByTagName("Name").item(0).getTextContent();
 
-      NodeList arguments = ((Element) methodNode.getElementsByTagName("Args").item(0)).getElementsByTagName("Args");
+      NodeList arguments = ((Element) methodNode.getElementsByTagName("Args").item(0)).getElementsByTagName("Arg");
       double[] args = new double[arguments.getLength()];
       for (int j = 0; j < arguments.getLength(); j++) {
-        args[i] = Double.parseDouble(arguments.item(i).getTextContent());
+        args[j] = Double.parseDouble(arguments.item(j).getTextContent());
       }
 
       MethodBundle method = new MethodBundle(name, args);
