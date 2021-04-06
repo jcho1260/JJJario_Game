@@ -9,7 +9,7 @@ public class WorldCollisionHandling {
 
   private Map<String, Map<String, List<MethodBundle>>> collisionMethods;
   private List<GameObject> activeGameObjects;
-  private List<GameObject> activeActors;
+  private List<GameObject> activeDestroyable;
   private Set<Destroyable> collisions;
 
   /**
@@ -19,22 +19,25 @@ public class WorldCollisionHandling {
       List<GameObject> activeGameObjectsList, List<GameObject> activeActorsList) {
     collisionMethods = collisionMethodsMap;
     activeGameObjects = activeGameObjectsList;
-    activeActors = activeActorsList;
+    activeDestroyable = activeActorsList;
     collisions = new HashSet<>();
   }
 
+  public void update(List<GameObject> gameObjects, List<GameObject> destroyables) {
+    
+  }
 
   /**
    *
    */
   public void detectAllCollisions() throws NoSuchMethodException {
     // TODO implement here
-    for (GameObject actor : activeActors) {
+    for (GameObject actor : activeDestroyable) {
       for (GameObject collisionObject : activeGameObjects) {
         if (actor.equals(collisionObject)) {
           continue;
         }
-        if (actor.isCollision(collisionObject).size() != 0) {
+        if (!((Destroyable) actor).determineCollision(collisionObject).isEmpty()) {
           List<MethodBundle> actorCollisionMethods = collisionMethods.get(actor)
               .get(collisionObject);
           ((Destroyable) actor).addCollision(actorCollisionMethods);

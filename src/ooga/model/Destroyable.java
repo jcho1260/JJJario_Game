@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Queue;
 
 public abstract class Destroyable extends GameObject{
-  private Map<String, List<MethodBundle>> collisionMap;
   private Queue<MethodBundle> collisionQueue;
   private DestroyableCollisionHandling collisionHandler;
   private Health health;
@@ -17,9 +16,8 @@ public abstract class Destroyable extends GameObject{
   /**
    * Default constructor with default lives, health values
    */
-  public Destroyable(List<String> entityTypes, Vector position, int id, Vector size, int startLife, int startHealth, Map<String, List<MethodBundle>> collisionSet) {
+  public Destroyable(List<String> entityTypes, Vector position, int id, Vector size, int startLife, int startHealth) {
     super(entityTypes, position, id, size);
-    collisionMap = collisionSet;
     collisionQueue = new LinkedList<>();
     collisionHandler = new DestroyableCollisionHandling();
     health = new Health(startHealth);
@@ -38,14 +36,10 @@ public abstract class Destroyable extends GameObject{
   /**
    * create a Queue of all methods to invoke on self for collisions with other GameObjects
    */
-  public boolean addCollision(String entityTag) throws NoSuchMethodException {
-    if (!collisionMap.containsKey(entityTag)) {
-      return false;
-    }
-    for (MethodBundle mb : collisionMap.get(entityTag)) {
+  public void addCollision(List<MethodBundle> methodList) throws NoSuchMethodException {
+    for (MethodBundle mb : methodList) {
       collisionQueue.add(mb);
     }
-    return true;
   }
 
   /**
