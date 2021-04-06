@@ -1,6 +1,6 @@
 package ooga.model;
 
-public class MovingDestroyable extends Destroyable{
+public class MovingDestroyable extends Destroyable {
 
   /**
    * Default constructor with default lives, health values
