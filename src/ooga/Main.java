@@ -4,7 +4,7 @@ package ooga;
 import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
-import ooga.controller.LevelParser;
+import ooga.controller.LevelBuilder;
 import org.xml.sax.SAXException;
 
 /**
@@ -23,7 +23,7 @@ public class Main {
      */
     public static void main (String[] args)
         throws IOException, SAXException, ParserConfigurationException {
-        LevelParser levelParser = new LevelParser();
+        LevelBuilder levelParser = new LevelBuilder();
         levelParser.createLevel(new File("data/testgame/level.xml"));
     }
 }
