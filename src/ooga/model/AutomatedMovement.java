@@ -10,7 +10,7 @@ public class AutomatedMovement {
   private final Vector startPosition;
   private final Vector endPosition;
   private Vector velocity;
-  // TODO make gravityScale a part of movement?
+  private double gravityScale;
 
   /**
    * Default constructor for AutomatedMovement.
@@ -19,10 +19,12 @@ public class AutomatedMovement {
    * @param finalPosition Vector
    * @param initialVelocity Vector
    */
-  public AutomatedMovement(Vector initialPosition, Vector finalPosition, Vector initialVelocity) {
+  public AutomatedMovement(Vector initialPosition, Vector finalPosition, Vector initialVelocity,
+      double gravity) {
     startPosition = initialPosition;
     endPosition = finalPosition;
     velocity = initialVelocity;
+    gravityScale = gravity;
   }
 
   /**
@@ -33,8 +35,7 @@ public class AutomatedMovement {
    * @param position Vector
    * @return newPosition Vector
    */
-  public Vector stepMovement(double elapsedTime, double gameGravity, Vector position,
-      double gravityScale) {
+  public Vector stepMovement(double elapsedTime, double gameGravity, Vector position) {
     if (!isInPath(position)) {
       velocity = velocity.multiply(new Vector(-1, -1));
     }
@@ -60,5 +61,23 @@ public class AutomatedMovement {
 
   private boolean isStartGreaterThanEndY() {
     return startPosition.getY() > endPosition.getY();
+  }
+
+  /**
+   * Returns velocity.
+   *
+   * @return velocity
+   */
+  public Vector getVelocity() {
+    return velocity.copy();
+  }
+
+  /**
+   * Sets velocity.
+   *
+   * @param newVelocity
+   */
+  public void setVelocity(Vector newVelocity) {
+    velocity = newVelocity;
   }
 }
