@@ -1,9 +1,11 @@
 package ooga.model;
 
 import java.beans.PropertyChangeListener;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import ooga.JjjanException;
 
 /**
  *
@@ -38,7 +40,8 @@ public class GameWorld {
     worldCollisionHandling = new WorldCollisionHandling(collisionMethods, gameObjects, actors);
   }
 
-  public void stepFrame(Action pressEffect) throws NoSuchMethodException {
+  public void stepFrame(Action pressEffect)
+      throws NoSuchMethodException, JjjanException, InvocationTargetException, IllegalAccessException {
     worldCollisionHandling.detectAllCollisions();
     List<Integer> forDeletion = worldCollisionHandling.executeAllCollisions();
     removeDeadActors(forDeletion);

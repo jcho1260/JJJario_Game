@@ -1,6 +1,8 @@
 package ooga.model;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import ooga.JjjanException;
 
 /**
  *
@@ -36,7 +38,7 @@ public class WorldCollisionHandling {
   /**
    *
    */
-  public void detectAllCollisions() throws Exception {
+  public void detectAllCollisions() throws NoSuchMethodException, JjjanException {
     // TODO implement here
     for (GameObject actor : activeDestroyable) {
       for (GameObject collisionObject : activeGameObjects) {
@@ -55,10 +57,11 @@ public class WorldCollisionHandling {
   /**
    *
    */
-  public List<Integer> executeAllCollisions() {
+  public List<Integer> executeAllCollisions()
+      throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
     List<Integer> toDelete = new ArrayList<>();
     for (Destroyable destroyable : collisions) {
-      destroyable.executeCollisions(destroyable);
+      destroyable.executeCollisions();
       if (destroyable.isDead()) {
         toDelete.add(destroyable.getId());
       }
@@ -79,7 +82,7 @@ public class WorldCollisionHandling {
 //  }
 
   private List<MethodBundle> handleTagHierarchy(List<String> destroyableTags, List<String> collidedTags)
-      throws Exception {
+      throws JjjanException {
     for (int d = destroyableTags.size() - 1; d >= 0 ; d--) {
       String dTag = destroyableTags.get(d);
       if (collisionMethods.containsKey(dTag)) {
@@ -91,6 +94,6 @@ public class WorldCollisionHandling {
         }
       }
     }
-    throw new Exception("collision handling not defined for destroyable");
+    throw new JjjanException("collision handling not defined for destroyable");
   }
 }
