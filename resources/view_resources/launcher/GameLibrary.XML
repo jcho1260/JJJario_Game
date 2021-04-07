@@ -6,7 +6,8 @@
       <Button id="Game1Button" type="Leaf">
         <Text>Super JJJario Bros.</Text>
         <Action>
-          <Type>NewScreen</Type>
+          <Game>JJJario</Game>
+          <Type>LaunchGame</Type>
           <Path>resources/view_resources/game/JJJarioMenu.XML</Path>
         </Action>
       </Button>
