@@ -1,0 +1,20 @@
+HBox {
+    -fx-background-color: darkslateblue;
+    -fx-spacing: 20;
+}
+
+.button {
+    -fx-text-fill: #e8e2f7;
+    -fx-text-alignment: center;
+    -fx-font-family: "Roboto Light";
+    -fx-font-weight: bold;
+    -fx-font-size: 24px;
+    -fx-wrap-text: true;
+    -fx-background-color: slateblue;
+    -fx-pref-width: 205px;
+    -fx-pref-height: 205px;
+}
+
+.button:hover {
+    -fx-background-color: mediumslateblue;
+}
