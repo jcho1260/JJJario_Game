@@ -10,6 +10,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import ooga.model.GameObject;
+import ooga.model.GameWorld;
+import ooga.model.MethodBundle;
 import ooga.model.MovingDestroyable;
 import ooga.model.MovingNonDestroyable;
 import ooga.model.Player;
@@ -19,8 +21,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class LevelParser {
-  public void createLevel(File file)
+public class GameWorldFactory {
+
+  public GameWorld createGameWorld(File file, Map<String, Map<String, List<MethodBundle>>> collisions, Vector frameSize, double frameRate)
       throws ParserConfigurationException, IOException, SAXException, ClassNotFoundException {
 
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -29,23 +32,29 @@ public class LevelParser {
     NodeList objects = ((Element) doc.getElementsByTagName("GameObjects").item(0).getChildNodes()).getElementsByTagName("GameObject");
 
     Map<String, GameObjectInfo> gameObjectMap = getObjectMap(file, objects);
+    List<GameObject> actors = new ArrayList<>();
+    List<GameObject> gameObjects =  new ArrayList<>();
     NodeList entities = ((Element) doc.getElementsByTagName("Layout").item(0).getChildNodes()).getElementsByTagName("Entity");
+    Player player = null;
+
     for (int i = 0; i < entities.getLength(); i++) {
 
       Element entity = (Element) entities.item(i);
       String name = entity.getElementsByTagName("Name").item(0).getTextContent();
       GameObjectInfo info = gameObjectMap.get(name);
 
-      GameObject gameObject = switch (gameObjectMap.get(name).type) {
-        case "Player" -> createPlayer(entity, info, i);
-        case "MovingDestroyable" -> createMovingDestroyable(entity, info, i);
-        // case "MovingNonDestroyable" -> createMovingNonDestroyable(entity, i);
-        case "GameObject" -> createGameObject(entity, info, i);
-        default -> null;
+      switch (gameObjectMap.get(name).type) {
+        case "Player" -> {
+          player = createPlayer(entity, info, i);
+          actors.add(player);
+        }
+        case "MovingDestroyable" -> actors.add(createMovingDestroyable(entity, info, i));
+        // case "MovingNonDestroyable" -> gameObjects.add(gameObjects.add(createMovingNonDestroyable(entity, info, i)));
+        case "GameObject" -> gameObjects.add(createGameObject(entity, info, i));
       };
-
-      System.out.println(gameObject);
     }
+
+    return new GameWorld(player, collisions, gameObjects, actors, frameSize, getGlobalGravity(doc), frameRate);
   }
 
   private Player createPlayer(Element entity, GameObjectInfo info, int id)
@@ -67,7 +76,7 @@ public class LevelParser {
     return new MovingDestroyable(info.tags, pos, id, info.size, startLife, startHealth, vel, finalPos, info.gravity);
   }
 
-  private MovingNonDestroyable createMovingNonDestroyable(Element entity, int id) {
+  private MovingNonDestroyable createMovingNonDestroyable(Element entity, GameObjectInfo info, int id) {
     return null;
   }
 
