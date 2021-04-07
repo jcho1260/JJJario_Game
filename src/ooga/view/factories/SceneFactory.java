@@ -19,7 +19,8 @@ public class SceneFactory {
     Document doc = dBuilder.parse(new File(filePath));
     doc.getDocumentElement().normalize();
 
-    ParentComponentFactory pcf = new ParentComponentFactory();
+    ActionFactory af = new ActionFactory();
+    ParentComponentFactory pcf = new ParentComponentFactory(af);
     Element sceneElem = (Element) doc.getElementsByTagName("Scene").item(0);
     Element rootElem = (Element) sceneElem.getElementsByTagName("Root").item(0);
     Pane root = (Pane) pcf.make((Element) rootElem.getElementsByTagName("*").item(0));

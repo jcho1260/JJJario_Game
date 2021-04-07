@@ -13,7 +13,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 public class ParentComponentFactory extends ComponentFactory {
-  private final LeafComponentFactory lcf = new LeafComponentFactory();
+  private final LeafComponentFactory lcf;
+
+  public ParentComponentFactory(ActionFactory af) {
+    lcf = new LeafComponentFactory(af);
+  }
 
   @Override
   public Object make(Element e) throws Exception {

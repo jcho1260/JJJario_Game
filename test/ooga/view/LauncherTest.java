@@ -7,6 +7,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import ooga.view.factories.ActionFactory;
 import ooga.view.factories.ParentComponentFactory;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -35,7 +36,8 @@ class LauncherTest extends ApplicationTest {
     Document doc = dBuilder.parse(new File("resources/view_resources/launcher/SideBar.XML"));
     doc.getDocumentElement().normalize();
 
-    ParentComponentFactory pcf = new ParentComponentFactory();
+    ActionFactory af = new ActionFactory();
+    ParentComponentFactory pcf = new ParentComponentFactory(af);
     Element rootE = (Element) doc.getElementsByTagName("VBox").item(0);
     ids = getIds(rootE, new ArrayList<>());
     VBox vbox = (VBox) pcf.make(rootE);
