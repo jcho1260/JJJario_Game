@@ -4,6 +4,7 @@ import java.io.File;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -12,6 +13,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class SceneFactory {
+  private final Stage stage;
+
+  public SceneFactory(Stage stage) {
+    this.stage = stage;
+  }
 
   public Scene make(String filePath) throws Exception {
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -19,7 +25,7 @@ public class SceneFactory {
     Document doc = dBuilder.parse(new File(filePath));
     doc.getDocumentElement().normalize();
 
-    ActionFactory af = new ActionFactory();
+    ActionFactory af = new ActionFactory(stage);
     ParentComponentFactory pcf = new ParentComponentFactory(af);
     Element sceneElem = (Element) doc.getElementsByTagName("Scene").item(0);
     Element rootElem = (Element) sceneElem.getElementsByTagName("Root").item(0);
