@@ -29,7 +29,7 @@ public class Controller {
       throws IOException, SAXException, ParserConfigurationException, ClassNotFoundException {
 
     Map<String, Map<String, List<MethodBundle>>> collisions = collisionsParser.parseCollisions(new File(""));
-    gameWorldFactory.createGameWorld(new File(""), collisions, frameSize, frameRate);
+    gameWorld = gameWorldFactory.createGameWorld(new File(""), collisions, frameSize, frameRate);
   }
 
 
