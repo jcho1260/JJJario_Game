@@ -8,6 +8,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import ooga.model.GameWorld;
 import ooga.model.MethodBundle;
 import ooga.model.Vector;
+import ooga.view.game.GameView;
 import org.xml.sax.SAXException;
 
 public class Controller {
@@ -17,6 +18,7 @@ public class Controller {
   private GameWorld gameWorld;
   private Vector frameSize;
   private double frameRate;
+  private GameView gameView;
 
   public Controller(Vector frameSize, double frameRate) {
     gameWorldFactory = new GameWorldFactory();
@@ -25,16 +27,19 @@ public class Controller {
     this.frameRate = frameRate;
   }
 
-  public void startGame()
-      throws IOException, SAXException, ParserConfigurationException, ClassNotFoundException {
+  public void startGame(GameView gameView) {
 
-    Map<String, Map<String, List<MethodBundle>>> collisions = collisionsParser.parseCollisions(new File(""));
-    gameWorld = gameWorldFactory.createGameWorld(new File(""), collisions, frameSize, frameRate);
+    String gameName = gameView.getGameName();
+    File collisionsFile = new File("data/" + gameName + "/collisions.xml");
+    File levelFile = new File("data/" + gameName + "/level.xml");
+
+    try {
+      Map<String, Map<String, List<MethodBundle>>> collisions = collisionsParser.parseCollisions(collisionsFile);
+      gameWorld = gameWorldFactory.createGameWorld(levelFile, collisions, frameSize, frameRate);
+    } catch (Exception ignored){}
   }
 
-
-
-  //TODO: add listeners to view
-
-
+  private void addListeners() {
+    //TODO: add listeners to view
+  }
 }
