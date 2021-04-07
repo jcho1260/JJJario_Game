@@ -1,0 +1,46 @@
+<root>
+    <Actor='Player'>
+        <GameObject='Enemy'>
+            <method='incrementHealth'>-3</method>
+            <method='move'>10,0</method>
+        </GameObject>
+        <GameObject='Goomba'> <!--collision handling-->
+            <method='incrementHealth'>-1</method>
+            <method='move'>5,0</method>
+        </GameObject>
+        <GameObject='Goomba,B'>  <!--directional collision handling override-->
+            <method='incrementScore'>100</method>
+            <method='move'>0,2</method>
+        </GameObject>
+    </Actor>
+    <Actor='Enemy'>
+        <GameObject='Player,T'>
+            <method='incrementHealth'>-1</method>
+            <method='stop'>1</method>
+        </GameObject>
+        <GameObject='Enemy'>
+            <method='bounce'></method>
+        </GameObject>
+    </Actor>
+    <Actor='PowerUpBlock'>
+        <GameObject='Player,TB'> <!--multiple directions specified here-->
+            <method='incrementHealth'>-1</method>
+        </GameObject>
+    </Actor>
+</root>
+
+<!-- since each destroyable is instantiated during parsing, each destroyable should be passed a map<String,List<MethodBundle>-->
+<!--MethodBundle is defined using two parameters: String, double[]-->
+<!-- Example for Enemy
+        Map<String,List<MethodBundle>> imthemap = new HashMap();
+        List<MethodBundle> mbs = new ArrayList<>;
+        mbs.add(new MethodBundle('incrementHealth', new double[]{-1.0}))
+        mbs.add(...)
+        imthemap.put("Player,T", mbs)
+        ...
+        imthemap.put('Enemy',...)
+        // pass imthemap into the constructor of any GameObjects with the 
+
+        // map<String, Map from earlier>
+        // string is entity tag like enemy, map is like imthemap
+-->
