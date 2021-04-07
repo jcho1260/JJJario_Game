@@ -1,7 +1,5 @@
 package ooga.model;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.List;
 
 /**
@@ -36,7 +34,9 @@ public class GameObject extends Observable {
   }
 
   protected void setPosition(Vector newPosition) {
+    Vector prevPosition = position;
     position = newPosition;
+    notifyListeners("position", prevPosition, position);
   }
 
   /**
