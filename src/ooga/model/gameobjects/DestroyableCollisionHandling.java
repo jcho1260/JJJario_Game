@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
+import ooga.model.util.Action;
 import ooga.model.util.MethodBundle;
 import ooga.model.util.Vector;
 
@@ -79,21 +80,23 @@ public class DestroyableCollisionHandling {
     Vector myVelocity = myself.getVelocity();
     Vector oVelocity = o.getVelocity();
 
-    String myDirection = myVelocity.getDirection().toString();
-    String oDirection = oVelocity.getDirection().toString();
+    Action myDirection = myVelocity.getDirection();
+    Action oDirection = oVelocity.getDirection();
     String collisionDirection = "";
 
     System.out.println("myDir: "+myDirection);
     System.out.println("oDir: "+oDirection);
     if (myDirection.equals(oDirection)) {
       if (!myVelocity.equals(new Vector(0,0))) {
-        collisionDirection = oDirection;
+        collisionDirection = oDirection.toString();
       } else {
         return new ArrayList<>();
       }
+    } else if(myDirection.sameAxis(oDirection)){
+      collisionDirection = myVelocity.getDirection().toString();
     } else {
       collisionDirection = myVelocity.multiply(new Vector(-1,-1)).getDirection().toString();
-      System.out.println("collision dir: "+collisionDirection);
+      System.out.println("collision diff axis dir: "+collisionDirection);
     }
     System.out.println(o.getEntityType());
 
@@ -103,4 +106,7 @@ public class DestroyableCollisionHandling {
     }
     return ret;
   }
+
 }
+
+

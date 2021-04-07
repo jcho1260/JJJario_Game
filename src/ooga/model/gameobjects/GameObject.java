@@ -16,7 +16,7 @@ public class GameObject extends Observable {
   private List<String> entityTypes;
   private Vector position;
   private int id;
-  private Size size;
+  protected Size size;
 
   /**
    * Default constructor
