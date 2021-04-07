@@ -2,13 +2,14 @@ package ooga.view.factories;
 
 import java.util.Objects;
 import java.util.ResourceBundle;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.Node;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 public class LeafComponentFactory extends ComponentFactory {
+
   private final ActionFactory af;
 
   public LeafComponentFactory(ActionFactory af) {
@@ -47,6 +48,7 @@ public class LeafComponentFactory extends ComponentFactory {
 
   private Image makeImage(Element elem) {
     String imagePath = elem.getElementsByTagName("Path").item(0).getTextContent();
-    return new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(imagePath)));
+    return new Image(
+        Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(imagePath)));
   }
 }

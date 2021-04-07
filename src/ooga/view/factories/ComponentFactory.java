@@ -9,6 +9,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 public abstract class ComponentFactory {
+
   //TODO: FIX THE THROWS
   public abstract Object make(Element e) throws Exception;
 

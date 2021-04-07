@@ -1,7 +1,6 @@
 package ooga.view.factories;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -13,6 +12,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 public class ParentComponentFactory extends ComponentFactory {
+
   private final LeafComponentFactory lcf;
 
   public ParentComponentFactory(ActionFactory af) {
@@ -28,7 +28,8 @@ public class ParentComponentFactory extends ComponentFactory {
     }
 
     String compName = e.getNodeName();
-    ResourceBundle currRB = ResourceBundle.getBundle("view_resources/factory_bundles/" + compName + "Keys");
+    ResourceBundle currRB = ResourceBundle
+        .getBundle("view_resources/factory_bundles/" + compName + "Keys");
     Parent parent = (Parent) makeComponentBase(currRB, compName);
     parent.setId(e.getAttribute("id"));
     parent.getStylesheets().add(e.getAttribute("style"));
@@ -39,7 +40,7 @@ public class ParentComponentFactory extends ComponentFactory {
       if (tempNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
         Element childElem = (Element) tempNode;
         if (hasChildElements(childElem)) {
-          if (e.getAttribute("type").equals("Pane")){
+          if (e.getAttribute("type").equals("Pane")) {
             Node child = (Node) make(childElem);
             ((Pane) parent).getChildren().add(child);
           } else {
