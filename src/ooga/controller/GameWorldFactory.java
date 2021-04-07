@@ -9,11 +9,11 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import ooga.model.Destroyable;
 import ooga.model.GameObject;
 import ooga.model.GameWorld;
 import ooga.model.MethodBundle;
 import ooga.model.MovingDestroyable;
-import ooga.model.MovingNonDestroyable;
 import ooga.model.Player;
 import ooga.model.Vector;
 import org.w3c.dom.Document;
@@ -49,7 +49,7 @@ public class GameWorldFactory {
           actors.add(player);
         }
         case "MovingDestroyable" -> actors.add(createMovingDestroyable(entity, info, i));
-        // case "MovingNonDestroyable" -> gameObjects.add(gameObjects.add(createMovingNonDestroyable(entity, info, i)));
+        case "Destroyable" -> gameObjects.add(createDestroyable(entity, info, i));
         case "GameObject" -> gameObjects.add(createGameObject(entity, info, i));
       };
     }
@@ -76,8 +76,11 @@ public class GameWorldFactory {
     return new MovingDestroyable(info.tags, pos, id, info.size, startLife, startHealth, vel, finalPos, info.gravity);
   }
 
-  private MovingNonDestroyable createMovingNonDestroyable(Element entity, GameObjectInfo info, int id) {
-    return null;
+  private Destroyable createDestroyable(Element entity, GameObjectInfo info, int id) {
+    Vector pos = getVectorAttribute(entity, "Location");
+    int startLife = (int) getNumberAttribute(entity, "StartLife");
+    int startHealth = (int) getNumberAttribute(entity, "StartHealth");
+    return new Destroyable(info.tags, pos, id, info.size, startLife, startHealth);
   }
 
   private GameObject createGameObject(Element entity, GameObjectInfo info, int id) {
