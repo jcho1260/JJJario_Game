@@ -11,11 +11,11 @@ import javafx.scene.image.ImageView;
 public class Sprite implements PropertyChangeListener {
   private final ImageView imageView;
 
-  public Sprite(String spriteID, double h, double w) {
+  public Sprite(String spriteType, double h, double w, double x, double y) {
     imageView = new ImageView();
     ResourceBundle imgKeys = ResourceBundle
         .getBundle("view_resources/game/SpriteImageKeys/JJJarioSpriteKeys");
-    String imgPath = imgKeys.getString(spriteID.split("_")[0]);
+    String imgPath = imgKeys.getString(spriteType);
     Image img =  new Image(
         Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(imgPath)));
     imageView.setImage(img);
@@ -24,7 +24,7 @@ public class Sprite implements PropertyChangeListener {
   }
 
   @Override
-  public void propertyChange(PropertyChangeEvent evt) {
+  public void propertyChange(PropertyChangeEvent evt) { // propertyName = changeHeight, oldValue = null, newValue = 100
     String mName = evt.getPropertyName();
     Object[] mArgs = parseEventArgs((String) evt.getNewValue());
     new Statement(this, mName, mArgs);
