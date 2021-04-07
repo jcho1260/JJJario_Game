@@ -90,6 +90,7 @@ public class GameWorldFactory {
 
   private Vector getVectorAttribute(Element entity, String name) {
     Element location = (Element) entity.getElementsByTagName(name).item(0);
+    if (location == null) return new Vector(0, 0);
     int x = Integer.parseInt(location.getElementsByTagName("x").item(0).getTextContent());
     int y = Integer.parseInt(location.getElementsByTagName("y").item(0).getTextContent());
     return new Vector(x, y);
