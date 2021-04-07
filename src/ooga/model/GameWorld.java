@@ -28,7 +28,8 @@ public class GameWorld extends Observable {
    * Default constructor
    */
   public GameWorld(Player gamePlayer, Map<String, Map<String, List<MethodBundle>>> collisionMethods,
-      List<GameObject> gameObjects, List<GameObject> actors, Vector frameSize, double levelGravity, double frameRate) {
+      List<GameObject> gameObjects, List<GameObject> actors, Vector frameSize, int startingLives,
+      double levelGravity, double frameRate) {
     player = gamePlayer;
     windowSize = frameSize;
     allGameObjects = gameObjects;
@@ -48,6 +49,7 @@ public class GameWorld extends Observable {
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allActiveDestroyables = findActiveObjects(allDestroyables);
     worldCollisionHandling.updateActiveGameObjects(allActiveGameObjects, allActiveDestroyables);
+    //notifyListeners("activeGameObjects", /*List<Integer> ids*/, allActiveIds());
   }
 
   // TODO: refactor out isActive from GameObject and calculate active status here DO THIS !!!!!
@@ -129,11 +131,15 @@ public class GameWorld extends Observable {
 
 
   /**
-   * Returns score of the Player.
+   * Adds to score by given amount. Notifies listeners of change.
    *
-   * @return score
+   * @param increment
    */
-  public int getScore() {
-    return score;
+  private void incrementScore(int increment) {
+    int prevScore = score;
+    score += increment;
+    notifyListeners("score", prevScore, score);
   }
+
+
 }
