@@ -70,7 +70,7 @@ public class GameWorld extends Observable {
 
   // TODO LATER
   private Vector[] getWindowFrame() {
-    return new Vector[0];
+    return new Vector[]{new Vector(0,0), new Vector(50,15)};
   }
 
   private void removeDeadActors(List<Integer> deadActors) {
