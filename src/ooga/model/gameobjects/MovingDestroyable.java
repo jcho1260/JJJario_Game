@@ -1,6 +1,8 @@
-package ooga.model;
+package ooga.model.gameobjects;
 
 import java.util.List;
+import ooga.model.gameobjectcomposites.AutomatedMovement;
+import ooga.model.util.Vector;
 
 public class MovingDestroyable extends Destroyable {
 
@@ -26,6 +28,11 @@ public class MovingDestroyable extends Destroyable {
     autoMove = new AutomatedMovement(initialPosition, finalPosition, initialVelocity, gravityScale);
   }
 
+  /**
+   * updates position of object with each step of animation while also calling repeated methods if applicable
+   * @param elapsedTime
+   * @param gameGravity
+   */
   public void step(double elapsedTime, double gameGravity) {
     setPosition(autoMove.stepMovement(elapsedTime, gameGravity, getPosition()));
   }
@@ -35,8 +42,13 @@ public class MovingDestroyable extends Destroyable {
    *
    * @return velocity from autoMove
    */
- public Vector getVelocity() {
+  public Vector getVelocity() {
     return autoMove.getVelocity();
+  }
+
+  private void scaleVelocity(Vector scaleFactor) {
+    Vector newVelo = autoMove.getVelocity().multiply(scaleFactor);
+    autoMove.setVelocity(newVelo);
   }
 }
 

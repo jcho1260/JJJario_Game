@@ -1,4 +1,4 @@
-package ooga.model;
+package ooga.model.gameobjectcomposites;
 
 public class Health {
 
@@ -15,4 +15,6 @@ public class Health {
   public boolean isAlive() {
     return health > 0;
   }
+
+  public void kill() { health = 0; }
 }

@@ -1,4 +1,4 @@
-package ooga.model;
+package ooga.model.util;
 
 import java.lang.reflect.Method;
 

@@ -1,4 +1,6 @@
-package ooga.model;
+package ooga.model.gameobjectcomposites;
+
+import ooga.model.util.Vector;
 
 /**
  * Handles auto movement for moving GameObjects.

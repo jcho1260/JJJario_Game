@@ -1,11 +1,18 @@
 package ooga.model;
 
-import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import ooga.JjjanException;
+import ooga.Observable;
+import ooga.model.gameobjectcomposites.WorldCollisionHandling;
+import ooga.model.gameobjects.GameObject;
+import ooga.model.gameobjects.Player;
+import ooga.model.util.Action;
+import ooga.model.util.MethodBundle;
+import ooga.model.util.Vector;
+
 
 /**
  *
@@ -42,6 +49,7 @@ public class GameWorld extends Observable {
 
   public void stepFrame(Action pressEffect)
       throws NoSuchMethodException, JjjanException, InvocationTargetException, IllegalAccessException {
+
     worldCollisionHandling.detectAllCollisions();
     List<Integer> forDeletion = worldCollisionHandling.executeAllCollisions();
     removeDeadActors(forDeletion);
@@ -85,6 +93,14 @@ public class GameWorld extends Observable {
       }
     }
     return objects;
+  }
+
+  private List<Integer> extractActiveId() {
+    List<Integer> id = new ArrayList<>();
+    for (GameObject o : allActiveGameObjects) {
+      id.add(o.getId());
+    }
+    return id;
   }
 
   /**

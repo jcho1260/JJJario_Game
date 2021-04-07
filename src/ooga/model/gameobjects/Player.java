@@ -1,9 +1,13 @@
-package ooga.model;
+package ooga.model.gameobjects;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import ooga.model.gameobjectcomposites.Size;
+import ooga.model.gameobjectcomposites.UserInputMovement;
+import ooga.model.util.Action;
+import ooga.model.util.Vector;
 
 /**
  * Represents Player object that receives movement input from the user.
@@ -15,6 +19,8 @@ public class Player extends Destroyable {
   private List<GameObject> activePowerUps;
   private final UserInputMovement userMovement;
   private final Class<?> userMovementClass;
+  private Size size;
+  private int lives;
 
   /**
    * Default constructor for Player.
@@ -24,7 +30,8 @@ public class Player extends Destroyable {
       throws ClassNotFoundException {
     super(entityTypes, initialPosition, id, size, startLife, startHealth);
     userMovement = new UserInputMovement(jumpTime, velocityMagnitude, gravity);
-    userMovementClass = Class.forName("ooga.model.UserInputMovement");
+    userMovementClass = Class.forName("ooga.model.gameobjectcomposites.UserInputMovement");
+    lives = startLife;
   }
 
   /**
@@ -63,4 +70,12 @@ public class Player extends Destroyable {
   public List<GameObject> getActivePowerUps() {
     return new ArrayList<>(activePowerUps);
   }
+
+  private void scaleSize(double scaleFactor) { size.scaleSize(scaleFactor); }
+
+  private void incrementScore(double increment) { score += increment; }
+
+  private void incrementLife(double increment) { lives += increment; }
+
+  private void onKeyPress() { }
 }

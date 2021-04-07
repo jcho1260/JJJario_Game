@@ -38,10 +38,9 @@
         </Args>
       </Method>
       <Method>
-        <Name>incrementSize</Name>
+        <Name>scaleSize</Name>
         <Args>
-          <Arg>0</Arg>
-          <Arg>1</Arg>
+          <Arg>1.5</Arg>
         </Args>
       </Method>
     </GameObject>

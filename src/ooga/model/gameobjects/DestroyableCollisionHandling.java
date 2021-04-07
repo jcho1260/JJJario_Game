@@ -1,11 +1,12 @@
-package ooga.model;
+package ooga.model.gameobjects;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
+import ooga.model.util.MethodBundle;
+import ooga.model.util.Vector;
 
 public class DestroyableCollisionHandling {
 
@@ -42,14 +43,36 @@ public class DestroyableCollisionHandling {
   private boolean isCollision(GameObject myself, GameObject o) {
     double oX = o.getPosition().getX();
     double oY = o.getPosition().getY();
-    Vector me = myself.getPosition();
-    Vector size = myself.getSize();
-    if (oX == me.getX() && oX <= me.getX() + size.getX()) {
-      if (oY >= me.getY() && oY <= me.getY() + size.getY()) {
+    double oWidth = o.getSize().getX();
+    double oHeight = o.getSize().getY();
+    double myX = myself.getPosition().getX();
+    double myY = myself.getPosition().getY();
+    double myWidth = myself.getSize().getX();
+    double myHeight = myself.getSize().getY();
+    if (isXOverlapSides(myX, oX, myWidth, oWidth) || isXCompleteOverlap(myX, oX, myWidth, oWidth)) {
+      System.out.println("xMatch\n");
+      if (isYOverlapSides(myY, oY, myHeight, oHeight) || isYCompleteOverlap(myY, oY, myHeight, oHeight)) {
+        System.out.println("yMatch\n");
         return true;
       }
     }
     return false;
+  }
+
+  private boolean isXOverlapSides(double myX, double oX, double myWidth, double oWidth) {
+    return (oX <= myX && oX+oWidth <=myX+myWidth) || (oX >= myX && oX+oWidth >=myX+myWidth);
+  }
+
+  private boolean isXCompleteOverlap(double myX, double oX, double myWidth, double oWidth) {
+    return oX <= myX && oX+oWidth >=myX+myWidth;
+  }
+
+  private boolean isYOverlapSides(double myY, double oY, double myHeight, double oHeight) {
+    return (oY <= myY && oY + oHeight <= myY + myHeight) || (oY >= myY && oY + oHeight >= myY + myHeight);
+  }
+
+  private boolean isYCompleteOverlap(double myY, double oY, double myHeight, double oHeight) {
+    return oY <= myY && oY + oHeight >= myY + myHeight;
   }
 
   private List<String> getCollisionMethods(GameObject myself, GameObject o) {
@@ -60,6 +83,8 @@ public class DestroyableCollisionHandling {
     String oDirection = oVelocity.getDirection().toString();
     String collisionDirection = "";
 
+    System.out.println("myDir: "+myDirection);
+    System.out.println("oDir: "+oDirection);
     if (myDirection.equals(oDirection)) {
       if (!myVelocity.equals(new Vector(0,0))) {
         collisionDirection = oDirection;
@@ -67,8 +92,10 @@ public class DestroyableCollisionHandling {
         return new ArrayList<>();
       }
     } else {
-      collisionDirection = oVelocity.multiply(new Vector(-1,-1)).getDirection().toString();
+      collisionDirection = myVelocity.multiply(new Vector(-1,-1)).getDirection().toString();
+      System.out.println("collision dir: "+collisionDirection);
     }
+    System.out.println(o.getEntityType());
 
     List<String> ret = new ArrayList<>();
     for (String s : o.getEntityType()) {
