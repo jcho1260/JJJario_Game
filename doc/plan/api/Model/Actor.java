@@ -37,7 +37,7 @@ public abstract class Actor extends GameObject{
     /**
      * 
      */
-    public abstract void handleCollision();
+    public abstract void handleCollision(GameObject b, List<String> methods);
 
     /**
      * 
