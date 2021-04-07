@@ -15,7 +15,7 @@ public class Sprite implements PropertyChangeListener {
     imageView = new ImageView();
     ResourceBundle imgKeys = ResourceBundle
         .getBundle("view_resources/game/SpriteImageKeys/JJJarioSpriteKeys");
-    String imgPath = imgKeys.getString(spriteID.split("_")[0]); // Goomba_1
+    String imgPath = imgKeys.getString(spriteID.split("_")[0]);
     Image img =  new Image(
         Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(imgPath)));
     imageView.setImage(img);
@@ -25,9 +25,8 @@ public class Sprite implements PropertyChangeListener {
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    String[] changeArr = ((String) evt.getNewValue()).split("_");
-    String mName = changeArr[0];
-    Object[] mArgs = parseEventArgs(changeArr[1]);
+    String mName = evt.getPropertyName();
+    Object[] mArgs = parseEventArgs((String) evt.getNewValue());
     new Statement(this, mName, mArgs);
   }
 
