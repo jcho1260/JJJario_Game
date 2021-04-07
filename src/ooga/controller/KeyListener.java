@@ -5,11 +5,12 @@ import java.beans.PropertyChangeListener;
 import javafx.event.EventType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import ooga.model.Action;
 
 
 public class KeyListener implements PropertyChangeListener {
 
-  private KeyPress current;
+  private Action current;
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
@@ -21,20 +22,20 @@ public class KeyListener implements PropertyChangeListener {
     if (event == KeyEvent.KEY_PRESSED && isValid(code)) {
       current = getKey(code);
     } else if (event == KeyEvent.KEY_RELEASED && getKey(code) == current &&isValid(code)) {
-      current = KeyPress.NONE;
+      current = Action.NONE;
     }
   }
 
-  public KeyPress getCurrentKey() {
+  public Action getCurrentKey() {
     return current;
   }
 
-  private KeyPress getKey(KeyCode code) {
+  private Action getKey(KeyCode code) {
     return switch (code) {
-      case W -> KeyPress.UP;
-      case A -> KeyPress.LEFT;
-      case S -> KeyPress.DOWN;
-      case D -> KeyPress.RIGHT;
+      case W -> Action.UP;
+      case A -> Action.LEFT;
+      case S -> Action.DOWN;
+      case D -> Action.RIGHT;
       default -> null;
     };
   }
