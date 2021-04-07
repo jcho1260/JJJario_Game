@@ -1,9 +1,14 @@
 package ooga.view.factories;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -14,6 +19,8 @@ public class ParentComponentFactory extends ComponentFactory {
   public Object make(Element e) throws Exception {
     if (e.getAttribute("type").equals("Leaf")) {
       return lcf.make(e);
+    } else if (e.getAttribute("type").equals("FilePath")) {
+      return makeFile(e);
     }
 
     String compName = e.getNodeName();
@@ -41,5 +48,14 @@ public class ParentComponentFactory extends ComponentFactory {
     }
 
     return parent;
+  }
+
+  private Object makeFile(Element e) throws Exception {
+    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+    Document doc = dBuilder.parse(new File(e.getTextContent()));
+    doc.getDocumentElement().normalize();
+
+    return make(doc.getDocumentElement());
   }
 }

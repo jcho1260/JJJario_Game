@@ -10,7 +10,7 @@ public class LauncherView {
   public void start(Stage primaryStage) {
     try {
       SceneFactory sf = new SceneFactory();
-      Scene scene = sf.make("resources/view_resources/launcher/Launcher.XML");
+      Scene scene = sf.make("resources/view_resources/launcher/LauncherRoot.XML");
       primaryStage.setScene(scene);
       primaryStage.show();
     } catch (Exception e) {

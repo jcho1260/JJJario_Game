@@ -32,7 +32,7 @@ public class LeafComponentFactory extends ComponentFactory {
       if (tempNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
         Element childElem = (Element) tempNode;
         if (childElem.getNodeName().equals("Action")) {
-          ((Button) component).setOnAction(makeAction(childElem, component));
+          ((Button) component).setOnAction(makeAction(childElem));
         } else if (hasChildElements(childElem)) {
           addChild(currRB, component, childElem);
         } else {
@@ -49,7 +49,7 @@ public class LeafComponentFactory extends ComponentFactory {
     return new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(imagePath)));
   }
 
-  private EventHandler<ActionEvent> makeAction(Element e, Node n) {
+  private EventHandler<ActionEvent> makeAction(Element e) {
     String actionType = e.getElementsByTagName("Type").item(0).getTextContent();
     if (actionType.equals("NewScreen")) {
       return makeNewScreenAction(e);
@@ -71,42 +71,4 @@ public class LeafComponentFactory extends ComponentFactory {
       }
     };
   }
-
-  /*private EventHandler<ActionEvent> makeChangeNodeAction(Element e, Node n) {
-    return event -> {
-      String parentName = e.getElementsByTagName("ParentNode").item(0).getTextContent();
-      String oldName = e.getElementsByTagName("OldNode").item(0).getTextContent();
-      Pane parentPane = getParentPane(n, parentName);
-      ParentComponentFactory pcf = new ParentComponentFactory();
-      String filePath = e.getElementsByTagName("NewNode").item(0).getTextContent();
-      DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-      Document doc = null;
-      try {
-        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        doc = dBuilder.parse(new File(filePath));
-        doc.getDocumentElement().normalize();
-      } catch (ParserConfigurationException | SAXException | IOException parserConfigurationException) {
-        parserConfigurationException.printStackTrace();
-      }
-      assert doc != null;
-      try {
-        Node newNode = (Node) pcf.make(doc.getDocumentElement());
-        parentPane.getChildren().remove(parentPane.lookup(oldName));
-        assert parentPane.getScene().lookup(oldName) == null;
-        System.out.println("Adding "+newNode.getId()+" to "+parentPane.getId());
-        parentPane.getChildren().add(newNode);
-        parentPane.lookup(oldName);
-      } catch (Exception exception) {
-        exception.printStackTrace();
-      }
-    };
-  }
-
-  private Pane getParentPane(Node n, String pName) {
-    Node tempNode = n;
-    while (tempNode != null && !tempNode.getId().equals(pName)) {
-      tempNode = tempNode.getParent();
-    }
-    return (Pane) tempNode;
-  }*/
 }
