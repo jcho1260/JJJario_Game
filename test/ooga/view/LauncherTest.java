@@ -36,7 +36,7 @@ class LauncherTest extends ApplicationTest {
     Document doc = dBuilder.parse(new File("resources/view_resources/launcher/SideBar.XML"));
     doc.getDocumentElement().normalize();
 
-    ActionFactory af = new ActionFactory();
+    ActionFactory af = new ActionFactory(stage);
     ParentComponentFactory pcf = new ParentComponentFactory(af);
     Element rootE = (Element) doc.getElementsByTagName("VBox").item(0);
     ids = getIds(rootE, new ArrayList<>());

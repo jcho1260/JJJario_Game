@@ -1,24 +1,28 @@
-package ooga.view.launcher;
+package ooga.view.game;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ooga.view.factories.SceneFactory;
 
-public class LauncherView {
+public class GameView {
   private final Stage stage;
+  private final String gameName;
 
-  public LauncherView(Stage stage) {
+  public GameView(String gameName, Stage stage) {
     this.stage = stage;
+    this.gameName = gameName;
   }
 
-  public void start() {
+  public void start(String filePath) {
     try {
       SceneFactory sf = new SceneFactory(stage);
-      Scene scene = sf.make("resources/view_resources/launcher/LauncherRoot.XML");
+      Scene scene = sf.make(filePath);
       stage.setScene(scene);
       stage.show();
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
+
+  public String getGameName() { return this.gameName; }
 }
