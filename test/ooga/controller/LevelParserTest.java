@@ -17,7 +17,8 @@ public class LevelParserTest {
   }
 
   @Test
-  public void test() throws IOException, SAXException, ParserConfigurationException {
+  public void test()
+      throws IOException, SAXException, ParserConfigurationException, ClassNotFoundException {
     levelParser.createLevel(new File("data/testgame/level.xml"));
   }
 }

@@ -20,7 +20,7 @@
         <Tag>enemy</Tag>
         <Tag>goomba</Tag>
       </Tags>
-      <Type>NonPlayable</Type>
+      <Type>MovingDestroyable</Type>
       <Gravity>10</Gravity>
       <Size>
         <SizeX>10</SizeX>
@@ -52,7 +52,11 @@
         <x>5</x>
         <y>0</y>
       </Velocity>
+      <StartLife>3</StartLife>
+      <JumpTime>4</JumpTime>
+      <StartHealth>100</StartHealth>
     </Entity>
+
     <Entity>
       <Name>badguy</Name>
       <Location>
@@ -63,7 +67,14 @@
         <x>3</x>
         <y>1</y>
       </Velocity>
+      <StartLife>3</StartLife>
+      <StartHealth>100</StartHealth>
+      <FinalLocation>
+        <x>13</x>
+        <y>18</y>
+      </FinalLocation>
     </Entity>
+
     <Entity>
       <Name>badguy</Name>
       <Location>
@@ -74,6 +85,20 @@
         <x>25</x>
         <y>-1</y>
       </Velocity>
+      <StartLife>3</StartLife>
+      <StartHealth>100</StartHealth>
+      <FinalLocation>
+        <x>13</x>
+        <y>18</y>
+      </FinalLocation>
+    </Entity>
+
+    <Entity>
+      <Name>block</Name>
+      <Location>
+        <x>50</x>
+        <y>0</y>
+      </Location>
     </Entity>
   </Layout>
 </Level>

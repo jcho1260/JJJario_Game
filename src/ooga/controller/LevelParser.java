@@ -9,13 +9,19 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import ooga.model.GameObject;
+import ooga.model.MovingDestroyable;
+import ooga.model.MovingNonDestroyable;
+import ooga.model.Player;
+import ooga.model.Vector;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class LevelParser {
-  public void createLevel(File file) throws ParserConfigurationException, IOException, SAXException {
+  public void createLevel(File file)
+      throws ParserConfigurationException, IOException, SAXException, ClassNotFoundException {
 
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
     DocumentBuilder db = dbf.newDocumentBuilder();
@@ -26,16 +32,59 @@ public class LevelParser {
     NodeList entities = ((Element) doc.getElementsByTagName("Layout").item(0).getChildNodes()).getElementsByTagName("Entity");
     for (int i = 0; i < entities.getLength(); i++) {
 
-      String name = ((Element) entities.item(i)).getElementsByTagName("Name").item(0).getTextContent();
+      Element entity = (Element) entities.item(i);
+      String name = entity.getElementsByTagName("Name").item(0).getTextContent();
+      GameObjectInfo info = gameObjectMap.get(name);
 
-      Element location = (Element) ((Element) entities.item(i)).getElementsByTagName("Location").item(0);
-      int xPos = Integer.parseInt(location.getElementsByTagName("x").item(0).getTextContent());
-      int yPos = Integer.parseInt(location.getElementsByTagName("y").item(0).getTextContent());
+      GameObject gameObject = switch (gameObjectMap.get(name).type) {
+        case "Player" -> createPlayer(entity, info, i);
+        case "MovingDestroyable" -> createMovingDestroyable(entity, info, i);
+        // case "MovingNonDestroyable" -> createMovingNonDestroyable(entity, i);
+        case "GameObject" -> createGameObject(entity, info, i);
+        default -> null;
+      };
 
-      Element velocity = (Element) ((Element) entities.item(i)).getElementsByTagName("Velocity").item(0);
-      int xVel = Integer.parseInt(velocity.getElementsByTagName("x").item(0).getTextContent());
-      int yVel = Integer.parseInt(velocity.getElementsByTagName("y").item(0).getTextContent());
+      System.out.println(gameObject);
     }
+  }
+
+  private Player createPlayer(Element entity, GameObjectInfo info, int id)
+      throws ClassNotFoundException {
+    Vector pos = getVectorAttribute(entity, "Location");
+    Vector vel = getVectorAttribute(entity, "Velocity");
+    int startLife = (int) getNumberAttribute(entity, "StartLife");
+    int startHealth = (int) getNumberAttribute(entity, "StartHealth");
+    double jumpTime = getNumberAttribute(entity, "JumpTime");
+    return new Player(info.tags, pos, id, info.size, startLife, startHealth, jumpTime, vel, info.gravity);
+  }
+
+  private MovingDestroyable createMovingDestroyable(Element entity, GameObjectInfo info, int id) {
+    Vector pos = getVectorAttribute(entity, "Location");
+    Vector vel = getVectorAttribute(entity, "Velocity");
+    int startLife = (int) getNumberAttribute(entity, "StartLife");
+    int startHealth = (int) getNumberAttribute(entity, "StartHealth");
+    Vector finalPos = getVectorAttribute(entity, "FinalLocation");
+    return new MovingDestroyable(info.tags, pos, id, info.size, startLife, startHealth, vel, finalPos, info.gravity);
+  }
+
+  private MovingNonDestroyable createMovingNonDestroyable(Element entity, int id) {
+    return null;
+  }
+
+  private GameObject createGameObject(Element entity, GameObjectInfo info, int id) {
+    Vector pos = getVectorAttribute(entity, "Location");
+    return new GameObject(info.tags, pos, id, info.size);
+  }
+
+  private Vector getVectorAttribute(Element entity, String name) {
+    Element location = (Element) entity.getElementsByTagName(name).item(0);
+    int x = Integer.parseInt(location.getElementsByTagName("x").item(0).getTextContent());
+    int y = Integer.parseInt(location.getElementsByTagName("y").item(0).getTextContent());
+    return new Vector(x, y);
+  }
+
+  private double getNumberAttribute(Element entity, String name) {
+    return Double.parseDouble(entity.getElementsByTagName(name).item(0).getTextContent());
   }
 
   private Map<String, GameObjectInfo> getObjectMap(File file, NodeList objects) {
@@ -71,15 +120,13 @@ public class LevelParser {
     final String type;
     final List<String> tags;
     final double gravity;
-    double sizeX;
-    double sizeY;
+    final Vector size;
 
     public GameObjectInfo(String type, List<String> tags, double gravity, double sizeX, double sizeY) {
       this.type = type;
       this.tags = tags;
       this.gravity = gravity;
-      this.sizeX = sizeX;
-      this.sizeY = sizeY;
+      this.size =  new Vector(sizeX, sizeY);
     }
   }
 }
