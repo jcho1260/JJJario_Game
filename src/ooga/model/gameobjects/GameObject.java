@@ -88,6 +88,7 @@ public class GameObject extends Observable {
     double viewPositionY;
     viewPositionX = position.getX() - frameTopL.getX();
     viewPositionY = position.getY() - frameTopL.getY();
+    System.out.println("view x: "+viewPositionX+ " view pos y: "+viewPositionY);
     java.util.Vector<Double> viewPosition = new java.util.Vector();
     viewPosition.add(viewPositionX);
     viewPosition.add(viewPositionY);
