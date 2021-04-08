@@ -1,8 +1,11 @@
-package ooga.model;
+package ooga.model.gameobjectcomposites;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import ooga.JjjanException;
+import ooga.model.util.MethodBundle;
+import ooga.model.gameobjects.Destroyable;
+import ooga.model.gameobjects.GameObject;
 
 /**
  *
@@ -62,7 +65,7 @@ public class WorldCollisionHandling {
     List<Integer> toDelete = new ArrayList<>();
     for (Destroyable destroyable : collisions) {
       destroyable.executeCollisions();
-      if (destroyable.isDead()) {
+      if (!destroyable.isAlive()) {
         toDelete.add(destroyable.getId());
       }
     }

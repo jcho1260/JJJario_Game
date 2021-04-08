@@ -1,7 +1,8 @@
-package ooga.model;
+package ooga;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,7 +10,16 @@ import java.util.List;
  */
 public abstract class Observable {
 
-  private List<PropertyChangeListener> allListeners;
+  private List<PropertyChangeListener> allListeners = new ArrayList<>();
+
+  /**
+   * Adds single PropertyChangeListener to allListeners.
+   *
+   * @param newListener
+   */
+  public void addListener(PropertyChangeListener newListener) {
+    allListeners.add(newListener);
+  }
 
   /**
    * Adds List of PropertyChangeListeners to allListeners.
