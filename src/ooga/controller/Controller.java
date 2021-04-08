@@ -70,8 +70,7 @@ public class Controller {
   }
 
   private void addSprites(GameWorld gameWorld) {
-    List<GameObject> gameObjects = gameWorld.getAllDestroyables();
-    gameObjects.addAll(gameWorld.getAllGameObjects());
+    List<GameObject> gameObjects = gameWorld.getAllGameObjects();
     for (GameObject gameObject : gameObjects) {
       String name = gameObject.getEntityType().get(gameObject.getEntityType().size()-1);
       Sprite s = new Sprite(name, gameObject.getSize().getX(), gameObject.getSize().getY(), gameObject.getPosition().getX(), gameObject.getPosition().getY());
