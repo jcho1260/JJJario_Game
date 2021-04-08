@@ -110,10 +110,11 @@ public class Player extends Destroyable {
   /**
    * Scales velocity by given amount.
    *
-   * @param scaleFactor
+   * @param x
+   * @param y
    */
-  public void scaleVelocity(Vector scaleFactor) {
-    Vector newVelocity = userMovement.getVelocity().multiply(scaleFactor);
+  public void scaleVelocity(double x, double y) {
+    Vector newVelocity = userMovement.getVelocity().multiply(new Vector(x, y));
     userMovement.setVelocity(newVelocity);
   }
 
