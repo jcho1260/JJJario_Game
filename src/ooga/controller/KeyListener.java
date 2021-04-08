@@ -5,7 +5,7 @@ import java.beans.PropertyChangeListener;
 import javafx.event.EventType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import ooga.model.Action;
+import ooga.model.util.Action;
 
 
 public class KeyListener implements PropertyChangeListener {

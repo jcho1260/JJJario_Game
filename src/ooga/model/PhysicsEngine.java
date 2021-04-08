@@ -1,5 +1,7 @@
 package ooga.model;
 
+import ooga.model.util.Vector;
+
 public class PhysicsEngine {
   private final double gravity;
   private final double stepTime;

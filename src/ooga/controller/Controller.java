@@ -1,20 +1,18 @@
 package ooga.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
-import javax.xml.parsers.ParserConfigurationException;
-import ooga.JjjanException;
 import ooga.model.GameWorld;
-import ooga.model.MethodBundle;
-import ooga.model.Vector;
+import ooga.model.gameobjects.GameObject;
+import ooga.model.util.MethodBundle;
+import ooga.model.util.Vector;
 import ooga.view.game.GameView;
-import org.xml.sax.SAXException;
+import ooga.view.game.Sprite;
+
+import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 public class Controller {
 
@@ -39,6 +37,7 @@ public class Controller {
   }
 
   public void startLevel(String levelName) {
+    gameView.initializeLevel(frameSize.getX(), frameSize.getY());
     String gameName = gameView.getGameName();
     File collisionsFile = new File("data/" + gameName + "/collisions.xml");
     File levelFile = new File("data/" + gameName + "/level.xml");
@@ -46,7 +45,12 @@ public class Controller {
     try {
       Map<String, Map<String, List<MethodBundle>>> collisions = collisionsParser.parseCollisions(collisionsFile);
       gameWorld = gameWorldFactory.createGameWorld(levelFile, collisions, frameSize, frameRate);
-    } catch (Exception ignored){}
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    addSprites(gameWorld);
+    gameView.startLevel();
 
     KeyFrame frame = new KeyFrame(Duration.seconds(1/frameRate), e -> step());
     Timeline animation = new Timeline();
@@ -65,7 +69,13 @@ public class Controller {
     } catch (Exception ignored){}
   }
 
-  private void addListeners() {
-    //TODO: add listeners to view
+  private void addSprites(GameWorld gameWorld) {
+    List<GameObject> gameObjects = gameWorld.getAllGameObjects();
+    for (GameObject gameObject : gameObjects) {
+      String name = gameObject.getEntityType().get(gameObject.getEntityType().size()-1);
+      Sprite s = new Sprite(name, gameObject.getSize().getX(), gameObject.getSize().getY(), gameObject.getPosition().getX(), gameObject.getPosition().getY());
+      gameObject.addListener(s);
+      gameView.addSprite(s);
+    }
   }
 }

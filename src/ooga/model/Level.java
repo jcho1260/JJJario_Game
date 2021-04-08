@@ -1,6 +1,7 @@
 package ooga.model;
 
 import java.util.List;
+import ooga.model.gameobjects.GameObject;
 
 /**
  * 

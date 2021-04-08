@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import ooga.controller.Controller;
-import ooga.model.Vector;
+import ooga.model.util.Vector;
 import ooga.view.factories.ActionFactory;
 import ooga.view.factories.ParentComponentFactory;
 import org.junit.jupiter.api.Test;

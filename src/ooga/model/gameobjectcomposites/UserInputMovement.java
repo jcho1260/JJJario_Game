@@ -1,4 +1,6 @@
-package ooga.model;
+package ooga.model.gameobjectcomposites;
+
+import ooga.model.util.Vector;
 
 /**
  * Handles movement based on user input for Player. Invoked using reflection.

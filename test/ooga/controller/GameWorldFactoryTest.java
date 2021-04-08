@@ -1,25 +1,31 @@
 package ooga.controller;
 
-import java.io.File;
-import java.io.IOException;
-import javax.xml.parsers.ParserConfigurationException;
-import ooga.model.Vector;
+import ooga.model.GameWorld;
+import ooga.model.util.Vector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class GameWorldFactoryTest {
 
-  GameWorldFactory levelParser;
+  GameWorldFactory gameWorldFactory;
 
   @BeforeEach
   public void init() {
-    levelParser = new GameWorldFactory();
+    gameWorldFactory = new GameWorldFactory();
   }
 
   @Test
   public void test()
       throws IOException, SAXException, ParserConfigurationException, ClassNotFoundException {
-    levelParser.createGameWorld(new File("data/testgame/level.xml"), null, new Vector(1000, 1000), 10);
+
+    GameWorld gw = gameWorldFactory.createGameWorld(new File("data/testgame/level.xml"), null, new Vector(1000, 1000), 10);
+    assertEquals(3, gw.getAllDestroyables().size());
   }
 }

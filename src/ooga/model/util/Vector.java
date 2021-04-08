@@ -1,4 +1,4 @@
-package ooga.model;
+package ooga.model.util;
 
 /**
  * Represents vectors and associated vector operations.
@@ -71,6 +71,7 @@ public class Vector {
 
   public Action getDirection() {
     Vector cardinal = toCardinal();
+    System.out.println("cardinal velo: "+ cardinal.getX()+" "+cardinal.getY());
     if(cardinal.getX() < 0) {
       return Action.LEFT;
     } else if(cardinal.getX() > 0) {
