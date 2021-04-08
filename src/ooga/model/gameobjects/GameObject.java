@@ -24,7 +24,7 @@ public class GameObject extends Observable {
    */
   public GameObject(List<String> entityTypes, Vector position, int id, Vector size) {
     this.entityTypes = entityTypes;
-    this.position = position;
+    this.position = position.multiply(new Vector(20,20));
     this.id = id;
     this.size = new Size(size.multiply(new Vector(20,20)));
     isActive = false;
