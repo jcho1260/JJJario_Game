@@ -71,9 +71,8 @@ public class GameWorld extends Observable {
 
       if (oTopL.insideBox(topL,botR) || oTopR.insideBox(topL,botR) || oBotL.insideBox(topL, botR) || oBotR.insideBox(topL,botR)) {
         ret.add(o);
-
-        //setvisibility
-      }
+        o.setActive(true);
+      } else { o.setActive(false); }
     }
     return ret;
   }
