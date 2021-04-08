@@ -42,7 +42,6 @@ public class Player extends Destroyable {
   public void userStepMovement(Action direction, double elapsedTime, double gameGravity)
       throws NoSuchMethodException, SecurityException, IllegalAccessException,
       IllegalArgumentException, InvocationTargetException {
-    String methodName = "move" + direction.toString();
     System.out.println(methodName);
     Class<?>[] paramClasses = new Class[2];
     for (int i = 0; i < 2; i++) {
@@ -51,8 +50,6 @@ public class Player extends Destroyable {
 
     Method moveMethod = userMovementClass.getMethod(methodName, paramClasses);
     Vector deltaPosition = (Vector) moveMethod.invoke(userMovement, elapsedTime, gameGravity);
-    System.out.println("vector x: "+deltaPosition.getX());
-    System.out.println("velocityX: "+userMovement.getVelocity().getX());
     setPosition(getPosition().add(deltaPosition));
   }
 
