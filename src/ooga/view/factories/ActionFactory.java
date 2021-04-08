@@ -33,9 +33,9 @@ public class ActionFactory {
       String filePath = e.getElementsByTagName("Path").item(0).getTextContent();
       String gameName = e.getElementsByTagName("Game").item(0).getTextContent();
       KeyListener kl = controller.getKeyListener();
-      GameView gv = new GameView(gameName, newStage, kl);
+      GameView gv = new GameView(gameName, newStage, kl, controller);
       controller.startGame(gv);
-      gv.start(filePath, controller);
+      gv.start(filePath);
     };
   }
 
