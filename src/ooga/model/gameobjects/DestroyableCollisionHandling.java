@@ -22,10 +22,12 @@ public class DestroyableCollisionHandling {
    * @return secondary GameObject's entity tags or empty list if no collision
    */
   public List<String> determineCollisionMethods(GameObject myself, GameObject o) {
+    System.out.println("detCollMethods");
     List<String> ret = new ArrayList<>();
     if (!isCollision(myself, o)) {
       return ret;
     }
+    System.out.println("isCollision");
     return getCollisionMethods(myself, o);
   }
 
@@ -51,9 +53,7 @@ public class DestroyableCollisionHandling {
     double myWidth = myself.getSize().getX();
     double myHeight = myself.getSize().getY();
     if (isXOverlapSides(myX, oX, myWidth, oWidth) || isXCompleteOverlap(myX, oX, myWidth, oWidth)) {
-      System.out.println("xMatch\n");
       if (isYOverlapSides(myY, oY, myHeight, oHeight) || isYCompleteOverlap(myY, oY, myHeight, oHeight)) {
-        System.out.println("yMatch\n");
         return true;
       }
     }
@@ -61,7 +61,7 @@ public class DestroyableCollisionHandling {
   }
 
   private boolean isXOverlapSides(double myX, double oX, double myWidth, double oWidth) {
-    return (oX <= myX && oX+oWidth <=myX+myWidth) || (oX >= myX && oX+oWidth >=myX+myWidth);
+    return (oX <= myX && oX+oWidth <=myX+myWidth && oX+oWidth >=myX) || (oX >= myX && oX <=myX+myWidth  && oX+oWidth >=myX+myWidth);
   }
 
   private boolean isXCompleteOverlap(double myX, double oX, double myWidth, double oWidth) {
@@ -69,7 +69,7 @@ public class DestroyableCollisionHandling {
   }
 
   private boolean isYOverlapSides(double myY, double oY, double myHeight, double oHeight) {
-    return (oY <= myY && oY + oHeight <= myY + myHeight) || (oY >= myY && oY + oHeight >= myY + myHeight);
+    return (oY <= myY && oY + oHeight <= myY + myHeight && oY + oHeight >= myY) || (oY >= myY && oY + myHeight <= myY && oY + oHeight >= myY + myHeight);
   }
 
   private boolean isYCompleteOverlap(double myY, double oY, double myHeight, double oHeight) {
