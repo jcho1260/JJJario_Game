@@ -66,7 +66,9 @@ public class Controller {
   private void step(double d) {
     try {
       gameWorld.stepFrame(keyListener.getCurrentKey());
-    } catch (Exception ignored){}
+    } catch (Exception ignored){
+      System.out.println(ignored);
+    }
   }
 
   private void addSprites(GameWorld gameWorld) {
