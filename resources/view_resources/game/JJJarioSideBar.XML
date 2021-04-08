@@ -1,0 +1,20 @@
+<?xml version = "1.0" ?>
+<VBox id="SideBar" type="Pane" style="view_resources/game/css/JJJarioSideBar.css">
+  <Height>360</Height>
+  <Width>320</Width>
+  <ImageView id="Logo" type="Leaf">
+    <Image>
+      <Path>view_resources/images/logo/HorizontalLogo.png</Path>
+    </Image>
+    <Width>300</Width>
+    <Height>260</Height>
+  </ImageView>
+  <Button id="JJJarioLevelsButton" type="Leaf">
+    <Text>Levels</Text>
+    <!--<Action>TODO</Action>-->
+  </Button>
+  <Button id="JJJarioSettingsButton" type="Leaf">
+    <Text>Settings</Text>
+    <!--<Action>TODO</Action>-->
+  </Button>
+</VBox>

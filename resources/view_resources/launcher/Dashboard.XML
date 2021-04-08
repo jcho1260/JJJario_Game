@@ -1,0 +1,5 @@
+<?xml version = "1.0" ?>
+<VBox id="MenuTabView" type="Pane" style="view_resources/launcher/css/Dashboard.css">
+  <Height>750</Height>
+  <Width>1050</Width>
+</VBox>

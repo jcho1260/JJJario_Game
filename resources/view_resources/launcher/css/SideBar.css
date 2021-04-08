@@ -1,5 +1,5 @@
 .button {
-    -fx-text-fill: white;
+    -fx-text-fill: #e8e2f7;
     -fx-text-alignment: left;
     -fx-font-family: "Roboto Light";
     -fx-font-weight: bold;
@@ -13,11 +13,12 @@
 }
 
 .button:hover {
-    -fx-background-color: slateblue;
+    -fx-background-color: mediumslateblue;
 }
 
 VBox {
     -fx-padding: 10;
     -fx-spacing: 10;
     -fx-background-color: darkslateblue;
+    -fx-background-radius: 5;
 }

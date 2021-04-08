@@ -1,5 +1,6 @@
 package ooga.model;
 
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import ooga.model.gameobjects.GameObject;
 import ooga.model.gameobjects.MovingDestroyable;
@@ -14,11 +15,14 @@ public class MovingDestroyableMovementTest {
   Vector end = new Vector(5, -5);
   Vector velocity = new Vector(1, -1);
   GameObject npc;
+  int changes;
 
   @BeforeEach
   public void init() {
     npc = new MovingDestroyable(new ArrayList<>(), start, 1, new Vector(1, 1),
     3, 3, velocity, end, 0);
+    PropertyChangeListener standIn = evt -> {changes++;};
+    npc.addListener(standIn);
   }
 
   /**

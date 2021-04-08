@@ -61,6 +61,54 @@ public class Player extends Destroyable {
   }
 
   /**
+   * Collision method for adding a new power up to the Player.
+   */
+  public void addPowerUp() {
+    // TODO add actual logic for adding a powerup
+    notifyListeners("powerUpChange", null, null); // TODO what does frontend need
+  }
+
+  /**
+   * Collision method for removing an expired power up from the Player.
+   */
+  public void removePowerUp() {
+    // TODO add actual logic for removing a power up
+    notifyListeners("powerUpChange", null, null); // TODO what does frontend need
+  }
+
+  /**
+   * Increments health of player by given amount. Notifies listeners of change in health, and if
+   * applicable, change in lives.
+   *
+   * @param increment
+   */
+  @Override
+  public void incrementHealth(int increment) {
+    int prevHealth = getHealth();
+    int prevLives = getLives();
+
+    super.incrementHealth(increment);
+    notifyListeners("playerHealth", prevHealth, getHealth());
+
+    if (getHealth() != prevLives) {
+      notifyListeners("playerLives", prevLives, getLives());
+    }
+  }
+
+  /**
+   * Increments lives of a player by a given amount. Notifies listeners of change in lives.
+   *
+   * @param increment
+   */
+  @Override
+  public void incrementLives(int increment) {
+    int prevLives = getLives();
+
+    super.incrementLives(increment);
+    notifyListeners("playerLives", prevLives, getLives());
+  }
+
+  /**
    * Returns List of active power ups.
    *
    * @return activePowerUps

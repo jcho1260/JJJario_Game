@@ -40,7 +40,9 @@ public class GameObject extends Observable {
   }
 
   protected void setPosition(Vector newPosition) {
+    Vector prevPosition = position;
     position = newPosition;
+    notifyListeners("position", prevPosition, position);
   }
 
   /**

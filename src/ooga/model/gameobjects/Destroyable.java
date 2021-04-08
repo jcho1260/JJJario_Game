@@ -21,7 +21,7 @@ public class Destroyable extends GameObject{
     super(entityTypes, position, id, size);
     collisionQueue = new LinkedList<>();
     collisionHandler = new DestroyableCollisionHandling();
-    health = new Health(startHealth);
+    health = new Health(startHealth, startLife);
   }
 
   /**
@@ -51,9 +51,45 @@ public class Destroyable extends GameObject{
     collisionHandler.executeCollisions(this, collisionQueue);
   }
 
-  private void incrementHealth(int increment) {health.incrementHealth(increment);}
+  /**
+   * Increments health by a given amount. Uses Health methods.
+   *
+   * @param increment
+   */
+  public void incrementHealth(int increment) {
+    health.incrementHealth(increment);
+  }
 
-  private void kill() { health.kill(); }
+  /**
+   * Increments lives by a given amount. Uses Health methods.
+   *
+   * @param increment
+   */
+  public void incrementLives(int increment) {
+    health.incrementLives(increment);
+  }
+
+  /**
+   * Retrieves health for child classes.
+   *
+   * @return health
+   */
+  protected int getHealth() {
+    return health.getHealth();
+  }
+
+  /**
+   * Retrives lives for child classes.
+   *
+   * @return lives
+   */
+  protected int getLives() {
+    return health.getLives();
+  }
+
+  private void kill() {
+    health.kill();
+  }
 
   private void onDeath() {
     //TODO: implement

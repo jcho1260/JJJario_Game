@@ -83,6 +83,7 @@
         <Tag>PowerUpBlock</Tag>
       </Tags>
       <Type>Destroyable</Type>
+      <Gravity>1</Gravity>
       <Size>
         <SizeX>1</SizeX>
         <SizeY>1</SizeY>
@@ -125,6 +126,7 @@
         <y>0</y>
       </Velocity>
       <StartHealth>1</StartHealth>
+      <StartLife>1</StartLife>
       <FinalLocation>
         <x>12</x>
         <y>13</y>
@@ -141,6 +143,7 @@
         <y>0</y>
       </Velocity>
       <StartHealth>1</StartHealth>
+      <StartLife>1</StartLife>
       <FinalLocation>
         <x>20</x>
         <y>13</y>
@@ -157,6 +160,7 @@
         <y>0</y>
       </Velocity>
       <StartHealth>1</StartHealth>
+      <StartLife>1</StartLife>
       <FinalLocation>
         <x>26</x>
         <y>13</y>
@@ -169,12 +173,13 @@
         <y>11</y>
       </Location>
       <StartHealth>1</StartHealth>
+      <StartLife>1</StartLife>
     </Entity>
     <Entity>
       <Name>Block</Name>
       <Location>
-        <x>0:40</x>
-        <y>14:15</y>
+        <x>40</x>
+        <y>15</y>
       </Location>
     </Entity>
   </Layout>

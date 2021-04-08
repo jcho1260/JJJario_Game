@@ -1,0 +1,11 @@
+<?xml version = "1.0" ?>
+<Scene>
+  <Root>
+    <HBox id="SuperMarioMenu" type="Parent" style="view_resources/game/css/JJJarioMenu.css">
+      <Height>420</Height>
+      <Width>960</Width>
+    </HBox>
+  </Root>
+  <Parent>resources/view_resources/game/JJJarioSideBar.XML</Parent>
+  <Parent>resources/view_resources/game/JJJarioLevelLibrary.XML</Parent>
+</Scene>
