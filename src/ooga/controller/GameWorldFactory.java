@@ -47,10 +47,17 @@ public class GameWorldFactory {
       switch (gameObjectMap.get(name).type) {
         case "Player" -> {
           player = createPlayer(entity, info, i);
-          actors.add(player);
         }
-        case "MovingDestroyable" -> actors.add(createMovingDestroyable(entity, info, i));
-        case "Destroyable" -> gameObjects.add(createDestroyable(entity, info, i));
+        case "MovingDestroyable" -> {
+          MovingDestroyable m = createMovingDestroyable(entity, info, i);
+          actors.add(m);
+          gameObjects.add(m);
+        }
+        case "Destroyable" -> {
+          Destroyable d = createDestroyable(entity, info, i);
+          actors.add(d);
+          gameObjects.add(d);
+        }
         case "GameObject" -> gameObjects.add(createGameObject(entity, info, i));
       };
     }
