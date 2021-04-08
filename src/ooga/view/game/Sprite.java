@@ -40,17 +40,17 @@ public class Sprite implements PropertyChangeListener {
 
   public ImageView getImageView() { return this.imageView; }
 
-  private void changeHeight(Object h) { imageView.setFitHeight((Double) h); }
+  public void changeHeight(Double h) { imageView.setFitHeight(h); }
 
-  private void changeWidth(Object w) { imageView.setFitWidth((Double) w); }
+  public void changeWidth(Double w) { imageView.setFitWidth(w); }
 
-  private void changeVisibility(Object b) { imageView.setVisible((Boolean) b); }
+  public void changeVisibility(Boolean b) { imageView.setVisible(b); }
 
-  private void changeX(Double x) {
-    imageView.setX((Double) x);
+  public void changeX(Double x) {
+    imageView.setX(x);
   }
 
-  private void changeY(Double y) {
-    imageView.setY((Double) y);
+  public void changeY(Double y) {
+    imageView.setY(y);
   }
 }
