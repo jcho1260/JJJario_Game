@@ -1,13 +1,11 @@
 package ooga.view.game;
 
 import java.beans.PropertyChangeEvent;
-import java.util.HashMap;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import javafx.scene.layout.Pane;
 import ooga.controller.Controller;
 import ooga.controller.KeyListener;
 import ooga.view.factories.SceneFactory;
