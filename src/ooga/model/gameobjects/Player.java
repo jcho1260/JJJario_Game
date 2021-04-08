@@ -60,6 +60,12 @@ public class Player extends Destroyable {
   }
 
   /**
+   * gets velocity of player
+   * @return
+   */
+  public Vector getVelocity() {return userMovement.getVelocity();}
+
+  /**
    * Collision method for adding a new power up to the Player.
    */
   public void addPowerUp() {
@@ -87,10 +93,10 @@ public class Player extends Destroyable {
     int prevLives = getLives();
 
     super.incrementHealth(increment);
-    notifyListeners("playerHealth", prevHealth, getHealth());
+//    notifyListeners("playerHealth", prevHealth, getHealth());
 
     if (getHealth() != prevLives) {
-      notifyListeners("playerLives", prevLives, getLives());
+//      notifyListeners("playerLives", prevLives, getLives());
     }
   }
 
@@ -104,7 +110,7 @@ public class Player extends Destroyable {
     int prevLives = getLives();
 
     super.incrementLives(increment);
-    notifyListeners("playerLives", prevLives, getLives());
+//    notifyListeners("playerLives", prevLives, getLives());
   }
 
   /**
