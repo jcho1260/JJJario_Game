@@ -22,12 +22,10 @@ public class DestroyableCollisionHandling {
    * @return secondary GameObject's entity tags or empty list if no collision
    */
   public List<String> determineCollisionMethods(GameObject myself, GameObject o) {
-    System.out.println("detCollMethods");
     List<String> ret = new ArrayList<>();
     if (!isCollision(myself, o)) {
       return ret;
     }
-    System.out.println("isCollision");
     return getCollisionMethods(myself, o);
   }
 

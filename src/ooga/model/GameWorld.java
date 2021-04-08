@@ -20,7 +20,7 @@ import ooga.model.util.Vector;
 public class GameWorld extends Observable {
 
   private static final double playerXLoc = 0.5;
-  private static final double playerYLoc = 2/3;
+  private static final double playerYLoc = 2.0/3.0;
 
   private List<GameObject> allGameObjects;
   private List<GameObject> allActiveGameObjects;
@@ -53,7 +53,7 @@ public class GameWorld extends Observable {
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allDestroyables = actors;
     allActiveDestroyables = findActiveObjects(allDestroyables);
-    worldCollisionHandling = new WorldCollisionHandling(collisionMethods, gameObjects, actors);
+    worldCollisionHandling = new WorldCollisionHandling(collisionMethods, gameObjects, actors, player);
     windowSize = frameSize;
     double playerViewX = frameSize.getX()*playerXLoc;
     double playerViewY = frameSize.getY()*playerYLoc;
@@ -87,6 +87,7 @@ public class GameWorld extends Observable {
     Vector topL = frameCoords[0];
     Vector botR = frameCoords[3];
     List<GameObject> ret = new ArrayList<>();
+    player.setActive(true);
     for (GameObject o : allObjects) {
       Vector oTopL = o.getPosition();
       Vector oTopR = o.getPosition().add(new Vector(o.getSize().getX(), 0));
@@ -138,6 +139,7 @@ public class GameWorld extends Observable {
     for (GameObject o : allActiveGameObjects) {
       o.sendToView(frameCoords[0]);
     }
+    player.sendToView(frameCoords[0]);
   }
 
   /**
