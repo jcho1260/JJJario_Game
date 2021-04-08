@@ -248,5 +248,12 @@
         <y>14</y>
       </Location>
     </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>3</x>
+        <y>12</y>
+      </Location>
+    </Entity>
   </Layout>
 </Level>
