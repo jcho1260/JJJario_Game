@@ -96,7 +96,7 @@ public class PlayerMovementTest {
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
-    assertTrue(user.getPosition().equals(new Vector(0, 3)));
+    assertTrue(user.getPosition().equals(new Vector(0, 0)));
   }
 
   /**

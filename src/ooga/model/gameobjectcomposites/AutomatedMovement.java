@@ -43,8 +43,8 @@ public class AutomatedMovement {
     }
 
     double newX = position.getX() + (elapsedTime * velocity.getX());
-    double newY = position.getY() + (elapsedTime * velocity.getY()); //
-//        - (elapsedTime * gameGravity * gravityScale); // up = -, down = +
+    double newY = position.getY() + (elapsedTime * velocity.getY())
+        - (elapsedTime * gameGravity * gravityScale); // up = -, down = +
 
     return new Vector(newX, newY);
   }

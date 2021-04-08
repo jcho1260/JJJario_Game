@@ -41,6 +41,7 @@ public class GameObject extends Observable {
 
   protected void setPosition(Vector newPosition) {
     position = newPosition;
+    System.out.println("x: " + position.getX() + " y:" + position.getY());
   }
 
   /**
