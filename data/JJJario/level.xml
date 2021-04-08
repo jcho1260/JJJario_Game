@@ -98,8 +98,8 @@
       <Type>GameObject</Type>
       <Gravity>1</Gravity>
       <Size>
-        <SizeX>1</SizeX>
-        <SizeY>1</SizeY>
+        <SizeX>50</SizeX>
+        <SizeY>2</SizeY>
       </Size>
     </GameObject>
   </GameObjects>
@@ -178,8 +178,8 @@
     <Entity>
       <Name>Block</Name>
       <Location>
-        <x>40</x>
-        <y>15</y>
+        <x>0</x>
+        <y>14</y>
       </Location>
     </Entity>
   </Layout>
