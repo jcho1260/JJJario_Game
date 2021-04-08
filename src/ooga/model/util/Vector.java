@@ -101,4 +101,11 @@ public class Vector {
     }
     return false;
   }
+
+  @Override
+  public String toString() {
+    return "Vector{" + xVal +
+        ", " + yVal +
+        '}';
+  }
 }
