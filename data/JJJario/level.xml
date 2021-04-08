@@ -111,6 +111,10 @@
         <x>5</x>
         <y>13</y>
       </Location>
+      <Velocity>
+        <x>1</x>
+        <y>1</y>
+      </Velocity>
       <StartLife>3</StartLife>
       <JumpTime>4</JumpTime>
       <StartHealth>1</StartHealth>

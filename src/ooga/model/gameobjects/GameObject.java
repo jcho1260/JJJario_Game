@@ -86,8 +86,6 @@ public class GameObject extends Observable {
     double viewPositionY;
     viewPositionX = position.getX() - frameTopL.getX();
     viewPositionY = position.getY() - frameTopL.getY();
-    System.out.println(entityTypes.get(entityTypes.size()-1));
-    System.out.println("view x: "+viewPositionX+ " view pos y: "+viewPositionY);
     notifyListeners("changeX", null, viewPositionX);
     notifyListeners("changeY", null, viewPositionY);
   }
