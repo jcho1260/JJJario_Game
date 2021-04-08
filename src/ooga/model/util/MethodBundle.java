@@ -19,7 +19,7 @@ public class MethodBundle {
       paramTypes[i] = doubleClass.getClass();
     }
     try {
-      Method collisionResponse = destroyableClass.getDeclaredMethod(methodName, paramTypes);
+      Method collisionResponse = destroyableClass.getMethod(methodName, paramTypes);
       return collisionResponse;
     } catch (Exception e){
       throw new NoSuchMethodException("method doesn't exist sorry :(");
@@ -29,5 +29,7 @@ public class MethodBundle {
   public double[] getParameters() {
     return parameters;
   }
+
+  public String getMethodName() {return methodName;}
 
 }

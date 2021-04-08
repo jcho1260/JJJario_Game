@@ -47,7 +47,6 @@ public class Player extends Destroyable {
     for (int i = 0; i < 2; i++) {
       paramClasses[i] = Double.class;
     }
-
     Method moveMethod = userMovementClass.getMethod(methodName, paramClasses);
     Vector deltaPosition = (Vector) moveMethod.invoke(userMovement, elapsedTime, gameGravity);
     setPosition(getPosition().add(deltaPosition));

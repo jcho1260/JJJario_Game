@@ -16,6 +16,7 @@ public class Health {
    * @param increment
    */
   public void incrementHealth(int increment) {
+    System.out.println("incrementing health");
     health += increment;
     if (health <= 0) {
       lives--;
