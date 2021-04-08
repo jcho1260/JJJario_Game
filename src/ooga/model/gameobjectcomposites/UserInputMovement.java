@@ -13,6 +13,8 @@ public class UserInputMovement {
   private Vector stepVelocityMagnitude;
   private double gravityScale;
   private double jumpTimeCounter;
+  private double clockTime;
+  private double gravityLevel;
 
   /**
    * Constructor for UserInputMovement.
@@ -90,6 +92,9 @@ public class UserInputMovement {
 
   // TODO refactor duplicate code w/ automatedmovement
   private Vector deltaPosition(double elapsedTime, double gameGravity, Vector change) {
+    clockTime = elapsedTime;
+    gravityLevel = gameGravity;
+
     double newX = elapsedTime * stepVelocityMagnitude.getX() * change.getX();
     double newY = (elapsedTime * stepVelocityMagnitude.getY() * change.getY())
         + ((1 + change.getY()) * elapsedTime * gameGravity * gravityScale);
@@ -100,8 +105,10 @@ public class UserInputMovement {
   /**
    * Player has landed on a jumpable object.
    *
+   * @return deltaPosition to un-sink
    */
-  public void hasHitGround() {
+  public Vector hitGround() {
     jumpTimeCounter = 0;
+    return deltaPosition(clockTime, gravityLevel, new Vector(0, -1));
   }
 }
