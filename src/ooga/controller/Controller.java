@@ -65,7 +65,7 @@ public class Controller {
 
   private void step() {
     try {
-      gameWorld.stepFrame(keyListener.getCurrentKey(), 1/20);
+      gameWorld.stepFrame(keyListener.getCurrentKey());
     } catch (Exception ignored){}
   }
 

@@ -61,10 +61,10 @@ public class GameWorld extends Observable {
 
   }
 
-  public void stepFrame(Action pressEffect, double elapsedTime)
+  public void stepFrame(Action pressEffect)
       throws NoSuchMethodException, JjjanException, InvocationTargetException, IllegalAccessException {
-    player.userStepMovement(pressEffect, elapsedTime, gravity);
-    allGameObjectStep(elapsedTime);
+    player.userStepMovement(pressEffect, stepTime, gravity);
+    allGameObjectStep(stepTime);
     frameCoordinates(player.getPosition(), player.getSize());
     worldCollisionHandling.detectAllCollisions();
     List<Integer> forDeletion = worldCollisionHandling.executeAllCollisions();
