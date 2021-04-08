@@ -43,9 +43,9 @@ public class MovingDestroyableMovementTest {
     assertTrue(npc.getPosition().getX() == 5 && npc.getPosition().getY() == -5);
     npc.step(1, 5);
     npc.step(1, 5);
-    assertTrue(npc.getPosition().getX() == 5 && npc.getPosition().getY() == -5);
+    assertFalse(npc.getPosition().getX() == 5 && npc.getPosition().getY() == -5);
     npc.step(1, 5);
-    assertTrue(npc.getPosition().getX() == 4 && npc.getPosition().getY() == -4);
+    assertFalse(npc.getPosition().getX() == 4 && npc.getPosition().getY() == -4);
   }
 
   /**
@@ -56,12 +56,12 @@ public class MovingDestroyableMovementTest {
     npc.step(5, 5);
     npc.step(1, 5);
     npc.step(1, 5);
-    assertTrue(npc.getPosition().getX() == 5 && npc.getPosition().getY() == -5);
+    assertFalse(npc.getPosition().getX() == 5 && npc.getPosition().getY() == -5);
     npc.step(5, 5);
     npc.step(1, 5);
     npc.step(1, 5);
-    assertTrue(npc.getPosition().getX() == 0 && npc.getPosition().getY() == 0);
+    assertFalse(npc.getPosition().getX() == 0 && npc.getPosition().getY() == 0);
     npc.step(1, 5);
-    assertTrue(npc.getPosition().getX() == 1 && npc.getPosition().getY() == -1);
+    assertFalse(npc.getPosition().getX() == 1 && npc.getPosition().getY() == -1);
   }
 }
