@@ -76,6 +76,6 @@ public class GameObject extends Observable {
     return new Vector(0,0);
   }
 
-//  public void setActive(boolean ){ isActive = !isActive; }
+  public void setActive(boolean activeState){ isActive = activeState; }
 
 }
