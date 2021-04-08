@@ -193,7 +193,6 @@ public class GameWorld extends Observable {
     return !player.isAlive();
   }
 
-
   /**
    * Adds to score by given amount. Notifies listeners of change.
    *
