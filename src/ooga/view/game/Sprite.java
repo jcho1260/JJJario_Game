@@ -3,7 +3,6 @@ package ooga.view.game;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.Statement;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.scene.image.Image;
@@ -21,23 +20,25 @@ public class Sprite implements PropertyChangeListener {
     Image img =  new Image(
         Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(imgPath)));
     imageView.setImage(img);
-    imageView.setVisible(false);
-    imageView.setFitHeight(h);
-    imageView.setFitWidth(w);
+    changeVisibility(false);
+    changeWidth(w);
+    changeHeight(h);
+    imageView.setX(x);
+    imageView.setY(y);
   }
 
   @Override
-  public void propertyChange(PropertyChangeEvent evt) { // propertyName = changeHeight, oldValue = null, newValue = 100
+  public void propertyChange(PropertyChangeEvent evt) {
     String mName = evt.getPropertyName();
     Object[] mArgs = new Object[]{evt.getNewValue()};
-    new Statement(this, mName, mArgs);
+    try {
+      new Statement(this, mName, mArgs).execute();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   public ImageView getImageView() { return this.imageView; }
-
-  private Object[] parseEventArgs(String evtArgs) {
-    return evtArgs.split("\\|");
-  }
 
   private void changeHeight(double h) { imageView.setFitHeight(h); }
 
