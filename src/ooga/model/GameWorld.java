@@ -139,6 +139,7 @@ public class GameWorld extends Observable {
     for (GameObject o : allActiveGameObjects) {
       o.sendToView(frameCoords[0]);
     }
+    player.sendToView(frameCoords[0]);
   }
 
   /**
