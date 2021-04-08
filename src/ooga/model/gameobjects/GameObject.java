@@ -16,6 +16,7 @@ public class GameObject extends Observable {
   private List<String> entityTypes;
   private Vector position;
   private int id;
+  private boolean isActive;
   protected Size size;
 
   /**
@@ -26,6 +27,7 @@ public class GameObject extends Observable {
     this.position = position;
     this.id = id;
     this.size = new Size(size);
+    isActive = false;
   }
 
   /**
@@ -60,12 +62,10 @@ public class GameObject extends Observable {
   }
 
   /**
-   * @param methods
+   *
+   * @param elapsedTime
+   * @param gameGravity
    */
-  public void step(List<MethodBundle> methods) {
-    // TODO implement here
-  }
-
   public void step(double elapsedTime, double gameGravity) {
 
   }
@@ -74,4 +74,23 @@ public class GameObject extends Observable {
     return new Vector(0,0);
   }
 
+  public void setActive(boolean activeState) {
+    isActive = activeState;
+    notifyListeners("changeVisibility", null, isActive);
+  }
+
+  /**
+   * Converts model coordinates to view coordinates, and sends GameObject position.
+   */
+  public void sendToView(Vector frameTopL) {
+    // TODO LOGIC
+    double viewPositionX;
+    double viewPositionY;
+    viewPositionX = position.getX() - frameTopL.getX();
+    viewPositionY = position.getY() - frameTopL.getY();
+    java.util.Vector<Double> viewPosition = new java.util.Vector();
+    viewPosition.add(viewPositionX);
+    viewPosition.add(viewPositionY);
+    notifyListeners("changePos", null, viewPosition);
+  }
 }

@@ -19,6 +19,9 @@ import ooga.model.util.Vector;
  */
 public class GameWorld extends Observable {
 
+  private static final double playerXLoc = 0.5;
+  private static final double playerYLoc = 2/3;
+
   private List<GameObject> allGameObjects;
   private List<GameObject> allActiveGameObjects;
   private List<GameObject> allDestroyables;
@@ -27,6 +30,9 @@ public class GameWorld extends Observable {
   private int score;
   private Player player;
   private Vector windowSize;
+  private Vector[] frameCoords;
+  private Vector playerViewCoord;
+
 
   private final double gravity;
   private final double stepTime;
@@ -42,28 +48,44 @@ public class GameWorld extends Observable {
     allGameObjects = gameObjects;
     gravity = levelGravity;
     stepTime = frameRate;
+    frameCoords = new Vector[4];
+    frameCoordinates(player.getPosition(), player.getSize());
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allDestroyables = actors;
     allActiveDestroyables = findActiveObjects(allDestroyables);
     worldCollisionHandling = new WorldCollisionHandling(collisionMethods, gameObjects, actors);
+    windowSize = frameSize;
+    double playerViewX = frameSize.getX()*playerXLoc;
+    double playerViewY = frameSize.getY()*playerYLoc;
+    playerViewCoord = new Vector(playerViewX, playerViewY);
+
   }
 
   public void stepFrame(Action pressEffect)
       throws NoSuchMethodException, JjjanException, InvocationTargetException, IllegalAccessException {
-
+    player.userStepMovement(pressEffect, stepTime, gravity);
+    allGameObjectStep(stepTime);
+    frameCoordinates(player.getPosition(), player.getSize());
     worldCollisionHandling.detectAllCollisions();
     List<Integer> forDeletion = worldCollisionHandling.executeAllCollisions();
     removeDeadActors(forDeletion);
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allActiveDestroyables = findActiveObjects(allDestroyables);
     worldCollisionHandling.updateActiveGameObjects(allActiveGameObjects, allActiveDestroyables);
+    sendViewCoords();
     //notifyListeners("activeGameObjects", /*List<Integer> ids*/, allActiveIds());
+  }
+
+  private void allGameObjectStep(double elapsedTime) {
+    for (GameObject o : allGameObjects) {
+      o.step(elapsedTime, gravity);
+    }
   }
 
   // TODO: refactor out isActive from GameObject and calculate active status here DO THIS !!!!!
   private List<GameObject> findActiveObjects(List<GameObject> allObjects) {
-    Vector topL = getWindowFrame()[0];
-    Vector botR = getWindowFrame()[1];
+    Vector topL = frameCoords[0];
+    Vector botR = frameCoords[3];
     List<GameObject> ret = new ArrayList<>();
     for (GameObject o : allObjects) {
       Vector oTopL = o.getPosition();
@@ -73,14 +95,10 @@ public class GameWorld extends Observable {
 
       if (oTopL.insideBox(topL,botR) || oTopR.insideBox(topL,botR) || oBotL.insideBox(topL, botR) || oBotR.insideBox(topL,botR)) {
         ret.add(o);
-      }
+        o.setActive(true);
+      } else { o.setActive(false); }
     }
     return ret;
-  }
-
-  // TODO LATER
-  private Vector[] getWindowFrame() {
-    return new Vector[]{new Vector(0,0), new Vector(50,15)};
   }
 
   private void removeDeadActors(List<Integer> deadActors) {
@@ -97,12 +115,22 @@ public class GameWorld extends Observable {
     return objects;
   }
 
-  private List<Integer> extractActiveId() {
-    List<Integer> id = new ArrayList<>();
+  private void frameCoordinates(Vector playerCoord, Vector playerSize) {
+    Vector playerCenter = new Vector(playerCoord.getX()+ 0.5*playerSize.getX(), playerCoord.getY() + 0.5*playerSize.getY());
+    double topY = playerCenter.getY() - playerYLoc*windowSize.getY();
+    double botY = playerCoord.getY() + (1-playerYLoc)*windowSize.getY();
+    double leftX = playerCenter.getX() - playerXLoc*windowSize.getX();
+    double rightX = playerCenter.getX() + playerXLoc*windowSize.getX();
+    frameCoords[0] = new Vector(leftX, topY);
+    frameCoords[1] = new Vector(rightX, topY);
+    frameCoords[2] = new Vector(leftX, botY);
+    frameCoords[3] = new Vector(rightX, botY);
+  }
+
+  private void sendViewCoords() {
     for (GameObject o : allActiveGameObjects) {
-      id.add(o.getId());
+      o.sendToView(frameCoords[0]);
     }
-    return id;
   }
 
   /**
