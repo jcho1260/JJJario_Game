@@ -151,7 +151,7 @@ public class PlayerMovementTest {
       assertTrue(user.getPosition().equals(new Vector(0, 0)));
       user.generalBottomCollision();
       user.userStepMovement(Action.UP, 1, 1);
-      assertTrue(user.getPosition().equals(new Vector(0, -1)));
+      assertTrue(user.getPosition().equals(new Vector(0, -2)));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
