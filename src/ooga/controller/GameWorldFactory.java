@@ -9,13 +9,13 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import ooga.model.Destroyable;
-import ooga.model.GameObject;
 import ooga.model.GameWorld;
-import ooga.model.MethodBundle;
-import ooga.model.MovingDestroyable;
-import ooga.model.Player;
-import ooga.model.Vector;
+import ooga.model.gameobjects.Destroyable;
+import ooga.model.gameobjects.GameObject;
+import ooga.model.gameobjects.MovingDestroyable;
+import ooga.model.gameobjects.Player;
+import ooga.model.util.MethodBundle;
+import ooga.model.util.Vector;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -54,7 +54,7 @@ public class GameWorldFactory {
       };
     }
 
-    return new GameWorld(player, collisions, gameObjects, actors, frameSize, getGlobalGravity(doc), frameRate);
+    return new GameWorld(player, collisions, gameObjects, actors, frameSize, 3, getGlobalGravity(doc), frameRate);
   }
 
   private Player createPlayer(Element entity, GameObjectInfo info, int id)

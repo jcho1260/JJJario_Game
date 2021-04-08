@@ -1,20 +1,16 @@
 package ooga.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
-import javax.xml.parsers.ParserConfigurationException;
-import ooga.JjjanException;
 import ooga.model.GameWorld;
-import ooga.model.MethodBundle;
-import ooga.model.Vector;
+import ooga.model.util.MethodBundle;
+import ooga.model.util.Vector;
 import ooga.view.game.GameView;
-import org.xml.sax.SAXException;
+
+import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 public class Controller {
 
