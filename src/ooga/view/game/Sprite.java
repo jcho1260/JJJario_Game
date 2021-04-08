@@ -3,6 +3,7 @@ package ooga.view.game;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.Statement;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.scene.image.Image;
@@ -16,7 +17,7 @@ public class Sprite implements PropertyChangeListener {
     imageView = new ImageView();
     ResourceBundle imgKeys = ResourceBundle
         .getBundle("view_resources/game/SpriteImageKeys/JJJarioSpriteKeys");
-    String imgPath = imgKeys.getString(imageName);
+    String imgPath = imgKeys.getString(imageName.toUpperCase());
     Image img =  new Image(
         Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(imgPath)));
     imageView.setImage(img);
