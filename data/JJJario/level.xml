@@ -116,7 +116,7 @@
         <y>1</y>
       </Velocity>
       <StartLife>3</StartLife>
-      <JumpTime>4</JumpTime>
+      <JumpTime>120</JumpTime>
       <StartHealth>1</StartHealth>
     </Entity>
     <Entity>
