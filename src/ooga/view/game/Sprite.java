@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import java.util.Vector;
 
 public class Sprite implements PropertyChangeListener {
   private final ImageView imageView;
@@ -26,7 +27,7 @@ public class Sprite implements PropertyChangeListener {
   @Override
   public void propertyChange(PropertyChangeEvent evt) { // propertyName = changeHeight, oldValue = null, newValue = 100
     String mName = evt.getPropertyName();
-    Object[] mArgs = parseEventArgs((String) evt.getNewValue());
+    Object[] mArgs = new Object[]{evt.getNewValue()};
     new Statement(this, mName, mArgs);
   }
 
@@ -36,13 +37,14 @@ public class Sprite implements PropertyChangeListener {
     return evtArgs.split("\\|");
   }
 
-  private void changeHeight(String s) {
-    imageView.setFitHeight(Double.parseDouble(s));
-  }
+  private void changeHeight(double h) { imageView.setFitHeight(h); }
 
-  private void changeWidth(String s) {
-    imageView.setFitWidth(Double.parseDouble(s));
-  }
+  private void changeWidth(double w) { imageView.setFitWidth(w); }
 
-  private void changeVisibility(String s) { imageView.setVisible(Boolean.getBoolean(s)); }
+  private void changeVisibility(boolean b) { imageView.setVisible(b); }
+
+  private void changePos(Vector<Double> v) {
+    imageView.setX(v.get(0));
+    imageView.setY(v.get(1));
+  }
 }
