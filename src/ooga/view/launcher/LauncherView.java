@@ -2,6 +2,7 @@ package ooga.view.launcher;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ooga.controller.Controller;
 import ooga.view.factories.SceneFactory;
 
 public class LauncherView {
@@ -11,9 +12,9 @@ public class LauncherView {
     this.stage = stage;
   }
 
-  public void start() {
+  public void start(Controller controller) {
     try {
-      SceneFactory sf = new SceneFactory(stage);
+      SceneFactory sf = new SceneFactory(stage, controller);
       Scene scene = sf.make("resources/view_resources/launcher/LauncherRoot.XML");
       stage.setScene(scene);
       stage.show();
