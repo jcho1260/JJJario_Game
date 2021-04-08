@@ -26,6 +26,6 @@ public class GameWorldFactoryTest {
       throws IOException, SAXException, ParserConfigurationException, ClassNotFoundException {
 
     GameWorld gw = gameWorldFactory.createGameWorld(new File("data/testgame/level.xml"), null, new Vector(1000, 1000), 10);
-    assertEquals(3, gw.getAllDestroyables().size());
+    assertEquals(2, gw.getAllDestroyables().size());
   }
 }
