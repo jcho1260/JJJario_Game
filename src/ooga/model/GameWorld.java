@@ -71,6 +71,7 @@ public class GameWorld extends Observable {
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allActiveDestroyables = findActiveObjects(allDestroyables);
     worldCollisionHandling.updateActiveGameObjects(allActiveGameObjects, allActiveDestroyables);
+    sendViewCoords();
     //notifyListeners("activeGameObjects", /*List<Integer> ids*/, allActiveIds());
   }
 
@@ -114,7 +115,7 @@ public class GameWorld extends Observable {
   }
 
   private void frameCoordinates(Vector playerCoord, Vector playerSize) {
-    Vector playerCenter = new Vector(playerCoord.getX()+ 0.5*playerSize.getX(), playerCoord.getY() + 0.5*playerSize.getY())
+    Vector playerCenter = new Vector(playerCoord.getX()+ 0.5*playerSize.getX(), playerCoord.getY() + 0.5*playerSize.getY());
     double topY = playerCenter.getY() - playerYLoc*windowSize.getY();
     double botY = playerCoord.getY() + (1-playerYLoc)*windowSize.getY();
     double leftX = playerCenter.getX() - playerXLoc*windowSize.getX();
@@ -123,6 +124,12 @@ public class GameWorld extends Observable {
     frameCoords[1] = new Vector(rightX, topY);
     frameCoords[2] = new Vector(leftX, botY);
     frameCoords[3] = new Vector(rightX, botY);
+  }
+
+  private void sendViewCoords() {
+    for (GameObject o : allActiveGameObjects) {
+      o.sendToView(frameCoords[0]);
+    }
   }
 
   /**
