@@ -86,5 +86,15 @@
         </Args>
       </Method>
     </GameObject>
+    <GameObject>
+      <Name>GameObject</Name>
+      <Method>
+        <Name>scaleVelocity</Name>
+        <Args>
+          <Arg>1</Arg>
+          <Arg>1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
   </Actor>
 </Collisions>
