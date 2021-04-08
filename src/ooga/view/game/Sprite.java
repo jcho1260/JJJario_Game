@@ -21,6 +21,7 @@ public class Sprite implements PropertyChangeListener {
     Image img =  new Image(
         Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(imgPath)));
     imageView.setImage(img);
+    imageView.setVisible(false);
     imageView.setFitHeight(h);
     imageView.setFitWidth(w);
   }
