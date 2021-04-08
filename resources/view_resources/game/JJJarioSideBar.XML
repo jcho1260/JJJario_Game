@@ -2,7 +2,7 @@
 <VBox id="SideBar" type="Pane" style="view_resources/game/css/JJJarioSideBar.css">
   <Height>360</Height>
   <Width>320</Width>
-  <ImageView id="Logo" type="Leaf">
+  <ImageView id="JJJarioLogo" type="Leaf">
     <Image>
       <Path>view_resources/images/logo/HorizontalLogo.png</Path>
     </Image>

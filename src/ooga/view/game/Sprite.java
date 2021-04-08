@@ -13,6 +13,7 @@ public class Sprite implements PropertyChangeListener {
 
   public Sprite(String imageName, double w, double h, double x, double y) {
     imageView = new ImageView();
+    imageView.setId(imageName);
     ResourceBundle imgKeys = ResourceBundle
         .getBundle("view_resources/game/SpriteImageKeys/JJJarioSpriteKeys");
     String imgPath = imgKeys.getString(imageName.toUpperCase());

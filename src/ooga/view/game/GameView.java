@@ -38,7 +38,9 @@ public class GameView {
   }
 
   public void initializeLevel(double w, double h) {
-    newScene = new Scene(new Group(), w, h);
+    Group g = new Group();
+    g.setId(gameName+"LevelView");
+    newScene = new Scene(g, w, h);
     newScene.setOnKeyPressed(makeKeyAction());
     newScene.setOnKeyReleased(makeKeyAction());
     currScene = newScene;
