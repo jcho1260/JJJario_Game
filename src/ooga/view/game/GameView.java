@@ -1,13 +1,11 @@
 package ooga.view.game;
 
 import java.beans.PropertyChangeEvent;
-import java.util.HashMap;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import javafx.scene.layout.Pane;
 import ooga.controller.Controller;
 import ooga.controller.KeyListener;
 import ooga.view.factories.SceneFactory;
@@ -40,7 +38,9 @@ public class GameView {
   }
 
   public void initializeLevel(double w, double h) {
-    newScene = new Scene(new Group(), w, h);
+    Group g = new Group();
+    g.setId(gameName+"LevelView");
+    newScene = new Scene(g, w, h);
     newScene.setOnKeyPressed(makeKeyAction());
     newScene.setOnKeyReleased(makeKeyAction());
     currScene = newScene;
@@ -57,7 +57,7 @@ public class GameView {
 
   public void gameOver() {
     try {
-      currScene = sf.make("view_resources/game/GameOver.XML");
+      currScene = sf.make("resources/view_resources/game/GameOver.XML");
       stage.setScene(currScene);
       stage.show();
     } catch (Exception e) {

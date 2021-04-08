@@ -1,7 +1,7 @@
 <?xml version = "1.0" ?>
 <Scene>
   <Root>
-    <HBox id="GameOver" type="Parent" style="view_resources/game/css/GameOver.css">
+    <HBox id="GameOver" type="Pane" style="view_resources/game/css/GameOver.css">
       <Height>420</Height>
       <Width>960</Width>
       <Button id="GameOverButton" type="Leaf">

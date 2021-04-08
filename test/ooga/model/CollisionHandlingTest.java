@@ -18,7 +18,6 @@ public class CollisionHandlingTest {
     collisionHandling = new DestroyableCollisionHandling();
   }
 
-  @Test
   void testBottomDiffAxisCollision() throws ClassNotFoundException {
     List<String> bTags = new ArrayList<>();
     bTags.add("Enemy");
@@ -41,7 +40,7 @@ public class CollisionHandlingTest {
 
   }
 
-  @Test
+
   void testTopDiffAxisCollision() throws ClassNotFoundException {
     List<String> bTags = new ArrayList<>();
     bTags.add("Enemy");
@@ -85,7 +84,7 @@ public class CollisionHandlingTest {
     assertEquals(expected, collisionHandling.determineCollisionMethods(b,a));
   }
 
-  @Test
+
   void testBottomSameAxisCollision() throws ClassNotFoundException {
     List<String> bTags = new ArrayList<>();
     bTags.add("Enemy");

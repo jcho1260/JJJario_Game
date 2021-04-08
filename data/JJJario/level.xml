@@ -9,7 +9,7 @@
         <Tag>Player</Tag>
       </Tags>
       <Type>Player</Type>
-      <Gravity>1</Gravity>
+      <Gravity>0</Gravity>
       <Size>
         <SizeX>1</SizeX>
         <SizeY>1</SizeY>
@@ -116,7 +116,7 @@
         <y>1</y>
       </Velocity>
       <StartLife>3</StartLife>
-      <JumpTime>120</JumpTime>
+      <JumpTime>200</JumpTime>
       <StartHealth>1</StartHealth>
     </Entity>
     <Entity>
@@ -246,6 +246,13 @@
       <Location>
         <x>20</x>
         <y>14</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>3</x>
+        <y>12</y>
       </Location>
     </Entity>
   </Layout>

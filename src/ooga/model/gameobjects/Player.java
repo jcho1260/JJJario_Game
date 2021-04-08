@@ -47,7 +47,6 @@ public class Player extends Destroyable {
     for (int i = 0; i < 2; i++) {
       paramClasses[i] = Double.class;
     }
-
     Method moveMethod = userMovementClass.getMethod(methodName, paramClasses);
     Vector deltaPosition = (Vector) moveMethod.invoke(userMovement, elapsedTime, gameGravity);
     setPosition(getPosition().add(deltaPosition));
@@ -59,6 +58,12 @@ public class Player extends Destroyable {
   public void generalBottomCollision() {
     setPosition(getPosition().add(userMovement.hitGround()));
   }
+
+  /**
+   * gets velocity of player
+   * @return
+   */
+  public Vector getVelocity() {return userMovement.getVelocity();}
 
   /**
    * Collision method for adding a new power up to the Player.
@@ -83,15 +88,15 @@ public class Player extends Destroyable {
    * @param increment
    */
   @Override
-  public void incrementHealth(int increment) {
+  public void incrementHealth(Double increment) {
     int prevHealth = getHealth();
     int prevLives = getLives();
 
     super.incrementHealth(increment);
-    notifyListeners("playerHealth", prevHealth, getHealth());
+//    notifyListeners("playerHealth", prevHealth, getHealth());
 
     if (getHealth() != prevLives) {
-      notifyListeners("playerLives", prevLives, getLives());
+//      notifyListeners("playerLives", prevLives, getLives());
     }
   }
 
@@ -105,7 +110,18 @@ public class Player extends Destroyable {
     int prevLives = getLives();
 
     super.incrementLives(increment);
-    notifyListeners("playerLives", prevLives, getLives());
+//    notifyListeners("playerLives", prevLives, getLives());
+  }
+
+  /**
+   * Scales velocity by given amount.
+   *
+   * @param x
+   * @param y
+   */
+  public void scaleVelocity(Double x, Double y) {
+    Vector newVelocity = userMovement.getVelocity().multiply(new Vector(x, y));
+    userMovement.setVelocity(newVelocity);
   }
 
   /**
@@ -117,11 +133,11 @@ public class Player extends Destroyable {
     return new ArrayList<>(activePowerUps);
   }
 
-  private void scaleSize(double scaleFactor) { size.scaleSize(scaleFactor); }
+  private void scaleSize(Double scaleFactor) { size.scaleSize(scaleFactor); }
 
-  private void incrementScore(double increment) { score += increment; }
+  private void incrementScore(Double increment) { score += increment; }
 
-  private void incrementLife(double increment) { lives += increment; }
+  private void incrementLife(Double increment) { lives += increment; }
 
   private void onKeyPress() { }
 }

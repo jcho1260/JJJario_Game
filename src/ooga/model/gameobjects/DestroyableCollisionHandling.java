@@ -26,6 +26,7 @@ public class DestroyableCollisionHandling {
     if (!isCollision(myself, o)) {
       return ret;
     }
+
     return getCollisionMethods(myself, o);
   }
 
@@ -37,6 +38,9 @@ public class DestroyableCollisionHandling {
     while (!collisions.isEmpty()) {
       MethodBundle mb = collisions.remove();
       Method m = mb.makeMethod(destroyable.getClass());
+      System.out.println(m.getName());
+      System.out.println(mb.getParameters().length);
+      System.out.println(m.getParameters().length);
       m.invoke(destroyable, mb.getParameters());
     }
   }
@@ -52,6 +56,8 @@ public class DestroyableCollisionHandling {
     double myHeight = myself.getSize().getY();
     if (isXOverlapSides(myX, oX, myWidth, oWidth) || isXCompleteOverlap(myX, oX, myWidth, oWidth)) {
       if (isYOverlapSides(myY, oY, myHeight, oHeight) || isYCompleteOverlap(myY, oY, myHeight, oHeight)) {
+        System.out.print("Is Collision between: "+myself.getEntityType().get(myself.getEntityType().size()-1));
+        System.out.println(" and "+o.getEntityType().get(o.getEntityType().size()-1));
         return true;
       }
     }
@@ -75,6 +81,7 @@ public class DestroyableCollisionHandling {
   }
 
   private List<String> getCollisionMethods(GameObject myself, GameObject o) {
+    System.out.println("getCollisionMethods");
     Vector myVelocity = myself.getVelocity();
     Vector oVelocity = o.getVelocity();
 
@@ -83,9 +90,12 @@ public class DestroyableCollisionHandling {
     String collisionDirection = "";
 
     if (myDirection.equals(oDirection)) {
+      System.out.println("same direction");
       if (!myVelocity.equals(new Vector(0,0))) {
+        System.out.println(oDirection.toString());
         collisionDirection = oDirection.toString();
       } else {
+        System.out.println("my velo is 0");
         return new ArrayList<>();
       }
     } else if(myDirection.sameAxis(oDirection)){
@@ -103,6 +113,7 @@ public class DestroyableCollisionHandling {
     for (String s : o.getEntityType()) {
       ret.add(s + collisionDirection);
     }
+    System.out.println(ret);
     return ret;
   }
 

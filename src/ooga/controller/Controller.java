@@ -23,6 +23,7 @@ public class Controller {
   private double frameRate;
   private GameView gameView;
   KeyListener keyListener;
+  Timeline animation;
 
   public Controller(Vector frameSize, double frameRate) {
     gameWorldFactory = new GameWorldFactory();
@@ -53,7 +54,7 @@ public class Controller {
     gameView.startLevel();
 
     KeyFrame frame = new KeyFrame(Duration.seconds(1/frameRate), e -> step(1/frameRate));
-    Timeline animation = new Timeline();
+    animation = new Timeline();
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
     animation.play();
@@ -64,9 +65,16 @@ public class Controller {
   }
 
   private void step(double d) {
+    if (gameWorld.isGameOver()) {
+      animation.stop();
+      gameView.gameOver();
+    }
     try {
       gameWorld.stepFrame(keyListener.getCurrentKey());
-    } catch (Exception ignored){}
+    } catch (Exception ignored){
+//      System.out.println(ignored);
+      ignored.printStackTrace();
+    }
   }
 
   private void addSprites(GameWorld gameWorld) {

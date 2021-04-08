@@ -87,7 +87,12 @@ public class GameWorld extends Observable {
     Vector topL = frameCoords[0];
     Vector botR = frameCoords[3];
     List<GameObject> ret = new ArrayList<>();
-    player.setActive(true);
+    if(!player.isAlive()) {
+      System.out.println("player is dead");
+      player.setActive(false);
+    } else {
+      player.setActive(true);
+    }
     for (GameObject o : allObjects) {
       Vector oTopL = o.getPosition();
       Vector oTopR = o.getPosition().add(new Vector(o.getSize().getX(), 0));
@@ -184,6 +189,9 @@ public class GameWorld extends Observable {
     return stepTime;
   }
 
+  public boolean isGameOver() {
+    return !player.isAlive();
+  }
 
   /**
    * Adds to score by given amount. Notifies listeners of change.
