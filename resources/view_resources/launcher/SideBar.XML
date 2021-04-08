@@ -1,0 +1,84 @@
+<?xml version = "1.0" ?>
+<VBox id="SideBar" type="Pane" style="view_resources/launcher/css/SideBar.css">
+  <Height>800</Height>
+  <Width>300</Width>
+  <ImageView id="Logo" type="Leaf">
+    <Image>
+      <Path>view_resources/images/logo/HorizontalLogo.png</Path>
+    </Image>
+    <Width>285</Width>
+    <Height>100</Height>
+  </ImageView>
+  <Button id="DashboardButton" type="Leaf">
+    <Text>Dashboard</Text>
+    <ImageView>
+      <Image>
+        <Path>view_resources/images/button_icons/Home.png</Path>
+      </Image>
+      <Ratio>true</Ratio>
+      <Height>80</Height>
+      <Width>80</Width>
+    </ImageView>
+    <!--<Action>TODO</Action>-->
+  </Button>
+  <Button id="GameLibraryButton" type="Leaf">
+    <Text>Game Library</Text>
+    <ImageView>
+      <Image>
+        <Path>view_resources/images/button_icons/BookHalf.png</Path>
+      </Image>
+      <Ratio>true</Ratio>
+      <Height>80</Height>
+      <Width>80</Width>
+    </ImageView>
+    <!--<Action>TODO</Action>-->
+  </Button>
+  <Button id="StageBuilderButton" type="Leaf">
+    <Text>Stage Builder</Text>
+    <ImageView>
+      <Image>
+        <Path>view_resources/images/button_icons/HammerAnvil.png</Path>
+      </Image>
+      <Ratio>true</Ratio>
+      <Height>80</Height>
+      <Width>80</Width>
+    </ImageView>
+    <!--<Action>TODO</Action>-->
+  </Button>
+  <Button id="SettingsButton" type="Leaf">
+    <Text>Settings</Text>
+    <ImageView>
+      <Image>
+        <Path>view_resources/images/button_icons/Gears.png</Path>
+      </Image>
+      <Ratio>true</Ratio>
+      <Height>80</Height>
+      <Width>80</Width>
+    </ImageView>
+    <!--<Action>TODO</Action>-->
+  </Button>
+  <Button id="LogoutButton" type="Leaf">
+    <Text>Logout</Text>
+    <ImageView>
+      <Image>
+        <Path>view_resources/images/button_icons/Logout.png</Path>
+      </Image>
+      <Ratio>true</Ratio>
+      <Height>80</Height>
+      <Width>80</Width>
+    </ImageView>
+    <!--<Action>TODO</Action>-->
+  </Button>
+  <Button id="ExitButton" type="Leaf">
+    <Text>Exit</Text>
+    <ImageView>
+      <Image>
+        <Path>view_resources/images/button_icons/OnOff.png</Path>
+      </Image>
+      <Ratio>true</Ratio>
+      <Height>80</Height>
+      <Width>80</Width>
+    </ImageView>
+    <!--<Action>TODO</Action>-->
+  </Button>
+</VBox>
