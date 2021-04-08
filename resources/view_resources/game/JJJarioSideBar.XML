@@ -4,7 +4,7 @@
   <Width>320</Width>
   <ImageView id="JJJarioLogo" type="Leaf">
     <Image>
-      <Path>view_resources/images/logo/HorizontalLogo.png</Path>
+      <Path>view_resources/images/logo/JJJarioLogo.png</Path>
     </Image>
     <Width>300</Width>
     <Height>260</Height>
