@@ -43,6 +43,7 @@ public class GameView {
     newScene = new Scene(new Group(), w, h);
     newScene.setOnKeyPressed(makeKeyAction());
     newScene.setOnKeyReleased(makeKeyAction());
+    currScene = newScene;
   }
 
   public void addSprite(Sprite s) {
@@ -50,7 +51,6 @@ public class GameView {
   }
 
   public void startLevel() {
-    currScene = newScene;
     stage.setScene(currScene);
     stage.show();
   }
