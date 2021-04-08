@@ -48,16 +48,17 @@ public class GameWorld extends Observable {
     allGameObjects = gameObjects;
     gravity = levelGravity;
     stepTime = frameRate;
+    frameCoords = new Vector[4];
+    frameCoordinates(player.getPosition(), player.getSize());
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allDestroyables = actors;
     allActiveDestroyables = findActiveObjects(allDestroyables);
     worldCollisionHandling = new WorldCollisionHandling(collisionMethods, gameObjects, actors);
     windowSize = frameSize;
-    frameCoords = new Vector[4];
     double playerViewX = frameSize.getX()*playerXLoc;
     double playerViewY = frameSize.getY()*playerYLoc;
     playerViewCoord = new Vector(playerViewX, playerViewY);
-    frameCoordinates(player.getPosition(), player.getSize());
+
   }
 
   public void stepFrame(Action pressEffect, double elapsedTime)
@@ -84,7 +85,7 @@ public class GameWorld extends Observable {
   // TODO: refactor out isActive from GameObject and calculate active status here DO THIS !!!!!
   private List<GameObject> findActiveObjects(List<GameObject> allObjects) {
     Vector topL = frameCoords[0];
-    Vector botR = frameCoords[4];
+    Vector botR = frameCoords[3];
     List<GameObject> ret = new ArrayList<>();
     for (GameObject o : allObjects) {
       Vector oTopL = o.getPosition();
