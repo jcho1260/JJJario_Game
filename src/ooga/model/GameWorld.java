@@ -116,10 +116,17 @@ public class GameWorld extends Observable {
   }
 
   private void frameCoordinates(Vector playerCoord, Vector playerSize) {
+    double defaultXLeft = 0;
+    double defaultXRight = windowSize.getX();
+    double defaultYBot = windowSize.getY();
+    double defaultYTop = 0;
     Vector playerCenter = new Vector(playerCoord.getX()+ 0.5*playerSize.getX(), playerCoord.getY() + 0.5*playerSize.getY());
     double topY = playerCenter.getY() - playerYLoc*windowSize.getY();
+    if (topY < 0) {topY = defaultYTop;}
     double botY = playerCoord.getY() + (1-playerYLoc)*windowSize.getY();
+    if(defaultYBot > windowSize.getY()) {botY = defaultYBot;}
     double leftX = playerCenter.getX() - playerXLoc*windowSize.getX();
+    if (leftX < 0) {leftX = defaultXLeft;}
     double rightX = playerCenter.getX() + playerXLoc*windowSize.getX();
     frameCoords[0] = new Vector(leftX, topY);
     frameCoords[1] = new Vector(rightX, topY);
