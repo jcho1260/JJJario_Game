@@ -84,8 +84,6 @@ public class DestroyableCollisionHandling {
     Action oDirection = oVelocity.getDirection();
     String collisionDirection = "";
 
-    System.out.println("myDir: "+myDirection);
-    System.out.println("oDir: "+oDirection);
     if (myDirection.equals(oDirection)) {
       if (!myVelocity.equals(new Vector(0,0))) {
         collisionDirection = oDirection.toString();
@@ -95,16 +93,25 @@ public class DestroyableCollisionHandling {
     } else if(myDirection.sameAxis(oDirection)){
       collisionDirection = myVelocity.getDirection().toString();
     } else {
-      collisionDirection = myVelocity.multiply(new Vector(-1,-1)).getDirection().toString();
-      System.out.println("collision diff axis dir: "+collisionDirection);
+      String collisionAxis = collisionAxis(myself.getPosition(), o.getPosition());
+      if (myDirection.getAxis().equals(collisionAxis)) {
+        collisionDirection = myVelocity.getDirection().toString();
+      }
+      else {
+        collisionDirection = oVelocity.multiply(new Vector(-1, -1)).getDirection().toString();
+      }
     }
-    System.out.println(o.getEntityType());
-
     List<String> ret = new ArrayList<>();
     for (String s : o.getEntityType()) {
       ret.add(s + collisionDirection);
     }
     return ret;
+  }
+
+  private String collisionAxis(Vector myPos, Vector oPos) {
+    if (myPos.getY() > oPos.getY() || myPos.getY() < oPos.getY()) { return "y"; }
+    if (myPos.getX() > oPos.getX() || myPos.getX() < oPos.getX()) { return "x"; }
+    return "x oy y";
   }
 
 }
