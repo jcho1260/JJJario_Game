@@ -64,6 +64,7 @@ public class Controller {
   }
 
   private void step(double d) {
+    if (gameWorld.isGameOver()) gameView.gameOver();
     try {
       gameWorld.stepFrame(keyListener.getCurrentKey());
     } catch (Exception ignored){
