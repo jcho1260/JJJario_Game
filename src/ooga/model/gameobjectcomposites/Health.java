@@ -1,4 +1,4 @@
-package ooga.model;
+package ooga.model.gameobjectcomposites;
 
 public class Health {
 
@@ -57,4 +57,6 @@ public class Health {
   public int getLives() {
     return lives;
   }
+
+  public void kill() { health = 0; }
 }

@@ -1,4 +1,4 @@
-package ooga.model;
+package ooga;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

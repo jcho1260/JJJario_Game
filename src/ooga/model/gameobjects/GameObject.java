@@ -1,6 +1,10 @@
-package ooga.model;
+package ooga.model.gameobjects;
 
 import java.util.List;
+import ooga.Observable;
+import ooga.model.util.Vector;
+import ooga.model.gameobjectcomposites.Size;
+import ooga.model.util.MethodBundle;
 
 /**
  * Represents GameObject - any component of the game that has position and associate movement
@@ -12,7 +16,7 @@ public class GameObject extends Observable {
   private List<String> entityTypes;
   private Vector position;
   private int id;
-  private Vector size;
+  protected Size size;
 
   /**
    * Default constructor
@@ -21,7 +25,7 @@ public class GameObject extends Observable {
     this.entityTypes = entityTypes;
     this.position = position;
     this.id = id;
-    this.size = size;
+    this.size = new Size(size);
   }
 
   /**
@@ -52,14 +56,13 @@ public class GameObject extends Observable {
   }
 
   public Vector getSize() {
-    return size.copy();
+    return size.getSize();
   }
 
   /**
-   * @param frameCount
    * @param methods
    */
-  public void step(int frameCount, List<String> methods) {
+  public void step(List<MethodBundle> methods) {
     // TODO implement here
   }
 

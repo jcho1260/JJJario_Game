@@ -1,17 +1,18 @@
-package ooga.model;
+package ooga.model.gameobjects;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
+import ooga.model.gameobjectcomposites.Health;
+import ooga.model.util.MethodBundle;
+import ooga.model.util.Vector;
 
 public class Destroyable extends GameObject{
   private Queue<MethodBundle> collisionQueue;
   private DestroyableCollisionHandling collisionHandler;
   private Health health;
+  protected int score; //TODO: need in player to increment score, but nonplayer destroyables also have a score
 
   /**
    * Default constructor with default lives, health values
@@ -26,7 +27,7 @@ public class Destroyable extends GameObject{
   /**
    *
    */
-  public boolean isDead() { return !health.isAlive(); }
+  public boolean isAlive() { return health.isAlive(); }
 
 
   public List<String> determineCollision(GameObject o) {
@@ -84,5 +85,10 @@ public class Destroyable extends GameObject{
    */
   protected int getLives() {
     return health.getLives();
+
+  private void kill() { health.kill(); }
+
+  private void onDeath() {
+    //TODO: implement
   }
 }
