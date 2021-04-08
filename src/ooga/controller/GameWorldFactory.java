@@ -1,14 +1,5 @@
 package ooga.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import ooga.model.GameWorld;
 import ooga.model.gameobjects.Destroyable;
 import ooga.model.gameobjects.GameObject;
@@ -20,6 +11,16 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GameWorldFactory {
 
@@ -53,7 +54,6 @@ public class GameWorldFactory {
         case "GameObject" -> gameObjects.add(createGameObject(entity, info, i));
       };
     }
-
     return new GameWorld(player, collisions, gameObjects, actors, frameSize, 3, getGlobalGravity(doc), frameRate);
   }
 
@@ -85,7 +85,7 @@ public class GameWorldFactory {
 
   private GameObject createGameObject(Element entity, GameObjectInfo info, int id) {
     Vector pos = getVectorAttribute(entity, "Location");
-    return new GameObject(info.tags, pos, id, info.size);
+    return  new GameObject(info.tags, pos, id, info.size);
   }
 
   private Vector getVectorAttribute(Element entity, String name) {

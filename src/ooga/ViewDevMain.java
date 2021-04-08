@@ -4,7 +4,7 @@ package ooga;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
-import ooga.model.Vector;
+import ooga.model.util.Vector;
 import ooga.view.launcher.LauncherView;
 
 /**
