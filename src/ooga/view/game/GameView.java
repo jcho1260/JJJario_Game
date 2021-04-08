@@ -45,7 +45,7 @@ public class GameView {
     newScene.setOnKeyReleased(makeKeyAction());
   }
 
-  public void addSprite(int id, Sprite s) {
+  public void addSprite(Sprite s) {
     ((Group) currScene.getRoot()).getChildren().add(s.getImageView());
   }
 
