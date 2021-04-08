@@ -55,6 +55,16 @@ public class GameView {
     stage.show();
   }
 
+  public void gameOver() {
+    try {
+      currScene = sf.make("view_resources/game/GameOver.XML");
+      stage.setScene(currScene);
+      stage.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
   public String getGameName() { return this.gameName; }
 
   private EventHandler<KeyEvent> makeKeyAction() {
