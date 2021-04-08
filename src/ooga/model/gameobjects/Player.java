@@ -42,7 +42,7 @@ public class Player extends Destroyable {
   public void userStepMovement(Action direction, double elapsedTime, double gameGravity)
       throws NoSuchMethodException, SecurityException, IllegalAccessException,
       IllegalArgumentException, InvocationTargetException {
-    System.out.println(methodName);
+    String methodName = "move" + direction.toString();
     Class<?>[] paramClasses = new Class[2];
     for (int i = 0; i < 2; i++) {
       paramClasses[i] = Double.class;
