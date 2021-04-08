@@ -82,10 +82,12 @@ public class GameObject extends Observable {
   /**
    * Converts model coordinates to view coordinates, and sends GameObject position.
    */
-  public void sendToView() {
+  public void sendToView(Vector frameTopL) {
     // TODO LOGIC
     double viewPositionX;
     double viewPositionY;
+    viewPositionX = position.getX() - frameTopL.getX();
+    viewPositionY = position.getY() - frameTopL.getY();
     java.util.Vector<Double> viewPosition = new java.util.Vector();
     viewPosition.add(viewPositionX);
     viewPosition.add(viewPositionY);

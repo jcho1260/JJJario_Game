@@ -1,0 +1,11 @@
+<?xml version = "1.0" ?>
+<Scene>
+  <Root>
+    <HBox id="LauncherScreen" type="Parent" style="view_resources/launcher/css/LauncherScreen.css">
+      <Height>810</Height>
+      <Width>1440</Width>
+    </HBox>
+  </Root>
+  <Parent>resources/view_resources/launcher/SideBar.XML</Parent>
+  <Parent>resources/view_resources/launcher/GameLibrary.XML</Parent>
+</Scene>

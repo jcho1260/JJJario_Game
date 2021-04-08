@@ -1,0 +1,13 @@
+<?xml version = "1.0" ?>
+<ScrollPane id="JJJarioLevelLibraryScrollable" type="Control" style="view_resources/game/css/JJJarioLevelLibraryScroll.css">
+  <VBox id="GameLibraryVBox" type="Pane" style="view_resources/game/css/JJJarioLevelLibrary.css">
+    <Height>1080</Height>
+    <Button id="Level1Button" type="Leaf">
+      <Text>Level 1</Text>
+      <Action>
+        <Type>StartLevel</Type>
+        <Level>Level1</Level>
+      </Action>
+    </Button>
+  </VBox>
+</ScrollPane>
