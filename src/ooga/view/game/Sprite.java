@@ -7,7 +7,6 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import java.util.Vector;
 
 public class Sprite implements PropertyChangeListener {
   private final ImageView imageView;
