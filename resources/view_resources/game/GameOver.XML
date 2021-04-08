@@ -1,0 +1,19 @@
+<?xml version = "1.0" ?>
+<Scene>
+  <Root>
+    <HBox id="GameOver" type="Parent" style="view_resources/game/css/GameOver.css">
+      <Height>420</Height>
+      <Width>960</Width>
+      <Button id="GameOverButton" type="Leaf">
+        <ImageView>
+          <Image>
+            <Path>view_resources/images/GameOver.png</Path>
+          </Image>
+          <Ratio>true</Ratio>
+          <Height>100</Height>
+          <Width>100</Width>
+        </ImageView>
+      </Button>
+    </HBox>
+  </Root>
+</Scene>
