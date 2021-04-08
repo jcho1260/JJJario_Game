@@ -55,7 +55,7 @@ public class GameView {
 
   public void gameOver() {
     try {
-      currScene = sf.make("view_resources/game/GameOver.XML");
+      currScene = sf.make("resources/view_resources/game/GameOver.XML");
       stage.setScene(currScene);
       stage.show();
     } catch (Exception e) {

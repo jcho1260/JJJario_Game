@@ -26,8 +26,12 @@ public class MethodBundle {
     }
   }
 
-  public double[] getParameters() {
-    return parameters;
+  public Double[] getParameters() {
+    Double[] d = new Double[parameters.length];
+    for (int i = 0; i < parameters.length; i++) {
+      d[i] = (Double) parameters[i];
+    }
+    return d;
   }
 
   public String getMethodName() {return methodName;}

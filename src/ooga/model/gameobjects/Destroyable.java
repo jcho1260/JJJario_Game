@@ -56,7 +56,7 @@ public class Destroyable extends GameObject{
    *
    * @param increment
    */
-  public void incrementHealth(int increment) {
+  public void incrementHealth(Double increment) {
     health.incrementHealth(increment);
   }
 
