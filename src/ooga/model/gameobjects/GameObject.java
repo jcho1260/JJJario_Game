@@ -16,6 +16,7 @@ public class GameObject extends Observable {
   private List<String> entityTypes;
   private Vector position;
   private int id;
+  private boolean isActive;
   protected Size size;
 
   /**
@@ -26,6 +27,7 @@ public class GameObject extends Observable {
     this.position = position;
     this.id = id;
     this.size = new Size(size);
+    isActive = false;
   }
 
   /**
@@ -71,5 +73,7 @@ public class GameObject extends Observable {
   public Vector getVelocity() {
     return new Vector(0,0);
   }
+
+//  public void setActive(boolean ){ isActive = !isActive; }
 
 }
