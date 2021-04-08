@@ -29,10 +29,12 @@ public class MovingDestroyable extends Destroyable {
   }
 
   /**
-   * updates position of object with each step of animation while also calling repeated methods if applicable
+   * Updates position of object with each step of animation while also calling repeated methods if applicable
+   * 
    * @param elapsedTime
    * @param gameGravity
    */
+  @Override
   public void step(double elapsedTime, double gameGravity) {
     setPosition(autoMove.stepMovement(elapsedTime, gameGravity, getPosition()));
   }
@@ -42,6 +44,7 @@ public class MovingDestroyable extends Destroyable {
    *
    * @return velocity from autoMove
    */
+  @Override
   public Vector getVelocity() {
     return autoMove.getVelocity();
   }
