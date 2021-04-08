@@ -166,15 +166,6 @@
         <y>13</y>
       </FinalLocation>
     </Entity>
-    <Entity>
-      <Name>PowerUpBlock</Name>
-      <Location>
-        <x>10</x>
-        <y>11</y>
-      </Location>
-      <StartHealth>1</StartHealth>
-      <StartLife>1</StartLife>
-    </Entity>
 
     <Entity>
       <Name>Block</Name>
