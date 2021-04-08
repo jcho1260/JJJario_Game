@@ -1,5 +1,5 @@
 <Level>
-  <GlobalGravity>10</GlobalGravity>
+  <GlobalGravity>0</GlobalGravity>
   <GameObjects>
     <GameObject>
       <Name>Mario</Name>
@@ -170,7 +170,6 @@
         <y>13</y>
       </FinalLocation>
     </Entity>
-
     <Entity>
       <Name>Block</Name>
       <Location>
@@ -251,8 +250,36 @@
     <Entity>
       <Name>Block</Name>
       <Location>
-        <x>3</x>
-        <y>12</y>
+        <x>22</x>
+        <y>14</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>24</x>
+        <y>14</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>26</x>
+        <y>14</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>28</x>
+        <y>14</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>30</x>
+        <y>14</y>
       </Location>
     </Entity>
   </Layout>
