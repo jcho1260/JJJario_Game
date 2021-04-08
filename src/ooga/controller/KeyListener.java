@@ -12,6 +12,10 @@ public class KeyListener implements PropertyChangeListener {
 
   private Action current;
 
+  public KeyListener() {
+    current = Action.NONE;
+  }
+
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
     KeyEvent key = (KeyEvent) evt.getNewValue();

@@ -52,7 +52,7 @@ public class Controller {
     addSprites(gameWorld);
     gameView.startLevel();
 
-    KeyFrame frame = new KeyFrame(Duration.seconds(1/frameRate), e -> step());
+    KeyFrame frame = new KeyFrame(Duration.seconds(1/frameRate), e -> step(1/frameRate));
     Timeline animation = new Timeline();
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
@@ -63,9 +63,10 @@ public class Controller {
     return keyListener;
   }
 
-  private void step() {
+  private void step(double d) {
     try {
       gameWorld.stepFrame(keyListener.getCurrentKey());
+      System.out.println("step");
     } catch (Exception ignored){}
   }
 
