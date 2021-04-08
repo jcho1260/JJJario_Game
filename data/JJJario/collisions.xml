@@ -1,6 +1,6 @@
 <Collisions>
   <Actor>
-    <Name>Mario</Name>
+    <Name>Player</Name>
     <GameObject>
       <Name>Enemy</Name>
       <Method>

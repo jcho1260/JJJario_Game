@@ -50,7 +50,7 @@ public class MovingDestroyable extends Destroyable {
     return autoMove.getVelocity();
   }
 
-  public void scaleVelocity(double xVel, double yVel) {
+  public void scaleVelocity(Double xVel, Double yVel) {
 //    System.out.println("scale velo: "+scaleFactor.getX()+ " "+scaleFactor.getY());
     Vector newVelo = autoMove.getVelocity().multiply(new Vector(xVel, yVel));
     autoMove.setVelocity(newVelo);

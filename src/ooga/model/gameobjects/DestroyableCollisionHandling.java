@@ -38,6 +38,8 @@ public class DestroyableCollisionHandling {
       MethodBundle mb = collisions.remove();
       Method m = mb.makeMethod(destroyable.getClass());
       System.out.println(m.getName());
+      System.out.println(mb.getParameters().length);
+      System.out.println(m.getParameters().length);
       m.invoke(destroyable, mb.getParameters());
     }
   }

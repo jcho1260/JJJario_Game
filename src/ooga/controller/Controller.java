@@ -68,7 +68,8 @@ public class Controller {
     try {
       gameWorld.stepFrame(keyListener.getCurrentKey());
     } catch (Exception ignored){
-      System.out.println(ignored);
+//      System.out.println(ignored);
+      ignored.printStackTrace();
     }
   }
 
