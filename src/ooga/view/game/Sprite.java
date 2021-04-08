@@ -40,6 +40,7 @@ public class Sprite implements PropertyChangeListener {
 
   public ImageView getImageView() { return this.imageView; }
 
+
   public void changeHeight(Double h) { imageView.setFitHeight(h); }
 
   public void changeWidth(Double w) { imageView.setFitWidth(w); }
@@ -52,5 +53,6 @@ public class Sprite implements PropertyChangeListener {
 
   public void changeY(Double y) {
     imageView.setY(y);
+
   }
 }

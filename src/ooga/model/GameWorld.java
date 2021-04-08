@@ -163,7 +163,9 @@ public class GameWorld extends Observable {
    */
   public List<GameObject> getAllGameObjects() {
     // TODO implement here
-    return allGameObjects;
+    List<GameObject> ret = new ArrayList<>(allGameObjects);
+    ret.add(player);
+    return ret;
   }
 
   /**
