@@ -108,6 +108,16 @@ public class Player extends Destroyable {
   }
 
   /**
+   * Scales velocity by given amount.
+   *
+   * @param scaleFactor
+   */
+  public void scaleVelocity(Vector scaleFactor) {
+    Vector newVelocity = userMovement.getVelocity().multiply(scaleFactor);
+    userMovement.setVelocity(newVelocity);
+  }
+
+  /**
    * Returns List of active power ups.
    *
    * @return activePowerUps

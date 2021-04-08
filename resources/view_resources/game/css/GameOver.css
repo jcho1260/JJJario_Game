@@ -1,0 +1,15 @@
+HBox {
+    -fx-background-color: darkslateblue;
+    -fx-spacing: 20;
+    -fx-padding: 20;
+}
+
+.button {
+    -fx-background-color: darkslateblue;
+    -fx-pref-width: 120px;
+    -fx-pref-height: 120px;
+}
+
+.button:hover {
+    -fx-background-color: mediumslateblue;
+}

@@ -25,7 +25,8 @@ public class MovingDestroyable extends Destroyable {
       int startLife, int startHealth, Vector initialVelocity, Vector finalPosition,
       double gravityScale) {
     super(entityTypes, initialPosition, id, size, startLife, startHealth);
-    autoMove = new AutomatedMovement(initialPosition, finalPosition, initialVelocity, gravityScale);
+    Vector fp = finalPosition.multiply(new Vector(50,50));
+    autoMove = new AutomatedMovement(initialPosition, fp, initialVelocity, gravityScale);
   }
 
   /**

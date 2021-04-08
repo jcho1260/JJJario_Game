@@ -1,13 +1,11 @@
 package ooga.view.game;
 
 import java.beans.PropertyChangeEvent;
-import java.util.HashMap;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import javafx.scene.layout.Pane;
 import ooga.controller.Controller;
 import ooga.controller.KeyListener;
 import ooga.view.factories.SceneFactory;
@@ -53,6 +51,16 @@ public class GameView {
   public void startLevel() {
     stage.setScene(currScene);
     stage.show();
+  }
+
+  public void gameOver() {
+    try {
+      currScene = sf.make("view_resources/game/GameOver.XML");
+      stage.setScene(currScene);
+      stage.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   public String getGameName() { return this.gameName; }

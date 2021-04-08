@@ -44,6 +44,14 @@
         </Args>
       </Method>
     </GameObject>
+    <GameObject>
+      <Name>Block</Name>
+      <Method>
+        <Name>generalBottomCollision</Name>
+        <Args>
+        </Args>
+      </Method>
+    </GameObject>
   </Actor>
   <Actor>
     <Name>Enemy</Name>

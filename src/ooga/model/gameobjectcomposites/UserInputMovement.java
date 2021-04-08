@@ -90,7 +90,23 @@ public class UserInputMovement {
     return deltaPosition(elapsedTime, gameGravity, new Vector(-1, 0));
   }
 
-  public Vector getVelocity() {return stepVelocityMagnitude;}
+  /**
+   * Retrieves velocity.
+   *
+   * @return stepVelocityMagnitude
+   */
+  public Vector getVelocity() {
+    return stepVelocityMagnitude;
+  }
+
+  /**
+   * Sets stepVelocityMagnitude to new value.
+   *
+   * @param newVelocity
+   */
+  public void setVelocity(Vector newVelocity) {
+    stepVelocityMagnitude = newVelocity;
+  }
 
   // TODO refactor duplicate code w/ automatedmovement
   private Vector deltaPosition(double elapsedTime, double gameGravity, Vector change) {
@@ -98,8 +114,8 @@ public class UserInputMovement {
     gravityLevel = gameGravity;
 
     double newX = elapsedTime * stepVelocityMagnitude.getX() * change.getX();
-    double newY = (elapsedTime * stepVelocityMagnitude.getY() * change.getY()); //
-//        + ((1 + change.getY()) * elapsedTime * gameGravity * gravityScale);
+    double newY = (elapsedTime * stepVelocityMagnitude.getY() * change.getY());
+        //+ ((1 + change.getY()) * elapsedTime * gameGravity * gravityScale);
 
     return new Vector(newX, newY);
   }
