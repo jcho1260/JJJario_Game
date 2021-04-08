@@ -85,8 +85,11 @@ public class Destroyable extends GameObject{
    */
   protected int getLives() {
     return health.getLives();
+  }
 
-  private void kill() { health.kill(); }
+  private void kill() { 
+    health.kill();
+  }
 
   private void onDeath() {
     //TODO: implement
