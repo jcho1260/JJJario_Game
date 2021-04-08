@@ -156,4 +156,19 @@ public class PlayerMovementTest {
       System.out.println(e.getMessage());
     }
   }
+
+  /**
+   * Simulates a user sinking, then un-sinking.
+   */
+  @Test
+  void moveNoSink() {
+    try {
+      user.userStepMovement(Action.NONE, 1, 1);
+      assertTrue(user.getPosition().equals(new Vector(0, 1)));
+      user.generalBottomCollision();
+      assertTrue(user.getPosition().equals(new Vector(0, 0)));
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
+  }
 }

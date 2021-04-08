@@ -57,7 +57,7 @@ public class Player extends Destroyable {
    * Collision method for whenever the bottom of player lands on something.
    */
   public void generalBottomCollision() {
-    userMovement.hasHitGround();
+    setPosition(getPosition().add(userMovement.hitGround()));
   }
 
   /**
