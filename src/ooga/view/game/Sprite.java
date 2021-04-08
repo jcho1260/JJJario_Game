@@ -13,7 +13,7 @@ import java.util.Vector;
 public class Sprite implements PropertyChangeListener {
   private final ImageView imageView;
 
-  public Sprite(String imageName, double h, double w, double x, double y) {
+  public Sprite(String imageName, double w, double h, double x, double y) {
     imageView = new ImageView();
     ResourceBundle imgKeys = ResourceBundle
         .getBundle("view_resources/game/SpriteImageKeys/JJJarioSpriteKeys");
