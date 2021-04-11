@@ -1,6 +1,5 @@
 #MenuTabView {
     -fx-background-color: darkslateblue;
-    -fx-border-radius: 5;
     -fx-hbar-policy: never;
     -fx-vbar-policy: as-needed;
 }
