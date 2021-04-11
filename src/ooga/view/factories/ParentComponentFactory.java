@@ -23,7 +23,8 @@ public class ParentComponentFactory extends ComponentFactory {
   public Object make(Element e) throws Exception {
     if (e.getAttribute("type").equals("Leaf")) {
       return lcf.make(e);
-    } else if (e.getAttribute("type").equals("FilePath")) {
+    } else if (e.getNodeName().equals("FilePath")) {
+      System.out.println("27");
       return makeFile(e);
     }
 
@@ -58,7 +59,7 @@ public class ParentComponentFactory extends ComponentFactory {
   private Object makeFile(Element e) throws Exception {
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-    Document doc = dBuilder.parse(new File(e.getTextContent()));
+    Document doc = dBuilder.parse(new File(e.getElementsByTagName("Path").item(0).getTextContent()));
     doc.getDocumentElement().normalize();
 
     return make(doc.getDocumentElement());

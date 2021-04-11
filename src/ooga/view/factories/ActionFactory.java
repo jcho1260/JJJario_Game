@@ -2,6 +2,8 @@ package ooga.view.factories;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.KeyListener;
@@ -9,22 +11,21 @@ import ooga.view.game.GameView;
 import org.w3c.dom.Element;
 
 public class ActionFactory {
-  private final Stage stage;
   private final Controller controller;
+  private final ParentComponentFactory pcf = new ParentComponentFactory(this);
 
-  public ActionFactory(Stage stage, Controller controller) {
-    this.stage = stage;
+  public ActionFactory(Controller controller) {
     this.controller = controller;
   }
 
-  public EventHandler<ActionEvent> makeAction(Element e) {
+  public EventHandler<ActionEvent> makeAction(Node component, Element e) {
     String actionType = e.getElementsByTagName("Type").item(0).getTextContent();
-    if (actionType.equals("LaunchGame")) {
-      return makeLaunchGameAction(e);
-    } else if (actionType.equals("StartLevel")) {
-      return makeStartLevelAction(e);
-    }
-    return null;
+    return switch (actionType) {
+      case "LaunchGame" -> makeLaunchGameAction(e);
+      case "StartLevel" -> makeStartLevelAction(e);
+      case "ChangeStack" -> makeChangeStackAction(component, e);
+      default -> null;
+    };
   }
 
   private EventHandler<ActionEvent> makeLaunchGameAction(Element e) {
@@ -43,6 +44,19 @@ public class ActionFactory {
     return event -> {
       String levelName = e.getElementsByTagName("Level").item(0).getTextContent();
       controller.startLevel(levelName);
+    };
+  }
+
+  private EventHandler<ActionEvent> makeChangeStackAction(Node component, Element e) {
+    return event -> {
+      try {
+        StackPane sp = (StackPane) component.getScene().lookup("#"+e.getElementsByTagName("PaneID").item(0).getTextContent());
+        Node newNode = (Node) pcf.make((Element) e.getElementsByTagName("FilePath").item(0));
+        newNode.toFront();
+        sp.getChildren().add(newNode);
+      } catch (Exception exception) {
+        exception.printStackTrace();
+      }
     };
   }
 }

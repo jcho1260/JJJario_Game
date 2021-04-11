@@ -34,7 +34,7 @@ public class LeafComponentFactory extends ComponentFactory {
       if (tempNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
         Element childElem = (Element) tempNode;
         if (childElem.getNodeName().equals("Action")) {
-          ((Button) component).setOnAction(af.makeAction(childElem));
+          ((Button) component).setOnAction(af.makeAction(component, childElem));
         } else if (hasChildElements(childElem)) {
           addChild(currRB, component, childElem);
         } else {
