@@ -1,11 +1,11 @@
 <?xml version = "1.0" ?>
-<Scene>
-  <Root>
-    <HBox id="LauncherScreen" type="Parent" style="view_resources/launcher/css/LauncherScreen.css">
-      <Height>810</Height>
-      <Width>1440</Width>
-    </HBox>
-  </Root>
-  <Parent>resources/view_resources/launcher/SideBar.XML</Parent>
-  <Parent>resources/view_resources/launcher/GameLibrary.XML</Parent>
-</Scene>
+<HBox style="view_resources/launcher/css/LauncherScreen.css" id="LauncherScreen" type="Pane">
+  <FilePath>
+    <Path>resources/view_resources/launcher/SideBar.XML</Path>
+  </FilePath>
+  <FilePath>
+    <Path>resources/view_resources/launcher/LauncherStack.XML</Path>
+  </FilePath>
+  <Height>810</Height>
+  <Width>1440</Width>
+</HBox>

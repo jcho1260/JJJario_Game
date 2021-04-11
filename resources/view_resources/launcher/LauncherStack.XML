@@ -1,0 +1,8 @@
+<?xml version = "1.0" ?>
+<StackPane id="LauncherStackPane" type="Pane" style="view_resources/launcher/css/LauncherStack.css">
+  <Height>750</Height>
+  <Width>1050</Width>
+  <FilePath>
+    <Path>resources/view_resources/launcher/Dashboard.XML</Path>
+  </FilePath>
+</StackPane>

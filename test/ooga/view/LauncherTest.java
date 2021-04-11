@@ -90,12 +90,23 @@ class LauncherTest extends DukeApplicationTest {
     }
   }
 
+  /**
+   * Test to see if the user can open the JJJario Game
+   */
+  @Test
+  void GameLibraryButton () {
+    assertNotNull(lookup("#GameLibraryButton").query());
+    Button gameLibraryButton = lookup("#GameLibraryButton").query();
+    clickOn(gameLibraryButton);
+    assertNotNull(lookup("#GLScrollPane").query());
+  }
 
   /**
    * Test to see if the user can open the JJJario Game
    */
   @Test
   void JJJarioGameButton () {
+    GameLibraryButton();
     assertNotNull(lookup("#Game1Button").query());
     Button game1Button = lookup("#Game1Button").query();
     clickOn(game1Button);

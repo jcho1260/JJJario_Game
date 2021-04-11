@@ -26,7 +26,6 @@ public abstract class ComponentFactory {
     new Statement(component, mName, mArgs).execute();
   }
 
-  // Consider migrating into LeafComponentFactory
   protected String getMethodNameFromXML(ResourceBundle rb, Element e) {
     return rb.getString(e.getNodeName().toUpperCase());
   }
@@ -49,16 +48,24 @@ public abstract class ComponentFactory {
   }
 
   private Object[] getMethodArgsFromXML(ResourceBundle rb, Element e)
-      throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+      throws ViewFactoryException {
     Method parseMethod = getTagRetrieval(rb, e);
     parseMethod.setAccessible(true);
-    return new Object[]{parseMethod.invoke(this, e)};
+    try {
+      return new Object[]{parseMethod.invoke(this, e)};
+    } catch (IllegalAccessException | InvocationTargetException illegalAccessException) {
+      throw new ViewFactoryException("Unknown View Factory error", e);
+    }
   }
 
-  private Method getTagRetrieval(ResourceBundle rb, Element e) throws NoSuchMethodException {
+  private Method getTagRetrieval(ResourceBundle rb, Element e) throws ViewFactoryException {
     String dataType = rb.getString(e.getNodeName().toUpperCase() + "_PARAM");
     String mName = "get" + dataType + "FromTag";
-    return ComponentFactory.class.getDeclaredMethod(mName, Element.class);
+    try {
+      return ComponentFactory.class.getDeclaredMethod(mName, Element.class);
+    } catch (NoSuchMethodException noSuchMethodException) {
+      throw new ViewFactoryException("No parse method for "+dataType, e);
+    }
   }
 
   private String getStringFromTag(Element e) {

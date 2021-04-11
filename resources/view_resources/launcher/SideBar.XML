@@ -19,7 +19,13 @@
       <Height>80</Height>
       <Width>80</Width>
     </ImageView>
-    <!--<Action>TODO</Action>-->
+    <Action>
+      <Type>ChangeStack</Type>
+      <PaneID>LauncherStackPane</PaneID>
+      <FilePath>
+        <Path>resources/view_resources/launcher/Dashboard.XML</Path>
+      </FilePath>
+    </Action>
   </Button>
   <Button id="GameLibraryButton" type="Leaf">
     <Text>Game Library</Text>
@@ -31,7 +37,13 @@
       <Height>80</Height>
       <Width>80</Width>
     </ImageView>
-    <!--<Action>TODO</Action>-->
+    <Action>
+      <Type>ChangeStack</Type>
+      <PaneID>LauncherStackPane</PaneID>
+      <FilePath>
+        <Path>resources/view_resources/launcher/GameLibrary.XML</Path>
+      </FilePath>
+    </Action>
   </Button>
   <Button id="StageBuilderButton" type="Leaf">
     <Text>Stage Builder</Text>

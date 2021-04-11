@@ -22,11 +22,12 @@ public class GameView {
     this.stage = stage;
     this.gameName = gameName;
     this.kl = kl;
-    sf = new SceneFactory(stage, controller);
+    sf = new SceneFactory(controller);
   }
 
   public void start(String filePath) {
     try {
+      System.out.println(filePath);
       currScene = sf.make(filePath);
       currScene.setOnKeyPressed(makeKeyAction());
       currScene.setOnKeyReleased(makeKeyAction());
