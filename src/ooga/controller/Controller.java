@@ -16,11 +16,11 @@ import java.util.Map;
 
 public class Controller {
 
-  private GameWorldFactory gameWorldFactory;
-  private CollisionsParser collisionsParser;
+  private final GameWorldFactory gameWorldFactory;
+  private final CollisionsParser collisionsParser;
   private GameWorld gameWorld;
-  private Vector frameSize;
-  private double frameRate;
+  private final Vector frameSize;
+  private final double frameRate;
   private GameView gameView;
   KeyListener keyListener;
   Timeline animation;
@@ -62,6 +62,14 @@ public class Controller {
 
   public KeyListener getKeyListener() {
     return keyListener;
+  }
+
+  public Profile getProfile(String name) {
+    return new Profile("test");
+  }
+
+  public void setProfile(String name, Profile profile) {
+
   }
 
   private void step(double d) {
