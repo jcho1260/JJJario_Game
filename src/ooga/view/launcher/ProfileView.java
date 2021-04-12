@@ -1,13 +1,18 @@
 package ooga.view.launcher;
 
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.scene.Parent;
+import javafx.scene.layout.HBox;
 import ooga.controller.Controller;
-import ooga.view.factories.SceneFactory;
+import ooga.controller.Profile;
 
 public class ProfileView {
+  private final Controller controller;
 
-  public void login(Controller controller) {
+  public ProfileView(Controller controller) {
+    this.controller = controller;
+  }
 
+  public Parent makeMenu(Profile profile) {
+    return new HBox();
   }
 }

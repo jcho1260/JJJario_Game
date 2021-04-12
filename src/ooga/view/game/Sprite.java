@@ -34,35 +34,30 @@ public class Sprite implements PropertyChangeListener {
     Object[] mArgs = new Object[]{evt.getNewValue()};
     try {
       new Statement(this, mName, mArgs).execute();
-
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
-  public ImageView getImageView() {
-    return this.imageView;
-  }
+  public ImageView getImageView() { return this.imageView; }
 
-
-  public void changeHeight(Double h) {
+  void changeHeight(Double h) {
     imageView.setFitHeight(h);
   }
 
-  public void changeWidth(Double w) {
+  void changeWidth(Double w) {
     imageView.setFitWidth(w);
   }
 
-  public void changeVisibility(Boolean b) {
+  void changeVisibility(Boolean b) {
     imageView.setVisible(b);
   }
 
-  public void changeX(Double x) {
+  void changeX(Double x) {
     imageView.setX(x);
   }
 
-  public void changeY(Double y) {
+  void changeY(Double y) {
     imageView.setY(y);
-
   }
 }

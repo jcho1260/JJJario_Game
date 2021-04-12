@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.KeyListener;
 import ooga.view.game.GameView;
+import ooga.view.launcher.ProfileView;
 import org.w3c.dom.Element;
 
 public class ActionFactory {
@@ -29,6 +30,7 @@ public class ActionFactory {
       case "LaunchGame" -> makeLaunchGameAction(e);
       case "StartLevel" -> makeStartLevelAction(e);
       case "ChangeStack" -> makeChangeStackAction(component, e);
+      case "ProfileView" -> makeProfileViewAction(component, e);
       default -> null;
     };
   }
@@ -59,14 +61,29 @@ public class ActionFactory {
   private EventHandler<ActionEvent> makeChangeStackAction(Node component, Element e) {
     return event -> {
       try {
-        StackPane sp = (StackPane) component.getScene()
-            .lookup("#" + e.getElementsByTagName("PaneID").item(0).getTextContent());
-        sp.getChildren().clear();
-        Node newNode = (Node) pcf.make((Element) e.getElementsByTagName("FilePath").item(0));
-        newNode.toFront();
-        sp.getChildren().add(newNode);
+        changeStackPane(component, e, (Node) pcf.make((Element) e.getElementsByTagName("FilePath").item(0)));
       } catch (Exception exception) {
         exception.printStackTrace();
+      }
+    };
+  }
+
+  private EventHandler<ActionEvent> makeProfileViewAction(Node component, Element e) {
+    return event -> {
+      String pfName = controller.getActiveProfile();
+      if (pfName.equals("")) {
+        try {
+          changeStackPane(component, e, (Node) pcf.make((Element) e.getElementsByTagName("FilePath").item(0)));
+        } catch (ViewFactoryException viewFactoryException) {
+          viewFactoryException.printStackTrace();
+        }
+      } else {
+        ProfileView pv = new ProfileView(controller);
+        try {
+          changeStackPane(component, e, pv.makeMenu(controller.getProfile(pfName)));
+        } catch (IOException | ViewFactoryException ioException) {
+          ioException.printStackTrace();
+        }
       }
     };
   }
@@ -75,11 +92,26 @@ public class ActionFactory {
     return event -> {
       if (event.getCode() == KeyCode.ENTER) {
         try {
-          controller.setActiveProfile(((TextField) component).getText());
+          String pfName = ((TextField) component).getText();
+          controller.setActiveProfile(pfName);
+          ProfileView pv = new ProfileView(controller);
+          try {
+            changeStackPane(component, e, pv.makeMenu(controller.getProfile(pfName)));
+          } catch (IOException | ViewFactoryException ioException) {
+            ioException.printStackTrace();
+          }
         } catch (IOException | ClassNotFoundException ioException) {
           ioException.printStackTrace();
         }
       }
     };
+  }
+
+  private void changeStackPane(Node component, Element e, Node newNode) throws ViewFactoryException {
+    StackPane sp = (StackPane) component.getScene()
+        .lookup("#" + e.getElementsByTagName("PaneID").item(0).getTextContent());
+    sp.getChildren().clear();
+    newNode.toFront();
+    sp.getChildren().add(newNode);
   }
 }

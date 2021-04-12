@@ -14,6 +14,7 @@
     <TextField id="UsernameInputBox" type="Leaf">
       <Event method="setOnKeyReleased" event_type="KeyEvent">
         <Type>ProfileLogin</Type>
+        <PaneID>LauncherStackPane</PaneID>
       </Event>
     </TextField>
   </HBox>
