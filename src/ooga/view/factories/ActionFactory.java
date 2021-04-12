@@ -1,8 +1,12 @@
 package ooga.view.factories;
 
+import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
@@ -19,7 +23,7 @@ public class ActionFactory {
     this.controller = controller;
   }
 
-  public EventHandler<ActionEvent> makeAction(Node component, Element e) {
+  public EventHandler<ActionEvent> makeActionEvent(Node component, Element e) {
     String actionType = e.getElementsByTagName("Type").item(0).getTextContent();
     return switch (actionType) {
       case "LaunchGame" -> makeLaunchGameAction(e);
@@ -27,6 +31,10 @@ public class ActionFactory {
       case "ChangeStack" -> makeChangeStackAction(component, e);
       default -> null;
     };
+  }
+
+  public EventHandler<KeyEvent> makeKeyEvent(Node component, Element e) {
+    return makeProfileLoginAction(component, e);
   }
 
   private EventHandler<ActionEvent> makeLaunchGameAction(Element e) {
@@ -59,6 +67,18 @@ public class ActionFactory {
         sp.getChildren().add(newNode);
       } catch (Exception exception) {
         exception.printStackTrace();
+      }
+    };
+  }
+
+  private EventHandler<KeyEvent> makeProfileLoginAction(Node component, Element e) {
+    return event -> {
+      if (event.getCode() == KeyCode.ENTER) {
+        try {
+          controller.setActiveProfile(((TextField) component).getText());
+        } catch (IOException | ClassNotFoundException ioException) {
+          ioException.printStackTrace();
+        }
       }
     };
   }

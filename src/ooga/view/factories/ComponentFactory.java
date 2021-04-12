@@ -2,6 +2,7 @@ package ooga.view.factories;
 
 import java.beans.Statement;
 import java.lang.reflect.Method;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import javafx.scene.Node;
 import org.w3c.dom.Element;
@@ -34,8 +35,12 @@ public abstract class ComponentFactory {
     }
   }
 
-  protected String getMethodNameFromXML(ResourceBundle rb, Element e) {
-    return rb.getString(e.getNodeName().toUpperCase());
+  protected String getMethodNameFromXML(ResourceBundle rb, Element e) throws ViewFactoryException {
+    try {
+      return rb.getString(e.getNodeName().toUpperCase());
+    } catch (MissingResourceException mre) {
+      throw new ViewFactoryException(mre.getMessage());
+    }
   }
 
   protected Object makeComponentBase(ResourceBundle rb, String compName)
@@ -61,7 +66,6 @@ public abstract class ComponentFactory {
   private Object[] getMethodArgsFromXML(ResourceBundle rb, Element e)
       throws ViewFactoryException {
     Method parseMethod = getTagRetrieval(rb, e);
-    parseMethod.setAccessible(true);
     try {
       return new Object[]{parseMethod.invoke(this, e)};
     } catch (Exception exception) {
@@ -79,15 +83,15 @@ public abstract class ComponentFactory {
     }
   }
 
-  private String getStringFromTag(Element e) {
+  String getStringFromTag(Element e) {
     return e.getTextContent();
   }
 
-  private double getDoubleFromTag(Element e) {
+  double getDoubleFromTag(Element e) {
     return Double.parseDouble(e.getTextContent());
   }
 
-  private boolean getBooleanFromTag(Element e) {
+  boolean getBooleanFromTag(Element e) {
     return Boolean.getBoolean(e.getTextContent());
   }
 }

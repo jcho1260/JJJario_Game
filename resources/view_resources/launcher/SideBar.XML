@@ -19,7 +19,13 @@
       <Height>80</Height>
       <Width>80</Width>
     </ImageView>
-    <!--<Action>TODO</Action>-->
+    <Event method="setOnAction">
+      <Type>ChangeStack</Type>
+      <PaneID>LauncherStackPane</PaneID>
+      <FilePath>
+        <Path>resources/view_resources/launcher/profile/ProfileLogin.xml</Path>
+      </FilePath>
+    </Event>
   </Button>
   <Button id="DashboardButton" type="Leaf">
     <Text>Dashboard</Text>
@@ -31,13 +37,13 @@
       <Height>80</Height>
       <Width>80</Width>
     </ImageView>
-    <Action>
+    <Event method="setOnAction">
       <Type>ChangeStack</Type>
       <PaneID>LauncherStackPane</PaneID>
       <FilePath>
         <Path>resources/view_resources/launcher/Dashboard.XML</Path>
       </FilePath>
-    </Action>
+    </Event>
   </Button>
   <Button id="GameLibraryButton" type="Leaf">
     <Text>Game Library</Text>
@@ -49,13 +55,13 @@
       <Height>80</Height>
       <Width>80</Width>
     </ImageView>
-    <Action>
+    <Event method="setOnAction">
       <Type>ChangeStack</Type>
       <PaneID>LauncherStackPane</PaneID>
       <FilePath>
         <Path>resources/view_resources/launcher/GameLibrary.XML</Path>
       </FilePath>
-    </Action>
+    </Event>
   </Button>
   <Button id="StageBuilderButton" type="Leaf">
     <Text>Stage Builder</Text>
