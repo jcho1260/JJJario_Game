@@ -1,5 +1,13 @@
 package ooga.controller;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -64,12 +72,16 @@ public class Controller {
     return keyListener;
   }
 
-  public Profile getProfile(String name) {
-    return new Profile("test");
+  public Profile getProfile(String name) throws IOException, ClassNotFoundException {
+    FileInputStream in = new FileInputStream("data/profiles/" + name + ".player");
+    ObjectInputStream s = new ObjectInputStream(in);
+    return (Profile) s.readObject();
   }
 
-  public void setProfile(String name, Profile profile) {
-
+  public void setProfile(String name, Profile profile) throws IOException {
+    FileOutputStream f = new FileOutputStream("data/profiles/" + name + ".player");
+    ObjectOutput s = new ObjectOutputStream(f);
+    s.writeObject(profile);
   }
 
   private void step(double d) {
