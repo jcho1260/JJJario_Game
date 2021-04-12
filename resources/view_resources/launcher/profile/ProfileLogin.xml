@@ -1,0 +1,18 @@
+<?xml version = "1.0" ?>
+<VBox id="ProfileLoginVBox" type="Pane">
+  <Height>750</Height>
+  <Width>1050</Width>
+  <HBox id="ProfileLoginHBox1" type="Pane">
+    <Text>Profile Login</Text>
+  </HBox>
+  <HBox id="ProfileLoginHBox2" type="Pane">
+    <TextObj id="UsernameInputLabel" type="Leaf">
+      <Text>Username:</Text>
+    </TextObj>
+    <TextField id="UsernameInputBox" type="Leaf">
+      <Action>
+        <Type>ProfileLogin</Type>
+      </Action>
+    </TextField>
+  </HBox>
+</VBox>
