@@ -62,6 +62,12 @@ public class Vector {
     return new Vector(xVal, yVal);
   }
 
+  public Vector toUnit() {
+    Vector ret = toCardinal();
+    double diveFrac = 1.0/Math.max(Math.abs(xVal), Math.abs(yVal));
+    return ret.multiply(new Vector(diveFrac, diveFrac));
+  }
+
   private Vector toCardinal() {
     if (Math.abs(yVal) >= Math.abs(xVal)) {
       return new Vector(0, yVal);

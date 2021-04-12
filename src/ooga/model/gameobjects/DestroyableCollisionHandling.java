@@ -22,6 +22,7 @@ public class DestroyableCollisionHandling {
    * @return secondary GameObject's entity tags or empty list if no collision
    */
   public List<String> determineCollisionMethods(GameObject myself, GameObject o) {
+
     List<String> ret = new ArrayList<>();
     if (!isCollision(myself, o)) {
       return ret;
@@ -45,7 +46,30 @@ public class DestroyableCollisionHandling {
     }
   }
 
-  private boolean isCollision(GameObject myself, GameObject o) {
+  /**
+   * returns the top left and bottom right coord of the rectangle made by the intersection
+   * @param myself
+   * @param o
+   * @return ret[0] is top left, ret[1] is bot right
+   */
+  private Vector[] isCollision(GameObject myself, GameObject o) {
+    Vector[] ret = new Vector[2];
+    double x5 = Math.max(myself.getPosition().getX(), o.getPosition().getX());
+    double y5 = Math.max(myself.getPosition().getY(), o.getPosition().getY());
+    Vector myBotRight = myself.getPosition().add(myself.getSize());
+    Vector oBotRight = o.getPosition().add(o.getSize());
+    double x6 = Math.min(myBotRight.getX(), oBotRight.getX());
+    double y6 = Math.min(myBotRight.getY(), oBotRight.getY());
+    if (x5 > x6 || y5 > y6) {
+      return ret;
+    }
+    ret[0] = new Vector(x5, y5);
+    ret[1] = new Vector(x6, y6);
+    return ret;
+  }
+
+  private GameObject determineCollider(GameObject myself, GameObject o) {
+    //TODO: 
     double oX = o.getPosition().getX();
     double oY = o.getPosition().getY();
     double oWidth = o.getSize().getX();
@@ -54,30 +78,9 @@ public class DestroyableCollisionHandling {
     double myY = myself.getPosition().getY();
     double myWidth = myself.getSize().getX();
     double myHeight = myself.getSize().getY();
-    if (isXOverlapSides(myX, oX, myWidth, oWidth) || isXCompleteOverlap(myX, oX, myWidth, oWidth)) {
-      if (isYOverlapSides(myY, oY, myHeight, oHeight) || isYCompleteOverlap(myY, oY, myHeight, oHeight)) {
-        System.out.print("Is Collision between: "+myself.getEntityType().get(myself.getEntityType().size()-1));
-        System.out.println(" and "+o.getEntityType().get(o.getEntityType().size()-1));
-        return true;
-      }
-    }
-    return false;
-  }
 
-  private boolean isXOverlapSides(double myX, double oX, double myWidth, double oWidth) {
-    return (oX <= myX && oX+oWidth <=myX+myWidth && oX+oWidth >=myX) || (oX >= myX && oX <=myX+myWidth  && oX+oWidth >=myX+myWidth);
-  }
-
-  private boolean isXCompleteOverlap(double myX, double oX, double myWidth, double oWidth) {
-    return oX <= myX && oX+oWidth >=myX+myWidth;
-  }
-
-  private boolean isYOverlapSides(double myY, double oY, double myHeight, double oHeight) {
-    return (oY <= myY && oY + oHeight <= myY + myHeight && oY + oHeight >= myY) || (oY >= myY && oY + myHeight <= myY && oY + oHeight >= myY + myHeight);
-  }
-
-  private boolean isYCompleteOverlap(double myY, double oY, double myHeight, double oHeight) {
-    return oY <= myY && oY + oHeight >= myY + myHeight;
+    //add that object to the array
+    return null;
   }
 
   private List<String> getCollisionMethods(GameObject myself, GameObject o) {

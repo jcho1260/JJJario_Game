@@ -133,7 +133,7 @@ public class Player extends Destroyable {
     return new ArrayList<>(activePowerUps);
   }
 
-  private void scaleSize(Double scaleFactor) { size.scaleSize(scaleFactor); }
+  private void scaleSize(Double scaleFactor) { rect.scaleSize(scaleFactor); }
 
   private void incrementScore(Double increment) { score += increment; }
 

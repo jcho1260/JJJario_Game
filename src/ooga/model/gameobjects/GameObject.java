@@ -2,9 +2,8 @@ package ooga.model.gameobjects;
 
 import java.util.List;
 import ooga.Observable;
+import ooga.model.gameobjectcomposites.Rectangle;
 import ooga.model.util.Vector;
-import ooga.model.gameobjectcomposites.Size;
-import ooga.model.util.MethodBundle;
 
 /**
  * Represents GameObject - any component of the game that has position and associate movement
@@ -14,20 +13,18 @@ import ooga.model.util.MethodBundle;
  */
 public class GameObject extends Observable {
   private List<String> entityTypes;
-  private Vector position;
   private int id;
   private boolean isActive;
-  protected Size size;
+  protected Rectangle rect;
 
   /**
    * Default constructor
    */
   public GameObject(List<String> entityTypes, Vector position, int id, Vector size) {
     this.entityTypes = entityTypes;
-    this.position = position.multiply(new Vector(50,50));
     this.id = id;
-    this.size = new Size(size.multiply(new Vector(50,50)));
     isActive = false;
+    rect = new Rectangle(size, position);
   }
 
   /**
@@ -36,12 +33,11 @@ public class GameObject extends Observable {
    * @return x coordinate
    */
   public Vector getPosition() {
-    return position.copy();
+    return rect.getPosition();
   }
 
   protected void setPosition(Vector newPosition) {
-    position = newPosition;
-    System.out.println("x: " + position.getX() + " y:" + position.getY());
+    rect.setPosition(newPosition);
   }
 
   /**
@@ -57,7 +53,7 @@ public class GameObject extends Observable {
   }
 
   public Vector getSize() {
-    return size.getSize();
+    return rect.getSize();
   }
 
   /**
@@ -85,8 +81,8 @@ public class GameObject extends Observable {
     // TODO LOGIC
     double viewPositionX;
     double viewPositionY;
-    viewPositionX = position.getX() - frameTopL.getX();
-    viewPositionY = position.getY() - frameTopL.getY();
+    viewPositionX = rect.getPosition().getX() - frameTopL.getX();
+    viewPositionY = rect.getPosition().getY() - frameTopL.getY();
     notifyListeners("changeX", null, viewPositionX);
     notifyListeners("changeY", null, viewPositionY);
   }
