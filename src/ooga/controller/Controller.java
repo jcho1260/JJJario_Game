@@ -1,5 +1,13 @@
 package ooga.controller;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -16,14 +24,15 @@ import java.util.Map;
 
 public class Controller {
 
-  private GameWorldFactory gameWorldFactory;
-  private CollisionsParser collisionsParser;
+  private final GameWorldFactory gameWorldFactory;
+  private final CollisionsParser collisionsParser;
   private GameWorld gameWorld;
-  private Vector frameSize;
-  private double frameRate;
+  private final Vector frameSize;
+  private final double frameRate;
   private GameView gameView;
-  KeyListener keyListener;
-  Timeline animation;
+  private final KeyListener keyListener;
+  private Timeline animation;
+  private String activeProfile;
 
   public Controller(Vector frameSize, double frameRate) {
     gameWorldFactory = new GameWorldFactory();
@@ -62,6 +71,22 @@ public class Controller {
 
   public KeyListener getKeyListener() {
     return keyListener;
+  }
+
+  public Profile getProfile(String name) throws IOException, ClassNotFoundException {
+    FileInputStream in = new FileInputStream("data/profiles/" + name + ".player");
+    ObjectInputStream s = new ObjectInputStream(in);
+    return (Profile) s.readObject();
+  }
+
+  public void saveProfile(String name, Profile profile) throws IOException {
+    FileOutputStream f = new FileOutputStream("data/profiles/" + name + ".player");
+    ObjectOutput s = new ObjectOutputStream(f);
+    s.writeObject(profile);
+  }
+
+  public void setActiveProfile(String name) {
+    activeProfile = name;
   }
 
   private void step(double d) {
