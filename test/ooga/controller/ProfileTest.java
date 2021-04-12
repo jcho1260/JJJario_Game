@@ -20,15 +20,16 @@ public class ProfileTest {
   @Test
   void testProfile() throws IOException, ClassNotFoundException {
     Profile defaultProfile = new Profile("noah");
-    controller.setProfile("noah", defaultProfile);
+    controller.saveProfile("noah", defaultProfile);
 
     Profile fetched = controller.getProfile("noah");
 
     assertEquals("noah", fetched.name());
     assertEquals("profiles/pictures/default.png", fetched.picture());
-    assertEquals(KeyCode.W, fetched.keybinds().get(Action.UP));
-    assertEquals(KeyCode.A, fetched.keybinds().get(Action.LEFT));
-    assertEquals(KeyCode.S, fetched.keybinds().get(Action.DOWN));
-    assertEquals(KeyCode.D, fetched.keybinds().get(Action.RIGHT));
+    assertEquals(fetched.keybinds().get(KeyCode.W), Action.UP);
+    assertEquals(fetched.keybinds().get(KeyCode.A), Action.LEFT);
+    assertEquals(fetched.keybinds().get(KeyCode.S), Action.DOWN);
+    assertEquals(fetched.keybinds().get(KeyCode.D), Action.RIGHT);
+
   }
 }
