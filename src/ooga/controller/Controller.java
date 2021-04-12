@@ -30,8 +30,9 @@ public class Controller {
   private final Vector frameSize;
   private final double frameRate;
   private GameView gameView;
-  KeyListener keyListener;
-  Timeline animation;
+  private final KeyListener keyListener;
+  private Timeline animation;
+  private String activeProfile;
 
   public Controller(Vector frameSize, double frameRate) {
     gameWorldFactory = new GameWorldFactory();
@@ -78,10 +79,14 @@ public class Controller {
     return (Profile) s.readObject();
   }
 
-  public void setProfile(String name, Profile profile) throws IOException {
+  public void saveProfile(String name, Profile profile) throws IOException {
     FileOutputStream f = new FileOutputStream("data/profiles/" + name + ".player");
     ObjectOutput s = new ObjectOutputStream(f);
     s.writeObject(profile);
+  }
+
+  public void setActiveProfile(String name) {
+    activeProfile = name;
   }
 
   private void step(double d) {
