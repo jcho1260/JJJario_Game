@@ -2,6 +2,7 @@ package ooga.controller;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Map;
 import javafx.event.EventType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -11,9 +12,11 @@ import ooga.model.util.Action;
 public class KeyListener implements PropertyChangeListener {
 
   private Action current;
+  private final Map<KeyCode, Action> keybinds;
 
-  public KeyListener() {
+  public KeyListener(Map<KeyCode, Action> keybinds) {
     current = Action.NONE;
+    this.keybinds = keybinds;
   }
 
   @Override
@@ -35,19 +38,10 @@ public class KeyListener implements PropertyChangeListener {
   }
 
   private Action getKey(KeyCode code) {
-    return switch (code) {
-      case W -> Action.UP;
-      case A -> Action.LEFT;
-      case S -> Action.DOWN;
-      case D -> Action.RIGHT;
-      default -> null;
-    };
+    return keybinds.get(code);
   }
 
   private boolean isValid(KeyCode code) {
-    return switch (code) {
-      case W, A, S, D -> true;
-      default -> false;
-    };
+    return keybinds.containsKey(code);
   }
 }

@@ -30,7 +30,7 @@ public class Controller {
   private final Vector frameSize;
   private final double frameRate;
   private GameView gameView;
-  private final KeyListener keyListener;
+  private KeyListener keyListener;
   private Timeline animation;
   private String activeProfile;
 
@@ -39,7 +39,7 @@ public class Controller {
     collisionsParser = new CollisionsParser();
     this.frameSize =  frameSize;
     this.frameRate = frameRate;
-    keyListener = new KeyListener();
+    keyListener = new KeyListener(new Profile("default").keybinds());
   }
 
   public void startGame(GameView gameView) {
@@ -85,8 +85,9 @@ public class Controller {
     s.writeObject(profile);
   }
 
-  public void setActiveProfile(String name) {
+  public void setActiveProfile(String name) throws IOException, ClassNotFoundException {
     activeProfile = name;
+    keyListener = new KeyListener(getProfile(activeProfile).keybinds());
   }
 
   private void step(double d) {
