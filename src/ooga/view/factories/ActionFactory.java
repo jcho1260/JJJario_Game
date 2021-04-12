@@ -11,6 +11,7 @@ import ooga.view.game.GameView;
 import org.w3c.dom.Element;
 
 public class ActionFactory {
+
   private final Controller controller;
   private final ParentComponentFactory pcf = new ParentComponentFactory(this);
 
@@ -50,7 +51,9 @@ public class ActionFactory {
   private EventHandler<ActionEvent> makeChangeStackAction(Node component, Element e) {
     return event -> {
       try {
-        StackPane sp = (StackPane) component.getScene().lookup("#"+e.getElementsByTagName("PaneID").item(0).getTextContent());
+        StackPane sp = (StackPane) component.getScene()
+            .lookup("#" + e.getElementsByTagName("PaneID").item(0).getTextContent());
+        sp.getChildren().clear();
         Node newNode = (Node) pcf.make((Element) e.getElementsByTagName("FilePath").item(0));
         newNode.toFront();
         sp.getChildren().add(newNode);

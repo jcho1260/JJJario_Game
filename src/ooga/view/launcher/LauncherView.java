@@ -6,6 +6,7 @@ import ooga.controller.Controller;
 import ooga.view.factories.SceneFactory;
 
 public class LauncherView {
+
   private final Stage stage;
 
   public LauncherView(Stage stage) {

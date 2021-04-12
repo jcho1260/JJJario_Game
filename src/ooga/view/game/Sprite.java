@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Sprite implements PropertyChangeListener {
+
   private final ImageView imageView;
 
   public Sprite(String imageName, double w, double h, double x, double y) {
@@ -17,7 +18,7 @@ public class Sprite implements PropertyChangeListener {
     ResourceBundle imgKeys = ResourceBundle
         .getBundle("view_resources/game/SpriteImageKeys/JJJarioSpriteKeys");
     String imgPath = imgKeys.getString(imageName.toUpperCase());
-    Image img =  new Image(
+    Image img = new Image(
         Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(imgPath)));
     imageView.setImage(img);
     changeVisibility(false);
@@ -39,14 +40,22 @@ public class Sprite implements PropertyChangeListener {
     }
   }
 
-  public ImageView getImageView() { return this.imageView; }
+  public ImageView getImageView() {
+    return this.imageView;
+  }
 
 
-  public void changeHeight(Double h) { imageView.setFitHeight(h); }
+  public void changeHeight(Double h) {
+    imageView.setFitHeight(h);
+  }
 
-  public void changeWidth(Double w) { imageView.setFitWidth(w); }
+  public void changeWidth(Double w) {
+    imageView.setFitWidth(w);
+  }
 
-  public void changeVisibility(Boolean b) { imageView.setVisible(b); }
+  public void changeVisibility(Boolean b) {
+    imageView.setVisible(b);
+  }
 
   public void changeX(Double x) {
     imageView.setX(x);

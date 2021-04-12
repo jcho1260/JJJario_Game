@@ -17,7 +17,7 @@ public class LeafComponentFactory extends ComponentFactory {
   }
 
   @Override
-  public Object make(Element e) throws Exception {
+  public Object make(Element e) throws ViewFactoryException {
     if (e.getNodeName().equals("Image")) {
       return makeImage(e);
     }

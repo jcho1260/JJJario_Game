@@ -1,7 +1,6 @@
 package ooga.view.factories;
 
 import java.beans.Statement;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ResourceBundle;
 import javafx.scene.Node;
@@ -11,19 +10,28 @@ import org.w3c.dom.NodeList;
 public abstract class ComponentFactory {
 
   //TODO: FIX THE THROWS
-  public abstract Object make(Element e) throws Exception;
+  public abstract Object make(Element e) throws ViewFactoryException;
 
-  protected void addChild(ResourceBundle rb, Node component, Element e) throws Exception {
+  protected void addChild(ResourceBundle rb, Node component, Element e)
+      throws ViewFactoryException {
     String mName = getMethodNameFromXML(rb, e);
     Object[] mArgs = new Object[]{make(e)};
-    new Statement(component, mName, mArgs).execute();
+    try {
+      new Statement(component, mName, mArgs).execute();
+    } catch (Exception exception) {
+      throw new ViewFactoryException("Could not find method " + mName, e);
+    }
   }
 
   protected void editProperty(ResourceBundle rb, Node component, Element e)
-      throws Exception {
+      throws ViewFactoryException {
     String mName = getMethodNameFromXML(rb, e);
     Object[] mArgs = getMethodArgsFromXML(rb, e);
-    new Statement(component, mName, mArgs).execute();
+    try {
+      new Statement(component, mName, mArgs).execute();
+    } catch (Exception exception) {
+      throw new ViewFactoryException("Could not find method " + mName, e);
+    }
   }
 
   protected String getMethodNameFromXML(ResourceBundle rb, Element e) {
@@ -31,10 +39,13 @@ public abstract class ComponentFactory {
   }
 
   protected Object makeComponentBase(ResourceBundle rb, String compName)
-      throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException,
-      InvocationTargetException, InstantiationException {
-    Class<?> compClass = Class.forName(rb.getString(compName.toUpperCase()));
-    return compClass.getDeclaredConstructor().newInstance();
+      throws ViewFactoryException {
+    try {
+      return Class.forName(rb.getString(compName.toUpperCase())).getDeclaredConstructor()
+          .newInstance();
+    } catch (Exception e) {
+      throw new ViewFactoryException(e.getMessage());
+    }
   }
 
   protected boolean hasChildElements(Element el) {
@@ -53,8 +64,8 @@ public abstract class ComponentFactory {
     parseMethod.setAccessible(true);
     try {
       return new Object[]{parseMethod.invoke(this, e)};
-    } catch (IllegalAccessException | InvocationTargetException illegalAccessException) {
-      throw new ViewFactoryException("Unknown View Factory error", e);
+    } catch (Exception exception) {
+      throw new ViewFactoryException(exception.getMessage());
     }
   }
 
@@ -64,7 +75,7 @@ public abstract class ComponentFactory {
     try {
       return ComponentFactory.class.getDeclaredMethod(mName, Element.class);
     } catch (NoSuchMethodException noSuchMethodException) {
-      throw new ViewFactoryException("No parse method for "+dataType, e);
+      throw new ViewFactoryException("No parse method for " + dataType, e);
     }
   }
 
