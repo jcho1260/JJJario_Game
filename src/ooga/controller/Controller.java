@@ -38,6 +38,7 @@ public class Controller {
     this.frameSize =  frameSize;
     this.frameRate = frameRate;
     keyListener = new KeyListener(new Profile("default").keybinds());
+    activeProfile = "";
   }
 
   public void startGame(GameView gameView) {
@@ -80,6 +81,10 @@ public class Controller {
       saveProfile(name, new Profile(name));
       return getProfile(name);
     }
+  }
+
+  public String getActiveProfile() {
+    return activeProfile;
   }
 
   public void saveProfile(String name, Profile profile) throws IOException {
