@@ -9,6 +9,18 @@
     <Width>285</Width>
     <Height>100</Height>
   </ImageView>
+  <Button id="ProfileButton" type="Leaf">
+    <Text>Profile</Text>
+    <ImageView>
+      <Image>
+        <Path>view_resources/images/button_icons/User.png</Path>
+      </Image>
+      <Ratio>true</Ratio>
+      <Height>80</Height>
+      <Width>80</Width>
+    </ImageView>
+    <!--<Action>TODO</Action>-->
+  </Button>
   <Button id="DashboardButton" type="Leaf">
     <Text>Dashboard</Text>
     <ImageView>
