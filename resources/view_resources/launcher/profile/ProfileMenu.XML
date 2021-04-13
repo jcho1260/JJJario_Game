@@ -15,6 +15,9 @@
       <TextField id="UsernameMenuInput" type="Leaf">
         <Prompt>Username</Prompt>
       </TextField>
+      <TextField id="WKeyMenuInput" type="Leaf">
+        <Prompt>WKey</Prompt>
+      </TextField>
     </VBox>
   </HBox>
 </VBox>

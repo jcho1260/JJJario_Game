@@ -11,6 +11,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.KeyListener;
+import ooga.controller.Profile;
 import ooga.view.game.GameView;
 import ooga.view.launcher.ProfileView;
 import org.w3c.dom.Element;
@@ -71,20 +72,17 @@ public class ActionFactory {
   private EventHandler<ActionEvent> makeProfileViewAction(Node component, Element e) {
     return event -> {
       String pfName = controller.getActiveProfile();
-      if (pfName.equals("")) {
-        try {
+      try {
+        if (pfName.equals("")) {
           changeStackPane(component, e, (Node) pcf.make((Element) e.getElementsByTagName("FilePath").item(0)));
-        } catch (ViewFactoryException viewFactoryException) {
-          viewFactoryException.printStackTrace();
-        }
-      } else {
-        ProfileView pv = new ProfileView(controller, pcf);
-        try {
-          controller.getProfile(pfName).display(pv);
+        } else {
+          Profile profile = controller.getProfile(pfName);
+          ProfileView pv = new ProfileView(pcf, profile);
+          profile.display(pv);
           changeStackPane(component, e, pv.getParent());
-        } catch (IOException | ViewFactoryException ioException) {
-          ioException.printStackTrace();
         }
+      } catch (ViewFactoryException vfe) {
+        vfe.printStackTrace();
       }
     };
   }
@@ -95,10 +93,11 @@ public class ActionFactory {
         try {
           String pfName = ((TextField) component).getText();
           controller.setActiveProfile(pfName);
-          ProfileView pv = new ProfileView(controller, pcf);
-          controller.getProfile(pfName).display(pv);
+          Profile profile = controller.getProfile(pfName);
+          ProfileView pv = new ProfileView(pcf, profile);
+          profile.display(pv);
           changeStackPane(component, e, pv.getParent());
-        } catch (IOException | ClassNotFoundException | ViewFactoryException ioException) {
+        } catch (IOException | ViewFactoryException ioException) {
           ioException.printStackTrace();
         }
       }

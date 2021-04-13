@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.Map;
 import javafx.scene.input.KeyCode;
 import ooga.model.util.Action;
+import ooga.view.launcher.ProfileView;
 
 public class Profile implements Serializable, PropertyChangeListener {
 
@@ -39,7 +40,7 @@ public class Profile implements Serializable, PropertyChangeListener {
   }
 
   public void display(ProfileView pv) {
-
+    pv.makeMenu(name, picture, keybinds, highScores);
   }
 
   @Override
