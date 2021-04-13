@@ -75,6 +75,7 @@ public class GameWorld extends Observable {
     for (int i = 0; i < 10; i++) {
       if (worldCollisionHandling.detectAllCollisions()) {
         worldCollisionHandling.fixIntersection(allBricks);
+        worldCollisionHandling.clear();
       } else {
         break;
       }
