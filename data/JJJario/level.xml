@@ -112,8 +112,8 @@
         <y>650</y>
       </Location>
       <Velocity>
-        <x>1</x>
-        <y>1</y>
+        <x>50</x>
+        <y>50</y>
       </Velocity>
       <StartLife>3</StartLife>
       <JumpTime>200</JumpTime>
@@ -126,7 +126,7 @@
         <y>650</y>
       </Location>
       <Velocity>
-        <x>-1</x>
+        <x>-50</x>
         <y>0</y>
       </Velocity>
       <StartHealth>1</StartHealth>
@@ -143,7 +143,7 @@
         <y>650</y>
       </Location>
       <Velocity>
-        <x>-1</x>
+        <x>-50</x>
         <y>0</y>
       </Velocity>
       <StartHealth>1</StartHealth>
@@ -160,7 +160,7 @@
         <y>650</y>
       </Location>
       <Velocity>
-        <x>-1</x>
+        <x>-50</x>
         <y>0</y>
       </Velocity>
       <StartHealth>1</StartHealth>
