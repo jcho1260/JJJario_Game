@@ -67,15 +67,13 @@ public class WorldCollisionHandling {
         if (!directionalTags.isEmpty()) {
           List<MethodBundle> actorCollisionMethods = handleTagHierarchy(actor.getEntityType(), directionalTags);
           ((Destroyable) actor).addCollision(actorCollisionMethods);
-          if (((Destroyable) actor).cornerCollision(collisionObject)) {
+          if (!((Destroyable) actor).cornerCollision(collisionObject)) {
             collisions.add(((Destroyable) actor));
           }
           Entry<GameObject, GameObject> pair = new SimpleEntry<>(actor, collisionObject);
           Entry<GameObject, GameObject> unPair = new SimpleEntry<>(collisionObject, actor);
           if (!collisionPairs.contains(unPair)) {
             collisionPairs.add(pair);
-            System.out.println(pair.getKey().getEntityType().get(pair.getKey().getEntityType().size() - 1)
-                + " " + pair.getValue().getEntityType().get(pair.getValue().getEntityType().size() - 1)+" "+directionalTags.get(directionalTags.size()-1));
 
           }
         }
@@ -86,7 +84,7 @@ public class WorldCollisionHandling {
     activeDestroyable.remove(player);
     activeGameObjects.remove(player);
 
-    return !collisions.isEmpty();
+    return !collisionPairs.isEmpty();
   }
 
   public void fixIntersection(List<GameObject> allBricks) {

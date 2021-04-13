@@ -48,7 +48,7 @@ public class GameWorld extends Observable {
     windowSize = frameSize;
     allGameObjects = gameObjects;
     gravity = levelGravity;
-    stepTime = frameRate;
+    stepTime = 1.0/frameRate;
     frameCoords = new Vector[4];
     frameCoordinates(player.getPosition(), player.getSize());
     allActiveGameObjects = findActiveObjects(allGameObjects);
@@ -80,7 +80,6 @@ public class GameWorld extends Observable {
         break;
       }
     }
-    System.out.println("updating positions with predicted pos");
     updatePositions();
 
     // using actual position (after setPosition() was called) --> do later, call internally

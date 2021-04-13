@@ -111,6 +111,7 @@ public class DestroyableCollisionHandling {
 
   public boolean smallCorner(GameObject me, GameObject o) {
     Vector[] rect = determineCollisionRectangle(me, o);
+    if (rect == null) { return false; }
     double width = rect[1].getX() - rect[0].getX();
     double height = rect[1].getY() - rect[0].getY();
     return width + height < 10;

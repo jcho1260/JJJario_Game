@@ -1,5 +1,5 @@
 <Level>
-  <GlobalGravity>1</GlobalGravity>
+  <GlobalGravity>50</GlobalGravity>
   <GameObjects>
     <GameObject>
       <Name>Mario</Name>
