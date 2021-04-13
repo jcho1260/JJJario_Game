@@ -63,10 +63,13 @@ public class WorldCollisionHandling {
           continue;
         }
         List<String> directionalTags = ((Destroyable) actor).determineCollision(collisionObject);
+
         if (!directionalTags.isEmpty()) {
           List<MethodBundle> actorCollisionMethods = handleTagHierarchy(actor.getEntityType(), directionalTags);
           ((Destroyable) actor).addCollision(actorCollisionMethods);
-          collisions.add(((Destroyable) actor));
+          if (((Destroyable) actor).cornerCollision(collisionObject)) {
+            collisions.add(((Destroyable) actor));
+          }
           Entry<GameObject, GameObject> pair = new SimpleEntry<>(actor, collisionObject);
           Entry<GameObject, GameObject> unPair = new SimpleEntry<>(collisionObject, actor);
           if (!collisionPairs.contains(unPair)) {
