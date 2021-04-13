@@ -100,7 +100,7 @@ public class UserInputMovement {
    * @return stepVelocityMagnitude
    */
   public Vector getVelocity() {
-    System.out.println("player velocity: "+stepVelocityMagnitude);
+    //System.out.println("player velocity: "+stepVelocityMagnitude);
     return stepVelocityMagnitude;
   }
 

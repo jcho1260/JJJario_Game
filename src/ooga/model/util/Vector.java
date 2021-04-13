@@ -120,7 +120,7 @@ public class Vector {
   }
 
   public Vector subtract(Vector v) {
-    return this.copy().add(v.multiply(new Vector(-1, -1));
+    return this.copy().add(v.multiply(new Vector(-1, -1)));
   }
 
 }

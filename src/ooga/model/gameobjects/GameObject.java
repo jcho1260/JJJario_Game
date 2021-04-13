@@ -15,7 +15,7 @@ public class GameObject extends Observable {
   private List<String> entityTypes;
   private int id;
   private boolean isActive;
-  protected Rectangle rect;
+  private Rectangle rect;
 
   /**
    * Default constructor
@@ -36,8 +36,21 @@ public class GameObject extends Observable {
     return rect.getPosition();
   }
 
-  protected void setPosition(Vector newPosition) {
-    rect.setPosition(newPosition);
+  public void updatePosition() {
+    rect.updatePosition();
+  }
+
+  protected Rectangle getRect() {
+    return rect;
+  }
+
+  // TODO REFACTOR FOR reasons
+  public Vector getPredictedPosition() {
+    return rect.getPredictedPos();
+  }
+
+  public void setPredictedPosition(Vector pos) {
+    rect.setPredictedPos(pos);
   }
 
   /**
@@ -62,7 +75,7 @@ public class GameObject extends Observable {
    * @param gameGravity
    */
   public void step(double elapsedTime, double gameGravity) {
-
+    // TODO :D
   }
 
   public Vector getVelocity() {

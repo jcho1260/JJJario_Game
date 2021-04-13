@@ -29,9 +29,16 @@ public class Destroyable extends GameObject{
    */
   public boolean isAlive() { return health.isAlive(); }
 
-
   public List<String> determineCollision(GameObject o) {
     return collisionHandler.determineCollisionMethods(this, o);
+  }
+
+  public Vector[] determineCollisionRect(GameObject myself, GameObject o) {
+    return collisionHandler.determineCollisionRectangle(myself, o);
+  }
+
+  public Vector calculateCollisionDirection(GameObject myself, Vector[] collisionBox) {
+    return collisionHandler.calculateCollisionDirection(myself, collisionBox);
   }
 
   /**

@@ -47,16 +47,18 @@ public class Player extends Destroyable {
     for (int i = 0; i < 2; i++) {
       paramClasses[i] = Double.class;
     }
+    System.out.println(direction);
     Method moveMethod = userMovementClass.getMethod(methodName, paramClasses);
     Vector deltaPosition = (Vector) moveMethod.invoke(userMovement, elapsedTime, gameGravity);
-    setPosition(getPosition().add(deltaPosition));
+    setPredictedPosition(getPosition().add(deltaPosition));
   }
 
   /**
    * Collision method for whenever the bottom of player lands on something.
    */
   public void generalBottomCollision() {
-    setPosition(getPosition().add(userMovement.hitGround()));
+    //setPredictedPosition(getPredictedPosition().add(userMovement.hitGround()));
+    userMovement.hitGround();
   }
 
   /**
@@ -133,7 +135,9 @@ public class Player extends Destroyable {
     return new ArrayList<>(activePowerUps);
   }
 
-  private void scaleSize(Double scaleFactor) { rect.scaleSize(scaleFactor); }
+  private void scaleSize(Double scaleFactor) {
+    getRect().scaleSize(scaleFactor);
+  }
 
   private void incrementScore(Double increment) { score += increment; }
 

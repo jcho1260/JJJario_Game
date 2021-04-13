@@ -26,6 +26,7 @@ public class GameWorld extends Observable {
   private List<GameObject> allActiveGameObjects;
   private List<GameObject> allDestroyables;
   private List<GameObject> allActiveDestroyables;
+  private List<GameObject> allBricks;
   private WorldCollisionHandling worldCollisionHandling;
   private int score;
   private Player player;
@@ -53,27 +54,54 @@ public class GameWorld extends Observable {
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allDestroyables = actors;
     allActiveDestroyables = findActiveObjects(allDestroyables);
+    allBricks = new ArrayList<>();
+    findBricks();
     worldCollisionHandling = new WorldCollisionHandling(collisionMethods, gameObjects, actors, player);
     windowSize = frameSize;
-    double playerViewX = frameSize.getX()*playerXLoc;
-    double playerViewY = frameSize.getY()*playerYLoc;
+    double playerViewX = frameSize.getX() * playerXLoc;
+    double playerViewY = frameSize.getY() * playerYLoc;
     playerViewCoord = new Vector(playerViewX, playerViewY);
 
   }
 
   public void stepFrame(Action pressEffect)
       throws NoSuchMethodException, JjjanException, InvocationTargetException, IllegalAccessException {
-    player.userStepMovement(pressEffect, stepTime, gravity);
-    allGameObjectStep(stepTime);
-    frameCoordinates(player.getPosition(), player.getSize());
-    worldCollisionHandling.detectAllCollisions();
-    List<Integer> forDeletion = worldCollisionHandling.executeAllCollisions();
+    player.userStepMovement(pressEffect, stepTime, gravity);  // use setPredicted
+    allGameObjectStep(stepTime);  // use setPredicted
+    worldCollisionHandling.detectAllCollisions(); // use setPredicted
+    List<Integer> forDeletion = worldCollisionHandling.executeAllCollisions();  // use setPredicted
     removeDeadActors(forDeletion);
+
+    for (int i = 0; i < 10; i++) {
+      if (worldCollisionHandling.detectAllCollisions()) {
+        worldCollisionHandling.fixIntersection(allBricks);
+      } else {
+        break;
+      }
+    }
+    updatePositions();
+
+    // using actual position (after setPosition() was called) --> do later, call internally
+    frameCoordinates(player.getPosition(), player.getSize());
+    sendViewCoords();
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allActiveDestroyables = findActiveObjects(allDestroyables);
     worldCollisionHandling.updateActiveGameObjects(allActiveGameObjects, allActiveDestroyables);
-    sendViewCoords();
-    //notifyListeners("activeGameObjects", /*List<Integer> ids*/, allActiveIds());
+  }
+
+  private void updatePositions() {
+    for (GameObject go : allActiveDestroyables) {
+      go.updatePosition();
+    }
+  }
+
+  private void findBricks() {
+    for (GameObject go : allGameObjects) {
+      // TODO ah
+      if (go.getEntityType().contains("Block")) {
+        allBricks.add(go);
+      }
+    }
   }
 
   private void allGameObjectStep(double elapsedTime) {
@@ -110,6 +138,7 @@ public class GameWorld extends Observable {
   private void removeDeadActors(List<Integer> deadActors) {
     allGameObjects = removeIndicesFromList(allGameObjects, deadActors);
     allDestroyables = removeIndicesFromList(allDestroyables, deadActors);
+    allBricks = removeIndicesFromList(allBricks, deadActors);
   }
 
   private List<GameObject> removeIndicesFromList(List<GameObject> objects, List<Integer> deadActors) {
@@ -127,13 +156,13 @@ public class GameWorld extends Observable {
     double defaultYBot = windowSize.getY();
     double defaultYTop = 0;
     Vector playerCenter = new Vector(playerCoord.getX()+ 0.5*playerSize.getX(), playerCoord.getY() + 0.5*playerSize.getY());
-    double topY = playerCenter.getY() - playerYLoc*windowSize.getY();
+    double topY = playerCenter.getY() - playerYLoc * windowSize.getY();
     if (topY < 0) {topY = defaultYTop;}
-    double botY = playerCoord.getY() + (1-playerYLoc)*windowSize.getY();
+    double botY = playerCoord.getY() + (1-playerYLoc) * windowSize.getY();
     if(defaultYBot > windowSize.getY()) {botY = defaultYBot;}
-    double leftX = playerCenter.getX() - playerXLoc*windowSize.getX();
+    double leftX = playerCenter.getX() - playerXLoc * windowSize.getX();
     if (leftX < 0) {leftX = defaultXLeft;}
-    double rightX = playerCenter.getX() + playerXLoc*windowSize.getX();
+    double rightX = playerCenter.getX() + playerXLoc * windowSize.getX();
     frameCoords[0] = new Vector(leftX, topY);
     frameCoords[1] = new Vector(rightX, topY);
     frameCoords[2] = new Vector(leftX, botY);
@@ -151,42 +180,20 @@ public class GameWorld extends Observable {
    *
    */
   public List<GameObject> getAllDestroyables() {
-    // TODO implement here
     return allDestroyables;
   }
 
   /**
    *
    */
-  public List<GameObject> getActiveActors() {
-    // TODO implement here
-    return allActiveDestroyables;
-  }
-
-  /**
-   *
-   */
   public List<GameObject> getAllGameObjects() {
-    // TODO implement here
     List<GameObject> ret = new ArrayList<>(allGameObjects);
     ret.add(player);
     return ret;
   }
 
-  /**
-   *
-   */
-  public List<GameObject> getActiveGameObjects() {
-    // TODO implement here
-    return null;
-  }
-
   public double getGravity() {
     return gravity;
-  }
-
-  public double getStepTime() {
-    return stepTime;
   }
 
   public boolean isGameOver() {
