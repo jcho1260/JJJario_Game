@@ -29,6 +29,10 @@ public class Destroyable extends GameObject{
    */
   public boolean isAlive() { return health.isAlive(); }
 
+  public boolean cornerCollision(GameObject o) {
+    return collisionHandler.smallCorner(this, o);
+  }
+
   public List<String> determineCollision(GameObject o) {
     return collisionHandler.determineCollisionMethods(this, o);
   }

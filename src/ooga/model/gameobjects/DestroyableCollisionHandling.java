@@ -109,10 +109,11 @@ public class DestroyableCollisionHandling {
     return edges;
   }
 
-  private String collisionAxis(Vector myPos, Vector oPos) {
-    if (myPos.getY() > oPos.getY() || myPos.getY() < oPos.getY()) { return "y"; }
-    if (myPos.getX() > oPos.getX() || myPos.getX() < oPos.getX()) { return "x"; }
-    return "x oy y";
+  public boolean smallCorner(GameObject me, GameObject o) {
+    Vector[] rect = determineCollisionRectangle(me, o);
+    double width = rect[1].getX() - rect[0].getX();
+    double height = rect[1].getY() - rect[0].getY();
+    return width + height < 10;
   }
 
 }
