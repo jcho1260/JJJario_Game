@@ -77,7 +77,7 @@ public class ActionFactory {
           changeStackPane(component, e, (Node) pcf.make((Element) e.getElementsByTagName("FilePath").item(0)));
         } else {
           Profile profile = controller.getProfile(pfName);
-          ProfileView pv = new ProfileView(pcf, profile);
+          ProfileView pv = new ProfileView(controller, pcf, profile);
           profile.display(pv);
           changeStackPane(component, e, pv.getParent());
         }
@@ -94,7 +94,7 @@ public class ActionFactory {
           String pfName = ((TextField) component).getText();
           controller.setActiveProfile(pfName);
           Profile profile = controller.getProfile(pfName);
-          ProfileView pv = new ProfileView(pcf, profile);
+          ProfileView pv = new ProfileView(controller, pcf, profile);
           profile.display(pv);
           changeStackPane(component, e, pv.getParent());
         } catch (IOException | ViewFactoryException ioException) {
