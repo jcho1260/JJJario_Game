@@ -37,7 +37,7 @@ public class Controller {
     collisionsParser = new CollisionsParser();
     this.frameSize =  frameSize;
     this.frameRate = frameRate;
-    keyListener = new KeyListener(new Profile("default").keybinds());
+    keyListener = new KeyListener(new Profile("default").getKeybinds());
     activeProfile = "";
   }
 
@@ -72,14 +72,13 @@ public class Controller {
     return keyListener;
   }
 
-  public Profile getProfile(String name) throws IOException {
+  public Profile getProfile(String name) {
     try {
       FileInputStream in = new FileInputStream("data/profiles/" + name + ".player");
       ObjectInputStream s = new ObjectInputStream(in);
       return (Profile) s.readObject();
     } catch(IOException | ClassNotFoundException e) {
-      saveProfile(name, new Profile(name));
-      return getProfile(name);
+      return new Profile(name);
     }
   }
 
@@ -87,15 +86,9 @@ public class Controller {
     return activeProfile;
   }
 
-  public void saveProfile(String name, Profile profile) throws IOException {
-    FileOutputStream f = new FileOutputStream("data/profiles/" + name + ".player");
-    ObjectOutput s = new ObjectOutputStream(f);
-    s.writeObject(profile);
-  }
-
-  public void setActiveProfile(String name) throws IOException, ClassNotFoundException {
+  public void setActiveProfile(String name) throws IOException {
     activeProfile = name;
-    keyListener = new KeyListener(getProfile(activeProfile).keybinds());
+    keyListener = new KeyListener(getProfile(activeProfile).getKeybinds());
   }
 
   private void step(double d) {
