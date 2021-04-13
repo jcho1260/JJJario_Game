@@ -1,5 +1,5 @@
 <?xml version = "1.0" ?>
-<VBox id="ProfileMenuVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuVBox.css">
+<VBox id="ProfileMenuVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileLoginVBox.css">
   <Height>750</Height>
   <Width>1050</Width>
   <HBox id="ProfileMenuHBox1" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuHBox.css">
@@ -11,10 +11,10 @@
       <Height>225</Height>
       <Width>225</Width>
     </ImageView>
-  </HBox>
-  <HBox id="ProfileMenuHBox2" type="Pane" style="view_resources/launcher/profile/css/ProfileLoginHBox.css">
-    <TextField id="UsernameMenuInput" type="Leaf">
-      <Prompt>Username</Prompt>
-    </TextField>
+    <VBox id="ProfileMenuHBox2" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuHBox.css">
+      <TextField id="UsernameMenuInput" type="Leaf">
+        <Prompt>Username</Prompt>
+      </TextField>
+    </VBox>
   </HBox>
 </VBox>
