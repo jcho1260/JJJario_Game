@@ -80,6 +80,7 @@ public class GameWorld extends Observable {
         break;
       }
     }
+    System.out.println("updating positions with predicted pos");
     updatePositions();
 
     // using actual position (after setPosition() was called) --> do later, call internally

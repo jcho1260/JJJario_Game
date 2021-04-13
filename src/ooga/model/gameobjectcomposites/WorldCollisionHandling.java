@@ -71,6 +71,9 @@ public class WorldCollisionHandling {
           Entry<GameObject, GameObject> unPair = new SimpleEntry<>(collisionObject, actor);
           if (!collisionPairs.contains(unPair)) {
             collisionPairs.add(pair);
+            System.out.println(pair.getKey().getEntityType().get(pair.getKey().getEntityType().size() - 1)
+                + " " + pair.getValue().getEntityType().get(pair.getValue().getEntityType().size() - 1)+" "+directionalTags.get(directionalTags.size()-1));
+
           }
         }
       }

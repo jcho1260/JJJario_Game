@@ -50,7 +50,7 @@
       </Method>
     </GameObject>
     <GameObject>
-      <Name>Block-BOTTOM</Name>
+      <Name>Block-DOWN</Name>
       <Method>
         <Name>scaleVelocity</Name>
         <Args>
