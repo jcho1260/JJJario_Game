@@ -21,6 +21,7 @@ public class Profile implements Serializable, PropertyChangeListener {
 
   public Profile(String name) {
     this.name = name;
+    save();
   }
 
   public void setName(String name) {
@@ -49,6 +50,14 @@ public class Profile implements Serializable, PropertyChangeListener {
     Object[] args = new Object[]{evt.getNewValue()};
     try {
       new Statement(this, method, args).execute();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    save();
+  }
+
+  private void save() {
+    try {
       FileOutputStream f = new FileOutputStream("data/profiles/" + name + ".player");
       ObjectOutput s = new ObjectOutputStream(f);
       s.writeObject(this);
