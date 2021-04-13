@@ -104,6 +104,8 @@ public class UserInputMovement {
     return stepVelocityMagnitude;
   }
 
+  //whoop
+  
   /**
    * Sets stepVelocityMagnitude to new value.
    *
