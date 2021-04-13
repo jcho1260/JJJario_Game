@@ -21,6 +21,7 @@ public class Profile implements Serializable, PropertyChangeListener {
 
   public Profile(String name) {
     this.name = name;
+    this.keybinds = Map.of(KeyCode.W, Action.UP, KeyCode.A, Action.LEFT, KeyCode.S, Action.DOWN, KeyCode.D, Action.RIGHT);
     save();
   }
 
