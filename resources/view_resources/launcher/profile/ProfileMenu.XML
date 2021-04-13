@@ -1,0 +1,20 @@
+<?xml version = "1.0" ?>
+<VBox id="ProfileMenuVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuVBox.css">
+  <Height>750</Height>
+  <Width>1050</Width>
+  <HBox id="ProfileMenuHBox1" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuHBox.css">
+    <ImageView id="ProfileImage" type="Leaf">
+      <Image>
+        <Path>view_resources/images/button_icons/User.png</Path>
+      </Image>
+      <Ratio>true</Ratio>
+      <Height>225</Height>
+      <Width>225</Width>
+    </ImageView>
+  </HBox>
+  <HBox id="ProfileMenuHBox2" type="Pane" style="view_resources/launcher/profile/css/ProfileLoginHBox.css">
+    <TextField id="UsernameMenuInput" type="Leaf">
+      <Prompt>Username</Prompt>
+    </TextField>
+  </HBox>
+</VBox>

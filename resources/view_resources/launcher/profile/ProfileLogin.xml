@@ -8,10 +8,8 @@
     </TextObj>
   </HBox>
   <HBox id="ProfileLoginHBox2" type="Pane" style="view_resources/launcher/profile/css/ProfileLoginHBox.css">
-    <TextObj id="UsernameInputLabel" type="Leaf">
-      <Text>Username:</Text>
-    </TextObj>
     <TextField id="UsernameInputBox" type="Leaf">
+      <Prompt>Username</Prompt>
       <Event method="setOnKeyReleased" event_type="KeyEvent">
         <Type>ProfileLogin</Type>
         <PaneID>LauncherStackPane</PaneID>

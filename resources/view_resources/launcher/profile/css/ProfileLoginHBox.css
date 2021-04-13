@@ -9,7 +9,7 @@ Text {
     -fx-text-alignment: right;
     -fx-font-family: "Roboto Light";
     -fx-font-weight: bold;
-    -fx-font-size: 20px;
+    -fx-font-size: 40px;
     -fx-wrap-text: true;
 }
 
@@ -21,4 +21,5 @@ TextField {
     -fx-font-weight: bold;
     -fx-font-size: 20px;
     -fx-wrap-text: true;
+    -fx-prompt-text-fill: #e8e2f7;
 }
