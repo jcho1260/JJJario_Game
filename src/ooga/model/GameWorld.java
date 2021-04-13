@@ -94,6 +94,7 @@ public class GameWorld extends Observable {
     for (GameObject go : allActiveDestroyables) {
       go.updatePosition();
     }
+    player.updatePosition();
   }
 
   private void findBricks() {
