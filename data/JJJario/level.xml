@@ -1,5 +1,5 @@
 <Level>
-  <GlobalGravity>50</GlobalGravity>
+  <GlobalGravity>25</GlobalGravity>
   <GameObjects>
     <GameObject>
       <Name>Mario</Name>
@@ -116,7 +116,7 @@
         <y>50</y>
       </Velocity>
       <StartLife>3</StartLife>
-      <JumpTime>200</JumpTime>
+      <JumpTime>1</JumpTime>
       <StartHealth>1</StartHealth>
     </Entity>
     <Entity>

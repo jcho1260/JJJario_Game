@@ -121,8 +121,8 @@ public class UserInputMovement {
     gravityLevel = gameGravity;
     gravitySink = (1 + change.getY()) * elapsedTime * gameGravity * gravityScale;
 
-    double newX = elapsedTime * stepVelocityMagnitude.getX() * change.getX();
-    double newY = (elapsedTime * stepVelocityMagnitude.getY() * change.getY())
+    double newX = elapsedTime * Math.abs(stepVelocityMagnitude.getX()) * change.getX();
+    double newY = (elapsedTime * Math.abs(stepVelocityMagnitude.getY()) * change.getY())
         + gravitySink;
 
     return new Vector(newX, newY);
