@@ -114,4 +114,13 @@ public class Vector {
         ", " + yVal +
         '}';
   }
+
+  public double calculateMagnitude() {
+    return Math.sqrt((xVal * xVal) + (yVal * yVal));
+  }
+
+  public Vector subtract(Vector v) {
+    return this.copy().add(v.multiply(new Vector(-1, -1));
+  }
+
 }

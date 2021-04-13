@@ -11,7 +11,7 @@
       </Method>
     </GameObject>
     <GameObject>
-      <Name>Enemy-B</Name>
+      <Name>Enemy-DOWN</Name>
       <Method>
         <Name>scaleVelocity</Name>
         <Args>
@@ -85,7 +85,7 @@
       </Method>
     </GameObject>
     <GameObject>
-      <Name>GameObject-R</Name>
+      <Name>GameObject-RIGHT</Name>
       <Method>
         <Name>scaleVelocity</Name>
         <Args>
