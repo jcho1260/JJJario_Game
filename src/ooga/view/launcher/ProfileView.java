@@ -38,9 +38,7 @@ public class ProfileView {
       doc = dBuilder.parse(new File("resources/view_resources/launcher/profile/ProfileMenu.XML"));
       doc.getDocumentElement().normalize();
       currMenu = (Parent) pcf.make(doc.getDocumentElement());
-      TextField tf = ((TextField) currMenu.lookup("#UsernameMenuInput"));
-      tf.setPromptText(name);
-      tf.setOnKeyPressed(makePCLHandler(tf, "Name"));
+      editUsernameInput(name);
     } catch (Exception exception) {
       new ViewFactoryException(exception.getMessage()).printStackTrace();
     }
@@ -48,6 +46,18 @@ public class ProfileView {
 
   public Parent getParent() {
     return this.currMenu;
+  }
+
+  private void editUsernameInput(String name) {
+    TextField tf = ((TextField) currMenu.lookup("#UsernameMenuInput"));
+    tf.setPromptText(name);
+    tf.setOnKeyPressed(makePCLHandler(tf, "Name"));
+  }
+
+  private void makeKeyBindingInput(String name) {
+    TextField tf = ((TextField) currMenu.lookup("#ForwardMenuInput"));
+    tf.setPromptText(name);
+    tf.setOnKeyPressed(makePCLHandler(tf, "Name"));
   }
 
   private EventHandler<KeyEvent> makePCLHandler(TextField component, String label) {

@@ -1,0 +1,44 @@
+#ProfileMenuLabelVBox {
+    -fx-background-color: darkslateblue;
+    -fx-spacing: 30;
+    -fx-alignment: CENTER-RIGHT;
+}
+
+#ProfileMenuTextFieldVBox {
+    -fx-background-color: darkslateblue;
+    -fx-spacing: 10;
+    -fx-alignment: CENTER-LEFT;
+}
+
+Text {
+    -fx-fill: #e8e2f7;
+    -fx-text-alignment: right;
+    -fx-font-family: "Roboto Light";
+    -fx-font-weight: bold;
+    -fx-font-size: 25px;
+    -fx-wrap-text: true;
+}
+
+.text-field {
+    -fx-background-color: darkslateblue;
+    -fx-text-fill: #e8e2f7;
+    -fx-text-alignment: center;
+    -fx-font-family: "Roboto Light";
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-wrap-text: true;
+    -fx-prompt-text-fill: #e8e2f7;
+    -fx-alignment: center;
+}
+
+.text-field:focused {
+    -fx-background-color: mediumslateblue;
+    -fx-text-fill: #e8e2f7;
+    -fx-text-alignment: left;
+    -fx-font-family: "Roboto Light";
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-wrap-text: true;
+    -fx-prompt-text-fill: #e8e2f7;
+    -fx-alignment: left;
+}

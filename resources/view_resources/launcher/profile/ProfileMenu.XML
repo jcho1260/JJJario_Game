@@ -1,8 +1,8 @@
 <?xml version = "1.0" ?>
-<VBox id="ProfileMenuVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileLoginVBox.css">
+<VBox id="ProfileMenuVBox1" type="Pane" style="view_resources/launcher/profile/css/ProfileLoginVBox.css">
   <Height>750</Height>
   <Width>1050</Width>
-  <HBox id="ProfileMenuHBox1" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuHBox.css">
+  <HBox id="ProfileMenuHBoxImage" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuHBox.css">
     <ImageView id="ProfileImage" type="Leaf">
       <Image>
         <Path>view_resources/images/button_icons/User.png</Path>
@@ -11,13 +11,41 @@
       <Height>225</Height>
       <Width>225</Width>
     </ImageView>
-    <VBox id="ProfileMenuHBox2" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuHBox.css">
-      <TextField id="UsernameMenuInput" type="Leaf">
-        <Prompt>Username</Prompt>
-      </TextField>
-      <TextField id="WKeyMenuInput" type="Leaf">
-        <Prompt>WKey</Prompt>
-      </TextField>
-    </VBox>
+    <HBox id="ProfileMenuHBoxText" type="Pane" style="view_resources/launcher/profile/css/ProfileLoginHBox.css">
+      <VBox id="ProfileMenuLabelVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuVBox.css">
+        <TextObj id="UsernameLabel" type="Leaf">
+          <Text>Username:</Text>
+        </TextObj>
+        <TextObj id="ForwardLabel" type="Leaf">
+          <Text>Forward:</Text>
+        </TextObj>
+        <TextObj id="LeftLabel" type="Leaf">
+          <Text>Left:</Text>
+        </TextObj>
+        <TextObj id="BackwardLabel" type="Leaf">
+          <Text>Backward:</Text>
+        </TextObj>
+        <TextObj id="RightLabel" type="Leaf">
+          <Text>Right:</Text>
+        </TextObj>
+      </VBox>
+      <VBox id="ProfileMenuTextFieldVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuHBox.css">
+        <TextField id="UsernameMenuInput" type="Leaf">
+          <Prompt>Username</Prompt>
+        </TextField>
+        <TextField id="ForwardMenuInput" type="Leaf">
+          <Prompt>W Key</Prompt>
+        </TextField>
+        <TextField id="LeftMenuInput" type="Leaf">
+          <Prompt>A Key</Prompt>
+        </TextField>
+        <TextField id="RightMenuInput" type="Leaf">
+          <Prompt>S Key</Prompt>
+        </TextField>
+        <TextField id="BackwardMenuInput" type="Leaf">
+          <Prompt>D Key</Prompt>
+        </TextField>
+      </VBox>
+    </HBox>
   </HBox>
 </VBox>
