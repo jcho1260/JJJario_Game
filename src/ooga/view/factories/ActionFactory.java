@@ -80,7 +80,8 @@ public class ActionFactory {
       } else {
         ProfileView pv = new ProfileView(controller, pcf);
         try {
-          changeStackPane(component, e, pv.makeMenu(controller.getProfile(pfName)));
+          controller.getProfile(pfName).display(pv);
+          changeStackPane(component, e, pv.getParent());
         } catch (IOException | ViewFactoryException ioException) {
           ioException.printStackTrace();
         }
@@ -95,7 +96,8 @@ public class ActionFactory {
           String pfName = ((TextField) component).getText();
           controller.setActiveProfile(pfName);
           ProfileView pv = new ProfileView(controller, pcf);
-          changeStackPane(component, e, pv.makeMenu(controller.getProfile(pfName)));
+          controller.getProfile(pfName).display(pv);
+          changeStackPane(component, e, pv.getParent());
         } catch (IOException | ClassNotFoundException | ViewFactoryException ioException) {
           ioException.printStackTrace();
         }
