@@ -20,6 +20,7 @@ public class MethodBundle {
     }
     try {
       Method collisionResponse = destroyableClass.getMethod(methodName, paramTypes);
+      System.out.println(methodName);
       return collisionResponse;
     } catch (Exception e){
       throw new NoSuchMethodException("method doesn't exist sorry :(");

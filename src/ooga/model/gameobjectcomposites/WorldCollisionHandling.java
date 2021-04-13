@@ -98,7 +98,7 @@ public class WorldCollisionHandling {
           .toUnit().multiply(new Vector(-0.5, -0.5));
       Vector collisionRectSize = new Vector(collisionRect[1].getX() - collisionRect[0].getX(),
           collisionRect[1].getY() - collisionRect[0].getY());
-      Vector fixAmount = collisionRectSize.multiply(direction).add(direction.multiply(new Vector(1, 1)));
+      Vector fixAmount = collisionRectSize.multiply(direction).add(direction.multiply(new Vector(0, 0)));
       destroyable.setPredictedPosition(destroyable.getPredictedPosition().add(fixAmount));
 
       // TODO use list of all blocks to check what to move

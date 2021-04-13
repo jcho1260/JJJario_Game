@@ -18,10 +18,8 @@
     <GameObject>
       <Name>Enemy-DOWN</Name>
       <Method>
-        <Name>scaleVelocity</Name>
+        <Name>generalBottomCollision</Name>
         <Args>
-          <Arg>1</Arg>
-          <Arg>-1</Arg>
         </Args>
       </Method>
     </GameObject>
@@ -52,10 +50,8 @@
     <GameObject>
       <Name>Block-DOWN</Name>
       <Method>
-        <Name>scaleVelocity</Name>
+        <Name>generalBottomCollision</Name>
         <Args>
-          <Arg>1</Arg>
-          <Arg>1</Arg>
         </Args>
       </Method>
     </GameObject>
@@ -64,6 +60,15 @@
     <Name>Enemy</Name>
     <GameObject>
       <Name>PowerUp</Name>
+    </GameObject>
+    <GameObject>
+      <Name>Player</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
     </GameObject>
   </Actor>
   <Actor>
