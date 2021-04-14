@@ -58,8 +58,8 @@ public class AutomatedMovement {
     boolean withinStartY = isStartGreaterThanEndY == (position.getY() < startPosition.getY());
     boolean withinEndX = isStartLessThanEndX == (position.getX() < endPosition.getX());
     boolean withinEndY = isStartGreaterThanEndY == (position.getY() > endPosition.getY());
-    boolean isStart = position.equals(startPosition);
-    boolean isEnd = position.equals(endPosition);
+    boolean isStart = position.subtract(startPosition).calculateMagnitude() < 1;
+    boolean isEnd = position.subtract(endPosition).calculateMagnitude() < 1;
     return (withinStartX && withinStartY && withinEndX && withinEndY) || isStart || isEnd;
   }
 
