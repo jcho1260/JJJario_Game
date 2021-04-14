@@ -84,6 +84,10 @@ public class ProfileView {
   }
 
   private EventHandler<KeyEvent> makePCLKeyBindHandler(String s) {
-    return event -> pcl.propertyChange(new PropertyChangeEvent(this, "setKeyBind", null, new Pair<>(event.getCode(), s)));
+    return event -> {
+      if (event.getCode().isLetterKey()) {
+        pcl.propertyChange(new PropertyChangeEvent(this, "setKeyBind", null, new Pair<>(event.getCode(), s)));
+      }
+    };
   }
 }
