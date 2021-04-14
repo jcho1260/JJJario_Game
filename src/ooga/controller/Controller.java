@@ -89,7 +89,6 @@ public class Controller {
   }
 
   public void setActiveProfile(String name) throws IOException {
-    System.out.println(name);
     activeProfile = name;
     keyListener = new KeyListener(getProfile(activeProfile).getKeybinds());
   }
@@ -101,8 +100,8 @@ public class Controller {
     }
     try {
       gameWorld.stepFrame(keyListener.getCurrentKey());
-    } catch (Exception ignored){
-      ignored.printStackTrace();
+    } catch (Exception e){
+      e.printStackTrace();
     }
   }
 
@@ -110,7 +109,7 @@ public class Controller {
     List<GameObject> gameObjects = gameWorld.getAllGameObjects();
     for (GameObject gameObject : gameObjects) {
       String name = gameObject.getEntityType().get(gameObject.getEntityType().size()-1);
-      Sprite s = new Sprite(name, gameObject.getSize().getX(), gameObject.getSize().getY(), gameObject.getPosition().getX(), gameObject.getPosition().getY());
+      Sprite s = new Sprite(gameView.getGameName(), name, gameObject.getSize().getX(), gameObject.getSize().getY(), gameObject.getPosition().getX(), gameObject.getPosition().getY());
       gameObject.addListener(s);
       gameView.addSprite(s);
     }

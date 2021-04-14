@@ -18,7 +18,7 @@ public class Profile implements Serializable, PropertyChangeListener {
 
   private String name;
   private String picture;
-  private Map<KeyCode, Action> keybinds;
+  private final Map<KeyCode, Action> keybinds;
   private Map<String, Map<Integer, Integer>> highScores;
 
   public Profile(String name) {
@@ -43,13 +43,10 @@ public class Profile implements Serializable, PropertyChangeListener {
     Action action = Action.valueOf(bind.getValue());
     for (KeyCode key : keybinds.keySet()) {
       if (keybinds.get(key) == action) {
-        System.out.println(key);
-        System.out.println(keybinds.get(key));
         keybinds.remove(key);
       }
     }
     keybinds.put(bind.getKey(), action);
-    System.out.println(keybinds);
   }
 
   public Map<KeyCode, Action> getKeybinds() {
