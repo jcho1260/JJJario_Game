@@ -49,7 +49,6 @@ public class LeafComponentFactory extends ComponentFactory {
 
   private Image makeImage(Element e) {
     String imagePath = e.getElementsByTagName("Path").item(0).getTextContent();
-    System.out.println(imagePath);
     return new Image(
         Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(imagePath)));
   }

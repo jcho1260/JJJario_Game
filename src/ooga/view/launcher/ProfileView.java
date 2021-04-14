@@ -69,7 +69,6 @@ public class ProfileView {
   private void makeTextFieldInput(String type, String prompt) {
     TextField tf = new TextField();
     tf.setId(type+"MenuInput");
-    System.out.println(tf.getId());
     tf.setPromptText(prompt);
     if (type.equals("Username")) {
       tf.setOnKeyPressed(makePCLHandler(tf, type));
@@ -92,7 +91,6 @@ public class ProfileView {
           ,new FileChooser.ExtensionFilter("GIF Files", "*.gif")
       );
       File selectedFile = fileChooser.showOpenDialog(currMenu.getScene().getWindow());
-      System.out.println();
       String imagePath = selectedFile.toURI().toString().split("/resources/")[1];
       pcl.propertyChange(new PropertyChangeEvent(this, "setPicture", null, imagePath));
       ((ImageView) currMenu.lookup("#ProfileImage")).setImage(new Image(

@@ -29,9 +29,11 @@ public class GameView implements PropertyChangeListener {
   private final String gameName;
   private final KeyListener kl;
   private final SceneFactory sf;
+  private final String colorTheme;
   private Scene currScene;
 
-  public GameView(String gameName, Stage stage, KeyListener kl, Controller controller) {
+  public GameView(String gameName, Stage stage, KeyListener kl, Controller controller, String colorTheme) {
+    this.colorTheme = colorTheme;
     this.stage = stage;
     this.gameName = gameName;
     this.kl = kl;
@@ -45,6 +47,8 @@ public class GameView implements PropertyChangeListener {
       currScene = sf.make(filePath);
       currScene.setOnKeyPressed(makeKeyAction());
       currScene.setOnKeyReleased(makeKeyAction());
+      currScene.getStylesheets().add(colorTheme);
+      stage.setTitle(gameName);
       stage.setScene(currScene);
       stage.show();
     } catch (Exception e) {

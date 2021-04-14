@@ -1,5 +1,5 @@
 <?xml version = "1.0" ?>
-<ScrollPane id="JJJarioLevelLibraryScrollable" type="Control" style="view_resources/game/FlappyBird/css/LevelLibraryScroll.css">
+<ScrollPane id="FlappyBirdLevelLibraryScrollable" type="Control" style="view_resources/game/FlappyBird/css/LevelLibraryScroll.css">
   <VBox id="GameLibraryVBox" type="Pane" style="view_resources/game/FlappyBird/css/LevelLibrary.css">
     <Height>1080</Height>
     <Button id="Level1Button" type="Leaf">
