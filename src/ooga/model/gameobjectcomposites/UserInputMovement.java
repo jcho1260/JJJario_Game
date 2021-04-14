@@ -90,7 +90,6 @@ public class UserInputMovement {
    * @return deltaPosition
    */
   public Vector moveRIGHT(Double elapsedTime, Double gameGravity) {
-    isJumping = false;
     return decideJumping(elapsedTime, gameGravity, new Vector(1, 0));
   }
 
@@ -102,7 +101,6 @@ public class UserInputMovement {
    * @return deltaPosition
    */
   public Vector moveLEFT(Double elapsedTime, Double gameGravity) {
-    isJumping = false;
     return decideJumping(elapsedTime, gameGravity, new Vector(-1, 0));
   }
 
@@ -128,9 +126,10 @@ public class UserInputMovement {
   private Vector deltaPosition(double elapsedTime, double gameGravity, Vector change) {
     gravitySink = (1 + change.getY()) * elapsedTime * gameGravity * gravityScale;
 
-    double newX = elapsedTime * Math.abs(stepVelocityMagnitude.getX()) * change.getX();
+    double newX = (elapsedTime * Math.abs(stepVelocityMagnitude.getX()) * change.getX())
+        + (elapsedTime * drivingVelocity.getX());
     double newY = (elapsedTime * Math.abs(stepVelocityMagnitude.getY()) * change.getY())
-        + gravitySink;
+        + (elapsedTime * drivingVelocity.getY()) + gravitySink;
 
     return new Vector(newX, newY);
   }
