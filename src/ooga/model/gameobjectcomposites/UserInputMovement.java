@@ -90,6 +90,7 @@ public class UserInputMovement {
    * @return deltaPosition
    */
   public Vector moveRIGHT(Double elapsedTime, Double gameGravity) {
+    isJumping = false;
     return decideJumping(elapsedTime, gameGravity, new Vector(1, 0));
   }
 
@@ -101,6 +102,7 @@ public class UserInputMovement {
    * @return deltaPosition
    */
   public Vector moveLEFT(Double elapsedTime, Double gameGravity) {
+    isJumping = false;
     return decideJumping(elapsedTime, gameGravity, new Vector(-1, 0));
   }
 
@@ -113,8 +115,6 @@ public class UserInputMovement {
     return stepVelocityMagnitude;
   }
 
-  //whoop
-  
   /**
    * Sets stepVelocityMagnitude to new value.
    *
