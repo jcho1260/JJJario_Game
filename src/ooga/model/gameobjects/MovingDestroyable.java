@@ -37,7 +37,7 @@ public class MovingDestroyable extends Destroyable {
    */
   @Override
   public void step(double elapsedTime, double gameGravity) {
-    setPredictedPosition(autoMove.stepMovement(elapsedTime, gameGravity, getPosition()));
+    setPredictedPosition(autoMove.stepMovement(elapsedTime, gameGravity, getPredictedPosition()));
   }
 
   /**
