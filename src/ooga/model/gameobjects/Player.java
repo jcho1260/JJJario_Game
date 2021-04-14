@@ -50,14 +50,13 @@ public class Player extends Destroyable {
     System.out.println(direction);
     Method moveMethod = userMovementClass.getMethod(methodName, paramClasses);
     Vector deltaPosition = (Vector) moveMethod.invoke(userMovement, elapsedTime, gameGravity);
-    setPredictedPosition(getPosition().add(deltaPosition));
+    setPredictedPosition(getPredictedPosition().add(deltaPosition));
   }
 
   /**
    * Collision method for whenever the bottom of player lands on something.
    */
   public void generalBottomCollision() {
-    //setPredictedPosition(getPredictedPosition().add(userMovement.hitGround()));
     userMovement.hitGround();
   }
 
