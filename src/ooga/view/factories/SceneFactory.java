@@ -7,19 +7,24 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import ooga.controller.Controller;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 public class SceneFactory {
+
   private final Controller controller;
 
   public SceneFactory(Controller controller) {
     this.controller = controller;
   }
 
-  public Scene make(String filePath) throws Exception {
+  public Scene make(String filePath) throws ViewFactoryException {
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-    Document doc = dBuilder.parse(new File(filePath));
+    Document doc;
+    try {
+      DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+      doc = dBuilder.parse(new File(filePath));
+    } catch (Exception exception) {
+      throw new ViewFactoryException(exception.getMessage());
+    }
     doc.getDocumentElement().normalize();
 
     ActionFactory af = new ActionFactory(controller);

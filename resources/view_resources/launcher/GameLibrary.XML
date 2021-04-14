@@ -6,15 +6,19 @@
     <HBox id="GameLibraryHBox1" type="Pane" style="view_resources/launcher/css/GameLibraryRow.css">
       <Button id="Game1Button" type="Leaf">
         <Text>Super JJJario Bros.</Text>
-        <Action>
+        <Event method="setOnAction">
           <Game>JJJario</Game>
           <Type>LaunchGame</Type>
-          <Path>resources/view_resources/game/JJJarioMenu.XML</Path>
-        </Action>
+          <Path>resources/view_resources/game/JJJario/Menu.XML</Path>
+        </Event>
       </Button>
       <Button id="Game2Button" type="Leaf">
-        <Text>Game 2</Text>
-        <!--<Action>TODO</Action>-->
+        <Text>Flappy Bird</Text>
+        <Event method="setOnAction">
+          <Game>FlappyBird</Game>
+          <Type>LaunchGame</Type>
+          <Path>resources/view_resources/game/FlappyBird/Menu.XML</Path>
+        </Event>
       </Button>
       <Button id="Game3Button" type="Leaf">
         <Text>Game 3</Text>
