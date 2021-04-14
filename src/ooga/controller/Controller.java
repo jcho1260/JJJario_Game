@@ -98,7 +98,9 @@ public class Controller {
   }
 
   public void endGame() {
-    animation.stop();
+    if (animation != null) {
+      animation.stop();
+    }
   }
 
   private void step(double d) {
