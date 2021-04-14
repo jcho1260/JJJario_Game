@@ -29,6 +29,18 @@ public class UserInputMovement {
     jumpTimeCounter = 0;
   }
 
+  private Vector decideJumping(Double elapsedTime, Double gameGravity, Vector change) {
+    if (isJumping) {
+      jumpTimeCounter += elapsedTime;
+    }
+
+    if (isJumping && jumpTimeCounter <= jumpTimeLimit) {
+      return deltaPosition(elapsedTime, gameGravity, new Vector(0, -1));
+    } else {
+      return deltaPosition(elapsedTime, gameGravity, change);
+    }
+  }
+
   /**
    * Returns vector of change in position as a result of NONE. Should fall.
    *
@@ -37,15 +49,7 @@ public class UserInputMovement {
    * @return deltaPosiiton
    */
   public Vector moveNONE(Double elapsedTime, Double gameGravity) {
-    if (isJumping) {
-      jumpTimeCounter += elapsedTime;
-    }
-
-    if (isJumping && jumpTimeCounter <= jumpTimeLimit) {
-      return deltaPosition(elapsedTime, gameGravity, new Vector(0, -1));
-    } else {
-      return deltaPosition(elapsedTime, gameGravity, new Vector(0, 0));
-    }
+    return decideJumping(elapsedTime, gameGravity, new Vector(0, 0));
   }
 
   /**
@@ -85,7 +89,7 @@ public class UserInputMovement {
    * @return deltaPosition
    */
   public Vector moveRIGHT(Double elapsedTime, Double gameGravity) {
-    return deltaPosition(elapsedTime, gameGravity, new Vector(1, 0));
+    return decideJumping(elapsedTime, gameGravity, new Vector(1, 0));
   }
 
   /**
@@ -96,7 +100,7 @@ public class UserInputMovement {
    * @return deltaPosition
    */
   public Vector moveLEFT(Double elapsedTime, Double gameGravity) {
-    return deltaPosition(elapsedTime, gameGravity, new Vector(-1, 0));
+    return decideJumping(elapsedTime, gameGravity, new Vector(-1, 0));
   }
 
   /**
