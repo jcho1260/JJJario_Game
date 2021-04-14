@@ -28,7 +28,6 @@ public class GameView {
 
   public void start(String filePath) {
     try {
-      System.out.println(filePath);
       currScene = sf.make(filePath);
       currScene.setOnKeyPressed(makeKeyAction());
       currScene.setOnKeyReleased(makeKeyAction());
