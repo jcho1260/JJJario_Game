@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.input.KeyCode;
 import javafx.util.Pair;
@@ -22,7 +23,7 @@ public class Profile implements Serializable, PropertyChangeListener {
 
   public Profile(String name) {
     this.name = name;
-    this.keybinds = Map.of(KeyCode.W, Action.UP, KeyCode.A, Action.LEFT, KeyCode.S, Action.DOWN, KeyCode.D, Action.RIGHT);
+    this.keybinds = new HashMap<>(Map.of(KeyCode.W, Action.UP, KeyCode.A, Action.LEFT, KeyCode.S, Action.DOWN, KeyCode.D, Action.RIGHT));
     save();
   }
 
@@ -36,6 +37,7 @@ public class Profile implements Serializable, PropertyChangeListener {
 
   public void setKeyBind(Pair<KeyCode, String> bind) {
     Action action = Action.valueOf(bind.getValue());
+    keybinds.entrySet().removeIf(entry -> action.equals(entry.getValue()));
     keybinds.put(bind.getKey(), action);
   }
 
