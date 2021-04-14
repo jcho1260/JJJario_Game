@@ -85,10 +85,10 @@ public class GameWorld extends Observable {
 
     // using actual position (after setPosition() was called) --> do later, call internally
     frameCoordinates(player.getPosition(), player.getSize());
-    sendViewCoords();
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allActiveDestroyables = findActiveObjects(allDestroyables);
     worldCollisionHandling.updateActiveGameObjects(allActiveGameObjects, allActiveDestroyables);
+    sendViewCoords();
   }
 
   private void updatePositions() {
