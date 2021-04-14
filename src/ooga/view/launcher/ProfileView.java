@@ -33,7 +33,7 @@ public class ProfileView {
     this.pcl = pcl;
   }
 
-  public void makeMenu(String name, String imagePath, Map<KeyCode, Action> keyCodeActionMap, Map<String, Map<Integer, Integer>> highScoresMap) {
+  public void makeMenu(String name, String imagePath, Map<KeyCode, Action> keyCodeActionMap, Map<String, Map<String, Integer>> highScoresMap) {
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     Document doc;
     try {
