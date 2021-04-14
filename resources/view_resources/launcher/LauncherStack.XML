@@ -3,6 +3,6 @@
   <Height>750</Height>
   <Width>1050</Width>
   <FilePath>
-    <Path>resources/view_resources/launcher/Dashboard.XML</Path>
+    <Path>resources/view_resources/launcher/GameLibrary.XML</Path>
   </FilePath>
 </StackPane>

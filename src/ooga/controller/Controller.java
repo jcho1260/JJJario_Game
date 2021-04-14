@@ -46,7 +46,6 @@ public class Controller {
   }
 
   public void startLevel(String levelName) {
-    gameView.initializeLevel(frameSize.getX(), frameSize.getY());
     String gameName = gameView.getGameName();
     File collisionsFile = new File("data/" + gameName + "/collisions.xml");
     File levelFile = new File("data/" + gameName + "/level.xml");
@@ -54,6 +53,10 @@ public class Controller {
     try {
       Map<String, Map<String, List<MethodBundle>>> collisions = collisionsParser.parseCollisions(collisionsFile);
       gameWorld = gameWorldFactory.createGameWorld(levelFile, collisions, frameSize, frameRate);
+
+      String background = gameWorldFactory.getBackground(levelFile);
+      System.out.println(background);
+      gameView.initializeLevel(frameSize.getX(), frameSize.getY(), background);
     } catch (Exception e) {
       e.printStackTrace();
     }

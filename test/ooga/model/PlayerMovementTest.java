@@ -27,7 +27,7 @@ public class PlayerMovementTest {
   public void init() {
     try {
       user = new Player(new ArrayList<>(), initPosition, 0, new Vector(1, 1),
-          1, 1, 2, velocityMagnitude, 1);
+          1, 1, 2, velocityMagnitude, 1, new Vector(0, 0));
     } catch (ClassNotFoundException e) {
       System.out.println(e.getMessage());
     }

@@ -1,10 +1,19 @@
 package ooga.view.game;
 
 import java.beans.PropertyChangeEvent;
+import java.util.Objects;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.KeyListener;
@@ -17,7 +26,6 @@ public class GameView {
   private final KeyListener kl;
   private final SceneFactory sf;
   private Scene currScene;
-  private Scene newScene;
 
   public GameView(String gameName, Stage stage, KeyListener kl, Controller controller) {
     this.stage = stage;
@@ -38,12 +46,20 @@ public class GameView {
     }
   }
 
-  public void initializeLevel(double w, double h) {
+  public void initializeLevel(double w, double h, String imagePath) {
     Group g = new Group();
     g.setId(gameName + "LevelView");
-    newScene = new Scene(g, w, h);
+    Scene newScene = new Scene(g, w, h);
     newScene.setOnKeyPressed(makeKeyAction());
     newScene.setOnKeyReleased(makeKeyAction());
+    ImageView bi = new ImageView(
+        new Image(Objects.requireNonNull(
+            getClass().getClassLoader().getResourceAsStream(imagePath))));
+    bi.setX(0);
+    bi.setY(0);
+    bi.setPreserveRatio(true);
+    bi.setFitHeight(h);
+    g.getChildren().add(bi);
     currScene = newScene;
   }
 
