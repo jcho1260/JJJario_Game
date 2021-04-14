@@ -32,6 +32,7 @@ public class ParentComponentFactory extends ComponentFactory {
         .getBundle("view_resources/factory_bundles/" + compName + "Keys");
     Parent parent = (Parent) makeComponentBase(currRB, compName);
     parent.setId(e.getAttribute("id"));
+    System.out.println(e.getAttribute("id")+" "+e.getAttribute("style"));
     parent.getStylesheets().add(e.getAttribute("style"));
     NodeList nl = e.getChildNodes();
 
@@ -39,6 +40,9 @@ public class ParentComponentFactory extends ComponentFactory {
       org.w3c.dom.Node tempNode = nl.item(i);
       if (tempNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
         Element childElem = (Element) tempNode;
+        if (childElem.getNodeName().equals("Placeholder")) {
+          continue;
+        }
         if (hasChildElements(childElem)) {
           if (e.getAttribute("type").equals("Pane")) {
             Node child = (Node) make(childElem);

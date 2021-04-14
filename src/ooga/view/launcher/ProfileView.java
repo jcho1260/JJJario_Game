@@ -10,6 +10,9 @@ import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
+import javafx.util.Pair;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import ooga.controller.Controller;
@@ -21,7 +24,7 @@ import org.w3c.dom.Document;
 public class ProfileView {
   private final ParentComponentFactory pcf;
   private final Controller controller;
-  private Parent currMenu;
+  private Pane currMenu;
   private PropertyChangeListener pcl;
 
   public ProfileView(Controller controller, ParentComponentFactory pcf, PropertyChangeListener pcl) {
@@ -37,10 +40,11 @@ public class ProfileView {
       DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
       doc = dBuilder.parse(new File("resources/view_resources/launcher/profile/ProfileMenu.XML"));
       doc.getDocumentElement().normalize();
-      currMenu = (Parent) pcf.make(doc.getDocumentElement());
-      TextField tf = ((TextField) currMenu.lookup("#UsernameMenuInput"));
-      tf.setPromptText(name);
-      tf.setOnKeyPressed(makePCLHandler(tf, "Name"));
+      currMenu = (Pane) pcf.make(doc.getDocumentElement());
+      makeTextFieldInput("Username", name);
+      for (KeyCode kc : keyCodeActionMap.keySet()) {
+        makeTextFieldInput(keyCodeActionMap.get(kc).toString(), kc.toString());
+      }
     } catch (Exception exception) {
       new ViewFactoryException(exception.getMessage()).printStackTrace();
     }
@@ -48,6 +52,21 @@ public class ProfileView {
 
   public Parent getParent() {
     return this.currMenu;
+  }
+
+  private void makeTextFieldInput(String type, String prompt) {
+    TextField tf = new TextField();
+    tf.setId("#"+type+"MenuInput");
+    tf.setPromptText(prompt);
+    if (type.equals("Username")) {
+      tf.setOnKeyPressed(makePCLHandler(tf, type));
+    } else {
+      tf.setOnKeyPressed(makePCLKeyBindHandler(type));
+    }
+    ((Pane) currMenu.lookup("#ProfileMenuTextFieldVBox")).getChildren().add(tf);
+    Text t = new Text();
+    t.setText(type+":");
+    ((Pane) currMenu.lookup("#ProfileMenuLabelVBox")).getChildren().add(t);
   }
 
   private EventHandler<KeyEvent> makePCLHandler(TextField component, String label) {
@@ -62,5 +81,9 @@ public class ProfileView {
         component.setPromptText(component.getText());
       }
     };
+  }
+
+  private EventHandler<KeyEvent> makePCLKeyBindHandler(String s) {
+    return event -> pcl.propertyChange(new PropertyChangeEvent(this, "setKeyBind", null, new Pair<>(event.getCode(), s)));
   }
 }

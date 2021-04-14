@@ -27,7 +27,7 @@ public class Profile implements Serializable, PropertyChangeListener {
     save();
   }
 
-  public void setName(String name) {
+  public void setUsername(String name) {
     this.name = name;
   }
 
