@@ -97,11 +97,15 @@ public class Controller {
     keyListener = new KeyListener(getProfile(activeProfile).getKeybinds());
   }
 
+  public void endGame() {
+    animation.stop();
+  }
+
   private void step(double d) {
     if (gameWorld.isGameOver()) {
       int finalScore = highscoreListener.getScore();
       handleHighscore(finalScore);
-      animation.stop();
+      endGame();
       gameView.gameOver();
     }
     try {

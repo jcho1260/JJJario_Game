@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
@@ -14,6 +15,7 @@ import ooga.controller.Controller;
 import ooga.model.util.Vector;
 import ooga.util.DukeApplicationTest;
 import ooga.view.launcher.LauncherView;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -30,6 +32,7 @@ class LauncherTest extends DukeApplicationTest {
   // how close do real valued numbers need to be to count as the same
   static final double TOLERANCE = 0.0005;
   private ArrayList<String> ids;
+  private Controller controller;
 
   /**
    * Start test version of application
@@ -38,7 +41,8 @@ class LauncherTest extends DukeApplicationTest {
   public void start(Stage stage) {
     ids = new ArrayList<>();
     getFileIds("resources/view_resources/launcher/LauncherRoot.XML", ids);
-    new LauncherView(stage).start(new Controller(new Vector(1440, 810),30));
+    controller = new Controller(new Vector(1440, 810),30);
+    new LauncherView(stage).start(controller);
   }
 
   private ArrayList<String> getFileIds(String filePath, ArrayList<String> ids) {
@@ -137,5 +141,33 @@ class LauncherTest extends DukeApplicationTest {
     press(KeyCode.D);
     double currX = playerImg.getX();
     assertNotEquals(prevX, currX);
+    controller.endGame();
+  }
+
+  @Test
+  void ProfileLoginTest () {
+    try {
+      controller.setActiveProfile("");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    Button pfButton = lookup("#ProfileButton").query();
+    assertNotNull(pfButton);
+    clickOn(pfButton);
+    TextField tf = lookup("#UsernameInputBox").query();
+    assertNotNull(tf);
+    clickOn(tf);
+    type(KeyCode.A, KeyCode.D, KeyCode.A, KeyCode.M, KeyCode.ENTER);
+    assertNotNull(lookup("#ProfileMenuVBox1").query());
+  }
+
+  @Test
+  void ProfileEditTest () {
+    ProfileLoginTest();
+    TextField upMenu = lookup("#UPMenuInput").query();
+    assertNotNull(upMenu);
+    clickOn(upMenu);
+    type(KeyCode.Q);
+    assertEquals("Q", upMenu.getPromptText());
   }
 }

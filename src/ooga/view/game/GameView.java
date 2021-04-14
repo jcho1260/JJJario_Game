@@ -36,6 +36,8 @@ public class GameView implements PropertyChangeListener {
     this.gameName = gameName;
     this.kl = kl;
     sf = new SceneFactory(controller);
+
+    stage.setOnCloseRequest(event -> controller.endGame());
   }
 
   public void start(String filePath) {
