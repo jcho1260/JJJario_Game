@@ -20,11 +20,10 @@ public class ParentComponentFactory extends ComponentFactory {
   }
 
   @Override
-  public Object make(Element e) throws Exception {
+  public Object make(Element e) throws ViewFactoryException {
     if (e.getAttribute("type").equals("Leaf")) {
       return lcf.make(e);
     } else if (e.getNodeName().equals("FilePath")) {
-      System.out.println("27");
       return makeFile(e);
     }
 
@@ -40,6 +39,9 @@ public class ParentComponentFactory extends ComponentFactory {
       org.w3c.dom.Node tempNode = nl.item(i);
       if (tempNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
         Element childElem = (Element) tempNode;
+        if (childElem.getNodeName().equals("Placeholder")) {
+          continue;
+        }
         if (hasChildElements(childElem)) {
           if (e.getAttribute("type").equals("Pane")) {
             Node child = (Node) make(childElem);
@@ -56,12 +58,16 @@ public class ParentComponentFactory extends ComponentFactory {
     return parent;
   }
 
-  private Object makeFile(Element e) throws Exception {
+  private Object makeFile(Element e) throws ViewFactoryException {
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-    Document doc = dBuilder.parse(new File(e.getElementsByTagName("Path").item(0).getTextContent()));
+    Document doc;
+    try {
+      DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+      doc = dBuilder.parse(new File(e.getElementsByTagName("Path").item(0).getTextContent()));
+    } catch (Exception exception) {
+      throw new ViewFactoryException(exception.getMessage());
+    }
     doc.getDocumentElement().normalize();
-
     return make(doc.getDocumentElement());
   }
 }
