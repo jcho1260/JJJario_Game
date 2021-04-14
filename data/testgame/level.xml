@@ -1,6 +1,10 @@
 <Level>
+  <BackgroundImage>somefile</BackgroundImage>
   <GlobalGravity>5</GlobalGravity>
-  <DrivingVelocity>10</DrivingVelocity>
+  <DrivingVelocity>
+    <x>10</x>
+    <y>10</y>
+  </DrivingVelocity>
   <GameObjects>
     <GameObject>
       <Name>hero</Name>
