@@ -1,5 +1,6 @@
 package ooga.controller;
 
+import java.beans.PropertyChangeEvent;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -58,6 +59,7 @@ public class Controller {
       String background = gameWorldFactory.getBackground(levelFile);
       System.out.println(background);
       gameView.initializeLevel(frameSize.getX(), frameSize.getY(), background);
+      gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, highscoreListener.getScore()));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -104,6 +106,7 @@ public class Controller {
     }
     try {
       gameWorld.stepFrame(keyListener.getCurrentKey());
+      gameView.propertyChange(new PropertyChangeEvent(this, "changeScore", null, highscoreListener.getScore()));
     } catch (Exception e){
       e.printStackTrace();
     }
@@ -123,7 +126,7 @@ public class Controller {
       String name = gameObject.getEntityType().get(gameObject.getEntityType().size()-1);
       Sprite s = new Sprite(gameView.getGameName(), name, gameObject.getSize().getX(), gameObject.getSize().getY(), gameObject.getPosition().getX(), gameObject.getPosition().getY());
       gameObject.addListener(s);
-      gameView.addSprite(s);
+      gameView.propertyChange(new PropertyChangeEvent(this, "addSprite", null, s));
     }
   }
 }
