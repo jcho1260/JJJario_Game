@@ -26,7 +26,6 @@ public class GameView {
   private final KeyListener kl;
   private final SceneFactory sf;
   private Scene currScene;
-  private Scene newScene;
 
   public GameView(String gameName, Stage stage, KeyListener kl, Controller controller) {
     this.stage = stage;
@@ -47,15 +46,15 @@ public class GameView {
     }
   }
 
-  public void initializeLevel(double w, double h) {
+  public void initializeLevel(double w, double h, String imagePath) {
     Group g = new Group();
     g.setId(gameName + "LevelView");
-    newScene = new Scene(g, w, h);
+    Scene newScene = new Scene(g, w, h);
     newScene.setOnKeyPressed(makeKeyAction());
     newScene.setOnKeyReleased(makeKeyAction());
     ImageView bi = new ImageView(
         new Image(Objects.requireNonNull(
-            getClass().getClassLoader().getResourceAsStream("view_resources/images/backgrounds/"+gameName+".png"))));
+            getClass().getClassLoader().getResourceAsStream(imagePath))));
     bi.setX(0);
     bi.setY(0);
     bi.setPreserveRatio(true);

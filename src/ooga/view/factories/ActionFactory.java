@@ -32,6 +32,7 @@ public class ActionFactory {
       case "StartLevel" -> makeStartLevelAction(e);
       case "ChangeStack" -> makeChangeStackAction(component, e);
       case "ProfileView" -> makeProfileViewAction(component, e);
+      case "Logout" -> makeLogoutAction(component, e);
       default -> null;
     };
   }
@@ -100,6 +101,17 @@ public class ActionFactory {
         } catch (IOException | ViewFactoryException ioException) {
           ioException.printStackTrace();
         }
+      }
+    };
+  }
+
+  private EventHandler<ActionEvent> makeLogoutAction(Node component, Element e) {
+    return event -> {
+      try {
+        controller.setActiveProfile("");
+        changeStackPane(component, e, (Node) pcf.make((Element) e.getElementsByTagName("FilePath").item(0)));
+      } catch (IOException | ViewFactoryException ioException) {
+        ioException.printStackTrace();
       }
     };
   }
