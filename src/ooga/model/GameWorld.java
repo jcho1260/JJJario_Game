@@ -7,6 +7,7 @@ import java.util.Map;
 import ooga.JjjanException;
 import ooga.Observable;
 import ooga.model.gameobjectcomposites.WorldCollisionHandling;
+import ooga.model.gameobjects.Destroyable;
 import ooga.model.gameobjects.GameObject;
 import ooga.model.gameobjects.Player;
 import ooga.model.util.Action;
@@ -28,7 +29,7 @@ public class GameWorld extends Observable {
   private List<GameObject> allActiveDestroyables;
   private List<GameObject> allBricks;
   private WorldCollisionHandling worldCollisionHandling;
-  private int score;
+  private double score;
   private Player player;
   private Vector windowSize;
   private Vector[] frameCoords;
@@ -49,6 +50,7 @@ public class GameWorld extends Observable {
     allGameObjects = gameObjects;
     gravity = levelGravity;
     stepTime = 1.0/frameRate;
+    score = 0;
     frameCoords = new Vector[4];
     frameCoordinates(player.getPosition(), player.getSize());
     allBricks = new ArrayList<>();
@@ -138,6 +140,8 @@ public class GameWorld extends Observable {
   }
 
   private void removeDeadActors(List<Integer> deadActors) {
+    getScoreDead(deadActors);
+
     allGameObjects = removeIndicesFromList(allGameObjects, deadActors);
     allDestroyables = removeIndicesFromList(allDestroyables, deadActors);
     allBricks = removeIndicesFromList(allBricks, deadActors);
@@ -145,6 +149,14 @@ public class GameWorld extends Observable {
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allActiveDestroyables = findActiveObjects(allDestroyables);
     worldCollisionHandling.updateActiveGameObjects(allActiveGameObjects, allActiveDestroyables);
+  }
+
+  private void getScoreDead(List<Integer> deadActors) {
+    for(GameObject d : allDestroyables) {
+      if (deadActors.contains(d.getId())) {
+        incrementScore(((Destroyable)d).getScore());
+      }
+    }
   }
 
   private List<GameObject> removeIndicesFromList(List<GameObject> objects, List<Integer> deadActors) {
@@ -217,9 +229,10 @@ public class GameWorld extends Observable {
    *
    * @param increment
    */
-  private void incrementScore(int increment) {
-    int prevScore = score;
+  private void incrementScore(double increment) {
+    double prevScore = score;
     score += increment;
+    System.out.println("score: "+score);
     notifyListeners("score", prevScore, score);
   }
 
