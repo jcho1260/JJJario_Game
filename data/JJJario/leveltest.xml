@@ -1,10 +1,5 @@
 <Level>
-  <GlobalGravity>0</GlobalGravity>
-  <BackgroundImage>view_resources/images/backgrounds/JJJario.png</BackgroundImage>
-  <DrivingVelocity>
-    <x>0</x>
-    <y>0</y>
-  </DrivingVelocity>
+  <GlobalGravity>25</GlobalGravity>
   <GameObjects>
     <GameObject>
       <Name>Mario</Name>
@@ -114,7 +109,7 @@
       <Name>Mario</Name>
       <Location>
         <x>250</x>
-        <y>650</y>
+        <y>550</y>
       </Location>
       <Velocity>
         <x>150</x>
@@ -127,7 +122,7 @@
     <Entity>
       <Name>Goomba</Name>
       <Location>
-        <x>750</x>
+        <x>250</x>
         <y>650</y>
       </Location>
       <Velocity>
@@ -138,40 +133,6 @@
       <StartLife>1</StartLife>
       <FinalLocation>
         <x>600</x>
-        <y>650</y>
-      </FinalLocation>
-    </Entity>
-    <Entity>
-      <Name>Goomba</Name>
-      <Location>
-        <x>1250</x>
-        <y>650</y>
-      </Location>
-      <Velocity>
-        <x>-50</x>
-        <y>0</y>
-      </Velocity>
-      <StartHealth>1</StartHealth>
-      <StartLife>1</StartLife>
-      <FinalLocation>
-        <x>1000</x>
-        <y>650</y>
-      </FinalLocation>
-    </Entity>
-    <Entity>
-      <Name>KoopaTroopa</Name>
-      <Location>
-        <x>1500</x>
-        <y>650</y>
-      </Location>
-      <Velocity>
-        <x>-50</x>
-        <y>0</y>
-      </Velocity>
-      <StartHealth>1</StartHealth>
-      <StartLife>1</StartLife>
-      <FinalLocation>
-        <x>1300</x>
         <y>650</y>
       </FinalLocation>
     </Entity>
