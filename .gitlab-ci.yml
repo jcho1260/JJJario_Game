@@ -1,5 +1,7 @@
 image: dukedesigncoach/testfx-runner
 
+profiles/*
+
 stages:
   - analyze
   - validate

@@ -1,5 +1,10 @@
 <Level>
-  <GlobalGravity>25</GlobalGravity>
+  <GlobalGravity>0</GlobalGravity>
+  <BackgroundImage>view_resources/images/backgrounds/JJJario.png</BackgroundImage>
+  <DrivingVelocity>
+    <x>0</x>
+    <y>0</y>
+  </DrivingVelocity>
   <GameObjects>
     <GameObject>
       <Name>Mario</Name>

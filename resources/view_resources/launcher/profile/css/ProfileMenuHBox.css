@@ -1,0 +1,10 @@
+#ProfileMenuHBoxText {
+    -fx-background-color: darkslateblue;
+    -fx-alignment: CENTER;
+}
+
+#ProfileMenuHBoxImage {
+    -fx-background-color: darkslateblue;
+    -fx-spacing: 10;
+    -fx-alignment: CENTER;
+}

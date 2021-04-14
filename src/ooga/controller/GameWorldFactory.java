@@ -46,7 +46,7 @@ public class GameWorldFactory {
 
       switch (gameObjectMap.get(name).type) {
         case "Player" -> {
-          player = createPlayer(entity, info, i);
+          player = createPlayer(entity, info, i, doc);
         }
         case "MovingDestroyable" -> {
           MovingDestroyable m = createMovingDestroyable(entity, info, i);
@@ -64,14 +64,14 @@ public class GameWorldFactory {
     return new GameWorld(player, collisions, gameObjects, actors, frameSize, 3, getGlobalGravity(doc), frameRate);
   }
 
-  private Player createPlayer(Element entity, GameObjectInfo info, int id)
+  private Player createPlayer(Element entity, GameObjectInfo info, int id, Document doc)
       throws ClassNotFoundException {
     Vector pos = getVectorAttribute(entity, "Location");
     Vector vel = getVectorAttribute(entity, "Velocity");
     int startLife = (int) getNumberAttribute(entity, "StartLife");
     int startHealth = (int) getNumberAttribute(entity, "StartHealth");
     double jumpTime = getNumberAttribute(entity, "JumpTime");
-    return new Player(info.tags, pos, id, info.size, startLife, startHealth, jumpTime, vel, info.gravity);
+    return new Player(info.tags, pos, id, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc));
   }
 
   private MovingDestroyable createMovingDestroyable(Element entity, GameObjectInfo info, int id) {
@@ -133,6 +133,23 @@ public class GameWorldFactory {
 
   private double getGlobalGravity(Document doc) {
     return Double.parseDouble(doc.getElementsByTagName("GlobalGravity").item(0).getTextContent());
+  }
+
+  private Vector getDrivingVelocity(Document doc) {
+    Element root = (Element) doc.getElementsByTagName("Level").item(0);
+    return getVectorAttribute(root, "DrivingVelocity");
+  }
+
+  public String getBackground(File file) {
+    try {
+      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+      DocumentBuilder db = dbf.newDocumentBuilder();
+      Document doc = db.parse(file);
+      return doc.getElementsByTagName("BackgroundImage").item(0).getTextContent();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return "";
   }
 
   private class GameObjectInfo {
