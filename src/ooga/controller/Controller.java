@@ -55,6 +55,7 @@ public class Controller {
       gameWorld = gameWorldFactory.createGameWorld(levelFile, collisions, frameSize, frameRate);
 
       String background = gameWorldFactory.getBackground(levelFile);
+      System.out.println(background);
       gameView.initializeLevel(frameSize.getX(), frameSize.getY(), background);
     } catch (Exception e) {
       e.printStackTrace();
