@@ -3,21 +3,24 @@
   <Height>750</Height>
   <Width>1050</Width>
   <HBox id="ProfileMenuHBoxImage" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuHBox.css">
-    <ImageView id="ProfileImage" type="Leaf">
-      <Image>
-        <Path>view_resources/images/button_icons/User.png</Path>
-      </Image>
-      <Ratio>true</Ratio>
-      <Height>225</Height>
-      <Width>225</Width>
-    </ImageView>
-    <HBox id="ProfileMenuHBoxText" type="Pane" style="view_resources/launcher/profile/css/ProfileLoginHBox.css">
-      <VBox id="ProfileMenuLabelVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuVBox.css">
-        <Placeholder></Placeholder>
-      </VBox>
-      <VBox id="ProfileMenuTextFieldVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuHBox.css">
-        <Placeholder></Placeholder>
-      </VBox>
-    </HBox>
+    <VBox id="ProfileImageVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuVBox.css">
+      <ImageView id="ProfileImage" type="Leaf">
+        <Image>
+          <Path>view_resources/images/button_icons/User.png</Path>
+        </Image>
+        <Ratio>true</Ratio>
+        <Height>225</Height>
+        <Width>225</Width>
+      </ImageView>
+      <Button>
+        <Text>Upload Image</Text>
+      </Button>
+    </VBox>
+    <VBox id="ProfileMenuLabelVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuVBox.css">
+      <Placeholder></Placeholder>
+    </VBox>
+    <VBox id="ProfileMenuTextFieldVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuVBox.css">
+      <Placeholder></Placeholder>
+    </VBox>
   </HBox>
 </VBox>

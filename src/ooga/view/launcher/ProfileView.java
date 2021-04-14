@@ -12,6 +12,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.util.Pair;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import ooga.controller.Controller;
@@ -57,7 +58,11 @@ public class ProfileView {
     TextField tf = new TextField();
     tf.setId("#"+type+"MenuInput");
     tf.setPromptText(prompt);
-    tf.setOnKeyPressed(makePCLHandler(tf, type));
+    if (type.equals("Username")) {
+      tf.setOnKeyPressed(makePCLHandler(tf, type));
+    } else {
+      tf.setOnKeyTyped(makePCLKeyBindHandler(type));
+    }
     ((Pane) currMenu.lookup("#ProfileMenuTextFieldVBox")).getChildren().add(tf);
     Text t = new Text();
     t.setText(type+":");
@@ -75,6 +80,12 @@ public class ProfileView {
         }
         component.setPromptText(component.getText());
       }
+    };
+  }
+
+  private EventHandler<KeyEvent> makePCLKeyBindHandler(String s) {
+    return event -> {
+      pcl.propertyChange(new PropertyChangeEvent(this, "setKeyBind", null, new Pair<>(event.getCode(), s)));
     };
   }
 }

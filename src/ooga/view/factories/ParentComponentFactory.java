@@ -32,6 +32,7 @@ public class ParentComponentFactory extends ComponentFactory {
         .getBundle("view_resources/factory_bundles/" + compName + "Keys");
     Parent parent = (Parent) makeComponentBase(currRB, compName);
     parent.setId(e.getAttribute("id"));
+    System.out.println(e.getAttribute("id")+" "+e.getAttribute("style"));
     parent.getStylesheets().add(e.getAttribute("style"));
     NodeList nl = e.getChildNodes();
 
