@@ -1,5 +1,5 @@
 <Level>
-  <GlobalGravity>10</GlobalGravity>
+  <GlobalGravity>0</GlobalGravity>
   <GameObjects>
     <GameObject>
       <Name>Mario</Name>
@@ -9,7 +9,7 @@
         <Tag>Player</Tag>
       </Tags>
       <Type>Player</Type>
-      <Gravity>1</Gravity>
+      <Gravity>0</Gravity>
       <Size>
         <SizeX>1</SizeX>
         <SizeY>1</SizeY>
@@ -98,8 +98,8 @@
       <Type>GameObject</Type>
       <Gravity>1</Gravity>
       <Size>
-        <SizeX>1</SizeX>
-        <SizeY>1</SizeY>
+        <SizeX>2</SizeX>
+        <SizeY>2</SizeY>
       </Size>
     </GameObject>
   </GameObjects>
@@ -111,8 +111,12 @@
         <x>5</x>
         <y>13</y>
       </Location>
+      <Velocity>
+        <x>1</x>
+        <y>1</y>
+      </Velocity>
       <StartLife>3</StartLife>
-      <JumpTime>4</JumpTime>
+      <JumpTime>200</JumpTime>
       <StartHealth>1</StartHealth>
     </Entity>
     <Entity>
@@ -167,19 +171,115 @@
       </FinalLocation>
     </Entity>
     <Entity>
-      <Name>PowerUpBlock</Name>
+      <Name>Block</Name>
       <Location>
-        <x>10</x>
-        <y>11</y>
+        <x>0</x>
+        <y>14</y>
       </Location>
-      <StartHealth>1</StartHealth>
-      <StartLife>1</StartLife>
     </Entity>
     <Entity>
       <Name>Block</Name>
       <Location>
-        <x>40</x>
-        <y>15</y>
+        <x>2</x>
+        <y>14</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>4</x>
+        <y>14</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>6</x>
+        <y>14</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>8</x>
+        <y>14</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>10</x>
+        <y>14</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>12</x>
+        <y>14</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>14</x>
+        <y>14</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>16</x>
+        <y>14</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>18</x>
+        <y>14</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>20</x>
+        <y>14</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>22</x>
+        <y>14</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>24</x>
+        <y>14</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>26</x>
+        <y>14</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>28</x>
+        <y>14</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>30</x>
+        <y>14</y>
       </Location>
     </Entity>
   </Layout>

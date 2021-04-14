@@ -1,0 +1,19 @@
+<?xml version = "1.0" ?>
+<VBox id="ProfileLoginVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileLoginVBox.css">
+  <Height>750</Height>
+  <Width>1050</Width>
+  <HBox id="ProfileLoginHBox1" type="Pane" style="view_resources/launcher/profile/css/ProfileLoginHBox.css">
+    <TextObj id="LoginTitle" type="Leaf">
+      <Text>Profile Login</Text>
+    </TextObj>
+  </HBox>
+  <HBox id="ProfileLoginHBox2" type="Pane" style="view_resources/launcher/profile/css/ProfileLoginHBox.css">
+    <TextField id="UsernameInputBox" type="Leaf">
+      <Prompt>Username</Prompt>
+      <Event method="setOnKeyReleased" event_type="KeyEvent">
+        <Type>ProfileLogin</Type>
+        <PaneID>LauncherStackPane</PaneID>
+      </Event>
+    </TextField>
+  </HBox>
+</VBox>

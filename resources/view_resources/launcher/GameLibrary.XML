@@ -1,15 +1,16 @@
 <?xml version = "1.0" ?>
-<ScrollPane id="MenuTabView" type="Control" style="view_resources/launcher/css/GameLibraryScroll.css">
+<ScrollPane id="GLScrollPane" type="Control" style="view_resources/launcher/css/GameLibraryScroll.css">
   <VBox id="GameLibraryVBox" type="Pane" style="view_resources/launcher/css/GameLibrary.css">
     <Height>1080</Height>
+    <Width>1050</Width>
     <HBox id="GameLibraryHBox1" type="Pane" style="view_resources/launcher/css/GameLibraryRow.css">
       <Button id="Game1Button" type="Leaf">
         <Text>Super JJJario Bros.</Text>
-        <Action>
+        <Event method="setOnAction">
           <Game>JJJario</Game>
           <Type>LaunchGame</Type>
           <Path>resources/view_resources/game/JJJarioMenu.XML</Path>
-        </Action>
+        </Event>
       </Button>
       <Button id="Game2Button" type="Leaf">
         <Text>Game 2</Text>

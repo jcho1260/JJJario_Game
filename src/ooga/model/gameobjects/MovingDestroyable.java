@@ -25,7 +25,8 @@ public class MovingDestroyable extends Destroyable {
       int startLife, int startHealth, Vector initialVelocity, Vector finalPosition,
       double gravityScale) {
     super(entityTypes, initialPosition, id, size, startLife, startHealth);
-    autoMove = new AutomatedMovement(initialPosition, finalPosition, initialVelocity, gravityScale);
+    Vector fp = finalPosition.multiply(new Vector(50,50));
+    autoMove = new AutomatedMovement(initialPosition, fp, initialVelocity, gravityScale);
   }
 
   /**
@@ -49,8 +50,9 @@ public class MovingDestroyable extends Destroyable {
     return autoMove.getVelocity();
   }
 
-  private void scaleVelocity(Vector scaleFactor) {
-    Vector newVelo = autoMove.getVelocity().multiply(scaleFactor);
+  public void scaleVelocity(Double xVel, Double yVel) {
+//    System.out.println("scale velo: "+scaleFactor.getX()+ " "+scaleFactor.getY());
+    Vector newVelo = autoMove.getVelocity().multiply(new Vector(xVel, yVel));
     autoMove.setVelocity(newVelo);
   }
 }

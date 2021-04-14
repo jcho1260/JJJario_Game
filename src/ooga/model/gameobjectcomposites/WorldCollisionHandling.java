@@ -3,6 +3,7 @@ package ooga.model.gameobjectcomposites;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import ooga.JjjanException;
+import ooga.model.gameobjects.Player;
 import ooga.model.util.MethodBundle;
 import ooga.model.gameobjects.Destroyable;
 import ooga.model.gameobjects.GameObject;
@@ -15,16 +16,18 @@ public class WorldCollisionHandling {
   private Map<String, Map<String, List<MethodBundle>>> collisionMethods;
   private List<GameObject> activeGameObjects;
   private List<GameObject> activeDestroyable;
+  private Player player;
   private Set<Destroyable> collisions;
 
   /**
    * Default constructor
    */
   public WorldCollisionHandling(Map<String, Map<String, List<MethodBundle>>> collisionMethodsMap,
-      List<GameObject> activeGameObjectsList, List<GameObject> activeActorsList) {
+      List<GameObject> activeGameObjectsList, List<GameObject> activeActorsList, Player gamePlayer) {
     collisionMethods = collisionMethodsMap;
     activeGameObjects = activeGameObjectsList;
     activeDestroyable = activeActorsList;
+    player = gamePlayer;
     collisions = new HashSet<>();
   }
 
@@ -43,6 +46,8 @@ public class WorldCollisionHandling {
    */
   public void detectAllCollisions() throws NoSuchMethodException, JjjanException {
     // TODO implement here
+    activeDestroyable.add(player);
+    activeGameObjects.add(player);
     for (GameObject actor : activeDestroyable) {
       for (GameObject collisionObject : activeGameObjects) {
         if (actor.equals(collisionObject)) {
@@ -55,6 +60,8 @@ public class WorldCollisionHandling {
         }
       }
     }
+    activeDestroyable.remove(player);
+    activeGameObjects.remove(player);
   }
 
   /**

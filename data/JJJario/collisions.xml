@@ -1,6 +1,6 @@
 <Collisions>
   <Actor>
-    <Name>Mario</Name>
+    <Name>Player</Name>
     <GameObject>
       <Name>Enemy</Name>
       <Method>
@@ -44,6 +44,14 @@
         </Args>
       </Method>
     </GameObject>
+    <GameObject>
+      <Name>Block</Name>
+      <Method>
+        <Name>generalBottomCollision</Name>
+        <Args>
+        </Args>
+      </Method>
+    </GameObject>
   </Actor>
   <Actor>
     <Name>Enemy</Name>
@@ -82,6 +90,16 @@
         <Name>scaleVelocity</Name>
         <Args>
           <Arg>-1</Arg>
+          <Arg>1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+    <GameObject>
+      <Name>GameObject</Name>
+      <Method>
+        <Name>scaleVelocity</Name>
+        <Args>
+          <Arg>1</Arg>
           <Arg>1</Arg>
         </Args>
       </Method>

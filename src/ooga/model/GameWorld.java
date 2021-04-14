@@ -20,7 +20,7 @@ import ooga.model.util.Vector;
 public class GameWorld extends Observable {
 
   private static final double playerXLoc = 0.5;
-  private static final double playerYLoc = 2/3;
+  private static final double playerYLoc = 2.0/3.0;
 
   private List<GameObject> allGameObjects;
   private List<GameObject> allActiveGameObjects;
@@ -53,7 +53,7 @@ public class GameWorld extends Observable {
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allDestroyables = actors;
     allActiveDestroyables = findActiveObjects(allDestroyables);
-    worldCollisionHandling = new WorldCollisionHandling(collisionMethods, gameObjects, actors);
+    worldCollisionHandling = new WorldCollisionHandling(collisionMethods, gameObjects, actors, player);
     windowSize = frameSize;
     double playerViewX = frameSize.getX()*playerXLoc;
     double playerViewY = frameSize.getY()*playerYLoc;
@@ -87,6 +87,12 @@ public class GameWorld extends Observable {
     Vector topL = frameCoords[0];
     Vector botR = frameCoords[3];
     List<GameObject> ret = new ArrayList<>();
+    if(!player.isAlive()) {
+      System.out.println("player is dead");
+      player.setActive(false);
+    } else {
+      player.setActive(true);
+    }
     for (GameObject o : allObjects) {
       Vector oTopL = o.getPosition();
       Vector oTopR = o.getPosition().add(new Vector(o.getSize().getX(), 0));
@@ -116,10 +122,17 @@ public class GameWorld extends Observable {
   }
 
   private void frameCoordinates(Vector playerCoord, Vector playerSize) {
+    double defaultXLeft = 0;
+    double defaultXRight = windowSize.getX();
+    double defaultYBot = windowSize.getY();
+    double defaultYTop = 0;
     Vector playerCenter = new Vector(playerCoord.getX()+ 0.5*playerSize.getX(), playerCoord.getY() + 0.5*playerSize.getY());
     double topY = playerCenter.getY() - playerYLoc*windowSize.getY();
+    if (topY < 0) {topY = defaultYTop;}
     double botY = playerCoord.getY() + (1-playerYLoc)*windowSize.getY();
+    if(defaultYBot > windowSize.getY()) {botY = defaultYBot;}
     double leftX = playerCenter.getX() - playerXLoc*windowSize.getX();
+    if (leftX < 0) {leftX = defaultXLeft;}
     double rightX = playerCenter.getX() + playerXLoc*windowSize.getX();
     frameCoords[0] = new Vector(leftX, topY);
     frameCoords[1] = new Vector(rightX, topY);
@@ -131,6 +144,7 @@ public class GameWorld extends Observable {
     for (GameObject o : allActiveGameObjects) {
       o.sendToView(frameCoords[0]);
     }
+    player.sendToView(frameCoords[0]);
   }
 
   /**
@@ -154,7 +168,9 @@ public class GameWorld extends Observable {
    */
   public List<GameObject> getAllGameObjects() {
     // TODO implement here
-    return allGameObjects;
+    List<GameObject> ret = new ArrayList<>(allGameObjects);
+    ret.add(player);
+    return ret;
   }
 
   /**
@@ -173,6 +189,9 @@ public class GameWorld extends Observable {
     return stepTime;
   }
 
+  public boolean isGameOver() {
+    return !player.isAlive();
+  }
 
   /**
    * Adds to score by given amount. Notifies listeners of change.

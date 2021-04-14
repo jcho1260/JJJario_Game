@@ -24,9 +24,9 @@ public class GameObject extends Observable {
    */
   public GameObject(List<String> entityTypes, Vector position, int id, Vector size) {
     this.entityTypes = entityTypes;
-    this.position = position;
+    this.position = position.multiply(new Vector(50,50));
     this.id = id;
-    this.size = new Size(size);
+    this.size = new Size(size.multiply(new Vector(50,50)));
     isActive = false;
   }
 
@@ -40,9 +40,8 @@ public class GameObject extends Observable {
   }
 
   protected void setPosition(Vector newPosition) {
-    Vector prevPosition = position;
     position = newPosition;
-    notifyListeners("position", prevPosition, position);
+    System.out.println("x: " + position.getX() + " y:" + position.getY());
   }
 
   /**
@@ -88,9 +87,7 @@ public class GameObject extends Observable {
     double viewPositionY;
     viewPositionX = position.getX() - frameTopL.getX();
     viewPositionY = position.getY() - frameTopL.getY();
-    java.util.Vector<Double> viewPosition = new java.util.Vector();
-    viewPosition.add(viewPositionX);
-    viewPosition.add(viewPositionY);
-    notifyListeners("changePos", null, viewPosition);
+    notifyListeners("changeX", null, viewPositionX);
+    notifyListeners("changeY", null, viewPositionY);
   }
 }

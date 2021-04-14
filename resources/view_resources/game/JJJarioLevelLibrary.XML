@@ -4,10 +4,10 @@
     <Height>1080</Height>
     <Button id="Level1Button" type="Leaf">
       <Text>Level 1</Text>
-      <Action>
+      <Event method="setOnAction">
         <Type>StartLevel</Type>
         <Level>Level1</Level>
-      </Action>
+      </Event>
     </Button>
   </VBox>
 </ScrollPane>

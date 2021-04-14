@@ -15,10 +15,11 @@ public class UserInputMovement {
   private double jumpTimeCounter;
   private double clockTime;
   private double gravityLevel;
+  private double gravitySink;
 
   /**
    * Constructor for UserInputMovement.
-   * jumpTime should be based of the animation frame stuff TODO ask noah about it
+   * jumpTime should be based of the animation frame stuff
    *
    * @param defaultVelocity per step
    */
@@ -65,6 +66,9 @@ public class UserInputMovement {
    * @return deltaPosition
    */
   public Vector moveDOWN(Double elapsedTime, Double gameGravity) {
+    if (jumpTimeCounter == 0) {
+      return new Vector(0, 0);
+    }
     return deltaPosition(elapsedTime, gameGravity, new Vector(0, 1));
   }
 
@@ -90,14 +94,34 @@ public class UserInputMovement {
     return deltaPosition(elapsedTime, gameGravity, new Vector(-1, 0));
   }
 
+  /**
+   * Retrieves velocity.
+   *
+   * @return stepVelocityMagnitude
+   */
+  public Vector getVelocity() {
+    System.out.println("player velocity: "+stepVelocityMagnitude);
+    return stepVelocityMagnitude;
+  }
+
+  /**
+   * Sets stepVelocityMagnitude to new value.
+   *
+   * @param newVelocity
+   */
+  public void setVelocity(Vector newVelocity) {
+    stepVelocityMagnitude = newVelocity;
+  }
+
   // TODO refactor duplicate code w/ automatedmovement
   private Vector deltaPosition(double elapsedTime, double gameGravity, Vector change) {
     clockTime = elapsedTime;
     gravityLevel = gameGravity;
+    gravitySink = (1 + change.getY()) * elapsedTime * gameGravity * gravityScale;
 
     double newX = elapsedTime * stepVelocityMagnitude.getX() * change.getX();
     double newY = (elapsedTime * stepVelocityMagnitude.getY() * change.getY())
-        + ((1 + change.getY()) * elapsedTime * gameGravity * gravityScale);
+        + gravitySink;
 
     return new Vector(newX, newY);
   }
@@ -109,6 +133,7 @@ public class UserInputMovement {
    */
   public Vector hitGround() {
     jumpTimeCounter = 0;
-    return deltaPosition(clockTime, gravityLevel, new Vector(0, -1));
+//    return deltaPosition(clockTime, gravityLevel, new Vector(0, -1));
+    return new Vector(0, gravitySink * -1);
   }
 }

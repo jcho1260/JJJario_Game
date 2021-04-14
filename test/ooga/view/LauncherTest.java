@@ -1,21 +1,24 @@
 package ooga.view;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import ooga.controller.Controller;
 import ooga.model.util.Vector;
-import ooga.view.factories.ActionFactory;
-import ooga.view.factories.ParentComponentFactory;
+import ooga.util.DukeApplicationTest;
+import ooga.view.launcher.LauncherView;
 import org.junit.jupiter.api.Test;
-import org.testfx.framework.junit5.ApplicationTest;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,40 +26,54 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Feel free to completely change this code or delete it entirely.
  */
-class LauncherTest extends ApplicationTest {
+class LauncherTest extends DukeApplicationTest {
   // how close do real valued numbers need to be to count as the same
   static final double TOLERANCE = 0.0005;
-  ArrayList<String> ids;
+  private ArrayList<String> ids;
 
   /**
    * Start test version of application
    */
   @Override
-  public void start(Stage stage) throws Exception {
-    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-    Document doc = dBuilder.parse(new File("resources/view_resources/launcher/SideBar.XML"));
-    doc.getDocumentElement().normalize();
-
-    ActionFactory af = new ActionFactory(stage, new Controller(new Vector(1440, 810),30));
-    ParentComponentFactory pcf = new ParentComponentFactory(af);
-    Element rootE = (Element) doc.getElementsByTagName("VBox").item(0);
-    ids = getIds(rootE, new ArrayList<>());
-    VBox vbox = (VBox) pcf.make(rootE);
-    Scene scene = new Scene(vbox, 300, 750);
-    stage.setScene(scene);
-    stage.show();
+  public void start(Stage stage) {
+    ids = new ArrayList<>();
+    getFileIds("resources/view_resources/launcher/LauncherRoot.XML", ids);
+    new LauncherView(stage).start(new Controller(new Vector(1440, 810),30));
   }
 
-  private ArrayList<String> getIds(Element e, ArrayList<String> ids) {
+  private ArrayList<String> getFileIds(String filePath, ArrayList<String> ids) {
+    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    DocumentBuilder dBuilder = null;
+    try {
+      dBuilder = dbFactory.newDocumentBuilder();
+    } catch (ParserConfigurationException e) {
+      e.printStackTrace();
+    }
+    Document doc = null;
+    try {
+      assert dBuilder != null;
+      doc = dBuilder.parse(new File(filePath));
+    } catch (SAXException | IOException e) {
+      e.printStackTrace();
+    }
+    assert doc != null;
+    doc.getDocumentElement().normalize();
+
+    ids.addAll(getElementIds(doc.getDocumentElement(), ids));
+    return ids;
+  }
+
+  private ArrayList<String> getElementIds(Element e, ArrayList<String> ids) {
     if (e.hasAttribute("id")) {
       ids.add("#"+e.getAttribute("id"));
+    } else if (e.getNodeName().equals("Parent")) {
+      ids.addAll(getFileIds(e.getTextContent(), ids));
     }
 
     NodeList nl = e.getChildNodes();
     for (int i = 0; i < nl.getLength(); i++) {
       if (nl.item(0).getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
-        ids.addAll(getIds((Element) nl.item(0), ids));
+        ids.addAll(getElementIds((Element) nl.item(0), ids));
       }
     }
 
@@ -71,5 +88,54 @@ class LauncherTest extends ApplicationTest {
     for (String id : ids) {
       assertNotNull(lookup(id).query());
     }
+  }
+
+  /**
+   * Test to see if the user can open the JJJario Game
+   */
+  @Test
+  void GameLibraryButton () {
+    assertNotNull(lookup("#GameLibraryButton").query());
+    Button gameLibraryButton = lookup("#GameLibraryButton").query();
+    clickOn(gameLibraryButton);
+    assertNotNull(lookup("#GLScrollPane").query());
+  }
+
+  /**
+   * Test to see if the user can open the JJJario Game
+   */
+  @Test
+  void JJJarioGameButton () {
+    GameLibraryButton();
+    assertNotNull(lookup("#Game1Button").query());
+    Button game1Button = lookup("#Game1Button").query();
+    clickOn(game1Button);
+    assertNotNull(lookup("#SuperMarioMenu").query());
+  }
+
+  /**
+   * Test to see if the user can open the JJJario Level 1
+   */
+  @Test
+  void JJJarioLevel1Button () {
+    JJJarioGameButton();
+    assertNotNull(lookup("#Level1Button").query());
+    Button level1Button = lookup("#Level1Button").query();
+    clickOn(level1Button);
+    assertNotNull(lookup("#JJJarioLevelView").query());
+  }
+
+  /**
+   * Test to see if the user can open the JJJario Level 1
+   */
+  @Test
+  void JJJarioMoveGuyOnKey () {
+    JJJarioLevel1Button();
+    assertNotNull(lookup("#Player").query());
+    ImageView playerImg = lookup("#Player").query();
+    double prevX = playerImg.getX();
+    press(KeyCode.D);
+    double currX = playerImg.getX();
+    assertNotEquals(prevX, currX);
   }
 }

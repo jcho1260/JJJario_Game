@@ -3,50 +3,61 @@ package ooga.view.game;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.Statement;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import java.util.Vector;
 
 public class Sprite implements PropertyChangeListener {
+
   private final ImageView imageView;
 
-  public Sprite(String imageName, double h, double w, double x, double y) {
+  public Sprite(String imageName, double w, double h, double x, double y) {
     imageView = new ImageView();
+    imageView.setId(imageName);
     ResourceBundle imgKeys = ResourceBundle
         .getBundle("view_resources/game/SpriteImageKeys/JJJarioSpriteKeys");
     String imgPath = imgKeys.getString(imageName.toUpperCase());
-    Image img =  new Image(
+    Image img = new Image(
         Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(imgPath)));
     imageView.setImage(img);
-    imageView.setVisible(false);
-    imageView.setFitHeight(h);
-    imageView.setFitWidth(w);
+    changeVisibility(false);
+    changeWidth(w);
+    changeHeight(h);
+    changeX(x);
+    changeY(y);
   }
 
   @Override
-  public void propertyChange(PropertyChangeEvent evt) { // propertyName = changeHeight, oldValue = null, newValue = 100
+  public void propertyChange(PropertyChangeEvent evt) {
     String mName = evt.getPropertyName();
     Object[] mArgs = new Object[]{evt.getNewValue()};
-    new Statement(this, mName, mArgs);
+    try {
+      new Statement(this, mName, mArgs).execute();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   public ImageView getImageView() { return this.imageView; }
 
-  private Object[] parseEventArgs(String evtArgs) {
-    return evtArgs.split("\\|");
+  public void changeHeight(Double h) {
+    imageView.setFitHeight(h);
   }
 
-  private void changeHeight(double h) { imageView.setFitHeight(h); }
+  public void changeWidth(Double w) {
+    imageView.setFitWidth(w);
+  }
 
-  private void changeWidth(double w) { imageView.setFitWidth(w); }
+  public void changeVisibility(Boolean b) {
+    imageView.setVisible(b);
+  }
 
-  private void changeVisibility(boolean b) { imageView.setVisible(b); }
+  public void changeX(Double x) {
+    imageView.setX(x);
+  }
 
-  private void changePos(Vector<Double> v) {
-    imageView.setX(v.get(0));
-    imageView.setY(v.get(1));
+  public void changeY(Double y) {
+    imageView.setY(y);
   }
 }

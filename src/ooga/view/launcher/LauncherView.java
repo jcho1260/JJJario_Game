@@ -6,6 +6,7 @@ import ooga.controller.Controller;
 import ooga.view.factories.SceneFactory;
 
 public class LauncherView {
+
   private final Stage stage;
 
   public LauncherView(Stage stage) {
@@ -14,7 +15,7 @@ public class LauncherView {
 
   public void start(Controller controller) {
     try {
-      SceneFactory sf = new SceneFactory(stage, controller);
+      SceneFactory sf = new SceneFactory(controller);
       Scene scene = sf.make("resources/view_resources/launcher/LauncherRoot.XML");
       stage.setScene(scene);
       stage.show();
