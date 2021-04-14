@@ -51,11 +51,11 @@ public class GameWorld extends Observable {
     stepTime = 1.0/frameRate;
     frameCoords = new Vector[4];
     frameCoordinates(player.getPosition(), player.getSize());
+    allBricks = new ArrayList<>();
+    findBricks();
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allDestroyables = actors;
     allActiveDestroyables = findActiveObjects(allDestroyables);
-    allBricks = new ArrayList<>();
-    findBricks();
     worldCollisionHandling = new WorldCollisionHandling(collisionMethods, gameObjects, actors, player);
     windowSize = frameSize;
     double playerViewX = frameSize.getX() * playerXLoc;
@@ -130,7 +130,7 @@ public class GameWorld extends Observable {
       Vector oBotL = o.getPosition().add(new Vector(0,o.getSize().getY()));
       Vector oBotR = o.getPosition().add(new Vector(o.getSize().getX(),o.getSize().getY()));
 
-      if (oTopL.insideBox(topL,botR) || oTopR.insideBox(topL,botR) || oBotL.insideBox(topL, botR) || oBotR.insideBox(topL,botR)) {
+      if (oTopL.insideBox(topL,botR) || oTopR.insideBox(topL,botR) || oBotL.insideBox(topL, botR) || oBotR.insideBox(topL,botR) || allBricks.contains(o)) {
         ret.add(o);
         o.setActive(true);
       } else { o.setActive(false); }
@@ -160,12 +160,18 @@ public class GameWorld extends Observable {
     double defaultYTop = 0;
     Vector playerCenter = new Vector(playerCoord.getX()+ 0.5*playerSize.getX(), playerCoord.getY() + 0.5*playerSize.getY());
     double topY = playerCenter.getY() - playerYLoc * windowSize.getY();
-    if (topY < 0) {topY = defaultYTop;}
     double botY = playerCoord.getY() + (1-playerYLoc) * windowSize.getY();
     if(defaultYBot > windowSize.getY()) {botY = defaultYBot;}
     double leftX = playerCenter.getX() - playerXLoc * windowSize.getX();
-    if (leftX < 0) {leftX = defaultXLeft;}
     double rightX = playerCenter.getX() + playerXLoc * windowSize.getX();
+    if (topY < 0) {
+      topY = defaultYTop;
+      botY = defaultYTop + windowSize.getY();
+    }
+    if (leftX < 0) {
+      leftX = defaultXLeft;
+      rightX = defaultXLeft + windowSize.getX();
+    }
     frameCoords[0] = new Vector(leftX, topY);
     frameCoords[1] = new Vector(rightX, topY);
     frameCoords[2] = new Vector(leftX, botY);
