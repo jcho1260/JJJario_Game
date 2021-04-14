@@ -44,7 +44,7 @@ public class PlayerMovementTest {
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
-    assertTrue(user.getPosition().equals(new Vector(0, 1)));
+    assertTrue(user.getPredictedPosition().equals(new Vector(0, 1)));
   }
 
   /**
@@ -57,7 +57,7 @@ public class PlayerMovementTest {
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
-    assertTrue(user.getPosition().equals(new Vector(1, 1)));
+    assertTrue(user.getPredictedPosition().equals(new Vector(1, 1)));
   }
 
   /**
@@ -70,7 +70,7 @@ public class PlayerMovementTest {
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
-    assertTrue(user.getPosition().equals(new Vector(-1, 1)));
+    assertTrue(user.getPredictedPosition().equals(new Vector(-1, 1)));
   }
 
   /**
@@ -80,10 +80,18 @@ public class PlayerMovementTest {
   void moveUp() {
     try {
       user.userStepMovement(Action.UP, 1, 1);
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
+      user.userStepMovement(Action.NONE, 1, 1);
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, -2)));
+      user.userStepMovement(Action.NONE, 1, 1);
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
+      user.userStepMovement(Action.NONE, 1, 1);
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, 0)));
+      user.userStepMovement(Action.NONE, 1, 1);
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, 1)));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
-    assertTrue(user.getPosition().equals(new Vector(0, -1)));
   }
 
   /**
@@ -96,40 +104,47 @@ public class PlayerMovementTest {
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
-    assertTrue(user.getPosition().equals(new Vector(0, 0)));
+    assertTrue(user.getPredictedPosition().equals(new Vector(0, 0)));
   }
 
   /**
-   * Simulates a user holding the up key - should prevent infinite jumping.
+   * Simulates a user holding the up key - should prevent double jumping.
    */
   @Test
   void moveUpContinuous() {
     try {
       user.userStepMovement(Action.UP, 1, 1);
-      assertTrue(user.getPosition().equals(new Vector(0, -1)));
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
       user.userStepMovement(Action.UP, 1, 1);
-      assertTrue(user.getPosition().equals(new Vector(0, -2)));
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, -2)));
       user.userStepMovement(Action.UP, 1, 1);
-      assertTrue(user.getPosition().equals(new Vector(0, -1)));
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
+      user.userStepMovement(Action.UP, 1, 1);
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, 0)));
+      user.userStepMovement(Action.UP, 1, 1);
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, 1)));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
   }
 
   /**
-   * Simulates a user holding the up key, then releasing.
+   * Simulates a user holding the up key, then releasing, and re-pressing while in air. Should have
+   * no change in behavior.
    */
   @Test
   void moveUpRelease() {
     try {
       user.userStepMovement(Action.UP, 1, 1);
-      assertTrue(user.getPosition().equals(new Vector(0, -1)));
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
       user.userStepMovement(Action.UP, 1, 1);
-      assertTrue(user.getPosition().equals(new Vector(0, -2)));
-      user.userStepMovement(Action.UP, 1, 1);
-      assertTrue(user.getPosition().equals(new Vector(0, -1)));
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, -2)));
       user.userStepMovement(Action.NONE, 1, 1);
-      assertTrue(user.getPosition().equals(new Vector(0, 0)));
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
+      user.userStepMovement(Action.UP, 1, 1);
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, 0)));
+      user.userStepMovement(Action.UP, 1, 1);
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, 1)));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
@@ -142,31 +157,16 @@ public class PlayerMovementTest {
   void moveUpFallUpAgain() {
     try {
       user.userStepMovement(Action.UP, 1, 1);
-      assertTrue(user.getPosition().equals(new Vector(0, -1)));
-      user.userStepMovement(Action.UP, 1, 1);
-      assertTrue(user.getPosition().equals(new Vector(0, -2)));
-      user.userStepMovement(Action.UP, 1, 1);
-      assertTrue(user.getPosition().equals(new Vector(0, -1)));
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
       user.userStepMovement(Action.NONE, 1, 1);
-      assertTrue(user.getPosition().equals(new Vector(0, 0)));
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, -2)));
+      user.userStepMovement(Action.NONE, 1, 1);
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
+      user.userStepMovement(Action.NONE, 1, 1);
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, 0)));
       user.generalBottomCollision();
       user.userStepMovement(Action.UP, 1, 1);
-      assertTrue(user.getPosition().equals(new Vector(0, -2)));
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-    }
-  }
-
-  /**
-   * Simulates a user sinking, then un-sinking.
-   */
-  @Test
-  void moveNoSink() {
-    try {
-      user.userStepMovement(Action.NONE, 1, 1);
-      assertTrue(user.getPosition().equals(new Vector(0, 1)));
-      user.generalBottomCollision();
-      assertTrue(user.getPosition().equals(new Vector(0, 0)));
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
