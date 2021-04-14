@@ -1,5 +1,9 @@
 <Level>
-  <GlobalGravity>100</GlobalGravity>
+  <GlobalGravity>200</GlobalGravity>
+  <DrivingVelocity>
+    <x>100</x>
+    <y>0</y>
+  </DrivingVelocity>
   <GameObjects>
     <GameObject>
       <Name>Bird</Name>

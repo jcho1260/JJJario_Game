@@ -61,7 +61,6 @@ public class GameWorld extends Observable {
     double playerViewX = frameSize.getX() * playerXLoc;
     double playerViewY = frameSize.getY() * playerYLoc;
     playerViewCoord = new Vector(playerViewX, playerViewY);
-
   }
 
   public void stepFrame(Action pressEffect)
@@ -142,6 +141,10 @@ public class GameWorld extends Observable {
     allGameObjects = removeIndicesFromList(allGameObjects, deadActors);
     allDestroyables = removeIndicesFromList(allDestroyables, deadActors);
     allBricks = removeIndicesFromList(allBricks, deadActors);
+
+    allActiveGameObjects = findActiveObjects(allGameObjects);
+    allActiveDestroyables = findActiveObjects(allDestroyables);
+    worldCollisionHandling.updateActiveGameObjects(allActiveGameObjects, allActiveDestroyables);
   }
 
   private List<GameObject> removeIndicesFromList(List<GameObject> objects, List<Integer> deadActors) {
