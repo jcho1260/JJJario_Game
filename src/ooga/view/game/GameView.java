@@ -67,6 +67,10 @@ public class GameView {
     ((Group) currScene.getRoot()).getChildren().add(s.getImageView());
   }
 
+  public void addScore() {
+
+  }
+
   public void startLevel() {
     stage.setScene(currScene);
     stage.show();
