@@ -61,7 +61,7 @@ public class ProfileView {
     if (type.equals("Username")) {
       tf.setOnKeyPressed(makePCLHandler(tf, type));
     } else {
-      tf.setOnKeyTyped(makePCLKeyBindHandler(type));
+      tf.setOnKeyPressed(makePCLKeyBindHandler(type));
     }
     ((Pane) currMenu.lookup("#ProfileMenuTextFieldVBox")).getChildren().add(tf);
     Text t = new Text();
@@ -84,8 +84,6 @@ public class ProfileView {
   }
 
   private EventHandler<KeyEvent> makePCLKeyBindHandler(String s) {
-    return event -> {
-      pcl.propertyChange(new PropertyChangeEvent(this, "setKeyBind", null, new Pair<>(event.getCode(), s)));
-    };
+    return event -> pcl.propertyChange(new PropertyChangeEvent(this, "setKeyBind", null, new Pair<>(event.getCode(), s)));
   }
 }
