@@ -60,7 +60,7 @@ public class GameView {
     bi.setY(0);
     bi.setPreserveRatio(true);
     bi.setFitHeight(h);
-    ((Group) newScene.getRoot()).getChildren().add(bi);
+    g.getChildren().add(bi);
     currScene = newScene;
   }
 
