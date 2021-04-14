@@ -33,6 +33,7 @@ public class GameWorld extends Observable {
   private Player player;
   private Vector windowSize;
   private Vector[] frameCoords;
+  private Vector screenLimits;
   private Vector playerViewCoord;
 
 
@@ -51,6 +52,7 @@ public class GameWorld extends Observable {
     gravity = levelGravity;
     stepTime = 1.0/frameRate;
     score = 0;
+    screenLimits = new Vector(1700, 800);
     frameCoords = new Vector[4];
     frameCoordinates(player.getPosition(), player.getSize());
     allBricks = new ArrayList<>();
@@ -170,8 +172,8 @@ public class GameWorld extends Observable {
 
   private void frameCoordinates(Vector playerCoord, Vector playerSize) {
     double defaultXLeft = 0;
-    double defaultXRight = windowSize.getX();
-    double defaultYBot = windowSize.getY();
+    double defaultXRight = screenLimits.getX();
+    double defaultYBot = screenLimits.getY();
     double defaultYTop = 0;
     Vector playerCenter = new Vector(playerCoord.getX()+ 0.5*playerSize.getX(), playerCoord.getY() + 0.5*playerSize.getY());
     double topY = playerCenter.getY() - playerYLoc * windowSize.getY();
@@ -183,9 +185,17 @@ public class GameWorld extends Observable {
       topY = defaultYTop;
       botY = defaultYTop + windowSize.getY();
     }
+    if (botY > 0) {
+      botY = defaultYBot;
+      topY = defaultYBot - windowSize.getY();
+    }
     if (leftX < 0) {
       leftX = defaultXLeft;
       rightX = defaultXLeft + windowSize.getX();
+    }
+    if (rightX > 0) {
+      leftX = defaultXRight - windowSize.getX();
+      rightX = defaultXRight;
     }
     frameCoords[0] = new Vector(leftX, topY);
     frameCoords[1] = new Vector(rightX, topY);

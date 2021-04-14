@@ -59,7 +59,7 @@
         <y>450</y>
       </Velocity>
       <StartLife>1</StartLife>
-      <JumpTime>600</JumpTime>
+      <JumpTime>0.5</JumpTime>
       <StartHealth>1</StartHealth>
     </Entity>
 

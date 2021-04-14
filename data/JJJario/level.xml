@@ -1,5 +1,5 @@
 <Level>
-  <GlobalGravity>25</GlobalGravity>
+  <GlobalGravity>40</GlobalGravity>
   <BackgroundImage>view_resources/images/backgrounds/JJJario.png</BackgroundImage>
   <DrivingVelocity>
     <x>0</x>
