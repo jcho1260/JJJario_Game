@@ -98,8 +98,8 @@ public class Destroyable extends GameObject{
     return health.getLives();
   }
 
-  private void kill() {
-    health.kill();
+  public void kill() {
+    notifyListeners("changeVisibility", true, false);
   }
 
   private void onDeath() {

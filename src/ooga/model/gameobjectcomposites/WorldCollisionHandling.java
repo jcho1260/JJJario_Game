@@ -69,6 +69,9 @@ public class WorldCollisionHandling {
           ((Destroyable) actor).addCollision(actorCollisionMethods);
           if (!((Destroyable) actor).cornerCollision(collisionObject)) {
             collisions.add(((Destroyable) actor));
+//            System.out.println(actor.getEntityType().get(actor.getEntityType().size() - 1)
+//                + " " + collisionObject.getEntityType().get(collisionObject.getEntityType().size() - 1)+" "+directionalTags.get(directionalTags.size()-1));
+
           }
           Entry<GameObject, GameObject> pair = new SimpleEntry<>(actor, collisionObject);
           Entry<GameObject, GameObject> unPair = new SimpleEntry<>(collisionObject, actor);
@@ -121,6 +124,7 @@ public class WorldCollisionHandling {
     for (Destroyable destroyable : collisions) {
       destroyable.executeCollisions();
       if (!destroyable.isAlive()) {
+        destroyable.kill();
         toDelete.add(destroyable.getId());
       }
     }
