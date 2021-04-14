@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import java.util.HashMap;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -111,8 +112,11 @@ public class Controller {
 
   private void handleHighscore(int score) {
     Profile profile = getProfile(activeProfile);
+
+    profile.getHighScores().computeIfAbsent(gameView.getGameName(), k -> new HashMap<>());
     Map<String, Integer> scores = profile.getHighScores().get(gameView.getGameName());
-    if (scores.get("level1") < score) {
+
+    if (scores.get("level1") == null || scores.get("level1") < score) {
       scores.put("level1", score);
     }
   }
