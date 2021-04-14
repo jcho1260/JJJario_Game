@@ -17,11 +17,12 @@ public class Destroyable extends GameObject{
   /**
    * Default constructor with default lives, health values
    */
-  public Destroyable(List<String> entityTypes, Vector position, int id, Vector size, int startLife, int startHealth) {
+  public Destroyable(List<String> entityTypes, Vector position, int id, Vector size, int startLife, int startHealth, int points) {
     super(entityTypes, position, id, size);
     collisionQueue = new LinkedList<>();
     collisionHandler = new DestroyableCollisionHandling();
     health = new Health(startHealth, startLife);
+    score = points;
   }
 
   /**
@@ -97,6 +98,8 @@ public class Destroyable extends GameObject{
   protected int getLives() {
     return health.getLives();
   }
+
+  public double getScore() { return score; }
 
   public void kill() {
     notifyListeners("changeVisibility", true, false);

@@ -88,9 +88,6 @@ public class UserInputMovement {
    */
   public Vector moveDOWN(Double elapsedTime, Double gameGravity) {
     isJumping = false;
-    if (jumpTimeCounter == 0) {
-      return new Vector(0, 0);
-    }
     return deltaPosition(elapsedTime, gameGravity, new Vector(0, 1));
   }
 
