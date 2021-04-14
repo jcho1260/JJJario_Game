@@ -24,10 +24,11 @@ public class Player extends Destroyable {
    * Default constructor for Player.
    */
   public Player(List<String> entityTypes, Vector initialPosition, int id, Vector objSize,
-      int startLife, int startHealth, double jumpTime, Vector velocityMagnitude, double gravity)
+      int startLife, int startHealth, double jumpTime, Vector velocityMagnitude, double gravity,
+      Vector drivingVelocity)
       throws ClassNotFoundException {
     super(entityTypes, initialPosition, id, objSize, startLife, startHealth);
-    userMovement = new UserInputMovement(jumpTime, velocityMagnitude, gravity);
+    userMovement = new UserInputMovement(jumpTime, velocityMagnitude, gravity, drivingVelocity);
     userMovementClass = Class.forName("ooga.model.gameobjectcomposites.UserInputMovement");
     lives = startLife;
   }

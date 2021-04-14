@@ -62,7 +62,7 @@
       <Name>PowerUp</Name>
     </GameObject>
     <GameObject>
-      <Name>Player</Name>
+      <Name>Player-UP</Name>
       <Method>
         <Name>incrementHealth</Name>
         <Args>

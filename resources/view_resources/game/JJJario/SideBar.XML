@@ -1,5 +1,5 @@
 <?xml version = "1.0" ?>
-<VBox id="SideBar" type="Pane" style="view_resources/game/css/JJJarioSideBar.css">
+<VBox id="SideBar" type="Pane" style="view_resources/game/JJJario/css/SideBar.css">
   <Height>360</Height>
   <Width>320</Width>
   <ImageView id="JJJarioLogo" type="Leaf">

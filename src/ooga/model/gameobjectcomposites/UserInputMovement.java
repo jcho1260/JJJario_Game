@@ -15,6 +15,7 @@ public class UserInputMovement {
   private double jumpTimeCounter;
   private boolean isJumping;
   private double gravitySink;
+  private Vector drivingVelocity;
 
   /**
    * Constructor for UserInputMovement.
@@ -22,11 +23,13 @@ public class UserInputMovement {
    *
    * @param defaultVelocity per step
    */
-  public UserInputMovement(double jumpTime, Vector defaultVelocity, double gravity) {
+  public UserInputMovement(double jumpTime, Vector defaultVelocity, double gravity,
+      Vector autoscrollVector) {
     jumpTimeLimit = jumpTime;
     stepVelocityMagnitude = defaultVelocity;
     gravityScale = gravity;
     jumpTimeCounter = 0;
+    drivingVelocity = autoscrollVector;
   }
 
   private Vector decideJumping(Double elapsedTime, Double gameGravity, Vector change) {

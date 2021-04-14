@@ -11,12 +11,13 @@ import ooga.controller.KeyListener;
 import ooga.view.factories.SceneFactory;
 
 public class GameView {
+
   private final Stage stage;
-  private Scene currScene;
-  private Scene newScene;
   private final String gameName;
   private final KeyListener kl;
   private final SceneFactory sf;
+  private Scene currScene;
+  private Scene newScene;
 
   public GameView(String gameName, Stage stage, KeyListener kl, Controller controller) {
     this.stage = stage;
@@ -27,7 +28,6 @@ public class GameView {
 
   public void start(String filePath) {
     try {
-      System.out.println(filePath);
       currScene = sf.make(filePath);
       currScene.setOnKeyPressed(makeKeyAction());
       currScene.setOnKeyReleased(makeKeyAction());
@@ -40,7 +40,7 @@ public class GameView {
 
   public void initializeLevel(double w, double h) {
     Group g = new Group();
-    g.setId(gameName+"LevelView");
+    g.setId(gameName + "LevelView");
     newScene = new Scene(g, w, h);
     newScene.setOnKeyPressed(makeKeyAction());
     newScene.setOnKeyReleased(makeKeyAction());
@@ -66,7 +66,9 @@ public class GameView {
     }
   }
 
-  public String getGameName() { return this.gameName; }
+  public String getGameName() {
+    return this.gameName;
+  }
 
   private EventHandler<KeyEvent> makeKeyAction() {
     return event -> kl.propertyChange(new PropertyChangeEvent(this, "currKey", null, event));
