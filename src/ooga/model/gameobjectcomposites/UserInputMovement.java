@@ -35,7 +35,7 @@ public class UserInputMovement {
     }
 
     if (isJumping && jumpTimeCounter <= jumpTimeLimit) {
-      return deltaPosition(elapsedTime, gameGravity, new Vector(0, -1));
+      return deltaPosition(elapsedTime, gameGravity, change.add(new Vector(0, -1)));
     } else {
       return deltaPosition(elapsedTime, gameGravity, change);
     }
