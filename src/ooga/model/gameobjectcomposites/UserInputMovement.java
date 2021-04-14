@@ -14,6 +14,8 @@ public class UserInputMovement {
   private double gravityScale;
   private double jumpTimeCounter;
   private boolean isJumping;
+  private int continuousJumps;
+  private final int continuousJumpLimit;
   private double gravitySink;
   private Vector drivingVelocity;
 
@@ -30,6 +32,7 @@ public class UserInputMovement {
     gravityScale = gravity;
     jumpTimeCounter = 0;
     drivingVelocity = autoscrollVector;
+    continuousJumpLimit = 2;
   }
 
   private Vector decideJumping(Double elapsedTime, Double gameGravity, Vector change) {
@@ -64,9 +67,15 @@ public class UserInputMovement {
    * @return deltaPosition
    */
   public Vector moveUP(Double elapsedTime, Double gameGravity) {
-    if (!isJumping) {
-      isJumping = jumpTimeCounter == 0;
+    if (isJumping && continuousJumps <= continuousJumpLimit) {
+      jumpTimeCounter = 0;
+      continuousJumps++;
+    } else {
+      if (!isJumping) {
+        isJumping = jumpTimeCounter == 0;
+      }
     }
+
     return moveNONE(elapsedTime, gameGravity);
   }
 
@@ -142,6 +151,7 @@ public class UserInputMovement {
    */
   public void hitGround() {
     jumpTimeCounter = 0;
+    continuousJumps = 0;
     isJumping = false;
   }
 }
