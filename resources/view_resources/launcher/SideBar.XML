@@ -9,23 +9,23 @@
     <Width>285</Width>
     <Height>100</Height>
   </ImageView>
-  <Button id="DashboardButton" type="Leaf">
-    <Text>Dashboard</Text>
+  <Button id="ProfileButton" type="Leaf">
+    <Text>Profile</Text>
     <ImageView>
       <Image>
-        <Path>view_resources/images/button_icons/Home.png</Path>
+        <Path>view_resources/images/button_icons/User.png</Path>
       </Image>
       <Ratio>true</Ratio>
       <Height>80</Height>
       <Width>80</Width>
     </ImageView>
-    <Action>
-      <Type>ChangeStack</Type>
+    <Event method="setOnAction">
+      <Type>ProfileView</Type>
       <PaneID>LauncherStackPane</PaneID>
       <FilePath>
-        <Path>resources/view_resources/launcher/Dashboard.XML</Path>
+        <Path>resources/view_resources/launcher/profile/ProfileLogin.xml</Path>
       </FilePath>
-    </Action>
+    </Event>
   </Button>
   <Button id="GameLibraryButton" type="Leaf">
     <Text>Game Library</Text>
@@ -37,13 +37,13 @@
       <Height>80</Height>
       <Width>80</Width>
     </ImageView>
-    <Action>
+    <Event method="setOnAction">
       <Type>ChangeStack</Type>
       <PaneID>LauncherStackPane</PaneID>
       <FilePath>
         <Path>resources/view_resources/launcher/GameLibrary.XML</Path>
       </FilePath>
-    </Action>
+    </Event>
   </Button>
   <Button id="StageBuilderButton" type="Leaf">
     <Text>Stage Builder</Text>
@@ -79,7 +79,13 @@
       <Height>80</Height>
       <Width>80</Width>
     </ImageView>
-    <!--<Action>TODO</Action>-->
+    <Event method="setOnAction">
+      <Type>Logout</Type>
+      <PaneID>LauncherStackPane</PaneID>
+      <FilePath>
+        <Path>resources/view_resources/launcher/GameLibrary.XML</Path>
+      </FilePath>
+    </Event>
   </Button>
   <Button id="ExitButton" type="Leaf">
     <Text>Exit</Text>

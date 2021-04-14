@@ -1,5 +1,6 @@
 <Level>
   <GlobalGravity>0</GlobalGravity>
+  <BackgroundImage>view_resources/images/backgrounds/JJJario.png</BackgroundImage>
   <GameObjects>
     <GameObject>
       <Name>Mario</Name>

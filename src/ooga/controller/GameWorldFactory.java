@@ -135,6 +135,30 @@ public class GameWorldFactory {
     return Double.parseDouble(doc.getElementsByTagName("GlobalGravity").item(0).getTextContent());
   }
 
+  public double getDrivingVelocity(File file) {
+    try {
+      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+      DocumentBuilder db = dbf.newDocumentBuilder();
+      Document doc = db.parse(file);
+      return Double.parseDouble(doc.getElementsByTagName("DrivingVelocity").item(0).getTextContent());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return 0;
+  }
+
+  public String getBackground(File file) {
+    try {
+      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+      DocumentBuilder db = dbf.newDocumentBuilder();
+      Document doc = db.parse(file);
+      return doc.getElementsByTagName("BackgroundImage").item(0).getTextContent();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return "";
+  }
+
   private class GameObjectInfo {
 
     final String type;
