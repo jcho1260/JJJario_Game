@@ -13,9 +13,9 @@ public class UserInputMovement {
   private Vector stepVelocityMagnitude;
   private double gravityScale;
   private double jumpTimeCounter;
-  private double clockTime;
-  private double gravityLevel;
+  private boolean isJumping;
   private double gravitySink;
+  private Vector drivingVelocity;
 
   /**
    * Constructor for UserInputMovement.
@@ -23,11 +23,25 @@ public class UserInputMovement {
    *
    * @param defaultVelocity per step
    */
-  public UserInputMovement(double jumpTime, Vector defaultVelocity, double gravity) {
+  public UserInputMovement(double jumpTime, Vector defaultVelocity, double gravity,
+      Vector autoscrollVector) {
     jumpTimeLimit = jumpTime;
     stepVelocityMagnitude = defaultVelocity;
     gravityScale = gravity;
     jumpTimeCounter = 0;
+    drivingVelocity = autoscrollVector;
+  }
+
+  private Vector decideJumping(Double elapsedTime, Double gameGravity, Vector change) {
+    if (isJumping) {
+      jumpTimeCounter += elapsedTime;
+    }
+
+    if (isJumping && jumpTimeCounter <= jumpTimeLimit) {
+      return deltaPosition(elapsedTime, gameGravity, change.add(new Vector(0, -1)));
+    } else {
+      return deltaPosition(elapsedTime, gameGravity, change);
+    }
   }
 
   /**
@@ -38,7 +52,7 @@ public class UserInputMovement {
    * @return deltaPosiiton
    */
   public Vector moveNONE(Double elapsedTime, Double gameGravity) {
-    return deltaPosition(elapsedTime, gameGravity, new Vector(0, 0));
+    return decideJumping(elapsedTime, gameGravity, new Vector(0, 0));
   }
 
   /**
@@ -50,12 +64,10 @@ public class UserInputMovement {
    * @return deltaPosition
    */
   public Vector moveUP(Double elapsedTime, Double gameGravity) {
-    jumpTimeCounter += elapsedTime;
-    if (jumpTimeCounter <= jumpTimeLimit) {
-      return deltaPosition(elapsedTime, gameGravity, new Vector(0, -1));
-    } else {
-      return moveNONE(elapsedTime, gameGravity);
+    if (!isJumping) {
+      isJumping = jumpTimeCounter == 0;
     }
+    return moveNONE(elapsedTime, gameGravity);
   }
 
   /**
@@ -66,6 +78,7 @@ public class UserInputMovement {
    * @return deltaPosition
    */
   public Vector moveDOWN(Double elapsedTime, Double gameGravity) {
+    isJumping = false;
     if (jumpTimeCounter == 0) {
       return new Vector(0, 0);
     }
@@ -80,7 +93,7 @@ public class UserInputMovement {
    * @return deltaPosition
    */
   public Vector moveRIGHT(Double elapsedTime, Double gameGravity) {
-    return deltaPosition(elapsedTime, gameGravity, new Vector(1, 0));
+    return decideJumping(elapsedTime, gameGravity, new Vector(1, 0));
   }
 
   /**
@@ -91,7 +104,7 @@ public class UserInputMovement {
    * @return deltaPosition
    */
   public Vector moveLEFT(Double elapsedTime, Double gameGravity) {
-    return deltaPosition(elapsedTime, gameGravity, new Vector(-1, 0));
+    return decideJumping(elapsedTime, gameGravity, new Vector(-1, 0));
   }
 
   /**
@@ -100,10 +113,11 @@ public class UserInputMovement {
    * @return stepVelocityMagnitude
    */
   public Vector getVelocity() {
-    System.out.println("player velocity: "+stepVelocityMagnitude);
     return stepVelocityMagnitude;
   }
 
+  //whoop
+  
   /**
    * Sets stepVelocityMagnitude to new value.
    *
@@ -115,12 +129,10 @@ public class UserInputMovement {
 
   // TODO refactor duplicate code w/ automatedmovement
   private Vector deltaPosition(double elapsedTime, double gameGravity, Vector change) {
-    clockTime = elapsedTime;
-    gravityLevel = gameGravity;
     gravitySink = (1 + change.getY()) * elapsedTime * gameGravity * gravityScale;
 
-    double newX = elapsedTime * stepVelocityMagnitude.getX() * change.getX();
-    double newY = (elapsedTime * stepVelocityMagnitude.getY() * change.getY())
+    double newX = elapsedTime * Math.abs(stepVelocityMagnitude.getX()) * change.getX();
+    double newY = (elapsedTime * Math.abs(stepVelocityMagnitude.getY()) * change.getY())
         + gravitySink;
 
     return new Vector(newX, newY);
@@ -128,12 +140,9 @@ public class UserInputMovement {
 
   /**
    * Player has landed on a jumpable object.
-   *
-   * @return deltaPosition to un-sink
    */
-  public Vector hitGround() {
+  public void hitGround() {
     jumpTimeCounter = 0;
-//    return deltaPosition(clockTime, gravityLevel, new Vector(0, -1));
-    return new Vector(0, gravitySink * -1);
+    isJumping = false;
   }
 }

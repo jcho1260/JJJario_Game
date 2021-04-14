@@ -1,0 +1,23 @@
+<Collisions>
+  <Actor>
+    <Name>Player</Name>
+    <GameObject>
+      <Name>FloorPipe</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+    <GameObject>
+      <Name>CeilingPipe</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+  </Actor>
+</Collisions>

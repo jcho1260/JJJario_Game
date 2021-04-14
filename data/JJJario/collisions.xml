@@ -1,3 +1,8 @@
+<!--
+  Assumptions
+  1. Directionality takes precedence
+  2. Only 1 direction can be specified at a time
+ -->
 <Collisions>
   <Actor>
     <Name>Player</Name>
@@ -11,12 +16,10 @@
       </Method>
     </GameObject>
     <GameObject>
-      <Name>Enemy-B</Name>
+      <Name>Enemy-DOWN</Name>
       <Method>
-        <Name>scaleVelocity</Name>
+        <Name>generalBottomCollision</Name>
         <Args>
-          <Arg>1</Arg>
-          <Arg>-1</Arg>
         </Args>
       </Method>
     </GameObject>
@@ -45,7 +48,7 @@
       </Method>
     </GameObject>
     <GameObject>
-      <Name>Block</Name>
+      <Name>Block-DOWN</Name>
       <Method>
         <Name>generalBottomCollision</Name>
         <Args>
@@ -57,6 +60,15 @@
     <Name>Enemy</Name>
     <GameObject>
       <Name>PowerUp</Name>
+    </GameObject>
+    <GameObject>
+      <Name>Player-UP</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
     </GameObject>
   </Actor>
   <Actor>
@@ -75,7 +87,7 @@
   <Actor>
     <Name>GameObject</Name>
     <GameObject>
-      <Name>GameObject-L</Name>
+      <Name>GameObject-LEFT</Name>
       <Method>
         <Name>scaleVelocity</Name>
         <Args>
@@ -85,7 +97,7 @@
       </Method>
     </GameObject>
     <GameObject>
-      <Name>GameObject-R</Name>
+      <Name>GameObject-RIGHT</Name>
       <Method>
         <Name>scaleVelocity</Name>
         <Args>
@@ -96,13 +108,6 @@
     </GameObject>
     <GameObject>
       <Name>GameObject</Name>
-      <Method>
-        <Name>scaleVelocity</Name>
-        <Args>
-          <Arg>1</Arg>
-          <Arg>1</Arg>
-        </Args>
-      </Method>
     </GameObject>
   </Actor>
 </Collisions>

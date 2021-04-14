@@ -13,6 +13,8 @@ public class AutomatedMovement {
   private final Vector endPosition;
   private Vector velocity;
   private double gravityScale;
+  private final boolean isStartLessThanEndX;
+  private final boolean isStartGreaterThanEndY;
 
   /**
    * Default constructor for AutomatedMovement.
@@ -27,6 +29,8 @@ public class AutomatedMovement {
     endPosition = finalPosition;
     velocity = initialVelocity;
     gravityScale = gravity;
+    isStartLessThanEndX = startPosition.getX() < endPosition.getX();
+    isStartGreaterThanEndY = startPosition.getY() > endPosition.getY();
   }
 
   /**
@@ -44,25 +48,19 @@ public class AutomatedMovement {
 
     double newX = position.getX() + (elapsedTime * velocity.getX());
     double newY = position.getY() + (elapsedTime * velocity.getY())
-        - (elapsedTime * gameGravity * gravityScale); // up = -, down = +
+        + (elapsedTime * gameGravity * gravityScale); // up = -, down = +
 
     return new Vector(newX, newY);
   }
 
   private boolean isInPath(Vector position) {
-    boolean withinStartX = isStartLessThanEndX() == (position.getX() >= startPosition.getX());
-    boolean withinStartY = isStartGreaterThanEndY() == (position.getY() <= startPosition.getY());
-    boolean withinEndX = isStartLessThanEndX() == (position.getX() <= endPosition.getX());
-    boolean withinEndY = isStartGreaterThanEndY() == (position.getY() >= endPosition.getY());
-    return withinStartX && withinStartY && withinEndX && withinEndY;
-  }
-
-  private boolean isStartLessThanEndX() {
-    return startPosition.getX() < endPosition.getX();
-  }
-
-  private boolean isStartGreaterThanEndY() {
-    return startPosition.getY() > endPosition.getY();
+    boolean withinStartX = isStartLessThanEndX == (position.getX() > startPosition.getX());
+    boolean withinStartY = isStartGreaterThanEndY == (position.getY() < startPosition.getY());
+    boolean withinEndX = isStartLessThanEndX == (position.getX() < endPosition.getX());
+    boolean withinEndY = isStartGreaterThanEndY == (position.getY() > endPosition.getY());
+    boolean isStart = position.equals(startPosition);
+    boolean isEnd = position.equals(endPosition);
+    return (withinStartX && withinStartY && withinEndX && withinEndY) || isStart || isEnd;
   }
 
   /**

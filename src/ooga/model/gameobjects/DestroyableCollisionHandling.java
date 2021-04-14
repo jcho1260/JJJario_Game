@@ -22,12 +22,14 @@ public class DestroyableCollisionHandling {
    * @return secondary GameObject's entity tags or empty list if no collision
    */
   public List<String> determineCollisionMethods(GameObject myself, GameObject o) {
+
     List<String> ret = new ArrayList<>();
-    if (!isCollision(myself, o)) {
+    Vector[] collisionRect = determineCollisionRectangle(myself, o);
+    if (collisionRect == null) {
       return ret;
     }
 
-    return getCollisionMethods(myself, o);
+    return getCollisionMethods(myself, o.getEntityType(), collisionRect);
   }
 
   /**
@@ -38,89 +40,81 @@ public class DestroyableCollisionHandling {
     while (!collisions.isEmpty()) {
       MethodBundle mb = collisions.remove();
       Method m = mb.makeMethod(destroyable.getClass());
-      System.out.println(m.getName());
-      System.out.println(mb.getParameters().length);
-      System.out.println(m.getParameters().length);
       m.invoke(destroyable, mb.getParameters());
     }
   }
 
-  private boolean isCollision(GameObject myself, GameObject o) {
-    double oX = o.getPosition().getX();
-    double oY = o.getPosition().getY();
-    double oWidth = o.getSize().getX();
-    double oHeight = o.getSize().getY();
-    double myX = myself.getPosition().getX();
-    double myY = myself.getPosition().getY();
-    double myWidth = myself.getSize().getX();
-    double myHeight = myself.getSize().getY();
-    if (isXOverlapSides(myX, oX, myWidth, oWidth) || isXCompleteOverlap(myX, oX, myWidth, oWidth)) {
-      if (isYOverlapSides(myY, oY, myHeight, oHeight) || isYCompleteOverlap(myY, oY, myHeight, oHeight)) {
-        System.out.print("Is Collision between: "+myself.getEntityType().get(myself.getEntityType().size()-1));
-        System.out.println(" and "+o.getEntityType().get(o.getEntityType().size()-1));
-        return true;
-      }
+  /**
+   * returns the top left and bottom right coord of the rectangle made by the intersection
+   * @param myself
+   * @param o
+   * @return ret[0] is top left, ret[1] is bot right
+   */
+  public Vector[] determineCollisionRectangle(GameObject myself, GameObject o) {
+    double x5 = Math.max(myself.getPredictedPosition().getX(), o.getPredictedPosition().getX());
+    double y5 = Math.max(myself.getPredictedPosition().getY(), o.getPredictedPosition().getY());
+    Vector myBotRight = myself.getPredictedPosition().add(myself.getSize());
+    Vector oBotRight = o.getPredictedPosition().add(o.getSize());
+    double x6 = Math.min(myBotRight.getX(), oBotRight.getX());
+    double y6 = Math.min(myBotRight.getY(), oBotRight.getY());
+    if (x5 > x6 || y5 > y6) {
+      return null;
     }
-    return false;
-  }
 
-  private boolean isXOverlapSides(double myX, double oX, double myWidth, double oWidth) {
-    return (oX <= myX && oX+oWidth <=myX+myWidth && oX+oWidth >=myX) || (oX >= myX && oX <=myX+myWidth  && oX+oWidth >=myX+myWidth);
-  }
-
-  private boolean isXCompleteOverlap(double myX, double oX, double myWidth, double oWidth) {
-    return oX <= myX && oX+oWidth >=myX+myWidth;
-  }
-
-  private boolean isYOverlapSides(double myY, double oY, double myHeight, double oHeight) {
-    return (oY <= myY && oY + oHeight <= myY + myHeight && oY + oHeight >= myY) || (oY >= myY && oY + myHeight <= myY && oY + oHeight >= myY + myHeight);
-  }
-
-  private boolean isYCompleteOverlap(double myY, double oY, double myHeight, double oHeight) {
-    return oY <= myY && oY + oHeight >= myY + myHeight;
-  }
-
-  private List<String> getCollisionMethods(GameObject myself, GameObject o) {
-    System.out.println("getCollisionMethods");
-    Vector myVelocity = myself.getVelocity();
-    Vector oVelocity = o.getVelocity();
-
-    Action myDirection = myVelocity.getDirection();
-    Action oDirection = oVelocity.getDirection();
-    String collisionDirection = "";
-
-    if (myDirection.equals(oDirection)) {
-      System.out.println("same direction");
-      if (!myVelocity.equals(new Vector(0,0))) {
-        System.out.println(oDirection.toString());
-        collisionDirection = oDirection.toString();
-      } else {
-        System.out.println("my velo is 0");
-        return new ArrayList<>();
-      }
-    } else if(myDirection.sameAxis(oDirection)){
-      collisionDirection = myVelocity.getDirection().toString();
-    } else {
-      String collisionAxis = collisionAxis(myself.getPosition(), o.getPosition());
-      if (myDirection.getAxis().equals(collisionAxis)) {
-        collisionDirection = myVelocity.getDirection().toString();
-      }
-      else {
-        collisionDirection = oVelocity.multiply(new Vector(-1, -1)).getDirection().toString();
-      }
-    }
-    List<String> ret = new ArrayList<>();
-    for (String s : o.getEntityType()) {
-      ret.add(s + collisionDirection);
-    }
-    System.out.println(ret);
+    Vector[] ret = new Vector[2];
+    ret[0] = new Vector(x5, y5);
+    ret[1] = new Vector(x6, y6);
     return ret;
   }
 
-  private String collisionAxis(Vector myPos, Vector oPos) {
-    if (myPos.getY() > oPos.getY() || myPos.getY() < oPos.getY()) { return "y"; }
-    if (myPos.getX() > oPos.getX() || myPos.getX() < oPos.getX()) { return "x"; }
-    return "x oy y";
+  // TODO REFACTOR
+  private List<String> getCollisionMethods(GameObject myself, List<String> oTags, Vector[] collisionBox) {
+    Action edgeAction = calculateCollisionDirection(myself, collisionBox).getDirection();
+
+    List<String> collisionMethods = new ArrayList<>(oTags);
+    for (String types : oTags) {
+      collisionMethods.add(types + "-" + edgeAction);
+    }
+
+    return collisionMethods;
+  }
+
+  public Vector calculateCollisionDirection(GameObject myself, Vector[] collisionBox) {
+    Vector collisionCenter = (collisionBox[0].add(collisionBox[1]))
+        .multiply(new Vector(0.5, 0.5));
+    Vector myCenter = (myself.getPredictedPosition().add(myself.getSize().multiply(new Vector(0.5, 0.5))));
+    List<Vector> edgeMidpoints = getEdgeMidpoints(myself);
+    double minDistance = Double.MAX_VALUE;
+    Vector minDistanceEdge = new Vector(-1, -1);
+    for (Vector edgeMidpoint : edgeMidpoints) {
+      double dist = collisionCenter.subtract(edgeMidpoint).calculateMagnitude();
+      if (dist < minDistance) {
+        minDistance = dist;
+        minDistanceEdge = edgeMidpoint;
+      }
+    }
+
+    return minDistanceEdge.subtract(myCenter).toUnit();
+  }
+
+  private List<Vector> getEdgeMidpoints(GameObject o) {
+    List<Vector> edges = new ArrayList<>();
+
+    Vector center = new Vector(o.getPredictedPosition().getX() + 0.5 * o.getSize().getX(), o.getPredictedPosition().getY() + 0.5 * o.getSize().getY());
+    edges.add(center.add(new Vector(0, -0.5 * o.getSize().getY())));
+    edges.add(center.add(new Vector(0, 0.5 * o.getSize().getY())));
+    edges.add(center.add(new Vector(-0.5 * o.getSize().getX(), 0)));
+    edges.add(center.add(new Vector(0.5 * o.getSize().getX(), 0)));
+
+    return edges;
+  }
+
+  public boolean smallCorner(GameObject me, GameObject o) {
+    Vector[] rect = determineCollisionRectangle(me, o);
+    if (rect == null) { return false; }
+    double width = rect[1].getX() - rect[0].getX();
+    double height = rect[1].getY() - rect[0].getY();
+    return width + height < 10;
   }
 
 }
