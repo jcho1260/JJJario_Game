@@ -36,7 +36,6 @@ public class Profile implements Serializable, PropertyChangeListener {
 
   public void setKeyBind(Pair<KeyCode, String> bind) {
     Action action = Action.valueOf(bind.getValue());
-    keybinds.entrySet().removeIf(entry -> action.equals(entry.getValue()));
     keybinds.put(bind.getKey(), action);
   }
 
