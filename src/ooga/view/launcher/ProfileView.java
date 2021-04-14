@@ -10,6 +10,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import ooga.controller.Controller;
@@ -21,7 +23,7 @@ import org.w3c.dom.Document;
 public class ProfileView {
   private final ParentComponentFactory pcf;
   private final Controller controller;
-  private Parent currMenu;
+  private Pane currMenu;
   private PropertyChangeListener pcl;
 
   public ProfileView(Controller controller, ParentComponentFactory pcf, PropertyChangeListener pcl) {
@@ -37,8 +39,11 @@ public class ProfileView {
       DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
       doc = dBuilder.parse(new File("resources/view_resources/launcher/profile/ProfileMenu.XML"));
       doc.getDocumentElement().normalize();
-      currMenu = (Parent) pcf.make(doc.getDocumentElement());
-      editUsernameInput(name);
+      currMenu = (Pane) pcf.make(doc.getDocumentElement());
+      makeTextFieldInput("Username", name);
+      for (KeyCode kc : keyCodeActionMap.keySet()) {
+        makeTextFieldInput(keyCodeActionMap.get(kc).toString(), kc.toString());
+      }
     } catch (Exception exception) {
       new ViewFactoryException(exception.getMessage()).printStackTrace();
     }
@@ -48,16 +53,15 @@ public class ProfileView {
     return this.currMenu;
   }
 
-  private void editUsernameInput(String name) {
-    TextField tf = ((TextField) currMenu.lookup("#UsernameMenuInput"));
-    tf.setPromptText(name);
-    tf.setOnKeyPressed(makePCLHandler(tf, "Name"));
-  }
-
-  private void makeKeyBindingInput(String name) {
-    TextField tf = ((TextField) currMenu.lookup("#ForwardMenuInput"));
-    tf.setPromptText(name);
-    tf.setOnKeyPressed(makePCLHandler(tf, "Name"));
+  private void makeTextFieldInput(String type, String prompt) {
+    TextField tf = new TextField();
+    tf.setId("#"+type+"MenuInput");
+    tf.setPromptText(prompt);
+    tf.setOnKeyPressed(makePCLHandler(tf, type));
+    ((Pane) currMenu.lookup("#ProfileMenuTextFieldVBox")).getChildren().add(tf);
+    Text t = new Text();
+    t.setText(type+":");
+    ((Pane) currMenu.lookup("#ProfileMenuLabelVBox")).getChildren().add(t);
   }
 
   private EventHandler<KeyEvent> makePCLHandler(TextField component, String label) {

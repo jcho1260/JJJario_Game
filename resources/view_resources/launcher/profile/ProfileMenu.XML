@@ -13,38 +13,10 @@
     </ImageView>
     <HBox id="ProfileMenuHBoxText" type="Pane" style="view_resources/launcher/profile/css/ProfileLoginHBox.css">
       <VBox id="ProfileMenuLabelVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuVBox.css">
-        <TextObj id="UsernameLabel" type="Leaf">
-          <Text>Username:</Text>
-        </TextObj>
-        <TextObj id="ForwardLabel" type="Leaf">
-          <Text>Forward:</Text>
-        </TextObj>
-        <TextObj id="LeftLabel" type="Leaf">
-          <Text>Left:</Text>
-        </TextObj>
-        <TextObj id="BackwardLabel" type="Leaf">
-          <Text>Backward:</Text>
-        </TextObj>
-        <TextObj id="RightLabel" type="Leaf">
-          <Text>Right:</Text>
-        </TextObj>
+        <Placeholder></Placeholder>
       </VBox>
       <VBox id="ProfileMenuTextFieldVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuHBox.css">
-        <TextField id="UsernameMenuInput" type="Leaf">
-          <Prompt>Username</Prompt>
-        </TextField>
-        <TextField id="ForwardMenuInput" type="Leaf">
-          <Prompt>W Key</Prompt>
-        </TextField>
-        <TextField id="LeftMenuInput" type="Leaf">
-          <Prompt>A Key</Prompt>
-        </TextField>
-        <TextField id="RightMenuInput" type="Leaf">
-          <Prompt>S Key</Prompt>
-        </TextField>
-        <TextField id="BackwardMenuInput" type="Leaf">
-          <Prompt>D Key</Prompt>
-        </TextField>
+        <Placeholder></Placeholder>
       </VBox>
     </HBox>
   </HBox>

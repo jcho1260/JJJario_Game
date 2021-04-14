@@ -39,6 +39,9 @@ public class ParentComponentFactory extends ComponentFactory {
       org.w3c.dom.Node tempNode = nl.item(i);
       if (tempNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
         Element childElem = (Element) tempNode;
+        if (childElem.getNodeName().equals("Placeholder")) {
+          continue;
+        }
         if (hasChildElements(childElem)) {
           if (e.getAttribute("type").equals("Pane")) {
             Node child = (Node) make(childElem);
