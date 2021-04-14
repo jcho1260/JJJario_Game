@@ -41,7 +41,15 @@ public class Profile implements Serializable, PropertyChangeListener {
 
   public void setKeyBind(Pair<KeyCode, String> bind) {
     Action action = Action.valueOf(bind.getValue());
+    for (KeyCode key : keybinds.keySet()) {
+      if (keybinds.get(key) == action) {
+        System.out.println(key);
+        System.out.println(keybinds.get(key));
+        keybinds.remove(key);
+      }
+    }
     keybinds.put(bind.getKey(), action);
+    System.out.println(keybinds);
   }
 
   public Map<KeyCode, Action> getKeybinds() {
