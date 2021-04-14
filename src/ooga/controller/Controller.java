@@ -87,7 +87,6 @@ public class Controller {
   }
 
   public void setActiveProfile(String name) throws IOException {
-    System.out.println(name);
     activeProfile = name;
     keyListener = new KeyListener(getProfile(activeProfile).getKeybinds());
   }
@@ -99,8 +98,8 @@ public class Controller {
     }
     try {
       gameWorld.stepFrame(keyListener.getCurrentKey());
-    } catch (Exception ignored){
-      ignored.printStackTrace();
+    } catch (Exception e){
+      e.printStackTrace();
     }
   }
 

@@ -12,15 +12,15 @@
         <Height>225</Height>
         <Width>225</Width>
       </ImageView>
-      <Button>
+      <Button id="ProfileImageButton" type="Leaf">
         <Text>Upload Image</Text>
       </Button>
     </VBox>
     <VBox id="ProfileMenuLabelVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuVBox.css">
-      <Placeholder></Placeholder>
+      <Placeholder>PLACEHOLDER</Placeholder>
     </VBox>
     <VBox id="ProfileMenuTextFieldVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuVBox.css">
-      <Placeholder></Placeholder>
+      <Placeholder>PLACEHOLDER</Placeholder>
     </VBox>
   </HBox>
 </VBox>
