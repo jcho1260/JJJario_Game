@@ -70,7 +70,7 @@
       <Name>FloorPipe</Name>
       <Location>
         <x>400</x>
-        <y>700</y>
+        <y>800</y>
       </Location>
     </Entity>
 
@@ -85,7 +85,7 @@
       <Name>FloorPipe</Name>
       <Location>
         <x>600</x>
-        <y>800</y>
+        <y>900</y>
       </Location>
     </Entity>
 
@@ -100,7 +100,7 @@
       <Name>FloorPipe</Name>
       <Location>
         <x>800</x>
-        <y>750</y>
+        <y>850</y>
       </Location>
     </Entity>
   </Layout>
