@@ -129,9 +129,10 @@ public class UserInputMovement {
   private Vector deltaPosition(double elapsedTime, double gameGravity, Vector change) {
     gravitySink = (1 + change.getY()) * elapsedTime * gameGravity * gravityScale;
 
-    double newX = elapsedTime * Math.abs(stepVelocityMagnitude.getX()) * change.getX();
+    double newX = (elapsedTime * Math.abs(stepVelocityMagnitude.getX()) * change.getX())
+        + (elapsedTime * drivingVelocity.getX());
     double newY = (elapsedTime * Math.abs(stepVelocityMagnitude.getY()) * change.getY())
-        + gravitySink;
+        + (elapsedTime * drivingVelocity.getY()) + gravitySink;
 
     return new Vector(newX, newY);
   }
