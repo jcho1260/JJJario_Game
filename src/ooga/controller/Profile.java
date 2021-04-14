@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Map;
 import javafx.scene.input.KeyCode;
+import javafx.util.Pair;
 import ooga.model.util.Action;
 import ooga.view.launcher.ProfileView;
 
@@ -33,8 +34,10 @@ public class Profile implements Serializable, PropertyChangeListener {
     this.picture = picture;
   }
 
-  public void setKeybinds(Map<KeyCode, Action> keybinds) {
-    this.keybinds = keybinds;
+  public void setKeyBind(Pair<KeyCode, String> bind) {
+    Action action = Action.valueOf(bind.getValue());
+    keybinds.entrySet().removeIf(entry -> action.equals(entry.getValue()));
+    keybinds.put(bind.getKey(), action);
   }
 
   public Map<KeyCode, Action> getKeybinds() {
