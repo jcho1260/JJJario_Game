@@ -1,11 +1,9 @@
 package ooga.controller;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -31,6 +29,7 @@ public class Controller {
   private KeyListener keyListener;
   private Timeline animation;
   private String activeProfile;
+  private ScoreListener highscoreListener;
 
   public Controller(Vector frameSize, double frameRate) {
     gameWorldFactory = new GameWorldFactory();
@@ -39,6 +38,7 @@ public class Controller {
     this.frameRate = frameRate;
     keyListener = new KeyListener(new Profile("default").getKeybinds());
     activeProfile = "";
+    highscoreListener = new ScoreListener();
   }
 
   public void startGame(GameView gameView) {
@@ -53,6 +53,7 @@ public class Controller {
     try {
       Map<String, Map<String, List<MethodBundle>>> collisions = collisionsParser.parseCollisions(collisionsFile);
       gameWorld = gameWorldFactory.createGameWorld(levelFile, collisions, frameSize, frameRate);
+      gameWorld.addListener(highscoreListener);
 
       String background = gameWorldFactory.getBackground(levelFile);
       System.out.println(background);
@@ -96,6 +97,8 @@ public class Controller {
 
   private void step(double d) {
     if (gameWorld.isGameOver()) {
+      int finalScore = highscoreListener.getScore();
+      handleHighscore(finalScore);
       animation.stop();
       gameView.gameOver();
     }
@@ -103,6 +106,14 @@ public class Controller {
       gameWorld.stepFrame(keyListener.getCurrentKey());
     } catch (Exception e){
       e.printStackTrace();
+    }
+  }
+
+  private void handleHighscore(int score) {
+    Profile profile = getProfile(activeProfile);
+    Map<String, Integer> scores = profile.getHighScores().get(gameView.getGameName());
+    if (scores.get("level1") < score) {
+      scores.put("level1", score);
     }
   }
 
