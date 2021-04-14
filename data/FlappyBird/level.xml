@@ -1,7 +1,7 @@
 <Level>
   <GlobalGravity>200</GlobalGravity>
   <DrivingVelocity>
-    <x>100</x>
+    <x>25</x>
     <y>0</y>
   </DrivingVelocity>
   <GameObjects>
@@ -59,7 +59,7 @@
         <y>450</y>
       </Velocity>
       <StartLife>1</StartLife>
-      <JumpTime>0.5</JumpTime>
+      <JumpTime>600</JumpTime>
       <StartHealth>1</StartHealth>
     </Entity>
 
