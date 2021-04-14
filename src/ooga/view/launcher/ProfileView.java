@@ -52,14 +52,12 @@ public class ProfileView {
       currMenu = (Pane) pcf.make(doc.getDocumentElement());
       makeTextFieldInput("Username", name);
       editImageChoseButton();
-      System.out.println(imagePath);
       ((ImageView) currMenu.lookup("#ProfileImage")).setImage(new Image(
           Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(imagePath))));
       for (KeyCode kc : keyCodeActionMap.keySet()) {
         makeTextFieldInput(keyCodeActionMap.get(kc).toString(), kc.toString());
       }
     } catch (Exception exception) {
-      System.out.println(exception);
       new ViewFactoryException(exception.getMessage()).printStackTrace();
     }
   }

@@ -5,7 +5,15 @@
     <Width>1050</Width>
     <HBox id="GameLibraryHBox1" type="Pane" style="view_resources/launcher/css/GameLibraryRow.css">
       <Button id="Game1Button" type="Leaf">
-        <Text>Super JJJario Bros.</Text>
+        <Text>JJJario</Text>
+        <ImageView>
+          <Image>
+            <Path>view_resources/images/logo/JJJarioLogo.png</Path>
+          </Image>
+          <Ratio>true</Ratio>
+          <Height>130</Height>
+          <Width>150</Width>
+        </ImageView>
         <Event method="setOnAction">
           <Game>JJJario</Game>
           <Type>LaunchGame</Type>
@@ -14,6 +22,14 @@
       </Button>
       <Button id="Game2Button" type="Leaf">
         <Text>Flappy Bird</Text>
+        <ImageView>
+          <Image>
+            <Path>view_resources/images/logo/FlappyBirdLogo.png</Path>
+          </Image>
+          <Ratio>true</Ratio>
+          <Height>130</Height>
+          <Width>150</Width>
+        </ImageView>
         <Event method="setOnAction">
           <Game>FlappyBird</Game>
           <Type>LaunchGame</Type>

@@ -1,0 +1,9 @@
+VBox {
+    -fx-background-color: slateblue;
+    -fx-spacing: 10;
+    -fx-alignment: CENTER;
+}
+
+.button {
+    -fx-font-size: 15px;
+}

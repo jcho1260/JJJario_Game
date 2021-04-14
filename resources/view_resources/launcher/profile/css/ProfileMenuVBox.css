@@ -35,7 +35,7 @@ Text {
 }
 
 .text-field {
-    -fx-background-color: darkslateblue;
+    -fx-background-color: slateblue;
     -fx-text-fill: #e8e2f7;
     -fx-text-alignment: CENTER;
     -fx-font-family: "Roboto Light";

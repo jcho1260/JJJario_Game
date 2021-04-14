@@ -2,4 +2,20 @@ VBox {
     -fx-background-color: darkslateblue;
     -fx-spacing: 20;
     -fx-alignment: CENTER;
+    -fx-background-radius: 10;
+}
+
+.button {
+    -fx-text-fill: #e8e2f7;
+    -fx-text-alignment: left;
+    -fx-font-family: "Roboto Light";
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-wrap-text: true;
+    -fx-background-color: slateblue;
+    -fx-alignment: CENTER;
+}
+
+.button:hover {
+    -fx-background-color: mediumslateblue;
 }

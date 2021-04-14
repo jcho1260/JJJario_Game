@@ -13,6 +13,8 @@ HBox {
     -fx-background-color: slateblue;
     -fx-pref-width: 205px;
     -fx-pref-height: 205px;
+    -fx-alignment: CENTER;
+    -fx-content-display: TOP;
 }
 
 .button:hover {
