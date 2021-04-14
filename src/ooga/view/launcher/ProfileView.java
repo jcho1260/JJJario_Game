@@ -33,7 +33,7 @@ public class ProfileView {
     this.pcl = pcl;
   }
 
-  public void makeMenu(String name, String imagePath, Map<KeyCode, Action> keyCodeActionMap, Map<String, Map<Integer, Integer>> highScoresMap) {
+  public void makeMenu(String name, String imagePath, Map<KeyCode, Action> keyCodeActionMap, Map<String, Map<String, Integer>> highScoresMap) {
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     Document doc;
     try {
@@ -56,12 +56,13 @@ public class ProfileView {
 
   private void makeTextFieldInput(String type, String prompt) {
     TextField tf = new TextField();
-    tf.setId("#"+type+"MenuInput");
+    tf.setId(type+"MenuInput");
+    System.out.println(tf.getId());
     tf.setPromptText(prompt);
     if (type.equals("Username")) {
       tf.setOnKeyPressed(makePCLHandler(tf, type));
     } else {
-      tf.setOnKeyPressed(makePCLKeyBindHandler(type));
+      tf.setOnKeyPressed(makePCLKeyBindHandler(tf, type));
     }
     ((Pane) currMenu.lookup("#ProfileMenuTextFieldVBox")).getChildren().add(tf);
     Text t = new Text();
@@ -83,7 +84,12 @@ public class ProfileView {
     };
   }
 
-  private EventHandler<KeyEvent> makePCLKeyBindHandler(String s) {
-    return event -> pcl.propertyChange(new PropertyChangeEvent(this, "setKeyBind", null, new Pair<>(event.getCode(), s)));
+  private EventHandler<KeyEvent> makePCLKeyBindHandler(TextField component, String s) {
+    return event -> {
+      if (event.getCode().isLetterKey()) {
+        pcl.propertyChange(new PropertyChangeEvent(this, "setKeyBind", null, new Pair<>(event.getCode(), s)));
+        component.setPromptText(event.getCode().toString());
+      }
+    };
   }
 }

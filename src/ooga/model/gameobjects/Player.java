@@ -24,10 +24,11 @@ public class Player extends Destroyable {
    * Default constructor for Player.
    */
   public Player(List<String> entityTypes, Vector initialPosition, int id, Vector objSize,
-      int startLife, int startHealth, double jumpTime, Vector velocityMagnitude, double gravity)
+      int startLife, int startHealth, double jumpTime, Vector velocityMagnitude, double gravity,
+      Vector drivingVelocity)
       throws ClassNotFoundException {
     super(entityTypes, initialPosition, id, objSize, startLife, startHealth);
-    userMovement = new UserInputMovement(jumpTime, velocityMagnitude, gravity);
+    userMovement = new UserInputMovement(jumpTime, velocityMagnitude, gravity, drivingVelocity);
     userMovementClass = Class.forName("ooga.model.gameobjectcomposites.UserInputMovement");
     lives = startLife;
   }
@@ -47,16 +48,17 @@ public class Player extends Destroyable {
     for (int i = 0; i < 2; i++) {
       paramClasses[i] = Double.class;
     }
+    System.out.println(direction);
     Method moveMethod = userMovementClass.getMethod(methodName, paramClasses);
     Vector deltaPosition = (Vector) moveMethod.invoke(userMovement, elapsedTime, gameGravity);
-    setPosition(getPosition().add(deltaPosition));
+    setPredictedPosition(getPredictedPosition().add(deltaPosition));
   }
 
   /**
    * Collision method for whenever the bottom of player lands on something.
    */
   public void generalBottomCollision() {
-    setPosition(getPosition().add(userMovement.hitGround()));
+    userMovement.hitGround();
   }
 
   /**
@@ -133,7 +135,9 @@ public class Player extends Destroyable {
     return new ArrayList<>(activePowerUps);
   }
 
-  private void scaleSize(Double scaleFactor) { size.scaleSize(scaleFactor); }
+  private void scaleSize(Double scaleFactor) {
+    getRect().scaleSize(scaleFactor);
+  }
 
   private void incrementScore(Double increment) { score += increment; }
 

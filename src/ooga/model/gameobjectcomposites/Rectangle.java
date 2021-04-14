@@ -1,0 +1,38 @@
+package ooga.model.gameobjectcomposites;
+
+import ooga.model.util.Action;
+import ooga.model.util.Vector;
+
+public class Rectangle {
+  private Vector position;
+  private Vector size;
+  private Vector predictedPos;
+
+
+  public Rectangle(Vector objSize, Vector objPos) {
+    position = objPos;
+    size = objSize;
+    predictedPos = position;
+  }
+
+  public Vector getSize() {return size.copy();}
+
+  public void scaleSize(double scaleFactor) {
+    size.multiply(new Vector(scaleFactor, scaleFactor));
+    predictedPos.subtract(new Vector(0, size.getY() * (scaleFactor - 1)));
+    // TODO add listeners probably
+  }
+
+  public Vector getPosition() { return position.copy(); }
+
+  //public void setPosition(Vector newPos) { position = newPos; }
+
+  public Vector getPredictedPos() { return predictedPos.copy(); }
+
+  public void setPredictedPos(Vector pos) { predictedPos = pos; }
+
+  public void updatePosition() {
+    position = predictedPos;
+  }
+
+}

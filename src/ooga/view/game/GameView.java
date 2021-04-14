@@ -1,6 +1,8 @@
 package ooga.view.game;
 
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.Statement;
 import java.util.Objects;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -14,12 +16,14 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.KeyListener;
+import ooga.controller.ScoreListener;
 import ooga.view.factories.SceneFactory;
 
-public class GameView {
+public class GameView implements PropertyChangeListener {
 
   private final Stage stage;
   private final String gameName;
@@ -32,6 +36,8 @@ public class GameView {
     this.gameName = gameName;
     this.kl = kl;
     sf = new SceneFactory(controller);
+
+    stage.setOnCloseRequest(event -> controller.endGame());
   }
 
   public void start(String filePath) {
@@ -67,6 +73,18 @@ public class GameView {
     ((Group) currScene.getRoot()).getChildren().add(s.getImageView());
   }
 
+  public void addScore(int score) {
+    Text t = new Text(score+"");
+    t.setId("ScoreText");
+    t.setX(10);
+    t.setY(20);
+    ((Group) currScene.getRoot()).getChildren().add(t);
+  }
+
+  public void changeScore(int score) {
+    ((Text) currScene.lookup("#ScoreText")).setText(""+score);
+  }
+
   public void startLevel() {
     stage.setScene(currScene);
     stage.show();
@@ -88,5 +106,16 @@ public class GameView {
 
   private EventHandler<KeyEvent> makeKeyAction() {
     return event -> kl.propertyChange(new PropertyChangeEvent(this, "currKey", null, event));
+  }
+
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    String mName = evt.getPropertyName();
+    Object[] mArgs = new Object[]{evt.getNewValue()};
+    try {
+      new Statement(this, mName, mArgs).execute();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }

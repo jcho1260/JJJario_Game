@@ -29,9 +29,20 @@ public class Destroyable extends GameObject{
    */
   public boolean isAlive() { return health.isAlive(); }
 
+  public boolean cornerCollision(GameObject o) {
+    return collisionHandler.smallCorner(this, o);
+  }
 
   public List<String> determineCollision(GameObject o) {
     return collisionHandler.determineCollisionMethods(this, o);
+  }
+
+  public Vector[] determineCollisionRect(GameObject myself, GameObject o) {
+    return collisionHandler.determineCollisionRectangle(myself, o);
+  }
+
+  public Vector calculateCollisionDirection(GameObject myself, Vector[] collisionBox) {
+    return collisionHandler.calculateCollisionDirection(myself, collisionBox);
   }
 
   /**
@@ -87,8 +98,8 @@ public class Destroyable extends GameObject{
     return health.getLives();
   }
 
-  private void kill() {
-    health.kill();
+  public void kill() {
+    notifyListeners("changeVisibility", true, false);
   }
 
   private void onDeath() {

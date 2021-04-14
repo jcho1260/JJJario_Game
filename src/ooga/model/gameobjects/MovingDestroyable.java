@@ -25,19 +25,19 @@ public class MovingDestroyable extends Destroyable {
       int startLife, int startHealth, Vector initialVelocity, Vector finalPosition,
       double gravityScale) {
     super(entityTypes, initialPosition, id, size, startLife, startHealth);
-    Vector fp = finalPosition.multiply(new Vector(50,50));
-    autoMove = new AutomatedMovement(initialPosition, fp, initialVelocity, gravityScale);
+    autoMove = new AutomatedMovement(initialPosition, finalPosition, initialVelocity, gravityScale);
   }
 
   /**
-   * Updates position of object with each step of animation while also calling repeated methods if applicable
+   * Updates position of object with each step of animation while also calling repeated methods if
+   * applicable
    * 
    * @param elapsedTime
    * @param gameGravity
    */
   @Override
   public void step(double elapsedTime, double gameGravity) {
-    setPosition(autoMove.stepMovement(elapsedTime, gameGravity, getPosition()));
+    setPredictedPosition(autoMove.stepMovement(elapsedTime, gameGravity, getPredictedPosition()));
   }
 
   /**
@@ -51,7 +51,6 @@ public class MovingDestroyable extends Destroyable {
   }
 
   public void scaleVelocity(Double xVel, Double yVel) {
-//    System.out.println("scale velo: "+scaleFactor.getX()+ " "+scaleFactor.getY());
     Vector newVelo = autoMove.getVelocity().multiply(new Vector(xVel, yVel));
     autoMove.setVelocity(newVelo);
   }
