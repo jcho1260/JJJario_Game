@@ -65,6 +65,7 @@ public class LevelParser {
         case "GameObject" -> gameObjects.add(createGameObject(entity, info, i));
       };
     }
+
     return new GameWorld(player, collisions, gameObjects, actors, frameSize, 3, getGlobalGravity(doc), frameRate, new Vector(0,200), new Vector(2000, 1000));
   }
 
