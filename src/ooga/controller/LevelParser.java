@@ -63,14 +63,9 @@ public class LevelParser {
           gameObjects.add(d);
         }
         case "GameObject" -> gameObjects.add(createGameObject(entity, info, i));
-      }
+      };
     }
-
-    Element level = (Element) doc.getElementsByTagName("Level").item(0);
-    Vector screenMin = getVectorAttribute(level, "ScreenLimitsMin");
-    Vector screenMax = getVectorAttribute(level, "ScreenLimitsMax");
-
-    return new GameWorld(player, collisions, gameObjects, actors, frameSize, 3, getGlobalGravity(doc), frameRate, screenMin, screenMax);
+    return new GameWorld(player, collisions, gameObjects, actors, frameSize, 3, getGlobalGravity(doc), frameRate, new Vector(0,200), new Vector(2000, 1000));
   }
 
   private Player createPlayer(Element entity, GameObjectInfo info, int id, Document doc)
