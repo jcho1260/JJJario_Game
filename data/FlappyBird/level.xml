@@ -15,8 +15,8 @@
       <Type>Player</Type>
       <Gravity>1</Gravity>
       <Size>
-        <SizeX>50</SizeX>
-        <SizeY>50</SizeY>
+        <x>50</x>
+        <y>50</y>
       </Size>
     </GameObject>
     <GameObject>
@@ -28,8 +28,8 @@
       <Type>GameObject</Type>
       <Gravity>0</Gravity>
       <Size>
-        <SizeX>100</SizeX>
-        <SizeY>600</SizeY>
+        <x>100</x>
+        <y>600</y>
       </Size>
     </GameObject>
     <GameObject>
@@ -41,8 +41,8 @@
       <Type>GameObject</Type>
       <Gravity>0</Gravity>
       <Size>
-        <SizeX>100</SizeX>
-        <SizeY>600</SizeY>
+        <x>100</x>
+        <y>600</y>
       </Size>
     </GameObject>
   </GameObjects>
@@ -59,7 +59,8 @@
         <y>450</y>
       </Velocity>
       <StartLife>1</StartLife>
-      <JumpTime>0.5</JumpTime>
+      <JumpTime>0.1</JumpTime>
+      <ContinuousJumpLimit>999999999</ContinuousJumpLimit>
       <StartHealth>1</StartHealth>
     </Entity>
 

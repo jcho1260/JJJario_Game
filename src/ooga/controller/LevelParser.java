@@ -22,17 +22,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GameWorldFactory {
+public class LevelParser {
 
-  public GameWorld createGameWorld(File file, Map<String, Map<String, List<MethodBundle>>> collisions, Vector frameSize, double frameRate)
-      throws ParserConfigurationException, IOException, SAXException, ClassNotFoundException {
+  private final Document doc;
 
+  public LevelParser(File file) throws ParserConfigurationException, IOException, SAXException {
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
     DocumentBuilder db = dbf.newDocumentBuilder();
-    Document doc = db.parse(file);
+    doc = db.parse(file);
+  }
+
+  public GameWorld createGameWorld(Map<String, Map<String, List<MethodBundle>>> collisions, Vector frameSize, double frameRate) throws ClassNotFoundException {
+
     NodeList objects = ((Element) doc.getElementsByTagName("GameObjects").item(0).getChildNodes()).getElementsByTagName("GameObject");
 
-    Map<String, GameObjectInfo> gameObjectMap = getObjectMap(file, objects);
+    Map<String, GameObjectInfo> gameObjectMap = getObjectMap(objects);
     List<GameObject> actors = new ArrayList<>();
     List<GameObject> gameObjects =  new ArrayList<>();
     NodeList entities = ((Element) doc.getElementsByTagName("Layout").item(0).getChildNodes()).getElementsByTagName("Entity");
@@ -71,7 +75,9 @@ public class GameWorldFactory {
     int startLife = (int) getNumberAttribute(entity, "StartLife");
     int startHealth = (int) getNumberAttribute(entity, "StartHealth");
     double jumpTime = getNumberAttribute(entity, "JumpTime");
-    return new Player(info.tags, pos, id, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc));
+    int jumpLimit = (int) getNumberAttribute(entity, "ContinuousJumpLimit");
+
+    return new Player(info.tags, pos, id, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit);
   }
 
   private MovingDestroyable createMovingDestroyable(Element entity, GameObjectInfo info, int id) {
@@ -107,16 +113,14 @@ public class GameWorldFactory {
     return Double.parseDouble(entity.getElementsByTagName(name).item(0).getTextContent());
   }
 
-  private Map<String, GameObjectInfo> getObjectMap(File file, NodeList objects) {
+  private Map<String, GameObjectInfo> getObjectMap(NodeList objects) {
     HashMap<String, GameObjectInfo> gameObjects = new HashMap<>();
     for (int i = 0; i < objects.getLength(); i++) {
       String name = ((Element) objects.item(i)).getElementsByTagName("Name").item(0).getTextContent();
       String type = ((Element) objects.item(i)).getElementsByTagName("Type").item(0).getTextContent();
       double gravity = Double.parseDouble(((Element) objects.item(i)).getElementsByTagName("Gravity").item(0).getTextContent());
 
-      Element size = (Element) ((Element) objects.item(i)).getElementsByTagName("Size").item(0);
-      double sizeX = Double.parseDouble(size.getElementsByTagName("SizeX").item(0).getTextContent());
-      double sizeY = Double.parseDouble(size.getElementsByTagName("SizeY").item(0).getTextContent());
+      Vector size = getVectorAttribute((Element) objects.item(i), "Size");
 
       ArrayList<String> tags = new ArrayList<>();
       Element tagsElement = (Element) ((Element) objects.item(i)).getElementsByTagName("Tags").item(0);
@@ -125,7 +129,7 @@ public class GameWorldFactory {
         tags.add(tagElement.item(j).getTextContent());
       }
 
-      GameObjectInfo gameObjectInfo = new GameObjectInfo(type, tags, gravity, sizeX, sizeY);
+      GameObjectInfo gameObjectInfo = new GameObjectInfo(type, tags, gravity, size.getX(), size.getY());
       gameObjects.put(name, gameObjectInfo);
     }
     return gameObjects;

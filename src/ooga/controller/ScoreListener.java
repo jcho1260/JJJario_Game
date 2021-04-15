@@ -5,16 +5,16 @@ import java.beans.PropertyChangeListener;
 
 public class ScoreListener implements PropertyChangeListener {
 
-    int score;
+    double score;
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("score")) {
-            score = (int) evt.getNewValue();
+            score = (double) evt.getNewValue();
         }
     }
 }

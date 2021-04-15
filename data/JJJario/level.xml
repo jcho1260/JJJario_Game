@@ -16,8 +16,8 @@
       <Type>Player</Type>
       <Gravity>1</Gravity>
       <Size>
-        <SizeX>50</SizeX>
-        <SizeY>50</SizeY>
+        <x>50</x>
+        <y>50</y>
       </Size>
     </GameObject>
     <GameObject>
@@ -31,8 +31,8 @@
       <Type>MovingDestroyable</Type>
       <Gravity>1</Gravity>
       <Size>
-        <SizeX>50</SizeX>
-        <SizeY>50</SizeY>
+        <x>50</x>
+        <y>50</y>
       </Size>
     </GameObject>
     <GameObject>
@@ -46,8 +46,8 @@
       <Type>MovingDestroyable</Type>
       <Gravity>1</Gravity>
       <Size>
-        <SizeX>50</SizeX>
-        <SizeY>50</SizeY>
+        <x>50</x>
+        <y>50</y>
       </Size>
     </GameObject>
     <GameObject>
@@ -61,8 +61,8 @@
       <Type>MovingDestroyable</Type>
       <Gravity>1</Gravity>
       <Size>
-        <SizeX>50</SizeX>
-        <SizeY>50</SizeY>
+        <x>50</x>
+        <y>50</y>
       </Size>
     </GameObject>
     <GameObject>
@@ -76,8 +76,8 @@
       <Type>MovingDestroyable</Type>
       <Gravity>1</Gravity>
       <Size>
-        <SizeX>50</SizeX>
-        <SizeY>50</SizeY>
+        <x>50</x>
+        <y>50</y>
       </Size>
     </GameObject>
     <GameObject>
@@ -90,8 +90,8 @@
       <Type>Destroyable</Type>
       <Gravity>1</Gravity>
       <Size>
-        <SizeX>50</SizeX>
-        <SizeY>50</SizeY>
+        <x>50</x>
+        <y>50</y>
       </Size>
     </GameObject>
     <GameObject>
@@ -103,8 +103,8 @@
       <Type>GameObject</Type>
       <Gravity>1</Gravity>
       <Size>
-        <SizeX>100</SizeX>
-        <SizeY>100</SizeY>
+        <x>100</x>
+        <y>100</y>
       </Size>
     </GameObject>
   </GameObjects>
@@ -121,7 +121,8 @@
         <y>150</y>
       </Velocity>
       <StartLife>3</StartLife>
-      <JumpTime>2</JumpTime>
+      <JumpTime>0.25</JumpTime>
+      <ContinuousJumpLimit>1</ContinuousJumpLimit>
       <StartHealth>1</StartHealth>
     </Entity>
     <Entity>
