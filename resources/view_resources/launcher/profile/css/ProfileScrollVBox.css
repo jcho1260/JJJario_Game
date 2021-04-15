@@ -1,4 +1,5 @@
 VBox {
-    -fx-background-color:-dark-color;
+    -fx-background-color:-normal-color;
     -fx-alignment: TOP-LEFT;
+    -fx-spacing: 10;
 }

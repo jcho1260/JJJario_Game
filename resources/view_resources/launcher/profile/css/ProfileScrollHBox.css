@@ -1,4 +1,5 @@
 HBox {
     -fx-background-color:-dark-color;
     -fx-alignment: TOP-LEFT;
+    -fx-spacing: 20;
 }
