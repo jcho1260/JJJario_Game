@@ -63,11 +63,17 @@ public class Profile implements Serializable, PropertyChangeListener {
   }
 
   public void display(ProfileView pv) {
+    System.out.println("name: " + name);
+    System.out.println("hs: " + highScores);
     pv.makeMenu(name, picture, keybinds, highScores);
   }
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
+    if (evt.getPropertyName().equals("mapUpdated")) {
+      save();
+      return;
+    }
     String method = evt.getPropertyName();
     Object[] args = new Object[]{evt.getNewValue()};
     try {
