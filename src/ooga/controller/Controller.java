@@ -1,11 +1,11 @@
 package ooga.controller;
 
+import java.beans.PropertyChangeEvent;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
+
+import java.util.HashMap;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class Controller {
 
-  private final GameWorldFactory gameWorldFactory;
+  private LevelParser gameWorldFactory;
   private final CollisionsParser collisionsParser;
   private GameWorld gameWorld;
   private final Vector frameSize;
@@ -31,14 +31,15 @@ public class Controller {
   private KeyListener keyListener;
   private Timeline animation;
   private String activeProfile;
+  private ScoreListener highscoreListener;
 
   public Controller(Vector frameSize, double frameRate) {
-    gameWorldFactory = new GameWorldFactory();
     collisionsParser = new CollisionsParser();
     this.frameSize =  frameSize;
     this.frameRate = frameRate;
     keyListener = new KeyListener(new Profile("default").getKeybinds());
     activeProfile = "";
+    highscoreListener = new ScoreListener();
   }
 
   public void startGame(GameView gameView) {
@@ -52,11 +53,15 @@ public class Controller {
 
     try {
       Map<String, Map<String, List<MethodBundle>>> collisions = collisionsParser.parseCollisions(collisionsFile);
-      gameWorld = gameWorldFactory.createGameWorld(levelFile, collisions, frameSize, frameRate);
+
+      gameWorldFactory = new LevelParser(levelFile);
+      gameWorld = gameWorldFactory.createGameWorld(collisions, frameSize, frameRate);
+      gameWorld.addListener(highscoreListener);
 
       String background = gameWorldFactory.getBackground(levelFile);
       System.out.println(background);
       gameView.initializeLevel(frameSize.getX(), frameSize.getY(), background);
+      gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, (int) highscoreListener.getScore()));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -94,15 +99,35 @@ public class Controller {
     keyListener = new KeyListener(getProfile(activeProfile).getKeybinds());
   }
 
+  public void endGame() {
+    if (animation != null) {
+      animation.stop();
+    }
+  }
+
   private void step(double d) {
     if (gameWorld.isGameOver()) {
-      animation.stop();
+      double finalScore = highscoreListener.getScore();
+      handleHighscore(finalScore);
+      endGame();
       gameView.gameOver();
     }
     try {
       gameWorld.stepFrame(keyListener.getCurrentKey());
+      gameView.propertyChange(new PropertyChangeEvent(this, "changeScore", null, (int) highscoreListener.getScore()));
     } catch (Exception e){
       e.printStackTrace();
+    }
+  }
+
+  private void handleHighscore(double score) {
+    Profile profile = getProfile(activeProfile);
+
+    profile.getHighScores().computeIfAbsent(gameView.getGameName(), k -> new HashMap<>());
+    Map<String, Integer> scores = profile.getHighScores().get(gameView.getGameName());
+
+    if (scores.get("level1") == null || scores.get("level1") < score) {
+      scores.put("level1", (int) score);
     }
   }
 
@@ -112,7 +137,7 @@ public class Controller {
       String name = gameObject.getEntityType().get(gameObject.getEntityType().size()-1);
       Sprite s = new Sprite(gameView.getGameName(), name, gameObject.getSize().getX(), gameObject.getSize().getY(), gameObject.getPosition().getX(), gameObject.getPosition().getY());
       gameObject.addListener(s);
-      gameView.addSprite(s);
+      gameView.propertyChange(new PropertyChangeEvent(this, "addSprite", null, s));
     }
   }
 }

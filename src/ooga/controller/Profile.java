@@ -19,16 +19,22 @@ public class Profile implements Serializable, PropertyChangeListener {
   private String name;
   private String picture;
   private final Map<KeyCode, Action> keybinds;
-  private Map<String, Map<Integer, Integer>> highScores;
+  private Map<String, Map<String, Integer>> highScores;
 
   public Profile(String name) {
     this.name = name;
+    this.picture = "view_resources/images/button_icons/User.png";
     this.keybinds = new HashMap<>();
     keybinds.put(KeyCode.W, Action.UP);
     keybinds.put(KeyCode.A, Action.LEFT);
     keybinds.put(KeyCode.S, Action.DOWN);
     keybinds.put(KeyCode.D, Action.RIGHT);
+    this.highScores = new HashMap<>();
     save();
+  }
+
+  public Map<String, Map<String, Integer>> getHighScores() {
+    return highScores;
   }
 
   public void setUsername(String name) {
@@ -36,17 +42,20 @@ public class Profile implements Serializable, PropertyChangeListener {
   }
 
   public void setPicture(String f) {
-    this.picture = picture;
+    this.picture = f;
   }
 
   public void setKeyBind(Pair<KeyCode, String> bind) {
     Action action = Action.valueOf(bind.getValue());
-    for (KeyCode key : keybinds.keySet()) {
+
+    KeyCode[] keys = keybinds.keySet().toArray(KeyCode[]::new);
+    for (KeyCode key : keys) {
       if (keybinds.get(key) == action) {
         keybinds.remove(key);
       }
     }
     keybinds.put(bind.getKey(), action);
+    System.out.println(keybinds);
   }
 
   public Map<KeyCode, Action> getKeybinds() {

@@ -1,5 +1,5 @@
 <?xml version = "1.0" ?>
-<HBox id="SuperMarioMenu" type="Pane" style="view_resources/game/FlappyBird/css/Menu.css">
+<HBox id="FlappyBirdMenu" type="Pane" style="view_resources/game/FlappyBird/css/Menu.css">
   <Height>420</Height>
   <Width>960</Width>
   <FilePath>

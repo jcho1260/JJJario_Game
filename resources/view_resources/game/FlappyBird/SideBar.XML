@@ -2,18 +2,18 @@
 <VBox id="SideBar" type="Pane" style="view_resources/game/FlappyBird/css/SideBar.css">
   <Height>360</Height>
   <Width>320</Width>
-  <ImageView id="JJJarioLogo" type="Leaf">
+  <ImageView id="FlappyBirdLogo" type="Leaf">
     <Image>
       <Path>view_resources/images/logo/FlappyBirdLogo.png</Path>
     </Image>
     <Width>300</Width>
     <Height>260</Height>
   </ImageView>
-  <Button id="JJJarioLevelsButton" type="Leaf">
+  <Button id="FlappyBirdLevelsButton" type="Leaf">
     <Text>Levels</Text>
     <!--<Action>TODO</Action>-->
   </Button>
-  <Button id="JJJarioSettingsButton" type="Leaf">
+  <Button id="FlappyBirdSettingsButton" type="Leaf">
     <Text>Settings</Text>
     <!--<Action>TODO</Action>-->
   </Button>

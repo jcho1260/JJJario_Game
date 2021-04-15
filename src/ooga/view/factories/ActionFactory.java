@@ -1,9 +1,12 @@
 package ooga.view.factories;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -28,11 +31,12 @@ public class ActionFactory {
   public EventHandler<ActionEvent> makeActionEvent(Node component, Element e) {
     String actionType = e.getElementsByTagName("Type").item(0).getTextContent();
     return switch (actionType) {
-      case "LaunchGame" -> makeLaunchGameAction(e);
+      case "LaunchGame" -> makeLaunchGameAction(component, e);
       case "StartLevel" -> makeStartLevelAction(e);
       case "ChangeStack" -> makeChangeStackAction(component, e);
       case "ProfileView" -> makeProfileViewAction(component, e);
       case "Logout" -> makeLogoutAction(component, e);
+      case "ChangeTheme" -> makeChangeThemeAction(component, e);
       default -> null;
     };
   }
@@ -41,13 +45,13 @@ public class ActionFactory {
     return makeProfileLoginAction(component, e);
   }
 
-  private EventHandler<ActionEvent> makeLaunchGameAction(Element e) {
+  private EventHandler<ActionEvent> makeLaunchGameAction(Node component, Element e) {
     return event -> {
       Stage newStage = new Stage();
       String filePath = e.getElementsByTagName("Path").item(0).getTextContent();
       String gameName = e.getElementsByTagName("Game").item(0).getTextContent();
       KeyListener kl = controller.getKeyListener();
-      GameView gv = new GameView(gameName, newStage, kl, controller);
+      GameView gv = new GameView(gameName, newStage, kl, controller, component.getScene().getStylesheets().get(0));
       controller.startGame(gv);
       gv.start(filePath);
     };
@@ -122,5 +126,14 @@ public class ActionFactory {
     sp.getChildren().clear();
     newNode.toFront();
     sp.getChildren().add(newNode);
+  }
+
+  private EventHandler<ActionEvent> makeChangeThemeAction(Node component, Element e) {
+    return event -> {
+      String value = (String) ((ChoiceBox<?>) component).getValue();
+      ResourceBundle rb = ResourceBundle.getBundle("view_resources/color_themes/ColorThemes");
+      component.getScene().getStylesheets().clear();
+      component.getScene().getStylesheets().add(rb.getString(value.toUpperCase()));
+    };
   }
 }
