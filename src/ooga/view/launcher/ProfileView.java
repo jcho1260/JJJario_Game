@@ -57,13 +57,24 @@ public class ProfileView {
       for (KeyCode kc : keyCodeActionMap.keySet()) {
         makeTextFieldInput(keyCodeActionMap.get(kc).toString(), kc.toString());
       }
+      for (String game : highScoresMap.keySet()) {
+        for (String level : highScoresMap.get(game).keySet()) {
+          System.out.println(highScoresMap.get(game).get(level));
+          makeHighScores(game, level, highScoresMap.get(game).get(level));
+        }
+      }
     } catch (Exception exception) {
+      exception.printStackTrace();
       new ViewFactoryException(exception.getMessage()).printStackTrace();
     }
   }
 
   public Parent getParent() {
     return this.currMenu;
+  }
+
+  private void makeHighScores(String game, String level, Integer score) {
+    ((Pane) currMenu.lookup("#"+game+"HighScores")).getChildren().add(new Text("Level "+level+": "+score));
   }
 
   private void makeTextFieldInput(String type, String prompt) {

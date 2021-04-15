@@ -70,6 +70,7 @@ public class GameView implements PropertyChangeListener {
     bi.setPreserveRatio(true);
     bi.setFitHeight(h);
     g.getChildren().add(bi);
+    newScene.getStylesheets().addAll(currScene.getStylesheets());
     currScene = newScene;
   }
 
@@ -78,7 +79,7 @@ public class GameView implements PropertyChangeListener {
   }
 
   public void addScore(int score) {
-    Text t = new Text(score+"");
+    Text t = new Text("Score: "+score);
     t.setId("ScoreText");
     t.setX(10);
     t.setY(20);
@@ -86,7 +87,7 @@ public class GameView implements PropertyChangeListener {
   }
 
   public void changeScore(int score) {
-    ((Text) currScene.lookup("#ScoreText")).setText(""+score);
+    ((Text) currScene.lookup("#ScoreText")).setText("Score: "+score);
   }
 
   public void startLevel() {
@@ -96,7 +97,9 @@ public class GameView implements PropertyChangeListener {
 
   public void gameOver() {
     try {
-      currScene = sf.make("resources/view_resources/game/GameOver.XML");
+      Scene newScene = sf.make("resources/view_resources/game/GameOver.XML");
+      newScene.getStylesheets().addAll(currScene.getStylesheets());
+      currScene = newScene;
       stage.setScene(currScene);
       stage.show();
     } catch (Exception e) {
