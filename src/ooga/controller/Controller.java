@@ -129,6 +129,7 @@ public class Controller {
 
     if (scores.get("level1") == null || scores.get("level1") < score) {
       scores.put("level1", (int) score);
+      profile.propertyChange(new PropertyChangeEvent(profile, "mapChanged", null, null));
     }
   }
 
