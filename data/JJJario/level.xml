@@ -11,7 +11,7 @@
   </ScreenLimitsMin>
   <ScreenLimitsMax>
     <x>3000</x>
-    <y>1000</y>
+    <y>750</y>
   </ScreenLimitsMax>
   <GameObjects>
     <GameObject>

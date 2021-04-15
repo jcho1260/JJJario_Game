@@ -1,12 +1,13 @@
 <Level>
   <GlobalGravity>200</GlobalGravity>
+  <BackgroundImage>view_resources/images/backgrounds/FlappyBird.png</BackgroundImage>
   <DrivingVelocity>
     <x>25</x>
     <y>0</y>
   </DrivingVelocity>
   <ScreenLimitsMin>
     <x>0</x>
-    <y>0</y>
+    <y>250</y>
   </ScreenLimitsMin>
   <ScreenLimitsMax>
     <x>2000</x>

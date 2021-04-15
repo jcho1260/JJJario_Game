@@ -188,29 +188,29 @@ public class GameWorld extends Observable {
   }
 
   private void frameCoordinates(Vector playerCoord, Vector playerSize) {
-    double defaultXLeft = 0;
+    double defaultXLeft = screenLimitsMin.getX();
     double defaultXRight = screenLimitsMax.getX();
     double defaultYBot = screenLimitsMax.getY();
-    double defaultYTop = 0;
+    double defaultYTop = screenLimitsMin.getY();
     Vector playerCenter = new Vector(playerCoord.getX()+ 0.5*playerSize.getX(), playerCoord.getY() + 0.5*playerSize.getY());
     double topY = playerCenter.getY() - playerYLoc * windowSize.getY();
     double botY = playerCoord.getY() + (1-playerYLoc) * windowSize.getY();
     if(defaultYBot > windowSize.getY()) {botY = defaultYBot;}
     double leftX = playerCenter.getX() - playerXLoc * windowSize.getX();
     double rightX = playerCenter.getX() + playerXLoc * windowSize.getX();
-    if (topY < 0) {
+    if (topY <= defaultYTop) {
       topY = defaultYTop;
       botY = defaultYTop + windowSize.getY();
     }
-    if (botY > defaultYBot) {
+    if (botY >= defaultYBot) {
       botY = defaultYBot;
       topY = defaultYBot - windowSize.getY();
     }
-    if (leftX < 0) {
+    if (leftX <= defaultXLeft) {
       leftX = defaultXLeft;
       rightX = defaultXLeft + windowSize.getX();
     }
-    if (rightX > defaultXRight) {
+    if (rightX >= defaultXRight) {
       leftX = defaultXRight - windowSize.getX();
       rightX = defaultXRight;
     }
@@ -228,14 +228,16 @@ public class GameWorld extends Observable {
   }
 
   /**
-   *
+   * returns all destroyable game objects
    */
   public List<GameObject> getAllDestroyables() {
-    return allDestroyables;
+    List<GameObject> ret = new ArrayList<>(allDestroyables);
+    ret.add(player);
+    return ret;
   }
 
   /**
-   *
+   * returns all gameobjects in the game
    */
   public List<GameObject> getAllGameObjects() {
     List<GameObject> ret = new ArrayList<>(allGameObjects);
