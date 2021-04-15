@@ -111,6 +111,7 @@ public class Controller {
       handleHighscore(finalScore);
       endGame();
       gameView.gameOver();
+      return;
     }
     try {
       gameWorld.stepFrame(keyListener.getCurrentKey());
