@@ -45,14 +45,14 @@ public class GameWorld extends Observable {
    */
   public GameWorld(Player gamePlayer, Map<String, Map<String, List<MethodBundle>>> collisionMethods,
       List<GameObject> gameObjects, List<GameObject> actors, Vector frameSize, int startingLives,
-      double levelGravity, double frameRate) {
+      double levelGravity, double frameRate, Vector screenLimitSize) {
     player = gamePlayer;
     windowSize = frameSize;
     allGameObjects = gameObjects;
     gravity = levelGravity;
     stepTime = 1.0/frameRate;
     score = 0;
-    screenLimits = new Vector(1700, 800);
+    screenLimits = screenLimitSize;
     frameCoords = new Vector[4];
     frameCoordinates(player.getPosition(), player.getSize());
     allBricks = new ArrayList<>();
@@ -85,6 +85,7 @@ public class GameWorld extends Observable {
       }
     }
     updatePositions();
+    playerOffScreen();
 
     // using actual position (after setPosition() was called) --> do later, call internally
     frameCoordinates(player.getPosition(), player.getSize());
@@ -113,6 +114,13 @@ public class GameWorld extends Observable {
   private void allGameObjectStep(double elapsedTime) {
     for (GameObject o : allGameObjects) {
       o.step(elapsedTime, gravity);
+    }
+  }
+
+  private void playerOffScreen() {
+    if (player.getPosition().getX() + player.getSize().getX() >= screenLimits.getX() ||
+        player.getPosition().getY()+player.getSize().getY() >= screenLimits.getY()) {
+      player.kill();
     }
   }
 
