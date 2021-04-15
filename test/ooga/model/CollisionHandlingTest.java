@@ -80,7 +80,8 @@ public class CollisionHandlingTest {
     MovingDestroyable a = new MovingDestroyable(aTags, aPos, 1, aSize, 1, 1, aVel, aPosEnd, 1);
 
     List<String> expected = new ArrayList<>();
-    expected.add("EnemyUP");
+    expected.add("Enemy");
+    expected.add("Enemy-UP");
     assertEquals(expected, collisionHandling.determineCollisionMethods(b,a));
   }
 
@@ -125,7 +126,8 @@ public class CollisionHandlingTest {
     MovingDestroyable a = new MovingDestroyable(aTags, aPos, 1, aSize, 1, 1, aVel, aPosEnd, 1);
 
     List<String> expected = new ArrayList<>();
-    expected.add("EnemyRIGHT");
+    expected.add("Enemy");
+    expected.add("Enemy-RIGHT");
     assertEquals(expected, collisionHandling.determineCollisionMethods(a,b));
   }
 
@@ -148,7 +150,8 @@ public class CollisionHandlingTest {
     MovingDestroyable a = new MovingDestroyable(aTags, aPos, 1, aSize, 1, 1, aVel, aPosEnd, 1);
 
     List<String> expected = new ArrayList<>();
-    expected.add("EnemyLEFT");
+    expected.add("Enemy");
+    expected.add("Enemy-LEFT");
     assertEquals(expected, collisionHandling.determineCollisionMethods(b,a));
   }
 

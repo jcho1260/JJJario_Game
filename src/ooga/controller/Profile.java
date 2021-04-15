@@ -23,6 +23,7 @@ public class Profile implements Serializable, PropertyChangeListener {
 
   public Profile(String name) {
     this.name = name;
+    this.picture = "view_resources/images/button_icons/User.png";
     this.keybinds = new HashMap<>();
     keybinds.put(KeyCode.W, Action.UP);
     keybinds.put(KeyCode.A, Action.LEFT);
@@ -41,7 +42,7 @@ public class Profile implements Serializable, PropertyChangeListener {
   }
 
   public void setPicture(String f) {
-    this.picture = picture;
+    this.picture = f;
   }
 
   public void setKeyBind(Pair<KeyCode, String> bind) {
@@ -54,6 +55,7 @@ public class Profile implements Serializable, PropertyChangeListener {
       }
     }
     keybinds.put(bind.getKey(), action);
+    System.out.println(keybinds);
   }
 
   public Map<KeyCode, Action> getKeybinds() {
