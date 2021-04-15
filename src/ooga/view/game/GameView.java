@@ -70,6 +70,7 @@ public class GameView implements PropertyChangeListener {
     bi.setPreserveRatio(true);
     bi.setFitHeight(h);
     g.getChildren().add(bi);
+    newScene.getStylesheets().addAll(currScene.getStylesheets());
     currScene = newScene;
   }
 
@@ -96,7 +97,9 @@ public class GameView implements PropertyChangeListener {
 
   public void gameOver() {
     try {
-      currScene = sf.make("resources/view_resources/game/GameOver.XML");
+      Scene newScene = sf.make("resources/view_resources/game/GameOver.XML");
+      newScene.getStylesheets().addAll(currScene.getStylesheets());
+      currScene = newScene;
       stage.setScene(currScene);
       stage.show();
     } catch (Exception e) {

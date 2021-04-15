@@ -59,6 +59,7 @@ public class ProfileView {
       }
       for (String game : highScoresMap.keySet()) {
         for (String level : highScoresMap.get(game).keySet()) {
+          System.out.println(highScoresMap.get(game).get(level));
           makeHighScores(game, level, highScoresMap.get(game).get(level));
         }
       }
