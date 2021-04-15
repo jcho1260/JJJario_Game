@@ -106,6 +106,7 @@ public class ProfileView {
       );
       File selectedFile = fileChooser.showOpenDialog(currMenu.getScene().getWindow());
       String imagePath = selectedFile.toURI().toString().split("/resources/")[1];
+      System.out.println(imagePath);
       pcl.propertyChange(new PropertyChangeEvent(this, "setPicture", null, imagePath));
       ((ImageView) currMenu.lookup("#ProfileImage")).setImage(new Image(
           Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(imagePath))));
