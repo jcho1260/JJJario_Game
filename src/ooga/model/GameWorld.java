@@ -33,8 +33,10 @@ public class GameWorld extends Observable {
   private Player player;
   private Vector windowSize;
   private Vector[] frameCoords;
-  private Vector screenLimits;
+  private Vector screenLimitsMin;
+  private Vector screenLimitsMax;
   private Vector playerViewCoord;
+  private boolean playerWin;
 
 
   private final double gravity;
@@ -45,14 +47,16 @@ public class GameWorld extends Observable {
    */
   public GameWorld(Player gamePlayer, Map<String, Map<String, List<MethodBundle>>> collisionMethods,
       List<GameObject> gameObjects, List<GameObject> actors, Vector frameSize, int startingLives,
-      double levelGravity, double frameRate, Vector screenLimitSize) {
+      double levelGravity, double frameRate, Vector minScreenLimit, Vector maxScreenLimit) {
     player = gamePlayer;
     windowSize = frameSize;
     allGameObjects = gameObjects;
     gravity = levelGravity;
     stepTime = 1.0/frameRate;
     score = 0;
-    screenLimits = screenLimitSize;
+    playerWin = false;
+    screenLimitsMin = minScreenLimit;
+    screenLimitsMax = maxScreenLimit;
     frameCoords = new Vector[4];
     frameCoordinates(player.getPosition(), player.getSize());
     allBricks = new ArrayList<>();
@@ -118,11 +122,17 @@ public class GameWorld extends Observable {
   }
 
   private void playerOffScreen() {
-    if (player.getPosition().getX() + player.getSize().getX() >= screenLimits.getX() ||
-        player.getPosition().getY()+player.getSize().getY() >= screenLimits.getY()) {
+    if (player.getPosition().getY()+player.getSize().getY() >= screenLimitsMax.getY() ||
+        player.getPosition().getY() <= screenLimitsMin.getY()) {
       player.kill();
     }
+    if (player.getPosition().getX() + player.getSize().getX() >= screenLimitsMax.getX()) {
+      playerWin = true;
+      System.out.println("YOU WON!!!!!");
+    }
   }
+
+
 
   // TODO: refactor out isActive from GameObject and calculate active status here DO THIS !!!!!
   private List<GameObject> findActiveObjects(List<GameObject> allObjects) {
@@ -130,7 +140,6 @@ public class GameWorld extends Observable {
     Vector botR = frameCoords[3];
     List<GameObject> ret = new ArrayList<>();
     if(!player.isAlive()) {
-      System.out.println("player is dead");
       player.setActive(false);
     } else {
       player.setActive(true);
@@ -180,8 +189,8 @@ public class GameWorld extends Observable {
 
   private void frameCoordinates(Vector playerCoord, Vector playerSize) {
     double defaultXLeft = 0;
-    double defaultXRight = screenLimits.getX();
-    double defaultYBot = screenLimits.getY();
+    double defaultXRight = screenLimitsMax.getX();
+    double defaultYBot = screenLimitsMax.getY();
     double defaultYTop = 0;
     Vector playerCenter = new Vector(playerCoord.getX()+ 0.5*playerSize.getX(), playerCoord.getY() + 0.5*playerSize.getY());
     double topY = playerCenter.getY() - playerYLoc * windowSize.getY();
@@ -193,7 +202,7 @@ public class GameWorld extends Observable {
       topY = defaultYTop;
       botY = defaultYTop + windowSize.getY();
     }
-    if (botY > 0) {
+    if (botY > defaultYBot) {
       botY = defaultYBot;
       topY = defaultYBot - windowSize.getY();
     }
@@ -201,7 +210,7 @@ public class GameWorld extends Observable {
       leftX = defaultXLeft;
       rightX = defaultXLeft + windowSize.getX();
     }
-    if (rightX > 0) {
+    if (rightX > defaultXRight) {
       leftX = defaultXRight - windowSize.getX();
       rightX = defaultXRight;
     }
@@ -240,6 +249,10 @@ public class GameWorld extends Observable {
 
   public boolean isGameOver() {
     return !player.isAlive();
+  }
+
+  public boolean didPlayerWin() {
+    return playerWin;
   }
 
   /**
