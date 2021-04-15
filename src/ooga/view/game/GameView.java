@@ -78,7 +78,7 @@ public class GameView implements PropertyChangeListener {
   }
 
   public void addScore(int score) {
-    Text t = new Text(score+"");
+    Text t = new Text("Score: "+score);
     t.setId("ScoreText");
     t.setX(10);
     t.setY(20);
@@ -86,7 +86,7 @@ public class GameView implements PropertyChangeListener {
   }
 
   public void changeScore(int score) {
-    ((Text) currScene.lookup("#ScoreText")).setText(""+score);
+    ((Text) currScene.lookup("#ScoreText")).setText("Score: "+score);
   }
 
   public void startLevel() {
