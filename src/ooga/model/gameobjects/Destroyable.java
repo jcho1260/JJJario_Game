@@ -103,6 +103,7 @@ public class Destroyable extends GameObject{
 
   public void kill() {
     notifyListeners("changeVisibility", true, false);
+    health.kill();
   }
 
   private void onDeath() {
