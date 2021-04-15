@@ -72,6 +72,7 @@ public class Profile implements Serializable, PropertyChangeListener {
   public void propertyChange(PropertyChangeEvent evt) {
     if (evt.getPropertyName().equals("mapUpdated")) {
       save();
+      return;
     }
     String method = evt.getPropertyName();
     Object[] args = new Object[]{evt.getNewValue()};
