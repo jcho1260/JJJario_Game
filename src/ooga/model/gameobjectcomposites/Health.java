@@ -2,10 +2,12 @@ package ooga.model.gameobjectcomposites;
 
 public class Health {
 
+  private int startHealth;
   private int health;
   private int lives;
 
   public Health(int startingHealth, int startingLives) {
+    startHealth = startingHealth;
     health = startingHealth;
     lives = startingLives;
   }
@@ -16,9 +18,9 @@ public class Health {
    * @param increment
    */
   public void incrementHealth(Double increment) {
-    System.out.println("incrementing health");
     health += increment;
     if (health <= 0) {
+      health = startHealth;
       lives--;
     }
   }
@@ -59,5 +61,8 @@ public class Health {
     return lives;
   }
 
-  public void kill() { health = 0; }
+  public void kill() {
+    health = startHealth;
+    lives--;
+  }
 }

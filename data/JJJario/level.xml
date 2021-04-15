@@ -5,6 +5,14 @@
     <x>0</x>
     <y>0</y>
   </DrivingVelocity>
+  <ScreenLimitsMin>
+    <x>0</x>
+    <y>0</y>
+  </ScreenLimitsMin>
+  <ScreenLimitsMax>
+    <x>3000</x>
+    <y>1000</y>
+  </ScreenLimitsMax>
   <GameObjects>
     <GameObject>
       <Name>Mario</Name>
@@ -34,6 +42,7 @@
         <x>50</x>
         <y>50</y>
       </Size>
+      <Score>10</Score>
     </GameObject>
     <GameObject>
       <Name>KoopaTroopa</Name>
@@ -49,6 +58,7 @@
         <x>50</x>
         <y>50</y>
       </Size>
+      <Score>5</Score>
     </GameObject>
     <GameObject>
       <Name>Mushroom</Name>
@@ -79,6 +89,7 @@
         <x>50</x>
         <y>50</y>
       </Size>
+      <Score>1</Score>
     </GameObject>
     <GameObject>
       <Name>PowerUpBlock</Name>
@@ -285,6 +296,20 @@
       <Name>Block</Name>
       <Location>
         <x>1500</x>
+        <y>700</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>1700</x>
+        <y>700</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>1800</x>
         <y>700</y>
       </Location>
     </Entity>
