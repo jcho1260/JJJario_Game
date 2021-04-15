@@ -6,11 +6,11 @@
   </DrivingVelocity>
   <ScreenLimitsMin>
     <x>0</x>
-    <y>450</y>
+    <y>75</y>
   </ScreenLimitsMin>
   <ScreenLimitsMax>
     <x>2000</x>
-    <y>1000</y>
+    <y>825</y>
   </ScreenLimitsMax>
   <GameObjects>
     <GameObject>
