@@ -1,12 +1,12 @@
 <Level>
   <GlobalGravity>200</GlobalGravity>
   <DrivingVelocity>
-    <x>20</x>
+    <x>25</x>
     <y>0</y>
   </DrivingVelocity>
   <ScreenLimitsMin>
     <x>0</x>
-    <y>200</y>
+    <y>450</y>
   </ScreenLimitsMin>
   <ScreenLimitsMax>
     <x>2000</x>
@@ -59,7 +59,7 @@
     <Entity>
       <Name>Bird</Name>
       <Location>
-        <x>250</x>
+        <x>150</x>
         <y>450</y>
       </Location>
       <Velocity>
@@ -90,14 +90,14 @@
     <Entity>
       <Name>CeilingPipe</Name>
       <Location>
-        <x>600</x>
+        <x>750</x>
         <y>100</y>
       </Location>
     </Entity>
     <Entity>
       <Name>FloorPipe</Name>
       <Location>
-        <x>600</x>
+        <x>750</x>
         <y>900</y>
       </Location>
     </Entity>
@@ -105,14 +105,14 @@
     <Entity>
       <Name>CeilingPipe</Name>
       <Location>
-        <x>800</x>
+        <x>1100</x>
         <y>50</y>
       </Location>
     </Entity>
     <Entity>
       <Name>FloorPipe</Name>
       <Location>
-        <x>800</x>
+        <x>1100</x>
         <y>850</y>
       </Location>
     </Entity>

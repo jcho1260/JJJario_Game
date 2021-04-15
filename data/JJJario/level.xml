@@ -327,6 +327,48 @@
         <y>700</y>
       </Location>
     </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>2200</x>
+        <y>700</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>2300</x>
+        <y>700</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>2400</x>
+        <y>700</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>2600</x>
+        <y>700</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>2700</x>
+        <y>700</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>2900</x>
+        <y>700</y>
+      </Location>
+    </Entity>
 
     <Entity>
       <Name>Block</Name>
