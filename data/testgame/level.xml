@@ -1,10 +1,19 @@
 <Level>
   <BackgroundImage>view_resources/images/backgrounds/JJJario.png</BackgroundImage>
   <GlobalGravity>5</GlobalGravity>
+  <BackgroundImage>view_resources/images/backgrounds/JJJario.png</BackgroundImage>
   <DrivingVelocity>
-    <x>10</x>
-    <y>10</y>
+    <x>0</x>
+    <y>0</y>
   </DrivingVelocity>
+  <ScreenLimitsMin>
+    <x>0</x>
+    <y>0</y>
+  </ScreenLimitsMin>
+  <ScreenLimitsMax>
+    <x>3000</x>
+    <y>1000</y>
+  </ScreenLimitsMax>
   <GameObjects>
     <GameObject>
       <Name>hero</Name>
@@ -15,8 +24,8 @@
       <Type>Player</Type>
       <Gravity>10</Gravity>
       <Size>
-        <SizeX>10</SizeX>
-        <SizeY>20</SizeY>
+        <x>10</x>
+        <y>20</y>
       </Size>
     </GameObject>
     <GameObject>
@@ -28,8 +37,8 @@
       <Type>MovingDestroyable</Type>
       <Gravity>10</Gravity>
       <Size>
-        <SizeX>10</SizeX>
-        <SizeY>20</SizeY>
+        <x>10</x>
+        <y>20</y>
       </Size>
     </GameObject>
     <GameObject>
@@ -40,8 +49,8 @@
       <Type>GameObject</Type>
       <Gravity>10</Gravity>
       <Size>
-        <SizeX>10</SizeX>
-        <SizeY>20</SizeY>
+        <x>10</x>
+        <y>20</y>
       </Size>
     </GameObject>
   </GameObjects>
@@ -49,6 +58,7 @@
   <Layout>
     <Entity>
       <Name>hero</Name>
+      <ContinuousJumpLimit>1</ContinuousJumpLimit>
       <Location>
         <x>0</x>
         <y>0</y>

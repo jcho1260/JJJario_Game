@@ -12,20 +12,20 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class GameWorldFactoryTest {
+public class LevelParserTest {
 
-  GameWorldFactory gameWorldFactory;
+  LevelParser gameWorldFactory;
 
   @BeforeEach
-  public void init() {
-    gameWorldFactory = new GameWorldFactory();
+  public void init() throws IOException, SAXException, ParserConfigurationException {
+    gameWorldFactory = new LevelParser(new File("data/testgame/level.xml"));
   }
 
   @Test
   public void test()
       throws IOException, SAXException, ParserConfigurationException, ClassNotFoundException {
 
-    GameWorld gw = gameWorldFactory.createGameWorld(new File("data/testgame/level.xml"), null, new Vector(1000, 1000), 10);
+    GameWorld gw = gameWorldFactory.createGameWorld(null, new Vector(1000, 1000), 10);
     assertEquals(2, gw.getAllDestroyables().size());
   }
 }

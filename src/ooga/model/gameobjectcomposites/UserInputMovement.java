@@ -14,6 +14,8 @@ public class UserInputMovement {
   private double gravityScale;
   private double jumpTimeCounter;
   private boolean isJumping;
+  private int continuousJumps;
+  private final int continuousJumpLimit;
   private double gravitySink;
   private Vector drivingVelocity;
 
@@ -24,12 +26,13 @@ public class UserInputMovement {
    * @param defaultVelocity per step
    */
   public UserInputMovement(double jumpTime, Vector defaultVelocity, double gravity,
-      Vector autoscrollVector) {
+      Vector autoscrollVector, int contJumpLimit) {
     jumpTimeLimit = jumpTime;
     stepVelocityMagnitude = defaultVelocity;
     gravityScale = gravity;
     jumpTimeCounter = 0;
     drivingVelocity = autoscrollVector;
+    continuousJumpLimit = contJumpLimit;
   }
 
   private Vector decideJumping(Double elapsedTime, Double gameGravity, Vector change) {
@@ -64,9 +67,15 @@ public class UserInputMovement {
    * @return deltaPosition
    */
   public Vector moveUP(Double elapsedTime, Double gameGravity) {
-    if (!isJumping) {
-      isJumping = jumpTimeCounter == 0;
+    if (isJumping && continuousJumps <= continuousJumpLimit) {
+      jumpTimeCounter = 0;
+      continuousJumps++;
+    } else {
+      if (!isJumping) {
+        isJumping = jumpTimeCounter == 0;
+      }
     }
+
     return moveNONE(elapsedTime, gameGravity);
   }
 
@@ -79,9 +88,6 @@ public class UserInputMovement {
    */
   public Vector moveDOWN(Double elapsedTime, Double gameGravity) {
     isJumping = false;
-    if (jumpTimeCounter == 0) {
-      return new Vector(0, 0);
-    }
     return deltaPosition(elapsedTime, gameGravity, new Vector(0, 1));
   }
 
@@ -116,8 +122,6 @@ public class UserInputMovement {
     return stepVelocityMagnitude;
   }
 
-  //whoop
-  
   /**
    * Sets stepVelocityMagnitude to new value.
    *
@@ -131,9 +135,10 @@ public class UserInputMovement {
   private Vector deltaPosition(double elapsedTime, double gameGravity, Vector change) {
     gravitySink = (1 + change.getY()) * elapsedTime * gameGravity * gravityScale;
 
-    double newX = elapsedTime * Math.abs(stepVelocityMagnitude.getX()) * change.getX();
+    double newX = (elapsedTime * Math.abs(stepVelocityMagnitude.getX()) * change.getX())
+        + (elapsedTime * drivingVelocity.getX());
     double newY = (elapsedTime * Math.abs(stepVelocityMagnitude.getY()) * change.getY())
-        + gravitySink;
+        + (elapsedTime * drivingVelocity.getY()) + gravitySink;
 
     return new Vector(newX, newY);
   }
@@ -143,6 +148,7 @@ public class UserInputMovement {
    */
   public void hitGround() {
     jumpTimeCounter = 0;
+    continuousJumps = 0;
     isJumping = false;
   }
 }

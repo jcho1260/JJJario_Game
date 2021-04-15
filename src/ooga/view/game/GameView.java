@@ -29,9 +29,11 @@ public class GameView implements PropertyChangeListener {
   private final String gameName;
   private final KeyListener kl;
   private final SceneFactory sf;
+  private final String colorTheme;
   private Scene currScene;
 
-  public GameView(String gameName, Stage stage, KeyListener kl, Controller controller) {
+  public GameView(String gameName, Stage stage, KeyListener kl, Controller controller, String colorTheme) {
+    this.colorTheme = colorTheme;
     this.stage = stage;
     this.gameName = gameName;
     this.kl = kl;
@@ -45,6 +47,8 @@ public class GameView implements PropertyChangeListener {
       currScene = sf.make(filePath);
       currScene.setOnKeyPressed(makeKeyAction());
       currScene.setOnKeyReleased(makeKeyAction());
+      currScene.getStylesheets().add(colorTheme);
+      stage.setTitle(gameName);
       stage.setScene(currScene);
       stage.show();
     } catch (Exception e) {
@@ -66,6 +70,7 @@ public class GameView implements PropertyChangeListener {
     bi.setPreserveRatio(true);
     bi.setFitHeight(h);
     g.getChildren().add(bi);
+    newScene.getStylesheets().addAll(currScene.getStylesheets());
     currScene = newScene;
   }
 
@@ -74,7 +79,7 @@ public class GameView implements PropertyChangeListener {
   }
 
   public void addScore(int score) {
-    Text t = new Text(score+"");
+    Text t = new Text("Score: "+score);
     t.setId("ScoreText");
     t.setX(10);
     t.setY(20);
@@ -82,7 +87,7 @@ public class GameView implements PropertyChangeListener {
   }
 
   public void changeScore(int score) {
-    ((Text) currScene.lookup("#ScoreText")).setText(""+score);
+    ((Text) currScene.lookup("#ScoreText")).setText("Score: "+score);
   }
 
   public void startLevel() {
@@ -92,7 +97,9 @@ public class GameView implements PropertyChangeListener {
 
   public void gameOver() {
     try {
-      currScene = sf.make("resources/view_resources/game/GameOver.XML");
+      Scene newScene = sf.make("resources/view_resources/game/GameOver.XML");
+      newScene.getStylesheets().addAll(currScene.getStylesheets());
+      currScene = newScene;
       stage.setScene(currScene);
       stage.show();
     } catch (Exception e) {

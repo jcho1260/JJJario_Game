@@ -25,10 +25,11 @@ public class Player extends Destroyable {
    */
   public Player(List<String> entityTypes, Vector initialPosition, int id, Vector objSize,
       int startLife, int startHealth, double jumpTime, Vector velocityMagnitude, double gravity,
-      Vector drivingVelocity)
+      Vector drivingVelocity, int continuousJumpLimit)
       throws ClassNotFoundException {
-    super(entityTypes, initialPosition, id, objSize, startLife, startHealth);
-    userMovement = new UserInputMovement(jumpTime, velocityMagnitude, gravity, drivingVelocity);
+    super(entityTypes, initialPosition, id, objSize, startLife, startHealth, 5);
+    userMovement = new UserInputMovement(jumpTime, velocityMagnitude, gravity, drivingVelocity,
+        continuousJumpLimit);
     userMovementClass = Class.forName("ooga.model.gameobjectcomposites.UserInputMovement");
     lives = startLife;
   }
@@ -48,7 +49,6 @@ public class Player extends Destroyable {
     for (int i = 0; i < 2; i++) {
       paramClasses[i] = Double.class;
     }
-    System.out.println(direction);
     Method moveMethod = userMovementClass.getMethod(methodName, paramClasses);
     Vector deltaPosition = (Vector) moveMethod.invoke(userMovement, elapsedTime, gameGravity);
     setPredictedPosition(getPredictedPosition().add(deltaPosition));

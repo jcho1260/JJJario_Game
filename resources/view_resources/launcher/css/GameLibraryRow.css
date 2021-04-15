@@ -1,20 +1,22 @@
 HBox {
-    -fx-background-color: darkslateblue;
+    -fx-background-color:-dark-color;
     -fx-spacing: 20;
 }
 
 .button {
-    -fx-text-fill: #e8e2f7;
+    -fx-text-fill: -text-color;
     -fx-text-alignment: center;
     -fx-font-family: "Roboto Light";
     -fx-font-weight: bold;
     -fx-font-size: 24px;
     -fx-wrap-text: true;
-    -fx-background-color: slateblue;
+    -fx-background-color: -normal-color;
     -fx-pref-width: 205px;
     -fx-pref-height: 205px;
+    -fx-alignment: CENTER;
+    -fx-content-display: TOP;
 }
 
 .button:hover {
-    -fx-background-color: mediumslateblue;
+    -fx-background-color: -light-color;
 }

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import java.util.HashMap;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -21,7 +22,7 @@ import java.util.Map;
 
 public class Controller {
 
-  private final GameWorldFactory gameWorldFactory;
+  private LevelParser gameWorldFactory;
   private final CollisionsParser collisionsParser;
   private GameWorld gameWorld;
   private final Vector frameSize;
@@ -33,7 +34,6 @@ public class Controller {
   private ScoreListener highscoreListener;
 
   public Controller(Vector frameSize, double frameRate) {
-    gameWorldFactory = new GameWorldFactory();
     collisionsParser = new CollisionsParser();
     this.frameSize =  frameSize;
     this.frameRate = frameRate;
@@ -53,13 +53,15 @@ public class Controller {
 
     try {
       Map<String, Map<String, List<MethodBundle>>> collisions = collisionsParser.parseCollisions(collisionsFile);
-      gameWorld = gameWorldFactory.createGameWorld(levelFile, collisions, frameSize, frameRate);
+
+      gameWorldFactory = new LevelParser(levelFile);
+      gameWorld = gameWorldFactory.createGameWorld(collisions, frameSize, frameRate);
       gameWorld.addListener(highscoreListener);
 
       String background = gameWorldFactory.getBackground(levelFile);
       System.out.println(background);
       gameView.initializeLevel(frameSize.getX(), frameSize.getY(), background);
-      gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, highscoreListener.getScore()));
+      gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, (int) highscoreListener.getScore()));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -98,29 +100,36 @@ public class Controller {
   }
 
   public void endGame() {
-    animation.stop();
+    if (animation != null) {
+      animation.stop();
+    }
   }
 
   private void step(double d) {
     if (gameWorld.isGameOver()) {
-      int finalScore = highscoreListener.getScore();
+      double finalScore = highscoreListener.getScore();
       handleHighscore(finalScore);
       endGame();
       gameView.gameOver();
+      return;
     }
     try {
       gameWorld.stepFrame(keyListener.getCurrentKey());
-      gameView.propertyChange(new PropertyChangeEvent(this, "changeScore", null, highscoreListener.getScore()));
+      gameView.propertyChange(new PropertyChangeEvent(this, "changeScore", null, (int) highscoreListener.getScore()));
     } catch (Exception e){
       e.printStackTrace();
     }
   }
 
-  private void handleHighscore(int score) {
+  private void handleHighscore(double score) {
     Profile profile = getProfile(activeProfile);
+
+    profile.getHighScores().computeIfAbsent(gameView.getGameName(), k -> new HashMap<>());
     Map<String, Integer> scores = profile.getHighScores().get(gameView.getGameName());
-    if (scores.get("level1") < score) {
-      scores.put("level1", score);
+
+    if (scores.get("level1") == null || scores.get("level1") < score) {
+      scores.put("level1", (int) score);
+      profile.propertyChange(new PropertyChangeEvent(profile, "mapChanged", null, null));
     }
   }
 

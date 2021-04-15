@@ -3,14 +3,13 @@
   <Height>750</Height>
   <Width>1050</Width>
   <HBox id="ProfileMenuHBoxImage" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuHBox.css">
-    <VBox id="ProfileImageVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuVBox.css">
+    <VBox id="ProfileImageVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileImageVBox.css">
       <ImageView id="ProfileImage" type="Leaf">
         <Image>
           <Path>view_resources/images/button_icons/User.png</Path>
         </Image>
-        <Ratio>true</Ratio>
-        <Height>225</Height>
-        <Width>225</Width>
+        <Height>300</Height>
+        <Width>300</Width>
       </ImageView>
       <Button id="ProfileImageButton" type="Leaf">
         <Text>Upload Image</Text>
@@ -23,4 +22,28 @@
       <Placeholder>PLACEHOLDER</Placeholder>
     </VBox>
   </HBox>
+  <ScrollPane id="HighScoreScrollPane" type="Control" style="view_resources/launcher/profile/css/ProfileMenuScroll.css">
+    <HBox id="ProfileHighScoresVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileScrollHBox.css">
+      <Height>1000</Height>
+      <Width>1000</Width>
+      <VBox id="JJJarioHighScores" type="Pane" style="view_resources/launcher/profile/css/ProfileScrollVBox.css">
+        <ImageView id="JJJarioLogo" type="Leaf">
+          <Image>
+            <Path>view_resources/images/logo/JJJarioLogo.png</Path>
+          </Image>
+          <Width>150</Width>
+          <Height>130</Height>
+        </ImageView>
+      </VBox>
+      <VBox id="FlappyBirdHighScores" type="Pane" style="view_resources/launcher/profile/css/ProfileScrollVBox.css">
+        <ImageView id="FlappyBirdLogo" type="Leaf">
+          <Image>
+            <Path>view_resources/images/logo/FlappyBirdLogo.png</Path>
+          </Image>
+          <Width>150</Width>
+          <Height>130</Height>
+        </ImageView>
+      </VBox>
+    </HBox>
+  </ScrollPane>
 </VBox>

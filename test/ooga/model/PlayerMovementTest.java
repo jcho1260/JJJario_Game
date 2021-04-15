@@ -27,7 +27,7 @@ public class PlayerMovementTest {
   public void init() {
     try {
       user = new Player(new ArrayList<>(), initPosition, 0, new Vector(1, 1),
-          1, 1, 2, velocityMagnitude, 1, new Vector(0, 0));
+          1, 1, 2, velocityMagnitude, 1, new Vector(0, 0), 0);
     } catch (ClassNotFoundException e) {
       System.out.println(e.getMessage());
     }
@@ -104,7 +104,7 @@ public class PlayerMovementTest {
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
-    assertTrue(user.getPredictedPosition().equals(new Vector(0, 0)));
+    assertTrue(user.getPredictedPosition().equals(new Vector(0, 3)));
   }
 
   /**
@@ -115,6 +115,10 @@ public class PlayerMovementTest {
     try {
       user.userStepMovement(Action.UP, 1, 1);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
+      user.userStepMovement(Action.UP, 1, 1);
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, -2)));
+      user.userStepMovement(Action.UP, 1, 1);
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, -3)));
       user.userStepMovement(Action.UP, 1, 1);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -2)));
       user.userStepMovement(Action.UP, 1, 1);
@@ -138,6 +142,10 @@ public class PlayerMovementTest {
       user.userStepMovement(Action.UP, 1, 1);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
       user.userStepMovement(Action.UP, 1, 1);
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, -2)));
+      user.userStepMovement(Action.NONE, 1, 1);
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, -3)));
+      user.userStepMovement(Action.NONE, 1, 1);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -2)));
       user.userStepMovement(Action.NONE, 1, 1);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));

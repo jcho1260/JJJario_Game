@@ -1,10 +1,18 @@
 <Level>
-  <GlobalGravity>0</GlobalGravity>
+  <GlobalGravity>25</GlobalGravity>
   <BackgroundImage>view_resources/images/backgrounds/JJJario.png</BackgroundImage>
   <DrivingVelocity>
     <x>0</x>
     <y>0</y>
   </DrivingVelocity>
+  <ScreenLimitsMin>
+    <x>0</x>
+    <y>0</y>
+  </ScreenLimitsMin>
+  <ScreenLimitsMax>
+    <x>3000</x>
+    <y>1000</y>
+  </ScreenLimitsMax>
   <GameObjects>
     <GameObject>
       <Name>Mario</Name>
@@ -16,8 +24,8 @@
       <Type>Player</Type>
       <Gravity>1</Gravity>
       <Size>
-        <SizeX>50</SizeX>
-        <SizeY>50</SizeY>
+        <x>50</x>
+        <y>50</y>
       </Size>
     </GameObject>
     <GameObject>
@@ -31,9 +39,10 @@
       <Type>MovingDestroyable</Type>
       <Gravity>1</Gravity>
       <Size>
-        <SizeX>50</SizeX>
-        <SizeY>50</SizeY>
+        <x>50</x>
+        <y>50</y>
       </Size>
+      <Score>10</Score>
     </GameObject>
     <GameObject>
       <Name>KoopaTroopa</Name>
@@ -46,9 +55,10 @@
       <Type>MovingDestroyable</Type>
       <Gravity>1</Gravity>
       <Size>
-        <SizeX>50</SizeX>
-        <SizeY>50</SizeY>
+        <x>50</x>
+        <y>50</y>
       </Size>
+      <Score>5</Score>
     </GameObject>
     <GameObject>
       <Name>Mushroom</Name>
@@ -61,8 +71,8 @@
       <Type>MovingDestroyable</Type>
       <Gravity>1</Gravity>
       <Size>
-        <SizeX>50</SizeX>
-        <SizeY>50</SizeY>
+        <x>50</x>
+        <y>50</y>
       </Size>
     </GameObject>
     <GameObject>
@@ -76,9 +86,10 @@
       <Type>MovingDestroyable</Type>
       <Gravity>1</Gravity>
       <Size>
-        <SizeX>50</SizeX>
-        <SizeY>50</SizeY>
+        <x>50</x>
+        <y>50</y>
       </Size>
+      <Score>1</Score>
     </GameObject>
     <GameObject>
       <Name>PowerUpBlock</Name>
@@ -90,8 +101,8 @@
       <Type>Destroyable</Type>
       <Gravity>1</Gravity>
       <Size>
-        <SizeX>50</SizeX>
-        <SizeY>50</SizeY>
+        <x>50</x>
+        <y>50</y>
       </Size>
     </GameObject>
     <GameObject>
@@ -103,8 +114,8 @@
       <Type>GameObject</Type>
       <Gravity>1</Gravity>
       <Size>
-        <SizeX>100</SizeX>
-        <SizeY>100</SizeY>
+        <x>100</x>
+        <y>100</y>
       </Size>
     </GameObject>
   </GameObjects>
@@ -121,7 +132,8 @@
         <y>150</y>
       </Velocity>
       <StartLife>3</StartLife>
-      <JumpTime>2</JumpTime>
+      <JumpTime>0.75</JumpTime>
+      <ContinuousJumpLimit>1</ContinuousJumpLimit>
       <StartHealth>1</StartHealth>
     </Entity>
     <Entity>
@@ -287,11 +299,46 @@
         <y>700</y>
       </Location>
     </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>1700</x>
+        <y>700</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>1800</x>
+        <y>700</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>1900</x>
+        <y>700</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>2100</x>
+        <y>700</y>
+      </Location>
+    </Entity>
 
     <Entity>
       <Name>Block</Name>
       <Location>
         <x>100</x>
+        <y>600</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>1000</x>
         <y>600</y>
       </Location>
     </Entity>
