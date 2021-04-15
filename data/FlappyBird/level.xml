@@ -6,7 +6,7 @@
   </DrivingVelocity>
   <ScreenLimitsMin>
     <x>0</x>
-    <y>450</y>
+    <y>0</y>
   </ScreenLimitsMin>
   <ScreenLimitsMax>
     <x>2000</x>
@@ -59,7 +59,7 @@
     <Entity>
       <Name>Bird</Name>
       <Location>
-        <x>150</x>
+        <x>100</x>
         <y>450</y>
       </Location>
       <Velocity>
