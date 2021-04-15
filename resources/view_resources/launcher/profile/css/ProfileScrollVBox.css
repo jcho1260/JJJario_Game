@@ -3,3 +3,12 @@ VBox {
     -fx-alignment: TOP-LEFT;
     -fx-spacing: 10;
 }
+
+Text {
+    -fx-fill: -text-color;
+    -fx-text-alignment: CENTER;
+    -fx-font-family: "Roboto Light";
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-wrap-text: true;
+}

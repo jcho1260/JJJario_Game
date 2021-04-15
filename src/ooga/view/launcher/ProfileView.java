@@ -10,7 +10,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -34,6 +36,7 @@ public class ProfileView {
   private final ParentComponentFactory pcf;
   private final Controller controller;
   private Pane currMenu;
+  private Scene dummyScene;
   private PropertyChangeListener pcl;
 
   public ProfileView(Controller controller, ParentComponentFactory pcf, PropertyChangeListener pcl) {
@@ -73,7 +76,8 @@ public class ProfileView {
   }
 
   private void makeHighScores(String game, String level, Integer score) {
-    ((Pane) currMenu.lookup("#"+game+"HighScores")).getChildren().add(new Text("Level "+level+": "+score));
+    System.out.println(game);
+    ((Pane) ((ScrollPane) currMenu.lookup("#HighScoreScrollPane")).getContent().lookup("#JJJarioHighScores")).getChildren().add(new Text(level+": "+score));
   }
 
   private void makeTextFieldInput(String type, String prompt) {
