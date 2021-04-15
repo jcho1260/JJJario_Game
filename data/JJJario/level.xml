@@ -121,7 +121,8 @@
         <y>150</y>
       </Velocity>
       <StartLife>3</StartLife>
-      <JumpTime>2</JumpTime>
+      <JumpTime>0.25</JumpTime>
+      <ContinuousJumpLimit>1</ContinuousJumpLimit>
       <StartHealth>1</StartHealth>
     </Entity>
     <Entity>
