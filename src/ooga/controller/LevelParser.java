@@ -75,7 +75,9 @@ public class LevelParser {
     int startLife = (int) getNumberAttribute(entity, "StartLife");
     int startHealth = (int) getNumberAttribute(entity, "StartHealth");
     double jumpTime = getNumberAttribute(entity, "JumpTime");
-    return new Player(info.tags, pos, id, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc));
+    int jumpLimit = (int) getNumberAttribute(entity, "ContinuousJumpLimit");
+
+    return new Player(info.tags, pos, id, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit);
   }
 
   private MovingDestroyable createMovingDestroyable(Element entity, GameObjectInfo info, int id) {
