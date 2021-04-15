@@ -87,7 +87,7 @@ public class GameWorldFactory {
     Vector pos = getVectorAttribute(entity, "Location");
     int startLife = (int) getNumberAttribute(entity, "StartLife");
     int startHealth = (int) getNumberAttribute(entity, "StartHealth");
-    return new Destroyable(info.tags, pos, id, info.size, startLife, startHealth);
+    return new Destroyable(info.tags, pos, id, info.size, startLife, startHealth, 5);
   }
 
   private GameObject createGameObject(Element entity, GameObjectInfo info, int id) {

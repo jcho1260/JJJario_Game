@@ -7,6 +7,7 @@ import java.util.Map;
 import ooga.JjjanException;
 import ooga.Observable;
 import ooga.model.gameobjectcomposites.WorldCollisionHandling;
+import ooga.model.gameobjects.Destroyable;
 import ooga.model.gameobjects.GameObject;
 import ooga.model.gameobjects.Player;
 import ooga.model.util.Action;
@@ -28,10 +29,11 @@ public class GameWorld extends Observable {
   private List<GameObject> allActiveDestroyables;
   private List<GameObject> allBricks;
   private WorldCollisionHandling worldCollisionHandling;
-  private int score;
+  private double score;
   private Player player;
   private Vector windowSize;
   private Vector[] frameCoords;
+  private Vector screenLimits;
   private Vector playerViewCoord;
 
 
@@ -49,13 +51,15 @@ public class GameWorld extends Observable {
     allGameObjects = gameObjects;
     gravity = levelGravity;
     stepTime = 1.0/frameRate;
+    score = 0;
+    screenLimits = new Vector(1700, 800);
     frameCoords = new Vector[4];
     frameCoordinates(player.getPosition(), player.getSize());
+    allBricks = new ArrayList<>();
+    findBricks();
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allDestroyables = actors;
     allActiveDestroyables = findActiveObjects(allDestroyables);
-    allBricks = new ArrayList<>();
-    findBricks();
     worldCollisionHandling = new WorldCollisionHandling(collisionMethods, gameObjects, actors, player);
     windowSize = frameSize;
     double playerViewX = frameSize.getX() * playerXLoc;
@@ -129,7 +133,7 @@ public class GameWorld extends Observable {
       Vector oBotL = o.getPosition().add(new Vector(0,o.getSize().getY()));
       Vector oBotR = o.getPosition().add(new Vector(o.getSize().getX(),o.getSize().getY()));
 
-      if (oTopL.insideBox(topL,botR) || oTopR.insideBox(topL,botR) || oBotL.insideBox(topL, botR) || oBotR.insideBox(topL,botR)) {
+      if (oTopL.insideBox(topL,botR) || oTopR.insideBox(topL,botR) || oBotL.insideBox(topL, botR) || oBotR.insideBox(topL,botR) || allBricks.contains(o)) {
         ret.add(o);
         o.setActive(true);
       } else { o.setActive(false); }
@@ -138,6 +142,8 @@ public class GameWorld extends Observable {
   }
 
   private void removeDeadActors(List<Integer> deadActors) {
+    getScoreDead(deadActors);
+
     allGameObjects = removeIndicesFromList(allGameObjects, deadActors);
     allDestroyables = removeIndicesFromList(allDestroyables, deadActors);
     allBricks = removeIndicesFromList(allBricks, deadActors);
@@ -145,6 +151,14 @@ public class GameWorld extends Observable {
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allActiveDestroyables = findActiveObjects(allDestroyables);
     worldCollisionHandling.updateActiveGameObjects(allActiveGameObjects, allActiveDestroyables);
+  }
+
+  private void getScoreDead(List<Integer> deadActors) {
+    for(GameObject d : allDestroyables) {
+      if (deadActors.contains(d.getId())) {
+        incrementScore(((Destroyable)d).getScore());
+      }
+    }
   }
 
   private List<GameObject> removeIndicesFromList(List<GameObject> objects, List<Integer> deadActors) {
@@ -158,17 +172,31 @@ public class GameWorld extends Observable {
 
   private void frameCoordinates(Vector playerCoord, Vector playerSize) {
     double defaultXLeft = 0;
-    double defaultXRight = windowSize.getX();
-    double defaultYBot = windowSize.getY();
+    double defaultXRight = screenLimits.getX();
+    double defaultYBot = screenLimits.getY();
     double defaultYTop = 0;
     Vector playerCenter = new Vector(playerCoord.getX()+ 0.5*playerSize.getX(), playerCoord.getY() + 0.5*playerSize.getY());
     double topY = playerCenter.getY() - playerYLoc * windowSize.getY();
-    if (topY < 0) {topY = defaultYTop;}
     double botY = playerCoord.getY() + (1-playerYLoc) * windowSize.getY();
     if(defaultYBot > windowSize.getY()) {botY = defaultYBot;}
     double leftX = playerCenter.getX() - playerXLoc * windowSize.getX();
-    if (leftX < 0) {leftX = defaultXLeft;}
     double rightX = playerCenter.getX() + playerXLoc * windowSize.getX();
+    if (topY < 0) {
+      topY = defaultYTop;
+      botY = defaultYTop + windowSize.getY();
+    }
+    if (botY > 0) {
+      botY = defaultYBot;
+      topY = defaultYBot - windowSize.getY();
+    }
+    if (leftX < 0) {
+      leftX = defaultXLeft;
+      rightX = defaultXLeft + windowSize.getX();
+    }
+    if (rightX > 0) {
+      leftX = defaultXRight - windowSize.getX();
+      rightX = defaultXRight;
+    }
     frameCoords[0] = new Vector(leftX, topY);
     frameCoords[1] = new Vector(rightX, topY);
     frameCoords[2] = new Vector(leftX, botY);
@@ -211,9 +239,10 @@ public class GameWorld extends Observable {
    *
    * @param increment
    */
-  private void incrementScore(int increment) {
-    int prevScore = score;
+  private void incrementScore(double increment) {
+    double prevScore = score;
     score += increment;
+    System.out.println("score: "+score);
     notifyListeners("score", prevScore, score);
   }
 
