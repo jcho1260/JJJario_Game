@@ -91,7 +91,7 @@
       <Method>
         <Name>scaleVelocity</Name>
         <Args>
-          <Arg>-1</Arg>
+          <Arg>1</Arg>
           <Arg>1</Arg>
         </Args>
       </Method>
@@ -101,7 +101,7 @@
       <Method>
         <Name>scaleVelocity</Name>
         <Args>
-          <Arg>-1</Arg>
+          <Arg>1</Arg>
           <Arg>1</Arg>
         </Args>
       </Method>

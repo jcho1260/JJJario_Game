@@ -132,7 +132,7 @@
         <y>150</y>
       </Velocity>
       <StartLife>3</StartLife>
-      <JumpTime>0.5</JumpTime>
+      <JumpTime>0.75</JumpTime>
       <ContinuousJumpLimit>1</ContinuousJumpLimit>
       <StartHealth>1</StartHealth>
     </Entity>
@@ -313,11 +313,32 @@
         <y>700</y>
       </Location>
     </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>1900</x>
+        <y>700</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>2100</x>
+        <y>700</y>
+      </Location>
+    </Entity>
 
     <Entity>
       <Name>Block</Name>
       <Location>
         <x>100</x>
+        <y>600</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>1000</x>
         <y>600</y>
       </Location>
     </Entity>

@@ -1,7 +1,7 @@
 <Level>
   <GlobalGravity>200</GlobalGravity>
   <DrivingVelocity>
-    <x>0</x>
+    <x>20</x>
     <y>0</y>
   </DrivingVelocity>
   <ScreenLimitsMin>
@@ -63,7 +63,7 @@
         <y>450</y>
       </Location>
       <Velocity>
-        <x>150</x>
+        <x>0</x>
         <y>450</y>
       </Velocity>
       <StartLife>1</StartLife>
