@@ -67,7 +67,13 @@
       <Height>80</Height>
       <Width>80</Width>
     </ImageView>
-    <!--<Action>TODO</Action>-->
+    <Event method="setOnAction">
+      <Type>ChangeStack</Type>
+      <PaneID>LauncherStackPane</PaneID>
+      <FilePath>
+        <Path>resources/view_resources/launcher/Settings.xml</Path>
+      </FilePath>
+    </Event>
   </Button>
   <Button id="LogoutButton" type="Leaf">
     <Text>Logout</Text>

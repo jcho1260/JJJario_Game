@@ -4,6 +4,8 @@ import java.beans.Statement;
 import java.lang.reflect.Method;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -93,5 +95,9 @@ public abstract class ComponentFactory {
 
   boolean getBooleanFromTag(Element e) {
     return Boolean.getBoolean(e.getTextContent());
+  }
+
+  ObservableList<?> getOALFromTag(Element e) {
+    return FXCollections.observableArrayList(e.getTextContent().split(","));
   }
 }

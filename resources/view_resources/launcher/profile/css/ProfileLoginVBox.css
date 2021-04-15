@@ -1,5 +1,21 @@
 VBox {
-    -fx-background-color: darkslateblue;
+    -fx-background-color:-dark-color;
     -fx-spacing: 20;
     -fx-alignment: CENTER;
+    -fx-background-radius: 10;
+}
+
+.button {
+    -fx-text-fill: -text-color;
+    -fx-text-alignment: left;
+    -fx-font-family: "Roboto Light";
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-wrap-text: true;
+    -fx-background-color: -normal-color;
+    -fx-alignment: CENTER;
+}
+
+.button:hover {
+    -fx-background-color: -light-color;
 }

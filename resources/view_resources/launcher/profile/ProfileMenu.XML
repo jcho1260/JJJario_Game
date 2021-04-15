@@ -3,14 +3,13 @@
   <Height>750</Height>
   <Width>1050</Width>
   <HBox id="ProfileMenuHBoxImage" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuHBox.css">
-    <VBox id="ProfileImageVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileMenuVBox.css">
+    <VBox id="ProfileImageVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileImageVBox.css">
       <ImageView id="ProfileImage" type="Leaf">
         <Image>
           <Path>view_resources/images/button_icons/User.png</Path>
         </Image>
-        <Ratio>true</Ratio>
-        <Height>225</Height>
-        <Width>225</Width>
+        <Height>300</Height>
+        <Width>300</Width>
       </ImageView>
       <Button id="ProfileImageButton" type="Leaf">
         <Text>Upload Image</Text>
