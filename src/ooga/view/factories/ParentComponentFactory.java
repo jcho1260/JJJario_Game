@@ -15,7 +15,7 @@ public class ParentComponentFactory extends ComponentFactory {
 
   private final LeafComponentFactory lcf;
 
-  public ParentComponentFactory(ActionFactory af) {
+  public ParentComponentFactory(HandlerFactory af) {
     lcf = new LeafComponentFactory(af);
   }
 

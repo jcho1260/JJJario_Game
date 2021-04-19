@@ -10,17 +10,10 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.KeyListener;
-import ooga.controller.ScoreListener;
 import ooga.view.factories.SceneFactory;
 
 public class GameView implements PropertyChangeListener {
@@ -32,7 +25,8 @@ public class GameView implements PropertyChangeListener {
   private final String colorTheme;
   private Scene currScene;
 
-  public GameView(String gameName, Stage stage, KeyListener kl, Controller controller, String colorTheme) {
+  public GameView(String gameName, Stage stage, KeyListener kl, Controller controller,
+      String colorTheme) {
     this.colorTheme = colorTheme;
     this.stage = stage;
     this.gameName = gameName;
@@ -79,7 +73,7 @@ public class GameView implements PropertyChangeListener {
   }
 
   public void addScore(int score) {
-    Text t = new Text("Score: "+score);
+    Text t = new Text("Score: " + score);
     t.setId("ScoreText");
     t.setX(10);
     t.setY(20);
@@ -87,7 +81,7 @@ public class GameView implements PropertyChangeListener {
   }
 
   public void changeScore(int score) {
-    ((Text) currScene.lookup("#ScoreText")).setText("Score: "+score);
+    ((Text) currScene.lookup("#ScoreText")).setText("Score: " + score);
   }
 
   public void startLevel() {

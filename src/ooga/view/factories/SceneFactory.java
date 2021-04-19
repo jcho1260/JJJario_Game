@@ -27,7 +27,7 @@ public class SceneFactory {
     }
     doc.getDocumentElement().normalize();
 
-    ActionFactory af = new ActionFactory(controller);
+    HandlerFactory af = new HandlerFactory(controller);
     ParentComponentFactory pcf = new ParentComponentFactory(af);
     Pane root = (Pane) pcf.make(doc.getDocumentElement());
 

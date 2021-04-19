@@ -16,7 +16,7 @@ public class Sprite implements PropertyChangeListener {
     imageView = new ImageView();
     imageView.setId(imageName);
     ResourceBundle imgKeys = ResourceBundle
-        .getBundle("view_resources/game/SpriteImageKeys/"+gameName+"SpriteKeys");
+        .getBundle("view_resources/game/SpriteImageKeys/" + gameName + "SpriteKeys");
     String imgPath = imgKeys.getString(imageName.toUpperCase());
     Image img = new Image(
         Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(imgPath)));
@@ -39,7 +39,9 @@ public class Sprite implements PropertyChangeListener {
     }
   }
 
-  public ImageView getImageView() { return this.imageView; }
+  public ImageView getImageView() {
+    return this.imageView;
+  }
 
   public void changeHeight(Double h) {
     imageView.setFitHeight(h);
