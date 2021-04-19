@@ -92,7 +92,10 @@ public class Destroyable extends GameObject{
     health.incrementLives(increment);
   }
 
-  public void producePowerUp() {
+  /**
+   * Produces a new destroyable and send a listener to the front end for it to be displayed
+   */
+  public void produceSingleDestroyable() {
 
   }
 
