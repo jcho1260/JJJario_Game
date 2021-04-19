@@ -27,7 +27,7 @@ public class PlayerMovementTest {
   public void init() {
     try {
       user = new Player(new ArrayList<>(), initPosition, 0, new Vector(1, 1),
-          1, 1, 2, velocityMagnitude, 1, new Vector(0, 0), 0);
+          1, 1, 2, velocityMagnitude, 1, new Vector(0, 0), 0, true);
     } catch (ClassNotFoundException e) {
       System.out.println(e.getMessage());
     }
@@ -187,7 +187,7 @@ public class PlayerMovementTest {
   void continuousJumping() {
     try {
       user = new Player(new ArrayList<>(), initPosition, 0, new Vector(1, 1),
-          1, 1, 1, velocityMagnitude, 1, new Vector(0, 0), 2);
+          1, 1, 1, velocityMagnitude, 1, new Vector(0, 0), 2, true);
     } catch (ClassNotFoundException e) {
       System.out.println(e.getMessage());
     }

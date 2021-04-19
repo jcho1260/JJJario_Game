@@ -110,6 +110,7 @@
 
     <Entity>
       <Name>block</Name>
+      <Visible>true</Visible>
       <Location>
         <x>50</x>
         <y>0</y>

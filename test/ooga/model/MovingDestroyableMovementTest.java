@@ -21,9 +21,9 @@ public class MovingDestroyableMovementTest {
   @BeforeEach
   public void init() {
     npc = new MovingDestroyable(new ArrayList<>(), start, 1, new Vector(1, 1),
-    3, 3, velocity, end, 0);
+    3, 3, velocity, end, 0, true);
     npcReversed = new MovingDestroyable(new ArrayList<>(), end, 1, new Vector(1, 1),
-        3, 3, velocity.multiply(new Vector(-1, -1)), start, 0);
+        3, 3, velocity.multiply(new Vector(-1, -1)), start, 0, true);
     PropertyChangeListener standIn = evt -> {changes++;};
     npc.addListener(standIn);
   }

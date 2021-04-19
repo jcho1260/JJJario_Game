@@ -20,7 +20,7 @@ public class GameObject extends Observable {
   /**
    * Default constructor
    */
-  public GameObject(List<String> entityTypes, Vector position, int id, Vector size) {
+  public GameObject(List<String> entityTypes, Vector position, int id, Vector size, boolean isVisible) {
     this.entityTypes = entityTypes;
     this.id = id;
     isActive = false;

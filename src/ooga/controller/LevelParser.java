@@ -77,8 +77,9 @@ public class LevelParser {
     int startHealth = (int) getNumberAttribute(entity, "StartHealth");
     double jumpTime = getNumberAttribute(entity, "JumpTime");
     int jumpLimit = (int) getNumberAttribute(entity, "ContinuousJumpLimit");
+    boolean vis = getVisibility(entity);
 
-    return new Player(info.tags, pos, id, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit);
+    return new Player(info.tags, pos, id, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit, vis);
   }
 
   private MovingDestroyable createMovingDestroyable(Element entity, GameObjectInfo info, int id) {
@@ -87,19 +88,28 @@ public class LevelParser {
     int startLife = (int) getNumberAttribute(entity, "StartLife");
     int startHealth = (int) getNumberAttribute(entity, "StartHealth");
     Vector finalPos = getVectorAttribute(entity, "FinalLocation");
-    return new MovingDestroyable(info.tags, pos, id, info.size, startLife, startHealth, vel, finalPos, info.gravity);
+    boolean vis = getVisibility(entity);
+    return new MovingDestroyable(info.tags, pos, id, info.size, startLife, startHealth, vel, finalPos, info.gravity, vis);
   }
 
   private Destroyable createDestroyable(Element entity, GameObjectInfo info, int id) {
     Vector pos = getVectorAttribute(entity, "Location");
     int startLife = (int) getNumberAttribute(entity, "StartLife");
     int startHealth = (int) getNumberAttribute(entity, "StartHealth");
-    return new Destroyable(info.tags, pos, id, info.size, startLife, startHealth, 5);
+    boolean vis = getVisibility(entity);
+    return new Destroyable(info.tags, pos, id, info.size, startLife, startHealth, 5, vis);
   }
 
   private GameObject createGameObject(Element entity, GameObjectInfo info, int id) {
     Vector pos = getVectorAttribute(entity, "Location");
-    return  new GameObject(info.tags, pos, id, info.size);
+    boolean vis = getVisibility(entity);
+    return  new GameObject(info.tags, pos, id, info.size, vis);
+  }
+
+  private boolean getVisibility(Element entity) {
+    NodeList visList = entity.getElementsByTagName("Visible");
+    if (visList.getLength() == 0) return true;
+    return Boolean.parseBoolean(visList.item(0).getTextContent());
   }
 
   private Vector getVectorAttribute(Element entity, String name) {
