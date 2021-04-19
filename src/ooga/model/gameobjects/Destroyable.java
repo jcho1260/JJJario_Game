@@ -26,14 +26,25 @@ public class Destroyable extends GameObject{
   }
 
   /**
-   *
+   * checks to see if destroyable is still alive
+   * @return true if alive
    */
   public boolean isAlive() { return health.isAlive(); }
 
+  /**
+   * checks to see if the collision is a small corner collision with the object and should be ignored
+   * @param o object destroyable is colliding with
+   * @return true if it is a small corner collision
+   */
   public boolean cornerCollision(GameObject o) {
     return collisionHandler.smallCorner(this, o);
   }
 
+  /**
+   *
+   * @param o
+   * @return
+   */
   public List<String> determineCollision(GameObject o) {
     return collisionHandler.determineCollisionMethods(this, o);
   }
@@ -82,6 +93,13 @@ public class Destroyable extends GameObject{
   }
 
   /**
+   * Produces a new destroyable and send a listener to the front end for it to be displayed
+   */
+  public void produceSingleDestroyable() {
+
+  }
+
+  /**
    * Retrieves health for child classes.
    *
    * @return health
@@ -99,7 +117,12 @@ public class Destroyable extends GameObject{
     return health.getLives();
   }
 
+  /**
+   * gets the number of points a destroyable is worth once destroyed
+   * @return number of points destroyable is worth
+   */
   public double getScore() { return score; }
+
 
   public void kill() {
     notifyListeners("changeVisibility", true, false);

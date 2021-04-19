@@ -193,11 +193,11 @@ public class GameWorld extends Observable {
     double defaultYBot = screenLimitsMax.getY();
     double defaultYTop = screenLimitsMin.getY();
     Vector playerCenter = new Vector(playerCoord.getX()+ 0.5*playerSize.getX(), playerCoord.getY() + 0.5*playerSize.getY());
-    double topY = playerCenter.getY() - playerYLoc * windowSize.getY();
-    double botY = playerCoord.getY() + (1-playerYLoc) * windowSize.getY();
+    double topY = playerCenter.getY() - (playerYLoc * windowSize.getY());
+    double botY = playerCoord.getY() + ((1-playerYLoc) * windowSize.getY());
     if(defaultYBot > windowSize.getY()) {botY = defaultYBot;}
-    double leftX = playerCenter.getX() - playerXLoc * windowSize.getX();
-    double rightX = playerCenter.getX() + playerXLoc * windowSize.getX();
+    double leftX = playerCenter.getX() - (playerXLoc * windowSize.getX());
+    double rightX = playerCenter.getX() + (playerXLoc * windowSize.getX());
     if (topY <= defaultYTop) {
       topY = defaultYTop;
       botY = defaultYTop + windowSize.getY();
