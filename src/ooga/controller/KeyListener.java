@@ -19,6 +19,10 @@ public class KeyListener implements PropertyChangeListener {
     this.keybinds = keybinds;
   }
 
+  public void reset() {
+    current = Action.NONE;
+  }
+
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
     KeyEvent key = (KeyEvent) evt.getNewValue();

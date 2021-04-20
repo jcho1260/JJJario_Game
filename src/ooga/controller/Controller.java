@@ -72,6 +72,7 @@ public class Controller {
       String background = gameWorldFactory.getBackground(levelFile);
       gameView.initializeLevel(frameSize.getX(), frameSize.getY(), background);
       highscoreListener.reset();
+      keyListener.reset();
       gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, 0));
     } catch (Exception e) {
       e.printStackTrace();
