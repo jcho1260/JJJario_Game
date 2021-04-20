@@ -11,9 +11,11 @@ import org.w3c.dom.Document;
 public class SceneFactory {
 
   private final Controller controller;
+  private final HandlerFactory hf;
 
   public SceneFactory(Controller controller) {
     this.controller = controller;
+    this.hf = new HandlerFactory(controller);
   }
 
   public Scene make(String filePath) throws ViewFactoryException {
@@ -27,8 +29,7 @@ public class SceneFactory {
     }
     doc.getDocumentElement().normalize();
 
-    ActionFactory af = new ActionFactory(controller);
-    ParentComponentFactory pcf = new ParentComponentFactory(af);
+    ParentComponentFactory pcf = new ParentComponentFactory(hf);
     Pane root = (Pane) pcf.make(doc.getDocumentElement());
 
     return new Scene(root);

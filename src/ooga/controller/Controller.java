@@ -32,6 +32,7 @@ public class Controller {
   private Timeline animation;
   private String activeProfile;
   private ScoreListener highscoreListener;
+  private int currentLevel;
 
   public Controller(Vector frameSize, double frameRate) {
     collisionsParser = new CollisionsParser();
@@ -47,6 +48,8 @@ public class Controller {
   }
 
   public void startLevel(int n) {
+
+    currentLevel = n;
 
     String gameName = gameView.getGameName();
     File levelNameFile = new File("data/" + gameName + "/LevelNames.xml");
@@ -78,6 +81,15 @@ public class Controller {
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
     animation.play();
+  }
+
+  public void nextLevel() {
+    currentLevel++;
+    startLevel(currentLevel);
+  }
+
+  public void restartLevel() {
+    startLevel(currentLevel);
   }
 
   public KeyListener getKeyListener() {
@@ -119,7 +131,7 @@ public class Controller {
     }
 
     if (gameWorld.didPlayerWin()) {
-
+      gameView.gameWin();
     }
 
     try {
@@ -150,5 +162,9 @@ public class Controller {
       gameObject.addListener(s);
       gameView.propertyChange(new PropertyChangeEvent(this, "addSprite", null, s));
     }
+  }
+
+  public void displayMenu() {
+    gameView.displayMenu();
   }
 }

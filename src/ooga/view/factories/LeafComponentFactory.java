@@ -11,9 +11,9 @@ import org.w3c.dom.NodeList;
 
 public class LeafComponentFactory extends ComponentFactory {
 
-  private final ActionFactory af;
+  private final HandlerFactory af;
 
-  public LeafComponentFactory(ActionFactory af) {
+  public LeafComponentFactory(HandlerFactory af) {
     this.af = af;
   }
 
@@ -54,15 +54,16 @@ public class LeafComponentFactory extends ComponentFactory {
   }
 
   private void addEvent(Node component, Element e) throws ViewFactoryException {
-    EventHandler<?> eh = null;
+    EventHandler<?> eh;
     if (e.getAttribute("event_type").equals("KeyEvent")) {
-      eh = af.makeKeyEvent(component, e);
+      eh = af.makeKeyEventHandler(component, e);
     } else {
-      eh = af.makeActionEvent(component, e);
+      eh = af.makeActionEventHandler(component, e);
     }
     try {
       new Statement(component, e.getAttribute("method"), new Object[]{eh}).execute();
     } catch (Exception exception) {
+      exception.printStackTrace();
       throw new ViewFactoryException(exception.getMessage());
     }
   }

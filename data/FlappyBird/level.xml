@@ -1,7 +1,8 @@
 <Level>
   <GlobalGravity>200</GlobalGravity>
+  <BackgroundImage>view_resources/images/backgrounds/FlappyBird.png</BackgroundImage>
   <DrivingVelocity>
-    <x>25</x>
+    <x>50</x>
     <y>0</y>
   </DrivingVelocity>
   <ScreenLimitsMin>
@@ -10,7 +11,7 @@
   </ScreenLimitsMin>
   <ScreenLimitsMax>
     <x>2000</x>
-    <y>1000</y>
+    <y>1200</y>
   </ScreenLimitsMax>
   <GameObjects>
     <GameObject>
@@ -83,7 +84,7 @@
       <Name>FloorPipe</Name>
       <Location>
         <x>400</x>
-        <y>800</y>
+        <y>950</y>
       </Location>
     </Entity>
 

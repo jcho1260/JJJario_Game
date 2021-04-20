@@ -16,7 +16,7 @@
         </ImageView>
         <Event method="setOnAction">
           <Game>JJJario</Game>
-          <Type>LaunchGame</Type>
+          <Type>launchGame</Type>
           <Path>resources/view_resources/game/JJJario/Menu.XML</Path>
         </Event>
       </Button>
@@ -32,7 +32,7 @@
         </ImageView>
         <Event method="setOnAction">
           <Game>FlappyBird</Game>
-          <Type>LaunchGame</Type>
+          <Type>launchGame</Type>
           <Path>resources/view_resources/game/FlappyBird/Menu.XML</Path>
         </Event>
       </Button>

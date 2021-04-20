@@ -5,8 +5,8 @@
     <Button id="Level1Button" type="Leaf">
       <Text>Level 1</Text>
       <Event method="setOnAction">
-        <Type>StartLevel</Type>
-        <Level>Level1</Level>
+        <Type>startLevel</Type>
+        <Level>1</Level>
       </Event>
     </Button>
   </VBox>

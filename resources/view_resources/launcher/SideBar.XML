@@ -20,7 +20,7 @@
       <Width>80</Width>
     </ImageView>
     <Event method="setOnAction">
-      <Type>ProfileView</Type>
+      <Type>profileView</Type>
       <PaneID>LauncherStackPane</PaneID>
       <FilePath>
         <Path>resources/view_resources/launcher/profile/ProfileLogin.xml</Path>
@@ -38,7 +38,7 @@
       <Width>80</Width>
     </ImageView>
     <Event method="setOnAction">
-      <Type>ChangeStack</Type>
+      <Type>changeStack</Type>
       <PaneID>LauncherStackPane</PaneID>
       <FilePath>
         <Path>resources/view_resources/launcher/GameLibrary.XML</Path>
@@ -68,7 +68,7 @@
       <Width>80</Width>
     </ImageView>
     <Event method="setOnAction">
-      <Type>ChangeStack</Type>
+      <Type>changeStack</Type>
       <PaneID>LauncherStackPane</PaneID>
       <FilePath>
         <Path>resources/view_resources/launcher/Settings.xml</Path>
@@ -86,7 +86,7 @@
       <Width>80</Width>
     </ImageView>
     <Event method="setOnAction">
-      <Type>Logout</Type>
+      <Type>logout</Type>
       <PaneID>LauncherStackPane</PaneID>
       <FilePath>
         <Path>resources/view_resources/launcher/GameLibrary.XML</Path>

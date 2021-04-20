@@ -1,5 +1,5 @@
 <Level>
-  <GlobalGravity>25</GlobalGravity>
+  <GlobalGravity>75</GlobalGravity>
   <BackgroundImage>view_resources/images/backgrounds/JJJario.png</BackgroundImage>
   <DrivingVelocity>
     <x>0</x>
@@ -11,7 +11,7 @@
   </ScreenLimitsMin>
   <ScreenLimitsMax>
     <x>3000</x>
-    <y>1000</y>
+    <y>750</y>
   </ScreenLimitsMax>
   <GameObjects>
     <GameObject>

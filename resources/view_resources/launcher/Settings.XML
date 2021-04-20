@@ -3,9 +3,9 @@
   <Height>750</Height>
   <Width>1050</Width>
   <ChoiceBox id="ColorThemeSelector" type="Leaf">
-    <Options>JJJario,Darkside</Options>
+    <Options>JJJario,Darkside,Forest,Generic,JinCho</Options>
     <Event method="setOnAction">
-      <Type>ChangeTheme</Type>
+      <Type>changeTheme</Type>
     </Event>
   </ChoiceBox>
 </VBox>
