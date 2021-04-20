@@ -46,12 +46,16 @@ public class Controller {
     this.gameView = gameView;
   }
 
-  public void startLevel(String levelName) {
+  public void startLevel(int n) {
+
     String gameName = gameView.getGameName();
-    File collisionsFile = new File("data/" + gameName + "/collisions.xml");
-    File levelFile = new File("data/" + gameName + "/level.xml");
+    File levelNameFile = new File("data/" + gameName + "/LevelNames.xml");
 
     try {
+      LevelNameParser levelNameParser = new LevelNameParser(levelNameFile);
+      File collisionsFile = new File("data/" + gameName + "/collisions.xml");
+      File levelFile = new File("data/" + gameName + "/" + levelNameParser.getLevelName(n) + ".xml");
+
       Map<String, Map<String, List<MethodBundle>>> collisions = collisionsParser.parseCollisions(collisionsFile);
 
       gameWorldFactory = new LevelParser(levelFile);
@@ -113,6 +117,11 @@ public class Controller {
       gameView.gameOver();
       return;
     }
+
+    if (gameWorld.didPlayerWin()) {
+
+    }
+
     try {
       gameWorld.stepFrame(keyListener.getCurrentKey());
       gameView.propertyChange(new PropertyChangeEvent(this, "changeScore", null, (int) highscoreListener.getScore()));
