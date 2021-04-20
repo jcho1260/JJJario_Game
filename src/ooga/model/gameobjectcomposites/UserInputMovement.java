@@ -73,6 +73,7 @@ public class UserInputMovement implements Serializable {
   public Vector up(Double elapsedTime, Double gameGravity) {
     if (isJumping && continuousJumps <= continuousJumpLimit) {
       jumpTimeCounter = 0;
+      fallTimeCounter = 1;
       continuousJumps++;
     } else {
       if (!isJumping) {
