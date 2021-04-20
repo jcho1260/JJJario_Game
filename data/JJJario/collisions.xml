@@ -24,15 +24,6 @@
       </Method>
     </GameObject>
     <GameObject>
-      <Name>Coin</Name>
-      <Method>
-        <Name>incrementScore</Name>
-        <Args>
-          <Arg>1</Arg>
-        </Args>
-      </Method>
-    </GameObject>
-    <GameObject>
       <Name>Mushroom</Name>
       <Method>
         <Name>incrementHealth</Name>
@@ -55,6 +46,16 @@
         </Args>
       </Method>
     </GameObject>
+    <GameObject>
+      <Name>PowerUpBlock-UP</Name>
+      <Method>
+        <Name>scaleVelocity</Name>
+        <Args>
+          <Arg>1</Arg>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
   </Actor>
   <Actor>
     <Name>Enemy</Name>
@@ -72,6 +73,18 @@
     </GameObject>
   </Actor>
   <Actor>
+    <Name>Coin</Name>
+    <GameObject>
+      <Name>Player</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+  </Actor>
+  <Actor>
     <Name>MovingDestroyable</Name>
     <GameObject>
       <Name>MovingDestroyable</Name>
@@ -80,6 +93,18 @@
         <Args>
           <Arg>-1</Arg>
           <Arg>1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+  </Actor>
+  <Actor>
+    <Name>PowerUpBlock</Name>
+    <GameObject>
+      <Name>Player-DOWN</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
         </Args>
       </Method>
     </GameObject>

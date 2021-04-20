@@ -4,8 +4,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import ooga.model.gameobjectcomposites.UserInputActions;
 import ooga.model.gameobjectcomposites.UserInputMovement;
 import ooga.model.util.Action;
+import ooga.model.util.MethodBundle;
 import ooga.model.util.Vector;
 
 /**
@@ -16,8 +18,8 @@ import ooga.model.util.Vector;
 public class Player extends Destroyable {
 
   private List<GameObject> activePowerUps;
-  private final UserInputMovement userMovement;
-  private final Class<?> userMovementClass;
+  private final UserInputActions userActions;
+  private Class<?> userInputActions;
   private int lives;
 
   /**
@@ -25,12 +27,12 @@ public class Player extends Destroyable {
    */
   public Player(List<String> entityTypes, Vector initialPosition, int id, Vector objSize,
       int startLife, int startHealth, double jumpTime, Vector velocityMagnitude, double gravity,
-      Vector drivingVelocity, int continuousJumpLimit, boolean vis)
+      Vector drivingVelocity, int continuousJumpLimit, double shootingCooldown, boolean vis)
       throws ClassNotFoundException {
-    super(entityTypes, initialPosition, id, objSize, startLife, startHealth, 5, vis);
-    userMovement = new UserInputMovement(jumpTime, velocityMagnitude, gravity, drivingVelocity,
-        continuousJumpLimit);
-    userMovementClass = Class.forName("ooga.model.gameobjectcomposites.UserInputMovement");
+    super(entityTypes, initialPosition, id, objSize, startLife, startHealth, 0, vis);
+    userActions = new UserInputActions(jumpTime, velocityMagnitude, gravity, drivingVelocity,
+        continuousJumpLimit, shootingCooldown);
+    userInputActions = Class.forName("ooga.model.gameobjectcomposites.UserInputActions");
     lives = startLife;
   }
 
@@ -41,31 +43,50 @@ public class Player extends Destroyable {
    * @param elapsedTime
    * @param gameGravity
    */
-  public void userStepMovement(Action direction, double elapsedTime, double gameGravity)
+  public void userStep(Action direction, double elapsedTime, double gameGravity)
       throws NoSuchMethodException, SecurityException, IllegalAccessException,
       IllegalArgumentException, InvocationTargetException {
-    String methodName = "move" + direction.toString();
+    String methodName = direction.toString().toLowerCase();
+
+    if (methodName.equals(Action.SHOOT)){
+      userActions.shoot(getPosition().getX(), getPosition().getY());
+    } else {
+      move(direction, elapsedTime, gameGravity);
+    }
+  }
+
+  private void move(Action direction, double elapsedTime, double gameGravity)
+      throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    String methodName = direction.toString().toLowerCase();
     Class<?>[] paramClasses = new Class[2];
     for (int i = 0; i < 2; i++) {
       paramClasses[i] = Double.class;
     }
-    Method moveMethod = userMovementClass.getMethod(methodName, paramClasses);
-    Vector deltaPosition = (Vector) moveMethod.invoke(userMovement, elapsedTime, gameGravity);
+    Method[] test = userInputActions.getMethods();
+    Method moveMethod = userInputActions.getMethod(methodName, paramClasses);
+    Vector deltaPosition = (Vector) moveMethod.invoke(userActions, elapsedTime, gameGravity);
     setPredictedPosition(getPredictedPosition().add(deltaPosition));
+  }
+
+  /**
+   * Produces a new destroyable and send a listener to the front end for it to be displayed
+   */
+  public void produceSingleDestroyable() {
+    // notify controller to create new destroyable
   }
 
   /**
    * Collision method for whenever the bottom of player lands on something.
    */
   public void generalBottomCollision() {
-    userMovement.hitGround();
+    userActions.hitGround();
   }
 
   /**
    * gets velocity of player
    * @return
    */
-  public Vector getVelocity() {return userMovement.getVelocity();}
+  public Vector getVelocity() {return userActions.getVelocity();}
 
   /**
    * Collision method for adding a new power up to the Player.
@@ -122,8 +143,8 @@ public class Player extends Destroyable {
    * @param y
    */
   public void scaleVelocity(Double x, Double y) {
-    Vector newVelocity = userMovement.getVelocity().multiply(new Vector(x, y));
-    userMovement.setVelocity(newVelocity);
+    Vector newVelocity = userActions.getVelocity().multiply(new Vector(x, y));
+    userActions.setVelocity(newVelocity);
   }
 
   /**
