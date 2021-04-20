@@ -132,6 +132,7 @@ public class Controller {
 
     if (gameWorld.didPlayerWin()) {
       gameView.gameWin();
+      endGame();
       return;
     }
 
