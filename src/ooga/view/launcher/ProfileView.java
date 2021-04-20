@@ -108,6 +108,8 @@ public class ProfileView {
           , new FileChooser.ExtensionFilter("JPG Files", "*.jpg")
           , new FileChooser.ExtensionFilter("GIF Files", "*.gif")
       );
+      fileChooser.setInitialDirectory(new File("resources/view_resources/images/profiles"));
+
       File selectedFile = fileChooser.showOpenDialog(currMenu.getScene().getWindow());
       String imagePath = selectedFile.toURI().toString().split("/resources/")[1];
       System.out.println(imagePath);
