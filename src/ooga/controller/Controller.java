@@ -34,6 +34,7 @@ public class Controller {
   private String activeProfile;
   private ScoreListener highscoreListener;
   private int currentLevel;
+  private int totalLevels;
 
   public Controller(Vector frameSize, double frameRate) {
     collisionsParser = new CollisionsParser();
@@ -57,6 +58,7 @@ public class Controller {
 
     try {
       LevelNameParser levelNameParser = new LevelNameParser(levelNameFile);
+      totalLevels = levelNameParser.numLevels();
       File collisionsFile = new File("data/" + gameName + "/collisions.xml");
       File levelFile = new File("data/" + gameName + "/" + levelNameParser.getLevelName(n) + ".xml");
 
@@ -86,6 +88,10 @@ public class Controller {
 
   public void nextLevel() {
     currentLevel++;
+    if (currentLevel == totalLevels) {
+      gameView.displayMenu();
+      return;
+    }
     startLevel(currentLevel);
   }
 
