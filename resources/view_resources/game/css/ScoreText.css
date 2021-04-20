@@ -1,0 +1,7 @@
+Text {
+    -fx-text-fill: -text-color;
+    -fx-text-alignment: center;
+    -fx-font-family: "Roboto Light";
+    -fx-font-weight: bold;
+    -fx-font-size: 24px;
+}

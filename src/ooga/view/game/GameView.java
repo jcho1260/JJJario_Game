@@ -63,6 +63,7 @@ public class GameView implements PropertyChangeListener {
 
   public void initializeLevel(double w, double h, String imagePath) {
     Group g = new Group();
+    g.getStylesheets().add("view_resources/game/css/ScoreText.css");
     g.setId(gameName + "LevelView");
     Scene newScene = new Scene(g, w, h);
     newScene.setOnKeyPressed(makeKeyActionPress());
@@ -87,7 +88,7 @@ public class GameView implements PropertyChangeListener {
     Text t = new Text("Score: " + score);
     t.setId("ScoreText");
     t.setX(10);
-    t.setY(20);
+    t.setY(30);
     ((Group) currScene.getRoot()).getChildren().add(t);
   }
 
