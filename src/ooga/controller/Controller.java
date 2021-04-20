@@ -10,6 +10,7 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import javafx.animation.Animation.Status;
@@ -42,6 +43,7 @@ public class Controller {
   private final ScoreListener highscoreListener;
   private int currentLevel;
   private int totalLevels;
+  private GameSaver gameSaver;
 
   public Controller(Vector frameSize, double frameRate) {
     collisionsParser = new CollisionsParser();
@@ -50,6 +52,7 @@ public class Controller {
     keyListener = new KeyListener(new Profile("default").getKeybinds());
     activeProfile = "";
     highscoreListener = new ScoreListener();
+    gameSaver = new GameSaver();
   }
 
   public void startGame(GameView gameView) {
@@ -95,33 +98,20 @@ public class Controller {
   }
 
   public void saveGame() {
-
     String pattern = "MM-dd-yyyy_HH:mm:ss";
     DateFormat df = new SimpleDateFormat(pattern);
     String dateString = df.format(new Date());
-    String path = "data/saves/" + gameView.getGameName() + "/" + levelNameParser.getLevelName(currentLevel);
-    new File(path).mkdirs();
 
-    try {
-      FileOutputStream f = new FileOutputStream(path + "/" + dateString + ".game");
-      ObjectOutput s = new ObjectOutputStream(f);
-      s.writeObject(gameWorld);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    gameSaver.saveGame(gameView.getGameName(), levelNameParser.getLevelName(currentLevel), dateString, gameWorld);
   }
 
-  public void loadGame(String dateString) {
+  public void loadGame(String game, String level, String dateString) {
+    gameWorld = gameSaver.loadGame(game, level, dateString);
+  }
 
-    String path = "data/saves/" + gameView.getGameName() + "/" + levelNameParser.getLevelName(currentLevel);
-
-    try {
-      FileInputStream in = new FileInputStream(path + "/" + dateString + ".game");
-      ObjectInputStream s = new ObjectInputStream(in);
-      gameWorld = (GameWorld) s.readObject();
-    } catch(IOException | ClassNotFoundException e) {
-      e.printStackTrace();
-    }
+  public String[] getSaves(String game, String level) {
+    File folder = new File("data/saves/" + game + "/" + level);
+    return Arrays.stream(folder.listFiles()).map(File::getName).toArray(String[]::new);
   }
 
   public void nextLevel() {
