@@ -10,6 +10,7 @@ import ooga.Observable;
 import ooga.model.gameobjectcomposites.WorldCollisionHandling;
 import ooga.model.gameobjects.Destroyable;
 import ooga.model.gameobjects.GameObject;
+import ooga.model.gameobjects.MovingDestroyable;
 import ooga.model.gameobjects.Player;
 import ooga.model.util.Action;
 import ooga.model.util.MethodBundle;
@@ -29,6 +30,7 @@ public class GameWorld extends Observable implements Serializable {
   private List<GameObject> allDestroyables;
   private List<GameObject> allActiveDestroyables;
   private List<GameObject> allBricks;
+  private List<MovingDestroyable> runtimeCreations;
   private WorldCollisionHandling worldCollisionHandling;
   private double score;
   private Player player;
@@ -70,11 +72,12 @@ public class GameWorld extends Observable implements Serializable {
     double playerViewX = frameSize.getX() * playerXLoc;
     double playerViewY = frameSize.getY() * playerYLoc;
     playerViewCoord = new Vector(playerViewX, playerViewY);
+    runtimeCreations = new ArrayList<>();
   }
 
   public void stepFrame(Action pressEffect)
       throws NoSuchMethodException, JjjanException, InvocationTargetException, IllegalAccessException {
-    player.userStepMovement(pressEffect, stepTime, gravity);  // use setPredicted
+    player.userStep(pressEffect, stepTime, gravity);  // use setPredicted
     allGameObjectStep(stepTime);  // use setPredicted
     worldCollisionHandling.detectAllCollisions(); // use setPredicted
     List<Integer> forDeletion = worldCollisionHandling.executeAllCollisions();  // use setPredicted
@@ -94,6 +97,7 @@ public class GameWorld extends Observable implements Serializable {
 
     // using actual position (after setPosition() was called) --> do later, call internally
     frameCoordinates(player.getPosition(), player.getSize());
+    appendRuntimeCreations();
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allActiveDestroyables = findActiveObjects(allDestroyables);
     worldCollisionHandling.updateActiveGameObjects(allActiveGameObjects, allActiveDestroyables);
@@ -133,6 +137,15 @@ public class GameWorld extends Observable implements Serializable {
     }
   }
 
+  public void queueNewMovingDestroyable(List<MovingDestroyable> newMovingDestroyables) {
+    runtimeCreations.addAll(newMovingDestroyables);
+  }
+
+  private void appendRuntimeCreations() {
+    allGameObjects.addAll(runtimeCreations);
+    allDestroyables.addAll(runtimeCreations);
+    runtimeCreations.clear();
+  }
 
 
   // TODO: refactor out isActive from GameObject and calculate active status here DO THIS !!!!!
@@ -189,29 +202,29 @@ public class GameWorld extends Observable implements Serializable {
   }
 
   private void frameCoordinates(Vector playerCoord, Vector playerSize) {
-    double defaultXLeft = 0;
+    double defaultXLeft = screenLimitsMin.getX();
     double defaultXRight = screenLimitsMax.getX();
     double defaultYBot = screenLimitsMax.getY();
-    double defaultYTop = 0;
+    double defaultYTop = screenLimitsMin.getY();
     Vector playerCenter = new Vector(playerCoord.getX()+ 0.5*playerSize.getX(), playerCoord.getY() + 0.5*playerSize.getY());
-    double topY = playerCenter.getY() - playerYLoc * windowSize.getY();
-    double botY = playerCoord.getY() + (1-playerYLoc) * windowSize.getY();
+    double topY = playerCenter.getY() - (playerYLoc * windowSize.getY());
+    double botY = playerCoord.getY() + ((1-playerYLoc) * windowSize.getY());
     if(defaultYBot > windowSize.getY()) {botY = defaultYBot;}
-    double leftX = playerCenter.getX() - playerXLoc * windowSize.getX();
-    double rightX = playerCenter.getX() + playerXLoc * windowSize.getX();
-    if (topY < 0) {
+    double leftX = playerCenter.getX() - (playerXLoc * windowSize.getX());
+    double rightX = playerCenter.getX() + (playerXLoc * windowSize.getX());
+    if (topY <= defaultYTop) {
       topY = defaultYTop;
       botY = defaultYTop + windowSize.getY();
     }
-    if (botY > defaultYBot) {
+    if (botY >= defaultYBot) {
       botY = defaultYBot;
       topY = defaultYBot - windowSize.getY();
     }
-    if (leftX < 0) {
+    if (leftX <= defaultXLeft) {
       leftX = defaultXLeft;
       rightX = defaultXLeft + windowSize.getX();
     }
-    if (rightX > defaultXRight) {
+    if (rightX >= defaultXRight) {
       leftX = defaultXRight - windowSize.getX();
       rightX = defaultXRight;
     }
@@ -229,14 +242,16 @@ public class GameWorld extends Observable implements Serializable {
   }
 
   /**
-   *
+   * returns all destroyable game objects
    */
   public List<GameObject> getAllDestroyables() {
-    return allDestroyables;
+    List<GameObject> ret = new ArrayList<>(allDestroyables);
+    ret.add(player);
+    return ret;
   }
 
   /**
-   *
+   * returns all gameobjects in the game
    */
   public List<GameObject> getAllGameObjects() {
     List<GameObject> ret = new ArrayList<>(allGameObjects);

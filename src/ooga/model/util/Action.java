@@ -7,7 +7,9 @@ public enum Action implements Serializable {
   DOWN(new Vector(0, 1)),
   LEFT(new Vector(-1, 0)),
   RIGHT(new Vector(1, 0)),
-  NONE(new Vector(0, 0));
+  NONE(new Vector(0, 0)),
+  SHOOT(new Vector(0,0));
+
 
   private Vector axis;
 
