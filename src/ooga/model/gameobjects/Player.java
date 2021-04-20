@@ -5,9 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import ooga.model.gameobjectcomposites.UserInputActions;
-import ooga.model.gameobjectcomposites.UserInputMovement;
 import ooga.model.util.Action;
-import ooga.model.util.MethodBundle;
 import ooga.model.util.Vector;
 
 /**
@@ -21,19 +19,23 @@ public class Player extends Destroyable {
   private final UserInputActions userActions;
   private Class<?> userInputActions;
   private int lives;
+  private final int invincibiilityLimit;
+  private int frameCount = 0;
 
   /**
    * Default constructor for Player.
    */
   public Player(List<String> entityTypes, Vector initialPosition, int id, Vector objSize,
       int startLife, int startHealth, double jumpTime, Vector velocityMagnitude, double gravity,
-      Vector drivingVelocity, int continuousJumpLimit, double shootingCooldown, boolean vis)
+      Vector drivingVelocity, int continuousJumpLimit, double shootingCooldown, boolean vis, int
+      invincibiility)
       throws ClassNotFoundException {
     super(entityTypes, initialPosition, id, objSize, startLife, startHealth, 0, vis);
     userActions = new UserInputActions(jumpTime, velocityMagnitude, gravity, drivingVelocity,
         continuousJumpLimit, shootingCooldown);
     userInputActions = Class.forName("ooga.model.gameobjectcomposites.UserInputActions");
     lives = startLife;
+    invincibiilityLimit = invincibiility;
   }
 
   /**
@@ -46,6 +48,8 @@ public class Player extends Destroyable {
   public void userStep(Action direction, double elapsedTime, double gameGravity)
       throws NoSuchMethodException, SecurityException, IllegalAccessException,
       IllegalArgumentException, InvocationTargetException {
+    frameCount++;
+
     String methodName = direction.toString().toLowerCase();
 
     if (methodName.equals(Action.SHOOT)){
@@ -115,11 +119,15 @@ public class Player extends Destroyable {
     int prevHealth = getHealth();
     int prevLives = getLives();
 
-    super.incrementHealth(increment);
+    if (canBeHurt(increment)) {
+      super.incrementHealth(increment);
 //    notifyListeners("playerHealth", prevHealth, getHealth());
 
-    if (getHealth() != prevLives) {
+      if (getHealth() != prevLives) {
 //      notifyListeners("playerLives", prevLives, getLives());
+      }
+    } else {
+      frameCount = 0;
     }
   }
 
@@ -132,8 +140,14 @@ public class Player extends Destroyable {
   public void incrementLives(int increment) {
     int prevLives = getLives();
 
-    super.incrementLives(increment);
+    if (canBeHurt(increment)) {
+      super.incrementLives(increment);
 //    notifyListeners("playerLives", prevLives, getLives());
+    }
+  }
+
+  private boolean canBeHurt(double value) {
+    return value < 0 && frameCount > invincibiilityLimit;
   }
 
   /**
@@ -156,16 +170,8 @@ public class Player extends Destroyable {
     return new ArrayList<>(activePowerUps);
   }
 
-  /**
-   * scales the size the player
-   * @param scaleFactor factor to scale by
-   */
-  public void scaleSize(Double scaleFactor) {
+  private void scaleSize(Double scaleFactor) {
     getRect().scaleSize(scaleFactor);
-    notifyListeners("changeX", null, getPredictedPosition().getX());
-    notifyListeners("changeY", null, getPredictedPosition().getY());
-    notifyListeners("changeWidth", null, getSize().getX());
-    notifyListeners("changeHeight", null, getSize().getX());
   }
 
   private void incrementScore(Double increment) { score += increment; }
