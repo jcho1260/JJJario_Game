@@ -1,5 +1,6 @@
 package ooga.model.gameobjectcomposites;
 
+import java.io.Serializable;
 import ooga.model.util.Vector;
 
 /**
@@ -7,7 +8,7 @@ import ooga.model.util.Vector;
  *
  * @author Jessica Yang
  */
-public class AutomatedMovement {
+public class AutomatedMovement implements Serializable {
 
   private final Vector startPosition;
   private final Vector endPosition;

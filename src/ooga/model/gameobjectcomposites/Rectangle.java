@@ -1,9 +1,10 @@
 package ooga.model.gameobjectcomposites;
 
+import java.io.Serializable;
 import ooga.model.util.Action;
 import ooga.model.util.Vector;
 
-public class Rectangle {
+public class Rectangle implements Serializable {
   private Vector position;
   private Vector size;
   private Vector predictedPos;

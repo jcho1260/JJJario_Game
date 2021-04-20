@@ -1,5 +1,6 @@
 package ooga.model;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ import ooga.model.util.Vector;
 /**
  *
  */
-public class GameWorld extends Observable {
+public class GameWorld extends Observable implements Serializable {
 
   private static final double playerXLoc = 0.5;
   private static final double playerYLoc = 2.0/3.0;

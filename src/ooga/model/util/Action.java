@@ -1,6 +1,8 @@
 package ooga.model.util;
 
-public enum Action {
+import java.io.Serializable;
+
+public enum Action implements Serializable {
   UP(new Vector(0, -1)),
   DOWN(new Vector(0, 1)),
   LEFT(new Vector(-1, 0)),

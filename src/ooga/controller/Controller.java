@@ -2,9 +2,16 @@ package ooga.controller;
 
 import java.beans.PropertyChangeEvent;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
@@ -24,6 +31,7 @@ import java.util.Map;
 public class Controller {
 
   private LevelParser gameWorldFactory;
+  private LevelNameParser levelNameParser;
   private final CollisionsParser collisionsParser;
   private GameWorld gameWorld;
   private final Vector frameSize;
@@ -32,9 +40,10 @@ public class Controller {
   private KeyListener keyListener;
   private Timeline animation;
   private String activeProfile;
-  private ScoreListener highscoreListener;
+  private final ScoreListener highscoreListener;
   private int currentLevel;
   private int totalLevels;
+  private GameSaver gameSaver;
 
   public Controller(Vector frameSize, double frameRate) {
     collisionsParser = new CollisionsParser();
@@ -43,6 +52,7 @@ public class Controller {
     keyListener = new KeyListener(new Profile("default").getKeybinds());
     activeProfile = "";
     highscoreListener = new ScoreListener();
+    gameSaver = new GameSaver();
   }
 
   public void startGame(GameView gameView) {
@@ -57,7 +67,7 @@ public class Controller {
     File levelNameFile = new File("data/" + gameName + "/LevelNames.xml");
 
     try {
-      LevelNameParser levelNameParser = new LevelNameParser(levelNameFile);
+      levelNameParser = new LevelNameParser(levelNameFile);
       totalLevels = levelNameParser.numLevels();
       File collisionsFile = new File("data/" + gameName + "/collisions.xml");
       File levelFile = new File("data/" + gameName + "/" + levelNameParser.getLevelName(n) + ".xml");
@@ -69,9 +79,10 @@ public class Controller {
       gameWorld.addListener(highscoreListener);
 
       String background = gameWorldFactory.getBackground(levelFile);
-      System.out.println(background);
       gameView.initializeLevel(frameSize.getX(), frameSize.getY(), background);
-      gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, (int) highscoreListener.getScore()));
+      highscoreListener.reset();
+      keyListener.reset();
+      gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, 0));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -84,6 +95,23 @@ public class Controller {
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
     animation.play();
+  }
+
+  public void saveGame() {
+    String pattern = "MM-dd-yyyy_HH:mm:ss";
+    DateFormat df = new SimpleDateFormat(pattern);
+    String dateString = df.format(new Date());
+
+    gameSaver.saveGame(gameView.getGameName(), levelNameParser.getLevelName(currentLevel), dateString, gameWorld);
+  }
+
+  public void loadGame(String game, String level, String dateString) {
+    gameWorld = gameSaver.loadGame(game, level, dateString);
+  }
+
+  public String[] getSaves(String game, String level) {
+    File folder = new File("data/saves/" + game + "/" + level);
+    return Arrays.stream(folder.listFiles()).map(File::getName).toArray(String[]::new);
   }
 
   public void nextLevel() {
@@ -165,8 +193,9 @@ public class Controller {
     profile.getHighScores().computeIfAbsent(gameView.getGameName(), k -> new HashMap<>());
     Map<String, Integer> scores = profile.getHighScores().get(gameView.getGameName());
 
-    if (scores.get("level1") == null || scores.get("level1") < score) {
-      scores.put("level1", (int) score);
+    String levelName = levelNameParser.getLevelName(currentLevel);
+    if (scores.get(levelName) == null || scores.get(levelName) < score) {
+      scores.put(levelName, (int) score);
       profile.propertyChange(new PropertyChangeEvent(profile, "mapUpdated", null, null));
     }
   }

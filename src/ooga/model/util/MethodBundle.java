@@ -1,8 +1,9 @@
 package ooga.model.util;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 
-public class MethodBundle {
+public class MethodBundle implements Serializable {
 
   private String methodName;
   private double[] parameters;
