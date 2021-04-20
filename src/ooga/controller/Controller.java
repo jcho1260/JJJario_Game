@@ -2,9 +2,15 @@ package ooga.controller;
 
 import java.beans.PropertyChangeEvent;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
@@ -88,6 +94,39 @@ public class Controller {
     animation.play();
   }
 
+  public void saveGame() {
+
+    String pattern = "MM-dd-yyyy_HH:mm:ss";
+    DateFormat df = new SimpleDateFormat(pattern);
+    String dateString = df.format(new Date());
+    String path = "data/saves/" + gameView.getGameName() + "/" + levelNameParser.getLevelName(currentLevel);
+    new File(path).mkdirs();
+
+    try {
+      FileOutputStream f = new FileOutputStream(path + "/" + dateString + ".game");
+      ObjectOutput s = new ObjectOutputStream(f);
+      s.writeObject(gameWorld);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void loadGame() {
+
+    String pattern = "MM-dd-yyyy_HH:mm:ss";
+    DateFormat df = new SimpleDateFormat(pattern);
+    String dateString = df.format(new Date());
+    String path = "data/saves/" + gameView.getGameName() + "/" + levelNameParser.getLevelName(currentLevel);
+
+    try {
+      FileInputStream in = new FileInputStream(path + "/" + dateString + ".game");
+      ObjectInputStream s = new ObjectInputStream(in);
+      gameWorld = (GameWorld) s.readObject();
+    } catch(IOException | ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+  }
+
   public void nextLevel() {
     currentLevel++;
     if (currentLevel == totalLevels) {
@@ -140,6 +179,8 @@ public class Controller {
   }
 
   private void step(double d) {
+
+    saveGame();
 
     double finalScore = highscoreListener.getScore();
 

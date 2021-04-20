@@ -1,9 +1,11 @@
 package ooga.model.util;
 
+import java.io.Serializable;
+
 /**
  * Represents vectors and associated vector operations.
  */
-public class Vector {
+public class Vector implements Serializable {
 
   private double xVal, yVal;
 

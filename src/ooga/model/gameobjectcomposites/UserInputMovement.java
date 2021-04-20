@@ -1,5 +1,6 @@
 package ooga.model.gameobjectcomposites;
 
+import java.io.Serializable;
 import ooga.model.util.Vector;
 
 /**
@@ -7,7 +8,7 @@ import ooga.model.util.Vector;
  *
  * @author Jessica Yang
  */
-public class UserInputMovement {
+public class UserInputMovement implements Serializable {
 
   private final double jumpTimeLimit;
   private Vector stepVelocityMagnitude;

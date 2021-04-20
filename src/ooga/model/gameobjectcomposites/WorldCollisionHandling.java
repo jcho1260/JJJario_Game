@@ -1,5 +1,6 @@
 package ooga.model.gameobjectcomposites;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
@@ -14,7 +15,7 @@ import ooga.model.util.Vector;
 /**
  *
  */
-public class WorldCollisionHandling {
+public class WorldCollisionHandling implements Serializable {
 
   private Map<String, Map<String, List<MethodBundle>>> collisionMethods;
   private List<GameObject> activeGameObjects;

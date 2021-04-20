@@ -1,5 +1,6 @@
 package ooga.model.gameobjects;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import ooga.model.util.Action;
 import ooga.model.util.MethodBundle;
 import ooga.model.util.Vector;
 
-public class DestroyableCollisionHandling {
+public class DestroyableCollisionHandling implements Serializable {
 
   public DestroyableCollisionHandling() { }
 

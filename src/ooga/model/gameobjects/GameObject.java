@@ -1,5 +1,6 @@
 package ooga.model.gameobjects;
 
+import java.io.Serializable;
 import java.util.List;
 import ooga.Observable;
 import ooga.model.gameobjectcomposites.Rectangle;
@@ -11,7 +12,7 @@ import ooga.model.util.Vector;
  *
  * @author Jin Cho, Juhyoung Lee, Jessica Yang
  */
-public class GameObject extends Observable {
+public class GameObject extends Observable implements Serializable {
   private List<String> entityTypes;
   private int id;
   private boolean isActive;

@@ -1,6 +1,8 @@
 package ooga.model.gameobjectcomposites;
 
-public class Health {
+import java.io.Serializable;
+
+public class Health implements Serializable {
 
   private int startHealth;
   private int health;
