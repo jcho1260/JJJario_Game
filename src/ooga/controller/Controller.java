@@ -132,8 +132,10 @@ public class Controller {
   }
 
   private void step(double d) {
+
+    double finalScore = highscoreListener.getScore();
+
     if (gameWorld.isGameOver()) {
-      double finalScore = highscoreListener.getScore();
       handleHighscore(finalScore);
       endGame();
       gameView.gameOver();
@@ -142,6 +144,7 @@ public class Controller {
 
     if (gameWorld.didPlayerWin()) {
       gameView.gameWin();
+      handleHighscore(finalScore);
       endGame();
       return;
     }
