@@ -45,8 +45,6 @@ public class GameView implements PropertyChangeListener {
   public void start(String filePath) {
     try {
       menuScene = sf.make(filePath);
-      menuScene.setOnKeyPressed(makeKeyAction());
-      menuScene.setOnKeyReleased(makeKeyAction());
       menuScene.getStylesheets().add(colorTheme);
       stage.setTitle(gameName);
       stage.setScene(menuScene);
@@ -67,8 +65,8 @@ public class GameView implements PropertyChangeListener {
     Group g = new Group();
     g.setId(gameName + "LevelView");
     Scene newScene = new Scene(g, w, h);
-    newScene.setOnKeyPressed(makeKeyAction());
-    newScene.setOnKeyReleased(makeKeyAction());
+    newScene.setOnKeyPressed(makeKeyActionPress());
+    newScene.setOnKeyReleased(makeKeyActionRelease());
     ImageView background = new ImageView(
         new Image(Objects.requireNonNull(
             getClass().getClassLoader().getResourceAsStream(imagePath))));
@@ -130,7 +128,13 @@ public class GameView implements PropertyChangeListener {
     return this.gameName;
   }
 
-  private EventHandler<KeyEvent> makeKeyAction() {
+  private EventHandler<KeyEvent> makeKeyActionRelease() {
+    return event -> {
+      kl.propertyChange(new PropertyChangeEvent(this, "currKey", null, event));
+    };
+  }
+
+  private EventHandler<KeyEvent> makeKeyActionPress() {
     return event -> {
       if (event.getCode() == KeyCode.ESCAPE) {
         toggleGameMenu();
@@ -155,14 +159,19 @@ public class GameView implements PropertyChangeListener {
       currScene = cachedScene;
       stage.setScene(currScene);
       stage.show();
-      controller.togglePause();
+      controller.togglePaused();
       inGameMenu = false;
     } else {
-      controller.togglePause();
+      controller.togglePaused();
       cachedScene = currScene;
       try {
         Scene newScene = sf.make("resources/view_resources/game/InternalMenu.XML");
         newScene.getStylesheets().addAll(currScene.getStylesheets());
+        newScene.setOnKeyPressed(event -> {
+          if (event.getCode() == KeyCode.ESCAPE) {
+            toggleGameMenu();
+          }
+        });
         currScene = newScene;
         inGameMenu = true;
         stage.setScene(currScene);
