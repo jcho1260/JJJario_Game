@@ -111,11 +111,8 @@ public class Controller {
     }
   }
 
-  public void loadGame() {
+  public void loadGame(String dateString) {
 
-    String pattern = "MM-dd-yyyy_HH:mm:ss";
-    DateFormat df = new SimpleDateFormat(pattern);
-    String dateString = df.format(new Date());
     String path = "data/saves/" + gameView.getGameName() + "/" + levelNameParser.getLevelName(currentLevel);
 
     try {
@@ -179,8 +176,6 @@ public class Controller {
   }
 
   private void step(double d) {
-
-    saveGame();
 
     double finalScore = highscoreListener.getScore();
 
