@@ -9,6 +9,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -25,6 +26,7 @@ public class GameView implements PropertyChangeListener {
   private final String colorTheme;
   private Scene menuScene;
   private Scene currScene;
+  private boolean inGameMenu = false;
 
   public GameView(String gameName, Stage stage, KeyListener kl, Controller controller,
       String colorTheme) {
@@ -125,7 +127,12 @@ public class GameView implements PropertyChangeListener {
   }
 
   private EventHandler<KeyEvent> makeKeyAction() {
-    return event -> kl.propertyChange(new PropertyChangeEvent(this, "currKey", null, event));
+    return event -> {
+      if (event.getCode() == KeyCode.ESCAPE) {
+        toggleGameMenu();
+      }
+      kl.propertyChange(new PropertyChangeEvent(this, "currKey", null, event));
+    };
   }
 
   @Override
@@ -136,6 +143,12 @@ public class GameView implements PropertyChangeListener {
       new Statement(this, mName, mArgs).execute();
     } catch (Exception e) {
       e.printStackTrace();
+    }
+  }
+
+  private void toggleGameMenu() {
+    if (inGameMenu) {
+
     }
   }
 }

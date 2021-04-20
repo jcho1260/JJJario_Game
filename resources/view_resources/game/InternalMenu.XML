@@ -1,0 +1,19 @@
+<?xml version = "1.0" ?>
+<HBox style="view_resources/game/css/GameOver.css" id="GameOverH" type="Pane">
+  <VBox style="view_resources/game/css/GameOver.css" id="GameOverV" type="Pane">
+    <Button id="SaveButton" type="Leaf">
+      <Text>Save Game</Text>
+      <Event method="setOnAction">
+        <Type>saveGame</Type>
+      </Event>
+    </Button>
+    <Button id="GOMButton" type="Leaf">
+      <Text>Game Menu</Text>
+      <Event method="setOnAction">
+        <Type>goToMenu</Type>
+      </Event>
+    </Button>
+    <Height>420</Height>
+    <Width>960</Width>
+  </VBox>
+</HBox>

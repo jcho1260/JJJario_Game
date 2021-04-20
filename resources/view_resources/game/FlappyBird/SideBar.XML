@@ -13,8 +13,4 @@
     <Text>Levels</Text>
     <!--<Action>TODO</Action>-->
   </Button>
-  <Button id="FlappyBirdSettingsButton" type="Leaf">
-    <Text>Settings</Text>
-    <!--<Action>TODO</Action>-->
-  </Button>
 </VBox>
