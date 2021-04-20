@@ -54,7 +54,7 @@ public class UserInputMovement {
    * @param gameGravity
    * @return deltaPosiiton
    */
-  public Vector moveNONE(Double elapsedTime, Double gameGravity) {
+  public Vector none(Double elapsedTime, Double gameGravity) {
     return decideJumping(elapsedTime, gameGravity, new Vector(0, 0));
   }
 
@@ -66,7 +66,7 @@ public class UserInputMovement {
    * @param gameGravity
    * @return deltaPosition
    */
-  public Vector moveUP(Double elapsedTime, Double gameGravity) {
+  public Vector up(Double elapsedTime, Double gameGravity) {
     if (isJumping && continuousJumps <= continuousJumpLimit) {
       jumpTimeCounter = 0;
       continuousJumps++;
@@ -76,7 +76,7 @@ public class UserInputMovement {
       }
     }
 
-    return moveNONE(elapsedTime, gameGravity);
+    return none(elapsedTime, gameGravity);
   }
 
   /**
@@ -86,7 +86,7 @@ public class UserInputMovement {
    * @param gameGravity
    * @return deltaPosition
    */
-  public Vector moveDOWN(Double elapsedTime, Double gameGravity) {
+  public Vector down(Double elapsedTime, Double gameGravity) {
     isJumping = false;
     return deltaPosition(elapsedTime, gameGravity, new Vector(0, 1));
   }
@@ -98,7 +98,7 @@ public class UserInputMovement {
    * @param gameGravity
    * @return deltaPosition
    */
-  public Vector moveRIGHT(Double elapsedTime, Double gameGravity) {
+  public Vector right(Double elapsedTime, Double gameGravity) {
     return decideJumping(elapsedTime, gameGravity, new Vector(1, 0));
   }
 
@@ -109,7 +109,7 @@ public class UserInputMovement {
    * @param gameGravity
    * @return deltaPosition
    */
-  public Vector moveLEFT(Double elapsedTime, Double gameGravity) {
+  public Vector left(Double elapsedTime, Double gameGravity) {
     return decideJumping(elapsedTime, gameGravity, new Vector(-1, 0));
   }
 

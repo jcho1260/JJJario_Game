@@ -249,7 +249,7 @@
         <x>400</x>
         <y>450</y>
       </Location>
-      <StartHealth>1</StartHealth>
+      <StartHealth>0</StartHealth>
       <StartLife>1</StartLife>
     </Entity>
     <Entity>

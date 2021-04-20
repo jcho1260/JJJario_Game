@@ -78,7 +78,8 @@ public class LevelParser {
     double jumpTime = getNumberAttribute(entity, "JumpTime");
     int jumpLimit = (int) getNumberAttribute(entity, "ContinuousJumpLimit");
 
-    return new Player(info.tags, pos, id, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit);
+    // the 1 is a shooting cooldown
+    return new Player(info.tags, pos, id, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit, 1);
   }
 
   private MovingDestroyable createMovingDestroyable(Element entity, GameObjectInfo info, int id) {
@@ -94,7 +95,8 @@ public class LevelParser {
     Vector pos = getVectorAttribute(entity, "Location");
     int startLife = (int) getNumberAttribute(entity, "StartLife");
     int startHealth = (int) getNumberAttribute(entity, "StartHealth");
-    return new Destroyable(info.tags, pos, id, info.size, startLife, startHealth, 5);
+    int score = (int) getNumberAttribute(entity, "Score");
+    return new Destroyable(info.tags, pos, id, info.size, startLife, startHealth, score);
   }
 
   private GameObject createGameObject(Element entity, GameObjectInfo info, int id) {
@@ -111,6 +113,9 @@ public class LevelParser {
   }
 
   private double getNumberAttribute(Element entity, String name) {
+    if (entity.getElementsByTagName(name).getLength() == 0) {
+      return 0;
+    }
     return Double.parseDouble(entity.getElementsByTagName(name).item(0).getTextContent());
   }
 

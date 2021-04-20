@@ -2,7 +2,7 @@
   <GlobalGravity>200</GlobalGravity>
   <BackgroundImage>view_resources/images/backgrounds/FlappyBird.png</BackgroundImage>
   <DrivingVelocity>
-    <x>100</x>
+    <x>0</x>
     <y>0</y>
   </DrivingVelocity>
   <ScreenLimitsMin>
@@ -15,106 +15,77 @@
   </ScreenLimitsMax>
   <GameObjects>
     <GameObject>
-      <Name>Bird</Name>
+      <Name>Ship</Name>
       <Tags>
         <Tag>GameObject</Tag>
         <Tag>MovingDestroyable</Tag>
         <Tag>Player</Tag>
       </Tags>
       <Type>Player</Type>
-      <Gravity>1</Gravity>
+      <Gravity>0</Gravity>
       <Size>
         <x>50</x>
         <y>50</y>
       </Size>
     </GameObject>
     <GameObject>
-      <Name>CeilingPipe</Name>
+      <Name>Asteroid</Name>
       <Tags>
         <Tag>GameObject</Tag>
-        <Tag>CeilingPipe</Tag>
+        <Tag>Asteroid</Tag>
       </Tags>
       <Type>GameObject</Type>
-      <Gravity>0</Gravity>
+      <Gravity>1</Gravity>
       <Size>
         <x>100</x>
-        <y>600</y>
+        <y>100</y>
       </Size>
     </GameObject>
     <GameObject>
-      <Name>FloorPipe</Name>
+      <Name>Bullet</Name>
       <Tags>
         <Tag>GameObject</Tag>
-        <Tag>FloorPipe</Tag>
+        <Tag>MovingDestroyable</Tag>
+        <Tag>Bullet</Tag>
       </Tags>
-      <Type>GameObject</Type>
+      <Type>MovingDestroyable</Type>
       <Gravity>0</Gravity>
       <Size>
-        <x>100</x>
-        <y>600</y>
+        <x>25</x>
+        <y>25</y>
       </Size>
     </GameObject>
   </GameObjects>
 
   <Layout>
     <Entity>
-      <Name>Bird</Name>
+      <Name>Ship</Name>
       <Location>
-        <x>100</x>
-        <y>450</y>
+        <x>400</x>
+        <y>550</y>
       </Location>
       <Velocity>
-        <x>0</x>
-        <y>450</y>
+        <x>10</x>
+        <y>0</y>
       </Velocity>
       <StartLife>1</StartLife>
       <JumpTime>0.1</JumpTime>
-      <ContinuousJumpLimit>999999999</ContinuousJumpLimit>
+      <ContinuousJumpLimit>1</ContinuousJumpLimit>
       <StartHealth>1</StartHealth>
     </Entity>
 
     <Entity>
-      <Name>CeilingPipe</Name>
+      <Name>Asteroid</Name>
       <Location>
-        <x>400</x>
-        <y>0</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>FloorPipe</Name>
-      <Location>
-        <x>400</x>
-        <y>800</y>
-      </Location>
-    </Entity>
-
-    <Entity>
-      <Name>CeilingPipe</Name>
-      <Location>
-        <x>750</x>
+        <x>300</x>
         <y>100</y>
       </Location>
     </Entity>
     <Entity>
-      <Name>FloorPipe</Name>
+      <Name>Asteroid</Name>
       <Location>
-        <x>750</x>
-        <y>900</y>
-      </Location>
-    </Entity>
-
-    <Entity>
-      <Name>CeilingPipe</Name>
-      <Location>
-        <x>1100</x>
-        <y>50</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>FloorPipe</Name>
-      <Location>
-        <x>1100</x>
-        <y>850</y>
+        <x>400</x>
+        <y>200</y>
       </Location>
     </Entity>
   </Layout>

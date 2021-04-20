@@ -9,6 +9,7 @@ import ooga.Observable;
 import ooga.model.gameobjectcomposites.WorldCollisionHandling;
 import ooga.model.gameobjects.Destroyable;
 import ooga.model.gameobjects.GameObject;
+import ooga.model.gameobjects.MovingDestroyable;
 import ooga.model.gameobjects.Player;
 import ooga.model.util.Action;
 import ooga.model.util.MethodBundle;
@@ -28,6 +29,7 @@ public class GameWorld extends Observable {
   private List<GameObject> allDestroyables;
   private List<GameObject> allActiveDestroyables;
   private List<GameObject> allBricks;
+  private List<MovingDestroyable> runtimeCreations;
   private WorldCollisionHandling worldCollisionHandling;
   private double score;
   private Player player;
@@ -69,11 +71,12 @@ public class GameWorld extends Observable {
     double playerViewX = frameSize.getX() * playerXLoc;
     double playerViewY = frameSize.getY() * playerYLoc;
     playerViewCoord = new Vector(playerViewX, playerViewY);
+    runtimeCreations = new ArrayList<>();
   }
 
   public void stepFrame(Action pressEffect)
       throws NoSuchMethodException, JjjanException, InvocationTargetException, IllegalAccessException {
-    player.userStepMovement(pressEffect, stepTime, gravity);  // use setPredicted
+    player.userStep(pressEffect, stepTime, gravity);  // use setPredicted
     allGameObjectStep(stepTime);  // use setPredicted
     worldCollisionHandling.detectAllCollisions(); // use setPredicted
     List<Integer> forDeletion = worldCollisionHandling.executeAllCollisions();  // use setPredicted
@@ -93,6 +96,7 @@ public class GameWorld extends Observable {
 
     // using actual position (after setPosition() was called) --> do later, call internally
     frameCoordinates(player.getPosition(), player.getSize());
+    appendRuntimeCreations();
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allActiveDestroyables = findActiveObjects(allDestroyables);
     worldCollisionHandling.updateActiveGameObjects(allActiveGameObjects, allActiveDestroyables);
@@ -132,6 +136,15 @@ public class GameWorld extends Observable {
     }
   }
 
+  public void queueNewMovingDestroyable(List<MovingDestroyable> newMovingDestroyables) {
+    runtimeCreations.addAll(newMovingDestroyables);
+  }
+
+  private void appendRuntimeCreations() {
+    allGameObjects.addAll(runtimeCreations);
+    allDestroyables.addAll(runtimeCreations);
+    runtimeCreations.clear();
+  }
 
 
   // TODO: refactor out isActive from GameObject and calculate active status here DO THIS !!!!!

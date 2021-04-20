@@ -93,13 +93,6 @@ public class Destroyable extends GameObject{
   }
 
   /**
-   * Produces a new destroyable and send a listener to the front end for it to be displayed
-   */
-  public void produceSingleDestroyable() {
-
-  }
-
-  /**
    * Retrieves health for child classes.
    *
    * @return health
@@ -125,8 +118,10 @@ public class Destroyable extends GameObject{
 
 
   public void kill() {
-    notifyListeners("changeVisibility", true, false);
     health.kill();
+    if (!health.isAlive()) {
+      notifyListeners("changeVisibility", true, false);
+    }
   }
 
   private void onDeath() {
