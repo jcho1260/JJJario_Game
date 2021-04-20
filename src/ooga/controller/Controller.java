@@ -76,16 +76,20 @@ public class Controller {
 
       gameWorldFactory = new LevelParser(levelFile);
       gameWorld = gameWorldFactory.createGameWorld(collisions, frameSize, frameRate);
-      gameWorld.addListener(highscoreListener);
-
-      String background = gameWorldFactory.getBackground(levelFile);
-      gameView.initializeLevel(frameSize.getX(), frameSize.getY(), background);
-      highscoreListener.reset();
-      keyListener.reset();
-      gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, 0));
     } catch (Exception e) {
       e.printStackTrace();
     }
+
+    start();
+  }
+
+  private void start() {
+    gameWorld.addListener(highscoreListener);
+
+    gameView.initializeLevel(frameSize.getX(), frameSize.getY(), "view_resources/images/backgrounds/JJJario.png");
+    highscoreListener.reset();
+    keyListener.reset();
+    gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, 0));
 
     addSprites(gameWorld);
     gameView.startLevel();
@@ -107,6 +111,7 @@ public class Controller {
 
   public void loadGame(String level, String dateString) {
     gameWorld = gameSaver.loadGame(gameView.getGameName(), level, dateString);
+    start();
   }
 
   public String[] getSaves(String game, String level) {
