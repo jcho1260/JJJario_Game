@@ -20,4 +20,16 @@
       </Method>
     </GameObject>
   </Actor>
+  <Actor>
+    <Name>ScoreBlock</Name>a
+    <GameObject>
+      <Name>Player</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+  </Actor>
 </Collisions>

@@ -15,17 +15,18 @@ import ooga.model.util.Vector;
 public class GameObject extends Observable implements Serializable {
   private List<String> entityTypes;
   private int id;
-  private boolean isActive;
+  private boolean isActive, isVisible;
   private Rectangle rect;
 
   /**
    * Default constructor
    */
-  public GameObject(List<String> entityTypes, Vector position, int id, Vector size, boolean isVisible) {
+  public GameObject(List<String> entityTypes, Vector position, int id, Vector size, boolean visible) {
     this.entityTypes = entityTypes;
     this.id = id;
     isActive = false;
     rect = new Rectangle(size, position);
+    isVisible = visible;
   }
 
   /**
@@ -85,7 +86,7 @@ public class GameObject extends Observable implements Serializable {
 
   public void setActive(boolean activeState) {
     isActive = activeState;
-    notifyListeners("changeVisibility", null, isActive);
+    notifyListeners("changeVisibility", null, isActive && isVisible);
   }
 
   /**
