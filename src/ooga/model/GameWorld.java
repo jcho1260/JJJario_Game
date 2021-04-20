@@ -25,6 +25,7 @@ public class GameWorld extends Observable implements Serializable {
 
   private static final double playerXLoc = 0.5;
   private static final double playerYLoc = 2.0/3.0;
+  private static final int correctionCycles = 10;
 
   private List<GameObject> allGameObjects;
   private List<GameObject> allActiveGameObjects;
@@ -65,7 +66,7 @@ public class GameWorld extends Observable implements Serializable {
     screenLimitsMin = minScreenLimit;
     screenLimitsMax = maxScreenLimit;
     frameCoords = new Vector[4];
-    frameCoordinates(player.getPosition(), player.getSize());
+    updateFrameCoordinates(player.getPosition(), player.getSize());
     allBricks = new ArrayList<>();
     findBricks();
     allActiveGameObjects = findActiveObjects(allGameObjects);
@@ -83,11 +84,26 @@ public class GameWorld extends Observable implements Serializable {
       throws NoSuchMethodException, JjjanException, InvocationTargetException, IllegalAccessException {
     player.userStep(pressEffect, stepTime, gravity);  // use setPredicted
     allGameObjectStep(stepTime);  // use setPredicted
+    collisionsDetectAndExecute();
+    updatePositions();
+    playerOffScreen();
+    // using actual position (after setPosition() was called) --> do later, call internally
+    updateFrameCoordinates(player.getPosition(), player.getSize());
+    appendRuntimeCreations();
+    updateAllActiveInfo();
+    sendViewCoords();
+  }
+
+  private void collisionsDetectAndExecute()
+      throws NoSuchMethodException, JjjanException, InvocationTargetException, IllegalAccessException {
     worldCollisionHandling.detectAllCollisions(); // use setPredicted
     List<Integer> forDeletion = worldCollisionHandling.executeAllCollisions();  // use setPredicted
     removeDeadActors(forDeletion);
+    correctCollisionIntersections();
+  }
 
-    for (int i = 0; i < 10; i++) {
+  private void correctCollisionIntersections() throws NoSuchMethodException, JjjanException {
+    for (int i = 0; i < correctionCycles; i++) {
       if (worldCollisionHandling.detectAllCollisions()) {
         worldCollisionHandling.fixIntersection(allBricks);
         worldCollisionHandling.clear();
@@ -96,16 +112,6 @@ public class GameWorld extends Observable implements Serializable {
         break;
       }
     }
-    updatePositions();
-    playerOffScreen();
-
-    // using actual position (after setPosition() was called) --> do later, call internally
-    frameCoordinates(player.getPosition(), player.getSize());
-    appendRuntimeCreations();
-    allActiveGameObjects = findActiveObjects(allGameObjects);
-    allActiveDestroyables = findActiveObjects(allDestroyables);
-    worldCollisionHandling.updateActiveGameObjects(allActiveGameObjects, allActiveDestroyables);
-    sendViewCoords();
   }
 
   private void updatePositions() {
@@ -130,6 +136,7 @@ public class GameWorld extends Observable implements Serializable {
     }
   }
 
+  // TODO: WINNER BLOCK INSTEAD OF WIN OFF OFF SCREEN
   private void playerOffScreen() {
     if (player.getPosition().getY()+player.getSize().getY() >= screenLimitsMax.getY() ||
         player.getPosition().getY() <= screenLimitsMin.getY()) {
@@ -137,7 +144,6 @@ public class GameWorld extends Observable implements Serializable {
     }
     if (player.getPosition().getX() + player.getSize().getX() >= screenLimitsMax.getX()) {
       playerWin = true;
-      System.out.println("YOU WON!!!!!");
     }
   }
 
@@ -151,29 +157,33 @@ public class GameWorld extends Observable implements Serializable {
     runtimeCreations.clear();
   }
 
+  private void updateAllActiveInfo() {
+    allActiveGameObjects = findActiveObjects(allGameObjects);
+    allActiveDestroyables = findActiveObjects(allDestroyables);
+    worldCollisionHandling.updateActiveGameObjects(allActiveGameObjects, allActiveDestroyables);
+  }
 
   // TODO: refactor out isActive from GameObject and calculate active status here DO THIS !!!!!
   private List<GameObject> findActiveObjects(List<GameObject> allObjects) {
-    Vector topL = frameCoords[0];
-    Vector botR = frameCoords[3];
+    Vector frameTopL = frameCoords[0];
+    Vector frameBotR = frameCoords[3];
     List<GameObject> ret = new ArrayList<>();
-    if(!player.isAlive()) {
-      player.setActive(false);
-    } else {
-      player.setActive(true);
-    }
+    player.setActive(player.isAlive());
     for (GameObject o : allObjects) {
-      Vector oTopL = o.getPosition();
-      Vector oTopR = o.getPosition().add(new Vector(o.getSize().getX(), 0));
-      Vector oBotL = o.getPosition().add(new Vector(0,o.getSize().getY()));
-      Vector oBotR = o.getPosition().add(new Vector(o.getSize().getX(),o.getSize().getY()));
-
-      if (oTopL.insideBox(topL,botR) || oTopR.insideBox(topL,botR) || oBotL.insideBox(topL, botR) || oBotR.insideBox(topL,botR) || allBricks.contains(o)) {
-        ret.add(o);
-        o.setActive(true);
-      } else { o.setActive(false); }
+      boolean isActive = checkActiveState(o, frameTopL, frameBotR);
+      o.setActive(isActive);
+      if(isActive) {ret.add(o);}
     }
     return ret;
+  }
+
+  private boolean checkActiveState(GameObject o, Vector frameTopL, Vector frameBotR) {
+    Vector oTopL = o.getPosition();
+    Vector oTopR = o.getPosition().add(new Vector(o.getSize().getX(), 0));
+    Vector oBotL = o.getPosition().add(new Vector(0,o.getSize().getY()));
+    Vector oBotR = o.getPosition().add(new Vector(o.getSize().getX(),o.getSize().getY()));
+    return oTopL.insideBox(frameTopL,frameBotR) || oTopR.insideBox(frameTopL,frameBotR) ||
+        oBotL.insideBox(frameTopL, frameBotR) || oBotR.insideBox(frameTopL,frameBotR) || allBricks.contains(o);
   }
 
   private void removeDeadActors(List<Integer> deadActors) {
@@ -205,7 +215,7 @@ public class GameWorld extends Observable implements Serializable {
     return objects;
   }
 
-  private void frameCoordinates(Vector playerCoord, Vector playerSize) {
+  private void updateFrameCoordinates(Vector playerCoord, Vector playerSize) {
     double defaultXLeft = screenLimitsMin.getX();
     double defaultXRight = screenLimitsMax.getX();
     double defaultYBot = screenLimitsMax.getY();
