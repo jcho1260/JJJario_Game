@@ -32,6 +32,7 @@ public class Controller {
   private Timeline animation;
   private String activeProfile;
   private ScoreListener highscoreListener;
+  private int currentLevel;
 
   public Controller(Vector frameSize, double frameRate) {
     collisionsParser = new CollisionsParser();
@@ -46,12 +47,18 @@ public class Controller {
     this.gameView = gameView;
   }
 
-  public void startLevel(String levelName) {
+  public void startLevel(int n) {
+
+    currentLevel = n;
+
     String gameName = gameView.getGameName();
-    File collisionsFile = new File("data/" + gameName + "/collisions.xml");
-    File levelFile = new File("data/" + gameName + "/level.xml");
+    File levelNameFile = new File("data/" + gameName + "/LevelNames.xml");
 
     try {
+      LevelNameParser levelNameParser = new LevelNameParser(levelNameFile);
+      File collisionsFile = new File("data/" + gameName + "/collisions.xml");
+      File levelFile = new File("data/" + gameName + "/" + levelNameParser.getLevelName(n) + ".xml");
+
       Map<String, Map<String, List<MethodBundle>>> collisions = collisionsParser.parseCollisions(collisionsFile);
 
       gameWorldFactory = new LevelParser(levelFile);
@@ -74,6 +81,15 @@ public class Controller {
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
     animation.play();
+  }
+
+  public void nextLevel() {
+    currentLevel++;
+    startLevel(currentLevel);
+  }
+
+  public void restartLevel() {
+    startLevel(currentLevel);
   }
 
   public KeyListener getKeyListener() {
@@ -113,6 +129,12 @@ public class Controller {
       gameView.gameOver();
       return;
     }
+
+    if (gameWorld.didPlayerWin()) {
+      gameView.gameWin();
+      return;
+    }
+
     try {
       gameWorld.stepFrame(keyListener.getCurrentKey());
       gameView.propertyChange(new PropertyChangeEvent(this, "changeScore", null, (int) highscoreListener.getScore()));

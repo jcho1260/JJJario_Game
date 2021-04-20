@@ -60,8 +60,8 @@
     <Entity>
       <Name>Bird</Name>
       <Location>
-        <x>200</x>
-        <y>500</y>
+        <x>100</x>
+        <y>450</y>
       </Location>
       <Velocity>
         <x>0</x>
@@ -91,30 +91,30 @@
     <Entity>
       <Name>CeilingPipe</Name>
       <Location>
-        <x>600</x>
+        <x>750</x>
         <y>100</y>
       </Location>
     </Entity>
     <Entity>
       <Name>FloorPipe</Name>
       <Location>
-        <x>600</x>
-        <y>950</y>
+        <x>750</x>
+        <y>900</y>
       </Location>
     </Entity>
 
     <Entity>
       <Name>CeilingPipe</Name>
       <Location>
-        <x>800</x>
+        <x>1100</x>
         <y>50</y>
       </Location>
     </Entity>
     <Entity>
       <Name>FloorPipe</Name>
       <Location>
-        <x>800</x>
-        <y>950</y>
+        <x>1100</x>
+        <y>850</y>
       </Location>
     </Entity>
   </Layout>

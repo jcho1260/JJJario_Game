@@ -55,6 +55,7 @@ public class GameView implements PropertyChangeListener {
   }
 
   public void displayMenu() {
+    currScene = menuScene;
     stage.setScene(menuScene);
     stage.show();
   }
