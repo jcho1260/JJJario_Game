@@ -6,7 +6,7 @@
       <Text>Level 1</Text>
       <Event method="setOnAction">
         <Type>startLevel</Type>
-        <Level>Level1</Level>
+        <Level>1</Level>
       </Event>
     </Button>
   </VBox>

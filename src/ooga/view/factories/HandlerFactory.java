@@ -29,10 +29,10 @@ public class HandlerFactory {
   }
 
   public EventHandler<ActionEvent> makeActionEventHandler(Node component, Element e) {
-    String actionType = e.getElementsByTagName("Type").item(0).getTextContent();
+    String eventType = e.getElementsByTagName("Type").item(0).getTextContent();
     return event -> {
       try {
-        Method m = HandlerFactory.class.getDeclaredMethod(actionType, Node.class, Element.class);
+        Method m = HandlerFactory.class.getDeclaredMethod(eventType, Node.class, Element.class);
         m.invoke(this, component, e);
       } catch (Exception exception) {
         exception.printStackTrace();
@@ -41,7 +41,15 @@ public class HandlerFactory {
   }
 
   public EventHandler<KeyEvent> makeKeyEventHandler(Node component, Element e) {
-    return event -> profileLogin(component, e, event);
+    String eventType = e.getElementsByTagName("Type").item(0).getTextContent();
+    return event -> {
+      try {
+        Method m = HandlerFactory.class.getDeclaredMethod(eventType, Node.class, Element.class, KeyEvent.class);
+        m.invoke(this, component, e, event);
+      } catch (Exception exception) {
+        exception.printStackTrace();
+      }
+    };
   }
 
   private void launchGame(Node component, Element e) {
@@ -56,8 +64,20 @@ public class HandlerFactory {
   }
 
   private void startLevel(Node component, Element e) {
-    String levelName = e.getElementsByTagName("Level").item(0).getTextContent();
-    controller.startLevel(levelName);
+    int levelName = Integer.parseInt(e.getElementsByTagName("Level").item(0).getTextContent());
+    controller.startLevel(levelName-1);
+  }
+
+  private void goToMenu(Node component, Element e) {
+    controller.displayMenu();
+  }
+
+  private void restartLevel(Node component, Element e) {
+    controller.restartLevel();
+  }
+
+  private void nextLevel(Node component, Element e) {
+    controller.nextLevel();
   }
 
   private void changeStack(Node component, Element e) {

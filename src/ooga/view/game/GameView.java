@@ -23,6 +23,7 @@ public class GameView implements PropertyChangeListener {
   private final KeyListener kl;
   private final SceneFactory sf;
   private final String colorTheme;
+  private Scene menuScene;
   private Scene currScene;
 
   public GameView(String gameName, Stage stage, KeyListener kl, Controller controller,
@@ -38,16 +39,22 @@ public class GameView implements PropertyChangeListener {
 
   public void start(String filePath) {
     try {
-      currScene = sf.make(filePath);
-      currScene.setOnKeyPressed(makeKeyAction());
-      currScene.setOnKeyReleased(makeKeyAction());
-      currScene.getStylesheets().add(colorTheme);
+      menuScene = sf.make(filePath);
+      menuScene.setOnKeyPressed(makeKeyAction());
+      menuScene.setOnKeyReleased(makeKeyAction());
+      menuScene.getStylesheets().add(colorTheme);
       stage.setTitle(gameName);
-      stage.setScene(currScene);
+      stage.setScene(menuScene);
+      currScene = menuScene;
       stage.show();
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  public void displayMenu() {
+    stage.setScene(menuScene);
+    stage.show();
   }
 
   public void initializeLevel(double w, double h, String imagePath) {
@@ -56,14 +63,14 @@ public class GameView implements PropertyChangeListener {
     Scene newScene = new Scene(g, w, h);
     newScene.setOnKeyPressed(makeKeyAction());
     newScene.setOnKeyReleased(makeKeyAction());
-    ImageView bi = new ImageView(
+    ImageView background = new ImageView(
         new Image(Objects.requireNonNull(
             getClass().getClassLoader().getResourceAsStream(imagePath))));
-    bi.setX(0);
-    bi.setY(0);
-    bi.setPreserveRatio(true);
-    bi.setFitHeight(h);
-    g.getChildren().add(bi);
+    background.setX(0);
+    background.setY(0);
+    background.setPreserveRatio(true);
+    background.setFitHeight(h);
+    g.getChildren().add(background);
     newScene.getStylesheets().addAll(currScene.getStylesheets());
     currScene = newScene;
   }
@@ -91,7 +98,19 @@ public class GameView implements PropertyChangeListener {
 
   public void gameOver() {
     try {
-      Scene newScene = sf.make("resources/view_resources/game/GameOver.XML");
+      Scene newScene = sf.make("resources/view_resources/game/GameLost.XML");
+      newScene.getStylesheets().addAll(currScene.getStylesheets());
+      currScene = newScene;
+      stage.setScene(currScene);
+      stage.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void gameWin() {
+    try {
+      Scene newScene = sf.make("resources/view_resources/game/GameWon.XML");
       newScene.getStylesheets().addAll(currScene.getStylesheets());
       currScene = newScene;
       stage.setScene(currScene);

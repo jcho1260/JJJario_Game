@@ -142,4 +142,8 @@ public class Controller {
       gameView.propertyChange(new PropertyChangeEvent(this, "addSprite", null, s));
     }
   }
+
+  public void displayMenu() {
+    gameView.displayMenu();
+  }
 }
