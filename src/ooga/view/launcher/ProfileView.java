@@ -80,8 +80,9 @@ public class ProfileView {
 
   private void makeHighScores(String game, String level, Integer score) {
     System.out.println(game);
+
     ((Pane) ((ScrollPane) currMenu.lookup("#HighScoreScrollPane")).getContent()
-        .lookup("#JJJarioHighScores")).getChildren().add(new Text(level + ": " + score));
+        .lookup("#JJJarioHighScores")).getChildren().add(new Text(level.replaceAll( "([A-Za-z])(\\d)", "$1 $2" ) + ": " + score));
   }
 
   private void makeTextFieldInput(String type, String prompt) {

@@ -145,21 +145,17 @@ public class Controller {
       handleHighscore(finalScore);
       endGame();
       gameView.gameOver();
-      return;
-    }
-
-    if (gameWorld.didPlayerWin()) {
-      gameView.gameWin();
+    } else if (gameWorld.didPlayerWin()) {
       handleHighscore(finalScore);
       endGame();
-      return;
-    }
-
-    try {
-      gameWorld.stepFrame(keyListener.getCurrentKey());
-      gameView.propertyChange(new PropertyChangeEvent(this, "changeScore", null, (int) highscoreListener.getScore()));
-    } catch (Exception e){
-      e.printStackTrace();
+      gameView.gameWin();
+    } else {
+      try {
+        gameWorld.stepFrame(keyListener.getCurrentKey());
+        gameView.propertyChange(new PropertyChangeEvent(this, "changeScore", null, (int) highscoreListener.getScore()));
+      } catch (Exception e){
+        e.printStackTrace();
+      }
     }
   }
 
