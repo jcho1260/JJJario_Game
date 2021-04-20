@@ -9,13 +9,13 @@
       <Ratio>true</Ratio>
       <Width>200</Width>
     </ImageView>
-    <Button id="GORLButton" type="Leaf">
+    <Button id="GWNLButton" type="Leaf">
       <Text>Next Level?</Text>
       <Event method="setOnAction">
         <Type>nextLevel</Type>
       </Event>
     </Button>
-    <Button id="GOMButton" type="Leaf">
+    <Button id="GWMButton" type="Leaf">
       <Text>Game Menu</Text>
       <Event method="setOnAction">
         <Type>goToMenu</Type>

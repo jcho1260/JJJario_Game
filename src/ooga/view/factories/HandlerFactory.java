@@ -145,4 +145,8 @@ public class HandlerFactory {
     component.getScene().getStylesheets().clear();
     component.getScene().getStylesheets().add(rb.getString(value.toUpperCase()));
   }
+
+  private void saveGame(Node component, Element e) {
+
+  }
 }

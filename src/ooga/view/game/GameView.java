@@ -19,6 +19,7 @@ import ooga.view.factories.SceneFactory;
 
 public class GameView implements PropertyChangeListener {
 
+  private final Controller controller;
   private final Stage stage;
   private final String gameName;
   private final KeyListener kl;
@@ -26,10 +27,12 @@ public class GameView implements PropertyChangeListener {
   private final String colorTheme;
   private Scene menuScene;
   private Scene currScene;
+  private Scene cachedScene;
   private boolean inGameMenu = false;
 
   public GameView(String gameName, Stage stage, KeyListener kl, Controller controller,
       String colorTheme) {
+    this.controller = controller;
     this.colorTheme = colorTheme;
     this.stage = stage;
     this.gameName = gameName;
@@ -149,7 +152,24 @@ public class GameView implements PropertyChangeListener {
 
   private void toggleGameMenu() {
     if (inGameMenu) {
-
+      currScene = cachedScene;
+      stage.setScene(currScene);
+      stage.show();
+      controller.togglePause();
+      inGameMenu = false;
+    } else {
+      controller.togglePause();
+      cachedScene = currScene;
+      try {
+        Scene newScene = sf.make("resources/view_resources/game/InternalMenu.XML");
+        newScene.getStylesheets().addAll(currScene.getStylesheets());
+        currScene = newScene;
+        inGameMenu = true;
+        stage.setScene(currScene);
+        stage.show();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
   }
 }
