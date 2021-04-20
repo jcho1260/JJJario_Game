@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 import java.util.HashMap;
+import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -92,6 +93,15 @@ public class Controller {
     startLevel(currentLevel);
   }
 
+  public void togglePaused() {
+    Status status = animation.getStatus();
+    if (status == Status.PAUSED) {
+      animation.play();
+    } else {
+      animation.pause();
+    }
+  }
+
   public KeyListener getKeyListener() {
     return keyListener;
   }
@@ -132,6 +142,7 @@ public class Controller {
 
     if (gameWorld.didPlayerWin()) {
       gameView.gameWin();
+      endGame();
       return;
     }
 
