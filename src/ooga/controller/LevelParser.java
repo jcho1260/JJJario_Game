@@ -82,7 +82,7 @@ public class LevelParser {
     int jumpLimit = (int) getNumberAttribute(entity, "ContinuousJumpLimit");
     boolean vis = getVisibility(entity);
     // 2 is the cooldown
-    return new Player(info.tags, pos, id, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit, 2, vis);
+    return new Player(info.tags, pos, id, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit, 2, vis, 1);
 
   }
 
