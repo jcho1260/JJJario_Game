@@ -19,7 +19,7 @@ public class Destroyable extends GameObject{
    */
   public Destroyable(List<String> entityTypes, Vector position, int id, Vector size, int startLife,
       int startHealth, int points, boolean vis) {
-    super(entityTypes, position, id, size, true);
+    super(entityTypes, position, id, size, vis);
     collisionQueue = new LinkedList<>();
     collisionHandler = new DestroyableCollisionHandling();
     health = new Health(startHealth, startLife);

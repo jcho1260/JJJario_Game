@@ -22,9 +22,9 @@ public class MovingDestroyable extends Destroyable {
    * @param vis
    */
   public MovingDestroyable(List<String> entityTypes, Vector initialPosition, int id, Vector size,
-      int startLife, int startHealth, Vector initialVelocity, Vector finalPosition,
+      int startLife, int startHealth, int points, Vector initialVelocity, Vector finalPosition,
       double gravityScale, boolean vis) {
-    super(entityTypes, initialPosition, id, size, startLife, startHealth, 5, vis);
+    super(entityTypes, initialPosition, id, size, startLife, startHealth, points, vis);
     autoMove = new AutomatedMovement(initialPosition, finalPosition, initialVelocity, gravityScale);
   }
 

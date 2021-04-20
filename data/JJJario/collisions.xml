@@ -47,6 +47,14 @@
       </Method>
     </GameObject>
     <GameObject>
+      <Name>PowerUpBlock-DOWN</Name>
+      <Method>
+        <Name>generalBottomCollision</Name>
+        <Args>
+        </Args>
+      </Method>
+    </GameObject>
+    <GameObject>
       <Name>PowerUpBlock-UP</Name>
       <Method>
         <Name>scaleVelocity</Name>

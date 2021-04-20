@@ -66,7 +66,10 @@ public class LevelParser {
       };
     }
 
-    return new GameWorld(player, collisions, gameObjects, actors, frameSize, 3, getGlobalGravity(doc), frameRate, new Vector(0,200), new Vector(2000, 1000));
+    Vector screenMin = getScreenLim(doc, "ScreenLimitsMin");
+    Vector screenMax = getScreenLim(doc, "ScreenLimitsMax");
+
+    return new GameWorld(player, collisions, gameObjects, actors, frameSize, 3, getGlobalGravity(doc), frameRate, screenMin, screenMax);
   }
 
   private Player createPlayer(Element entity, GameObjectInfo info, int id, Document doc)
@@ -90,7 +93,8 @@ public class LevelParser {
     int startHealth = (int) getNumberAttribute(entity, "StartHealth");
     Vector finalPos = getVectorAttribute(entity, "FinalLocation");
     boolean vis = getVisibility(entity);
-    return new MovingDestroyable(info.tags, pos, id, info.size, startLife, startHealth, vel, finalPos, info.gravity, vis);
+    int score = (int) getNumberAttribute(entity, "Score");
+    return new MovingDestroyable(info.tags, pos, id, info.size, startLife, startHealth, score, vel, finalPos, info.gravity, vis);
   }
 
   private Destroyable createDestroyable(Element entity, GameObjectInfo info, int id) {
@@ -159,6 +163,11 @@ public class LevelParser {
   private Vector getDrivingVelocity(Document doc) {
     Element root = (Element) doc.getElementsByTagName("Level").item(0);
     return getVectorAttribute(root, "DrivingVelocity");
+  }
+
+  private Vector getScreenLim(Document doc, String name) {
+    Element root = (Element) doc.getElementsByTagName("Level").item(0);
+    return getVectorAttribute(root, name);
   }
 
   public String getBackground(File file) {

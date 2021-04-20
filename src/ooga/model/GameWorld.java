@@ -225,6 +225,7 @@ public class GameWorld extends Observable implements Serializable {
       rightX = defaultXLeft + windowSize.getX();
     }
     if (rightX >= defaultXRight) {
+      System.out.println("adjust right");
       leftX = defaultXRight - windowSize.getX();
       rightX = defaultXRight;
     }
