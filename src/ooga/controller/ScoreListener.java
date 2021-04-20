@@ -11,6 +11,10 @@ public class ScoreListener implements PropertyChangeListener {
         return score;
     }
 
+    public void reset() {
+        score = 0;
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("score")) {

@@ -24,6 +24,7 @@ import java.util.Map;
 public class Controller {
 
   private LevelParser gameWorldFactory;
+  private LevelNameParser levelNameParser;
   private final CollisionsParser collisionsParser;
   private GameWorld gameWorld;
   private final Vector frameSize;
@@ -32,7 +33,7 @@ public class Controller {
   private KeyListener keyListener;
   private Timeline animation;
   private String activeProfile;
-  private ScoreListener highscoreListener;
+  private final ScoreListener highscoreListener;
   private int currentLevel;
   private int totalLevels;
 
@@ -57,7 +58,7 @@ public class Controller {
     File levelNameFile = new File("data/" + gameName + "/LevelNames.xml");
 
     try {
-      LevelNameParser levelNameParser = new LevelNameParser(levelNameFile);
+      levelNameParser = new LevelNameParser(levelNameFile);
       totalLevels = levelNameParser.numLevels();
       File collisionsFile = new File("data/" + gameName + "/collisions.xml");
       File levelFile = new File("data/" + gameName + "/" + levelNameParser.getLevelName(n) + ".xml");
@@ -69,9 +70,9 @@ public class Controller {
       gameWorld.addListener(highscoreListener);
 
       String background = gameWorldFactory.getBackground(levelFile);
-      System.out.println(background);
       gameView.initializeLevel(frameSize.getX(), frameSize.getY(), background);
-      gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, (int) highscoreListener.getScore()));
+      highscoreListener.reset();
+      gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, 0));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -169,8 +170,9 @@ public class Controller {
     profile.getHighScores().computeIfAbsent(gameView.getGameName(), k -> new HashMap<>());
     Map<String, Integer> scores = profile.getHighScores().get(gameView.getGameName());
 
-    if (scores.get("level1") == null || scores.get("level1") < score) {
-      scores.put("level1", (int) score);
+    String levelName = levelNameParser.getLevelName(currentLevel);
+    if (scores.get(levelName) == null || scores.get(levelName) < score) {
+      scores.put(levelName, (int) score);
       profile.propertyChange(new PropertyChangeEvent(profile, "mapUpdated", null, null));
     }
   }
