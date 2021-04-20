@@ -19,15 +19,15 @@ public class Player extends Destroyable {
   private final UserInputActions userActions;
   private Class<?> userInputActions;
   private int lives;
-  private final int invincibiilityLimit;
-  private int frameCount = 0;
+  private final double invincibilityLimit;
+  private double frameCount = 0;
 
   /**
    * Default constructor for Player.
    */
   public Player(List<String> entityTypes, Vector initialPosition, int id, Vector objSize,
       int startLife, int startHealth, double jumpTime, Vector velocityMagnitude, double gravity,
-      Vector drivingVelocity, int continuousJumpLimit, double shootingCooldown, boolean vis, int
+      Vector drivingVelocity, int continuousJumpLimit, double shootingCooldown, boolean vis, double
       invincibiility)
       throws ClassNotFoundException {
     super(entityTypes, initialPosition, id, objSize, startLife, startHealth, 0, vis);
@@ -35,7 +35,7 @@ public class Player extends Destroyable {
         continuousJumpLimit, shootingCooldown);
     userInputActions = Class.forName("ooga.model.gameobjectcomposites.UserInputActions");
     lives = startLife;
-    invincibiilityLimit = invincibiility;
+    invincibilityLimit = invincibiility;
   }
 
   /**
@@ -120,14 +120,14 @@ public class Player extends Destroyable {
     int prevLives = getLives();
 
     if (canBeHurt(increment)) {
+      int j = 0;
+      frameCount = 0;
       super.incrementHealth(increment);
 //    notifyListeners("playerHealth", prevHealth, getHealth());
 
       if (getHealth() != prevLives) {
 //      notifyListeners("playerLives", prevLives, getLives());
       }
-    } else {
-      frameCount = 0;
     }
   }
 
@@ -147,7 +147,7 @@ public class Player extends Destroyable {
   }
 
   private boolean canBeHurt(double value) {
-    return value < 0 && frameCount > invincibiilityLimit;
+    return value < 0 && frameCount > invincibilityLimit;
   }
 
   /**
@@ -170,8 +170,16 @@ public class Player extends Destroyable {
     return new ArrayList<>(activePowerUps);
   }
 
-  private void scaleSize(Double scaleFactor) {
+  /**
+   * scales the size the player
+   * @param scaleFactor factor to scale by
+   */
+  public void scaleSize(Double scaleFactor) {
     getRect().scaleSize(scaleFactor);
+    notifyListeners("changeX", null, getPredictedPosition().getX());
+    notifyListeners("changeY", null, getPredictedPosition().getY());
+    notifyListeners("changeWidth", null, getSize().getX());
+    notifyListeners("changeHeight", null, getSize().getX());
   }
 
   private void incrementScore(Double increment) { score += increment; }
