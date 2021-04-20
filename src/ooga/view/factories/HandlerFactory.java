@@ -147,6 +147,10 @@ public class HandlerFactory {
   }
 
   private void saveGame(Node component, Element e) {
+    controller.saveGame();
+  }
 
+  private void loadGame(Node component, Element e) {
+    controller.loadGame("Level1", "04-19-2021_23_06_41");
   }
 }

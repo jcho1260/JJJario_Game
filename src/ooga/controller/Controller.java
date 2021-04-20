@@ -98,15 +98,15 @@ public class Controller {
   }
 
   public void saveGame() {
-    String pattern = "MM-dd-yyyy_HH:mm:ss";
+    String pattern = "MM-dd-yyyy_HH_mm_ss";
     DateFormat df = new SimpleDateFormat(pattern);
     String dateString = df.format(new Date());
 
     gameSaver.saveGame(gameView.getGameName(), levelNameParser.getLevelName(currentLevel), dateString, gameWorld);
   }
 
-  public void loadGame(String game, String level, String dateString) {
-    gameWorld = gameSaver.loadGame(game, level, dateString);
+  public void loadGame(String level, String dateString) {
+    gameWorld = gameSaver.loadGame(gameView.getGameName(), level, dateString);
   }
 
   public String[] getSaves(String game, String level) {

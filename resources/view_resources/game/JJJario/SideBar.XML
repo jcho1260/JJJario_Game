@@ -9,6 +9,12 @@
     <Width>300</Width>
     <Height>260</Height>
   </ImageView>
+  <Button id="LoadLevelButton" type="Leaf">
+    <Text>Load Level</Text>
+    <Event method="setOnAction">
+      <Type>loadGame</Type>
+    </Event>
+  </Button>
   <Button id="JJJarioLevelsButton" type="Leaf">
     <Text>Levels</Text>
     <!--<Action>TODO</Action>-->
