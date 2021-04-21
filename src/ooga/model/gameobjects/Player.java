@@ -72,7 +72,7 @@ public class Player extends Destroyable {
    * Produces a new destroyable and send a listener to the front end for it to be displayed
    */
   public void produceSingleDestroyable() {
-    // notify controller to create new destroyable
+    notifyListeners("newMovingDestroyable", null, getPosition());
   }
 
   /**
