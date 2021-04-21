@@ -108,8 +108,8 @@ public class Controller {
     gameSaver.saveGame(gameView.getGameName(), levelNameParser.getLevelName(currentLevel), dateString, gameWorld);
   }
 
-  public void loadGame(String level, String dateString) {
-    gameWorld = gameSaver.loadGame(gameView.getGameName(), level, dateString);
+  public void loadGame(String game, String level, String dateString) {
+    gameWorld = gameSaver.loadGame(game, level, dateString);
     start();
   }
 
@@ -119,7 +119,7 @@ public class Controller {
     for (int i = 0; i < numLevels; i++) {
       String level =  levelNameParser.getLevelName(i);
       File folder = new File("data/saves/" + game + "/" + level);
-      levels.addAll(Arrays.stream(folder.listFiles()).map(File::getName).collect(Collectors.toList()));
+      levels.addAll(Arrays.stream(folder.listFiles()).map(file -> level+ "/" + file.getName()).collect(Collectors.toList()));
     }
     return levels.toArray(String[]::new);
   }
