@@ -151,10 +151,12 @@ public class HandlerFactory {
   }
 
   private void loadLibrary(Node component, Element e) {
-
+    String[] saves = controller.getSaves(e.getElementsByTagName("Game").item(0).getTextContent());
+    changeStack(component, e);
   }
 
   private void loadGame(Node component, Element e) {
-    controller.loadGame("Level1", "04-19-2021_23_06_41");
+    String[] decoded = component.getId().split("_");
+    controller.loadGame(decoded[0], decoded[1], decoded[2]);
   }
 }

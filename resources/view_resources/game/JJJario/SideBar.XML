@@ -9,15 +9,19 @@
     <Width>300</Width>
     <Height>260</Height>
   </ImageView>
-  <Button id="LoadLevelButton" type="Leaf">
-    <Text>Load Level</Text>
+  <Button id="LoadLibraryButton" type="Leaf">
+    <Text>Load Library</Text>
     <Event method="setOnAction">
-      <Type>loadGame</Type>
+      <Type>loadLibrary</Type>
       <Game>JJJario</Game>
+      <FilePath>resources/view_resources/game/JJJario/LoadLibrary.XML</FilePath>
+      <Button id="TemplateButton" type="Leaf">
+        <Text>TEMPLATE</Text>
+      </Button>
     </Event>
   </Button>
   <Button id="JJJarioLevelsButton" type="Leaf">
-    <Text>Levels</Text>
+    <Text>Level Library</Text>
     <!--<Action>TODO</Action>-->
   </Button>
 </VBox>
