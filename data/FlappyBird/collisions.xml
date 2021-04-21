@@ -35,6 +35,9 @@
         <Args></Args>
       </Method>
     </GameObject>
+    <GameObject>
+      <Name>EdgeBlock</Name>
+    </GameObject>
   </Actor>
   <Actor>
     <Name>ScoreBlock</Name>

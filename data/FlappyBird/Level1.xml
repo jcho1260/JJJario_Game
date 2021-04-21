@@ -77,8 +77,21 @@
       <Type>GameObject</Type>
       <Gravity>0</Gravity>
       <Size>
-        <x>100</x>
-        <y>500</y>
+        <x>1</x>
+        <y>750</y>
+      </Size>
+    </GameObject>
+    <GameObject>
+      <Name>EdgeBlock</Name>
+      <Tags>
+        <Tag>GameObject</Tag>
+        <Tag>EdgeBlock</Tag>
+      </Tags>
+      <Type>GameObject</Type>
+      <Gravity>0</Gravity>
+      <Size>
+        <x>1</x>
+        <y>750</y>
       </Size>
     </GameObject>
   </GameObjects>
@@ -179,13 +192,6 @@
       <StartHealth>1</StartHealth>
       <Visible>false</Visible>
     </Entity>
-
-    <Entity>
-      <Name>WinningBlock</Name>
-      <Location>
-        <x>1300</x>
-        <y>250</y>
-      </Location>
-    </Entity>
+    
   </Layout>
 </Level>
