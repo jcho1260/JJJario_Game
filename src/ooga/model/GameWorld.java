@@ -40,6 +40,7 @@ public class GameWorld extends Observable implements Serializable {
   private Vector[] frameCoords;
   private Vector screenLimitsMin;
   private Vector screenLimitsMax;
+  private Vector playerViewCoord;
   private boolean playerWin;
 
   private PropertyChangeListener playerListener;
@@ -73,6 +74,9 @@ public class GameWorld extends Observable implements Serializable {
     allActiveDestroyables = findActiveObjects(allDestroyables);
     worldCollisionHandling = new WorldCollisionHandling(collisionMethods, gameObjects, actors, player);
     windowSize = frameSize;
+    double playerViewX = frameSize.getX() * playerXLoc;
+    double playerViewY = frameSize.getY() * playerYLoc;
+    playerViewCoord = new Vector(playerViewX, playerViewY);
     runtimeCreations = new ArrayList<>();
   }
 
@@ -159,19 +163,21 @@ public class GameWorld extends Observable implements Serializable {
     worldCollisionHandling.updateActiveGameObjects(allActiveGameObjects, allActiveDestroyables);
   }
 
+  // TODO: refactor out isActive from GameObject and calculate active status here DO THIS !!!!!
   private List<GameObject> findActiveObjects(List<GameObject> allObjects) {
-    Vector topL = frameCoords[0];
-    Vector botR = frameCoords[3];
+    Vector frameTopL = frameCoords[0];
+    Vector frameBotR = frameCoords[3];
     List<GameObject> ret = new ArrayList<>();
     player.setActive(player.isAlive());
     for (GameObject o : allObjects) {
-      boolean isActive = checkGameObjectActive(o, topL, botR);
-      if(isActive) { ret.add(o); }
+      boolean isActive = checkActiveState(o, frameTopL, frameBotR);
+      o.setActive(isActive);
+      if(isActive) {ret.add(o);}
     }
     return ret;
   }
 
-  private boolean checkGameObjectActive(GameObject o, Vector frameTopL, Vector frameBotR) {
+  private boolean checkActiveState(GameObject o, Vector frameTopL, Vector frameBotR) {
     Vector oTopL = o.getPosition();
     Vector oTopR = o.getPosition().add(new Vector(o.getSize().getX(), 0));
     Vector oBotL = o.getPosition().add(new Vector(0,o.getSize().getY()));
@@ -182,9 +188,11 @@ public class GameWorld extends Observable implements Serializable {
 
   private void removeDeadActors(List<Integer> deadActors) {
     getScoreDead(deadActors);
-    allGameObjects = removeDeadFromList(allGameObjects, deadActors);
-    allDestroyables = removeDeadFromList(allDestroyables, deadActors);
-    allBricks = removeDeadFromList(allBricks, deadActors);
+
+    allGameObjects = removeIndicesFromList(allGameObjects, deadActors);
+    allDestroyables = removeIndicesFromList(allDestroyables, deadActors);
+    allBricks = removeIndicesFromList(allBricks, deadActors);
+
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allActiveDestroyables = findActiveObjects(allDestroyables);
     worldCollisionHandling.updateActiveGameObjects(allActiveGameObjects, allActiveDestroyables);
@@ -198,7 +206,7 @@ public class GameWorld extends Observable implements Serializable {
     }
   }
 
-  private List<GameObject> removeDeadFromList(List<GameObject> objects, List<Integer> deadActors) {
+  private List<GameObject> removeIndicesFromList(List<GameObject> objects, List<Integer> deadActors) {
     for(int j = objects.size() - 1; j >= 0; j--) {
       if (deadActors.contains(objects.get(j).getId())) {
         objects.remove(j);
@@ -231,6 +239,7 @@ public class GameWorld extends Observable implements Serializable {
       rightX = defaultXLeft + windowSize.getX();
     }
     if (rightX >= defaultXRight) {
+      System.out.println("adjust right");
       leftX = defaultXRight - windowSize.getX();
       rightX = defaultXRight;
     }
