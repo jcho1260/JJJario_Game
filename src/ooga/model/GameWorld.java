@@ -62,7 +62,7 @@ public class GameWorld extends Observable implements Serializable {
     gravity = levelGravity;
     stepTime = 1.0/frameRate;
     score = 0;
-    playerWin = false;
+//    playerWin = false;
     screenLimitsMin = minScreenLimit;
     screenLimitsMax = maxScreenLimit;
     frameCoords = new Vector[4];
@@ -142,9 +142,9 @@ public class GameWorld extends Observable implements Serializable {
         player.getPosition().getY() <= screenLimitsMin.getY()) {
       player.kill();
     }
-    if (player.getPosition().getX() + player.getSize().getX() >= screenLimitsMax.getX()) {
-      playerWin = true;
-    }
+//    if (player.getPosition().getX() + player.getSize().getX() >= screenLimitsMax.getX()) {
+//      playerWin = true;
+//    }
   }
 
   public void queueNewMovingDestroyable(List<MovingDestroyable> newMovingDestroyables) {
@@ -163,7 +163,6 @@ public class GameWorld extends Observable implements Serializable {
     worldCollisionHandling.updateActiveGameObjects(allActiveGameObjects, allActiveDestroyables);
   }
 
-  // TODO: refactor out isActive from GameObject and calculate active status here DO THIS !!!!!
   private List<GameObject> findActiveObjects(List<GameObject> allObjects) {
     Vector frameTopL = frameCoords[0];
     Vector frameBotR = frameCoords[3];
@@ -283,7 +282,7 @@ public class GameWorld extends Observable implements Serializable {
   }
 
   public boolean didPlayerWin() {
-    return playerWin;
+    return player.getWinStatus();
   }
 
   /**

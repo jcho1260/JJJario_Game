@@ -117,6 +117,19 @@
         <y>100</y>
       </Size>
     </GameObject>
+    <GameObject>
+      <Name>WinningFlag</Name>
+      <Tags>
+        <Tag>GameObject</Tag>
+        <Tag>WinningFlag</Tag>
+      </Tags>
+      <Type>GameObject</Type>
+      <Gravity>1</Gravity>
+      <Size>
+        <x>100</x>
+        <y>300</y>
+      </Size>
+    </GameObject>
   </GameObjects>
 
   <Layout>
@@ -198,6 +211,14 @@
         <x>1300</x>
         <y>650</y>
       </FinalLocation>
+    </Entity>
+
+    <Entity>
+      <Name>WinningFlag</Name>
+      <Location>
+        <x>3400</x>
+        <y>400</y>
+      </Location>
     </Entity>
 
     <Entity>

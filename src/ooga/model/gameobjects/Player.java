@@ -21,6 +21,7 @@ public class Player extends Destroyable {
   private int lives;
   private final double invincibilityLimit;
   private double frameCount = 0;
+  private boolean win;
 
   /**
    * Default constructor for Player.
@@ -36,6 +37,7 @@ public class Player extends Destroyable {
     userInputActions = Class.forName("ooga.model.gameobjectcomposites.UserInputActions");
     lives = startLife;
     invincibilityLimit = invincibiility;
+    win = false;
   }
 
   /**
@@ -91,6 +93,17 @@ public class Player extends Destroyable {
    * @return
    */
   public Vector getVelocity() {return userActions.getVelocity();}
+
+  /**
+   * collision method called whenever the player hits the win checkpoint for that level
+   */
+  public void playerWinsLevel() {
+    win = true;
+  }
+
+  public boolean getWinStatus() {
+    return win;
+  }
 
   /**
    * Collision method for adding a new power up to the Player.
