@@ -117,7 +117,7 @@ public class WorldCollisionHandling implements Serializable {
   }
 
   /**
-   *
+   * executes all collision methods for every destroyable that is colliding with a game object. also checks if destroyable should die.
    */
   public List<Integer> executeAllCollisions()
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
@@ -132,24 +132,14 @@ public class WorldCollisionHandling implements Serializable {
     return toDelete;
   }
 
-//  /*
-//  TODO: DELETE THIS LATER THIS IS FOR TESTING
-//   */
-//  public void collidedActors() {
-//    StringBuilder
-//    for (Destroyable a : collisions) {
-//      for (String tag : a.getEntityType()) {
-//
-//      }
-//    }
-//  }
-
   private List<MethodBundle> handleTagHierarchy(List<String> destroyableTags, List<String> collidedTags)
       throws JjjanException {
     for (int d = destroyableTags.size() - 1; d >= 0; d--) {
       String dTag = destroyableTags.get(d);
+      System.out.println("DTAG: "+dTag);
       if (collisionMethods.containsKey(dTag)) {
         for (int c = collidedTags.size() - 1; c >= 0; c--) {
+          System.out.println("COLLIDED TAGS: "+collidedTags.get(c));
           Map<String, List<MethodBundle>> destroyableCollisionMap = collisionMethods.get(dTag);
           if (destroyableCollisionMap.containsKey(collidedTags.get(c))) {
             return destroyableCollisionMap.get(collidedTags.get(c));

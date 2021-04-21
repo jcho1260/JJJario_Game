@@ -21,13 +21,20 @@
     </GameObject>
   </Actor>
   <Actor>
-    <Name>ScoreBlock</Name>a
+    <Name>ScoreBlock</Name>
     <GameObject>
-      <Name>Player</Name>
+      <Name>MovingDestroyable</Name>
+      <Method>
+        <Name>printCollide</Name>
+        <Args></Args>
+      </Method>
+    </GameObject>
+    <GameObject>
+      <Name>GameObject</Name>
       <Method>
         <Name>incrementHealth</Name>
         <Args>
-          <Arg>-1</Arg>
+          <Arg>0</Arg>
         </Args>
       </Method>
     </GameObject>

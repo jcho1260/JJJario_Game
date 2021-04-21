@@ -10,8 +10,8 @@
     <y>250</y>
   </ScreenLimitsMin>
   <ScreenLimitsMax>
-    <x>2000</x>
-    <y>1200</y>
+    <x>1500</x>
+    <y>1000</y>
   </ScreenLimitsMax>
   <GameObjects>
     <GameObject>
@@ -58,17 +58,15 @@
       <Name>ScoreBlock</Name>
       <Tags>
         <Tag>GameObject</Tag>
-        <Tag>Destroyable</Tag>
+        <Tag>MovingDestroyable</Tag>
         <Tag>ScoreBlock</Tag>
       </Tags>
-      <Type>Destroyable</Type>
+      <Type>MovingDestroyable</Type>
       <Gravity>0</Gravity>
       <Size>
         <x>100</x>
-        <y>400</y>
+        <y>350</y>
       </Size>
-      <Score>1</Score>
-      <Visible>false</Visible>
     </GameObject>
   </GameObjects>
 
@@ -103,6 +101,16 @@
         <y>950</y>
       </Location>
     </Entity>
+    <Entity>
+      <Name>ScoreBlock</Name>
+      <Location>
+        <x>400</x>
+        <y>600</y>
+      </Location>
+      <Score>1</Score>
+      <Visible>false</Visible>
+    </Entity>
+
 
     <Entity>
       <Name>CeilingPipe</Name>

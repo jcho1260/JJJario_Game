@@ -117,6 +117,10 @@ public class Destroyable extends GameObject{
    */
   public double getScore() { return score; }
 
+  public void printCollide() {
+    System.out.print("collided with destroyable");
+  }
+
 
   public void kill() {
     health.kill();
