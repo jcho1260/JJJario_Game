@@ -32,7 +32,7 @@ public class Health implements Serializable {
    *
    * @param increment
    */
-  public void incrementLives(int increment) {
+  public void incrementLives(Double increment) {
     lives += increment;
   }
 

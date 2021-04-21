@@ -129,7 +129,7 @@ public class Player extends Destroyable {
    * @param increment
    */
   @Override
-  public void incrementLives(int increment) {
+  public void incrementLives(Double increment) {
     int prevLives = getLives();
 
     super.incrementLives(increment);

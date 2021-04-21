@@ -12,7 +12,7 @@ public class Destroyable extends GameObject{
   private Queue<MethodBundle> collisionQueue;
   private DestroyableCollisionHandling collisionHandler;
   private Health health;
-  protected int score; //TODO: need in player to increment score, but nonplayer destroyables also have a score
+  protected int score;
 
   /**
    * Default constructor with default lives, health values
@@ -50,10 +50,22 @@ public class Destroyable extends GameObject{
     return collisionHandler.determineCollisionMethods(this, o);
   }
 
+  /**
+   *
+   * @param myself
+   * @param o
+   * @return
+   */
   public Vector[] determineCollisionRect(GameObject myself, GameObject o) {
     return collisionHandler.determineCollisionRectangle(myself, o);
   }
 
+  /**
+   *
+   * @param myself
+   * @param collisionBox
+   * @return
+   */
   public Vector calculateCollisionDirection(GameObject myself, Vector[] collisionBox) {
     return collisionHandler.calculateCollisionDirection(myself, collisionBox);
   }
@@ -89,7 +101,7 @@ public class Destroyable extends GameObject{
    *
    * @param increment
    */
-  public void incrementLives(int increment) {
+  public void incrementLives(Double increment) {
     health.incrementLives(increment);
   }
 
@@ -117,15 +129,14 @@ public class Destroyable extends GameObject{
    */
   public double getScore() { return score; }
 
+  /**
+   *
+   */
   public void kill() {
     health.kill();
     if (!health.isAlive()) {
       notifyListeners("changeVisibility", true, false);
     }
-  }
-
-  private void onDeath() {
-    //TODO: implement
   }
 
 
