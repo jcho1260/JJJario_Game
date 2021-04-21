@@ -156,8 +156,16 @@ public class Player extends Destroyable {
     return new ArrayList<>(activePowerUps);
   }
 
-  private void scaleSize(Double scaleFactor) {
+  /**
+   * scales the size the player
+   * @param scaleFactor factor to scale by
+   */
+  public void scaleSize(Double scaleFactor) {
     getRect().scaleSize(scaleFactor);
+    notifyListeners("changeX", null, getPredictedPosition().getX());
+    notifyListeners("changeY", null, getPredictedPosition().getY());
+    notifyListeners("changeWidth", null, getSize().getX());
+    notifyListeners("changeHeight", null, getSize().getX());
   }
 
   private void incrementScore(Double increment) { score += increment; }

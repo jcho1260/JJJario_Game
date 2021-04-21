@@ -36,7 +36,6 @@ public class CollisionsParser {
         String objName = ((Element) gameObjects.item(j)).getElementsByTagName("Name").item(0).getTextContent();
         List<MethodBundle> methods = getMethods(gameObjects.item(j));
         collisions.get(name).put(objName, methods);
-        System.out.println("NAME: "+name+" METHOD: "+methods.get(0).getMethodName());
       }
     }
 

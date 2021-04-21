@@ -19,8 +19,8 @@ public class Rectangle implements Serializable {
   public Vector getSize() {return size.copy();}
 
   public void scaleSize(double scaleFactor) {
-    size.multiply(new Vector(scaleFactor, scaleFactor));
-    predictedPos.subtract(new Vector(0, size.getY() * (scaleFactor - 1)));
+    size = size.multiply(new Vector(scaleFactor, scaleFactor));
+    predictedPos = predictedPos.subtract(new Vector(0, size.getY() * (scaleFactor - 1)));
     // TODO add listeners probably
   }
 

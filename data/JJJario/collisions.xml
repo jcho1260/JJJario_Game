@@ -66,6 +66,18 @@
     </GameObject>
   </Actor>
   <Actor>
+    <Name>PowerUp</Name>
+    <GameObject>
+      <Name>Player</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+  </Actor>
+  <Actor>
     <Name>Enemy</Name>
     <GameObject>
       <Name>PowerUp</Name>

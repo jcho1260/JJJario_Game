@@ -62,7 +62,7 @@
       <Name>Mushroom</Name>
       <Tags>
         <Tag>GameObject</Tag>
-        <Tag>MovingDestroyable</Tag>
+        <Tag>Destroyable</Tag>
         <Tag>PowerUp</Tag>
         <Tag>Mushroom</Tag>
       </Tags>
@@ -132,6 +132,16 @@
       <JumpTime>0.75</JumpTime>
       <ContinuousJumpLimit>1</ContinuousJumpLimit>
       <StartHealth>1</StartHealth>
+    </Entity>
+    <Entity>
+      <Name>Mushroom</Name>
+      <Location>
+        <x>350</x>
+        <y>650</y>
+      </Location>
+      <StartHealth>1</StartHealth>
+      <StartLife>0</StartLife>
+      <Score>1</Score>
     </Entity>
     <Entity>
       <Name>Goomba</Name>
