@@ -7,9 +7,11 @@ import java.io.ObjectInputStream;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -111,9 +113,15 @@ public class Controller {
     start();
   }
 
-  public String[] getSaves(String game, String level) {
-    File folder = new File("data/saves/" + game + "/" + level);
-    return Arrays.stream(folder.listFiles()).map(File::getName).toArray(String[]::new);
+  public String[] getSaves(String game) {
+    List<String> levels = new ArrayList<>();
+    int numLevels = levelNameParser.numLevels();
+    for (int i = 0; i < numLevels; i++) {
+      String level =  levelNameParser.getLevelName(i);
+      File folder = new File("data/saves/" + game + "/" + level);
+      levels.addAll(Arrays.stream(folder.listFiles()).map(File::getName).collect(Collectors.toList()));
+    }
+    return levels.toArray(String[]::new);
   }
 
   public void nextLevel() {
