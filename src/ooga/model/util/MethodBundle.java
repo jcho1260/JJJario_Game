@@ -21,11 +21,9 @@ public class MethodBundle implements Serializable {
     }
     try {
       Method collisionResponse = destroyableClass.getMethod(methodName, paramTypes);
-      if(methodName.equals("incrementHealth")) {
-        System.out.println(methodName);
-      }
       return collisionResponse;
     } catch (Exception e){
+      System.out.println(methodName);
       throw new NoSuchMethodException("method doesn't exist sorry :(");
     }
   }

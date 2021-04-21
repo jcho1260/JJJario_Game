@@ -21,7 +21,7 @@ public class SaveLoadGameTest {
   public void init()
       throws IOException, SAXException, ParserConfigurationException, ClassNotFoundException {
     gameSaver = new GameSaver();
-    LevelParser levelParser = new LevelParser(new File("data/testgame/level.xml"));
+    LevelParser levelParser = new LevelParser(new File("data/testgame/Level1.xml"));
     gameWorld = levelParser.createGameWorld(null, new Vector(1000, 1000), 10);
   }
 

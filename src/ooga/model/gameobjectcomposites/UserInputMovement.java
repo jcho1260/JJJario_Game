@@ -14,6 +14,7 @@ public class UserInputMovement implements Serializable {
   private Vector stepVelocityMagnitude;
   private double gravityScale;
   private double jumpTimeCounter;
+  private double fallTimeCounter = 1;
   private boolean isJumping;
   private int continuousJumps;
   private final int continuousJumpLimit;
@@ -32,6 +33,7 @@ public class UserInputMovement implements Serializable {
     stepVelocityMagnitude = defaultVelocity;
     gravityScale = gravity;
     jumpTimeCounter = 0;
+    fallTimeCounter = 0;
     drivingVelocity = autoscrollVector;
     continuousJumpLimit = contJumpLimit;
   }
@@ -44,6 +46,7 @@ public class UserInputMovement implements Serializable {
     if (isJumping && jumpTimeCounter <= jumpTimeLimit) {
       return deltaPosition(elapsedTime, gameGravity, change.add(new Vector(0, -1)));
     } else {
+      fallTimeCounter++;
       return deltaPosition(elapsedTime, gameGravity, change);
     }
   }
@@ -55,7 +58,7 @@ public class UserInputMovement implements Serializable {
    * @param gameGravity
    * @return deltaPosiiton
    */
-  public Vector moveNONE(Double elapsedTime, Double gameGravity) {
+  public Vector none(Double elapsedTime, Double gameGravity) {
     return decideJumping(elapsedTime, gameGravity, new Vector(0, 0));
   }
 
@@ -67,9 +70,10 @@ public class UserInputMovement implements Serializable {
    * @param gameGravity
    * @return deltaPosition
    */
-  public Vector moveUP(Double elapsedTime, Double gameGravity) {
+  public Vector up(Double elapsedTime, Double gameGravity) {
     if (isJumping && continuousJumps <= continuousJumpLimit) {
       jumpTimeCounter = 0;
+      fallTimeCounter = 1;
       continuousJumps++;
     } else {
       if (!isJumping) {
@@ -77,7 +81,7 @@ public class UserInputMovement implements Serializable {
       }
     }
 
-    return moveNONE(elapsedTime, gameGravity);
+    return none(elapsedTime, gameGravity);
   }
 
   /**
@@ -87,7 +91,7 @@ public class UserInputMovement implements Serializable {
    * @param gameGravity
    * @return deltaPosition
    */
-  public Vector moveDOWN(Double elapsedTime, Double gameGravity) {
+  public Vector down(Double elapsedTime, Double gameGravity) {
     isJumping = false;
     return deltaPosition(elapsedTime, gameGravity, new Vector(0, 1));
   }
@@ -99,7 +103,7 @@ public class UserInputMovement implements Serializable {
    * @param gameGravity
    * @return deltaPosition
    */
-  public Vector moveRIGHT(Double elapsedTime, Double gameGravity) {
+  public Vector right(Double elapsedTime, Double gameGravity) {
     return decideJumping(elapsedTime, gameGravity, new Vector(1, 0));
   }
 
@@ -110,7 +114,7 @@ public class UserInputMovement implements Serializable {
    * @param gameGravity
    * @return deltaPosition
    */
-  public Vector moveLEFT(Double elapsedTime, Double gameGravity) {
+  public Vector left(Double elapsedTime, Double gameGravity) {
     return decideJumping(elapsedTime, gameGravity, new Vector(-1, 0));
   }
 
@@ -134,7 +138,7 @@ public class UserInputMovement implements Serializable {
 
   // TODO refactor duplicate code w/ automatedmovement
   private Vector deltaPosition(double elapsedTime, double gameGravity, Vector change) {
-    gravitySink = (1 + change.getY()) * elapsedTime * gameGravity * gravityScale;
+    gravitySink = (1 + change.getY()) * elapsedTime * gameGravity * gravityScale * fallTimeCounter;
 
     double newX = (elapsedTime * Math.abs(stepVelocityMagnitude.getX()) * change.getX())
         + (elapsedTime * drivingVelocity.getX());
@@ -149,6 +153,7 @@ public class UserInputMovement implements Serializable {
    */
   public void hitGround() {
     jumpTimeCounter = 0;
+    fallTimeCounter = 1;
     continuousJumps = 0;
     isJumping = false;
   }

@@ -1,17 +1,17 @@
 <Level>
-  <GlobalGravity>200</GlobalGravity>
+  <GlobalGravity>45</GlobalGravity>
   <BackgroundImage>view_resources/images/backgrounds/FlappyBird.png</BackgroundImage>
   <DrivingVelocity>
-    <x>50</x>
+    <x>100</x>
     <y>0</y>
   </DrivingVelocity>
   <ScreenLimitsMin>
     <x>0</x>
-    <y>0</y>
+    <y>250</y>
   </ScreenLimitsMin>
   <ScreenLimitsMax>
-    <x>2000</x>
-    <y>1200</y>
+    <x>1500</x>
+    <y>1000</y>
   </ScreenLimitsMax>
   <GameObjects>
     <GameObject>
@@ -54,6 +54,46 @@
         <y>600</y>
       </Size>
     </GameObject>
+    <GameObject>
+      <Name>ScoreBlock</Name>
+      <Tags>
+        <Tag>GameObject</Tag>
+        <Tag>MovingDestroyable</Tag>
+        <Tag>ScoreBlock</Tag>
+      </Tags>
+      <Type>MovingDestroyable</Type>
+      <Gravity>0</Gravity>
+      <Size>
+        <x>100</x>
+        <y>200</y>
+      </Size>
+    </GameObject>
+    <GameObject>
+      <Name>WinningBlock</Name>
+      <Tags>
+        <Tag>GameObject</Tag>
+        <Tag>WinningBlock</Tag>
+      </Tags>
+      <Type>GameObject</Type>
+      <Gravity>0</Gravity>
+      <Size>
+        <x>1</x>
+        <y>750</y>
+      </Size>
+    </GameObject>
+    <GameObject>
+      <Name>EdgeBlock</Name>
+      <Tags>
+        <Tag>GameObject</Tag>
+        <Tag>EdgeBlock</Tag>
+      </Tags>
+      <Type>GameObject</Type>
+      <Gravity>0</Gravity>
+      <Size>
+        <x>1</x>
+        <y>750</y>
+      </Size>
+    </GameObject>
   </GameObjects>
 
   <Layout>
@@ -84,9 +124,21 @@
       <Name>FloorPipe</Name>
       <Location>
         <x>400</x>
-        <y>950</y>
+        <y>800</y>
       </Location>
     </Entity>
+    <Entity>
+      <Name>ScoreBlock</Name>
+      <Location>
+        <x>400</x>
+        <y>600</y>
+      </Location>
+      <Score>1</Score>
+      <StartLife>0</StartLife>
+      <StartHealth>1</StartHealth>
+      <Visible>false</Visible>
+    </Entity>
+
 
     <Entity>
       <Name>CeilingPipe</Name>
@@ -102,6 +154,18 @@
         <y>900</y>
       </Location>
     </Entity>
+    <Entity>
+      <Name>ScoreBlock</Name>
+      <Location>
+        <x>750</x>
+        <y>700</y>
+      </Location>
+      <Score>1</Score>
+      <StartLife>0</StartLife>
+      <StartHealth>1</StartHealth>
+      <Visible>false</Visible>
+    </Entity>
+
 
     <Entity>
       <Name>CeilingPipe</Name>
@@ -117,5 +181,17 @@
         <y>850</y>
       </Location>
     </Entity>
+    <Entity>
+      <Name>ScoreBlock</Name>
+      <Location>
+        <x>1100</x>
+        <y>650</y>
+      </Location>
+      <Score>1</Score>
+      <StartLife>0</StartLife>
+      <StartHealth>1</StartHealth>
+      <Visible>false</Visible>
+    </Entity>
+    
   </Layout>
 </Level>

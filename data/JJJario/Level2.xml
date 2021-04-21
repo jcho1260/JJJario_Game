@@ -11,7 +11,7 @@
   </ScreenLimitsMin>
   <ScreenLimitsMax>
     <x>3000</x>
-    <y>1000</y>
+    <y>750</y>
   </ScreenLimitsMax>
   <GameObjects>
     <GameObject>
@@ -24,8 +24,8 @@
       <Type>Player</Type>
       <Gravity>1</Gravity>
       <Size>
-        <x>50</x>
-        <y>50</y>
+        <x>80</x>
+        <y>80</y>
       </Size>
     </GameObject>
     <GameObject>
@@ -74,6 +74,7 @@
         <x>50</x>
         <y>50</y>
       </Size>
+      <Score>2</Score>
     </GameObject>
     <GameObject>
       <Name>Coin</Name>
@@ -84,10 +85,10 @@
         <Tag>Coin</Tag>
       </Tags>
       <Type>MovingDestroyable</Type>
-      <Gravity>1</Gravity>
+      <Gravity>0</Gravity>
       <Size>
-        <x>50</x>
-        <y>50</y>
+        <x>30</x>
+        <y>30</y>
       </Size>
       <Score>1</Score>
     </GameObject>
@@ -99,10 +100,10 @@
         <Tag>PowerUpBlock</Tag>
       </Tags>
       <Type>Destroyable</Type>
-      <Gravity>1</Gravity>
+      <Gravity>0</Gravity>
       <Size>
-        <x>50</x>
-        <y>50</y>
+        <x>80</x>
+        <y>80</y>
       </Size>
     </GameObject>
     <GameObject>
@@ -186,6 +187,70 @@
         <x>1300</x>
         <y>650</y>
       </FinalLocation>
+    </Entity>
+
+    <Entity>
+      <Name>Coin</Name>
+      <Location>
+        <x>1400</x>
+        <y>600</y>
+      </Location>
+      <StartHealth>1</StartHealth>
+      <StartLife>1</StartLife>
+    </Entity>
+    <Entity>
+      <Name>Coin</Name>
+      <Location>
+        <x>1420</x>
+        <y>590</y>
+      </Location>
+      <StartHealth>1</StartHealth>
+      <StartLife>1</StartLife>
+    </Entity>
+    <Entity>
+      <Name>Coin</Name>
+      <Location>
+        <x>1440</x>
+        <y>580</y>
+      </Location>
+      <StartHealth>1</StartHealth>
+      <StartLife>1</StartLife>
+    </Entity>
+    <Entity>
+      <Name>Coin</Name>
+      <Location>
+        <x>1460</x>
+        <y>580</y>
+      </Location>
+      <StartHealth>1</StartHealth>
+      <StartLife>1</StartLife>
+    </Entity>
+    <Entity>
+      <Name>Coin</Name>
+      <Location>
+        <x>1480</x>
+        <y>590</y>
+      </Location>
+      <StartHealth>1</StartHealth>
+      <StartLife>1</StartLife>
+    </Entity>
+    <Entity>
+      <Name>Coin</Name>
+      <Location>
+        <x>1500</x>
+        <y>600</y>
+      </Location>
+      <StartHealth>1</StartHealth>
+      <StartLife>1</StartLife>
+    </Entity>
+    <Entity>
+      <Name>PowerUpBlock</Name>
+      <Location>
+        <x>400</x>
+        <y>450</y>
+      </Location>
+      <StartHealth>0</StartHealth>
+      <StartLife>1</StartLife>
     </Entity>
     <Entity>
       <Name>Block</Name>

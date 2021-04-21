@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import ooga.model.gameobjectcomposites.UserInputMovement;
+import ooga.model.gameobjectcomposites.UserInputActions;
 import ooga.model.util.Action;
 import ooga.model.util.Vector;
 
@@ -16,22 +16,28 @@ import ooga.model.util.Vector;
 public class Player extends Destroyable {
 
   private List<GameObject> activePowerUps;
-  private final UserInputMovement userMovement;
-  private final Class<?> userMovementClass;
+  private final UserInputActions userActions;
+  private Class<?> userInputActions;
   private int lives;
+  private final double invincibilityLimit;
+  private double frameCount = 0;
+  private boolean win;
 
   /**
    * Default constructor for Player.
    */
   public Player(List<String> entityTypes, Vector initialPosition, int id, Vector objSize,
       int startLife, int startHealth, double jumpTime, Vector velocityMagnitude, double gravity,
-      Vector drivingVelocity, int continuousJumpLimit, boolean vis)
+      Vector drivingVelocity, int continuousJumpLimit, double shootingCooldown, boolean vis, double
+      invincibiility)
       throws ClassNotFoundException {
-    super(entityTypes, initialPosition, id, objSize, startLife, startHealth, 5, vis);
-    userMovement = new UserInputMovement(jumpTime, velocityMagnitude, gravity, drivingVelocity,
-        continuousJumpLimit);
-    userMovementClass = Class.forName("ooga.model.gameobjectcomposites.UserInputMovement");
+    super(entityTypes, initialPosition, id, objSize, startLife, startHealth, 0, vis);
+    userActions = new UserInputActions(jumpTime, velocityMagnitude, gravity, drivingVelocity,
+        continuousJumpLimit, shootingCooldown);
+    userInputActions = Class.forName("ooga.model.gameobjectcomposites.UserInputActions");
     lives = startLife;
+    invincibilityLimit = invincibiility;
+    win = false;
   }
 
   /**
@@ -41,31 +47,67 @@ public class Player extends Destroyable {
    * @param elapsedTime
    * @param gameGravity
    */
-  public void userStepMovement(Action direction, double elapsedTime, double gameGravity)
+  public void userStep(Action direction, double elapsedTime, double gameGravity)
       throws NoSuchMethodException, SecurityException, IllegalAccessException,
       IllegalArgumentException, InvocationTargetException {
-    String methodName = "move" + direction.toString();
+    frameCount++;
+
+    String methodName = direction.toString().toLowerCase();
+
+    if (methodName.equals(Action.SHOOT)){
+      userActions.shoot(getPosition().getX(), getPosition().getY());
+    } else {
+      move(direction, elapsedTime, gameGravity);
+    }
+  }
+
+  private void move(Action direction, double elapsedTime, double gameGravity)
+      throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    String methodName = direction.toString().toLowerCase();
     Class<?>[] paramClasses = new Class[2];
     for (int i = 0; i < 2; i++) {
       paramClasses[i] = Double.class;
     }
-    Method moveMethod = userMovementClass.getMethod(methodName, paramClasses);
-    Vector deltaPosition = (Vector) moveMethod.invoke(userMovement, elapsedTime, gameGravity);
+    Method[] test = userInputActions.getMethods();
+    Method moveMethod = userInputActions.getMethod(methodName, paramClasses);
+    Vector deltaPosition = (Vector) moveMethod.invoke(userActions, elapsedTime, gameGravity);
     setPredictedPosition(getPredictedPosition().add(deltaPosition));
+  }
+
+  /**
+   * Produces a new destroyable and send a listener to the front end for it to be displayed
+   */
+  public void produceSingleDestroyable() {
+    notifyListeners("newMovingDestroyable", null, getPosition());
   }
 
   /**
    * Collision method for whenever the bottom of player lands on something.
    */
   public void generalBottomCollision() {
-    userMovement.hitGround();
+    userActions.hitGround();
   }
 
   /**
    * gets velocity of player
    * @return
    */
-  public Vector getVelocity() {return userMovement.getVelocity();}
+  public Vector getVelocity() {return userActions.getVelocity();}
+
+  /**
+   * collision method called whenever the player hits the win checkpoint for that level
+   */
+  public void playerWinsLevel() {
+    win = true;
+  }
+
+  /**
+   * gives winning status of the player to see if player completed level
+   * @return
+   */
+  public boolean getWinStatus() {
+    return win;
+  }
 
   /**
    * Collision method for adding a new power up to the Player.
@@ -94,11 +136,15 @@ public class Player extends Destroyable {
     int prevHealth = getHealth();
     int prevLives = getLives();
 
-    super.incrementHealth(increment);
+    if (canBeHurt(increment)) {
+      int j = 0;
+      frameCount = 0;
+      super.incrementHealth(increment);
 //    notifyListeners("playerHealth", prevHealth, getHealth());
 
-    if (getHealth() != prevLives) {
+      if (getHealth() != prevLives) {
 //      notifyListeners("playerLives", prevLives, getLives());
+      }
     }
   }
 
@@ -108,11 +154,17 @@ public class Player extends Destroyable {
    * @param increment
    */
   @Override
-  public void incrementLives(int increment) {
+  public void incrementLives(Double increment) {
     int prevLives = getLives();
 
-    super.incrementLives(increment);
+    if (canBeHurt(increment)) {
+      super.incrementLives(increment);
 //    notifyListeners("playerLives", prevLives, getLives());
+    }
+  }
+
+  private boolean canBeHurt(double value) {
+    return value < 0 && frameCount > invincibilityLimit;
   }
 
   /**
@@ -122,8 +174,8 @@ public class Player extends Destroyable {
    * @param y
    */
   public void scaleVelocity(Double x, Double y) {
-    Vector newVelocity = userMovement.getVelocity().multiply(new Vector(x, y));
-    userMovement.setVelocity(newVelocity);
+    Vector newVelocity = userActions.getVelocity().multiply(new Vector(x, y));
+    userActions.setVelocity(newVelocity);
   }
 
   /**
@@ -135,8 +187,16 @@ public class Player extends Destroyable {
     return new ArrayList<>(activePowerUps);
   }
 
-  private void scaleSize(Double scaleFactor) {
+  /**
+   * scales the size the player
+   * @param scaleFactor factor to scale by
+   */
+  public void scaleSize(Double scaleFactor) {
     getRect().scaleSize(scaleFactor);
+    notifyListeners("changeX", null, getPredictedPosition().getX());
+    notifyListeners("changeY", null, getPredictedPosition().getY());
+    notifyListeners("changeWidth", null, getSize().getX());
+    notifyListeners("changeHeight", null, getSize().getX());
   }
 
   private void incrementScore(Double increment) { score += increment; }

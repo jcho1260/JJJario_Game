@@ -66,7 +66,10 @@ public class LevelParser {
       };
     }
 
-    return new GameWorld(player, collisions, gameObjects, actors, frameSize, 3, getGlobalGravity(doc), frameRate, new Vector(0,200), new Vector(2000, 1000));
+    Vector screenMin = getScreenLim(doc, "ScreenLimitsMin");
+    Vector screenMax = getScreenLim(doc, "ScreenLimitsMax");
+
+    return new GameWorld(player, collisions, gameObjects, actors, frameSize, 3, getGlobalGravity(doc), frameRate, screenMin, screenMax);
   }
 
   private Player createPlayer(Element entity, GameObjectInfo info, int id, Document doc)
@@ -78,8 +81,9 @@ public class LevelParser {
     double jumpTime = getNumberAttribute(entity, "JumpTime");
     int jumpLimit = (int) getNumberAttribute(entity, "ContinuousJumpLimit");
     boolean vis = getVisibility(entity);
+    // 2 is the cooldown
+    return new Player(info.tags, pos, id, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit, 2, vis, 1);
 
-    return new Player(info.tags, pos, id, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit, vis);
   }
 
   private MovingDestroyable createMovingDestroyable(Element entity, GameObjectInfo info, int id) {
@@ -89,7 +93,8 @@ public class LevelParser {
     int startHealth = (int) getNumberAttribute(entity, "StartHealth");
     Vector finalPos = getVectorAttribute(entity, "FinalLocation");
     boolean vis = getVisibility(entity);
-    return new MovingDestroyable(info.tags, pos, id, info.size, startLife, startHealth, vel, finalPos, info.gravity, vis);
+    int score = (int) getNumberAttribute(entity, "Score");
+    return new MovingDestroyable(info.tags, pos, id, info.size, startLife, startHealth, score, vel, finalPos, info.gravity, vis);
   }
 
   private Destroyable createDestroyable(Element entity, GameObjectInfo info, int id) {
@@ -97,7 +102,9 @@ public class LevelParser {
     int startLife = (int) getNumberAttribute(entity, "StartLife");
     int startHealth = (int) getNumberAttribute(entity, "StartHealth");
     boolean vis = getVisibility(entity);
-    return new Destroyable(info.tags, pos, id, info.size, startLife, startHealth, 5, vis);
+    int score = (int) getNumberAttribute(entity, "Score");
+    return new Destroyable(info.tags, pos, id, info.size, startLife, startHealth, score, vis);
+
   }
 
   private GameObject createGameObject(Element entity, GameObjectInfo info, int id) {
@@ -121,6 +128,9 @@ public class LevelParser {
   }
 
   private double getNumberAttribute(Element entity, String name) {
+    if (entity.getElementsByTagName(name).getLength() == 0) {
+      return 0;
+    }
     return Double.parseDouble(entity.getElementsByTagName(name).item(0).getTextContent());
   }
 
@@ -153,6 +163,11 @@ public class LevelParser {
   private Vector getDrivingVelocity(Document doc) {
     Element root = (Element) doc.getElementsByTagName("Level").item(0);
     return getVectorAttribute(root, "DrivingVelocity");
+  }
+
+  private Vector getScreenLim(Document doc, String name) {
+    Element root = (Element) doc.getElementsByTagName("Level").item(0);
+    return getVectorAttribute(root, name);
   }
 
   public String getBackground(File file) {

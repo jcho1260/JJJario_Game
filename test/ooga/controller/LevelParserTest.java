@@ -18,7 +18,7 @@ public class LevelParserTest {
 
   @BeforeEach
   public void init() throws IOException, SAXException, ParserConfigurationException {
-    gameWorldFactory = new LevelParser(new File("data/testgame/level.xml"));
+    gameWorldFactory = new LevelParser(new File("data/testgame/Level1.xml"));
   }
 
   @Test

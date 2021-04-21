@@ -2,17 +2,16 @@ package ooga.controller;
 
 import java.beans.PropertyChangeEvent;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -76,16 +75,20 @@ public class Controller {
 
       gameWorldFactory = new LevelParser(levelFile);
       gameWorld = gameWorldFactory.createGameWorld(collisions, frameSize, frameRate);
-      gameWorld.addListener(highscoreListener);
-
-      String background = gameWorldFactory.getBackground(levelFile);
-      gameView.initializeLevel(frameSize.getX(), frameSize.getY(), background);
-      highscoreListener.reset();
-      keyListener.reset();
-      gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, 0));
     } catch (Exception e) {
       e.printStackTrace();
     }
+
+    start();
+  }
+
+  private void start() {
+    gameWorld.addListener(highscoreListener);
+
+    gameView.initializeLevel(frameSize.getX(), frameSize.getY(), "view_resources/images/backgrounds/JJJario.png");
+    highscoreListener.reset();
+    keyListener.reset();
+    gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, 0));
 
     addSprites(gameWorld);
     gameView.startLevel();
@@ -105,13 +108,20 @@ public class Controller {
     gameSaver.saveGame(gameView.getGameName(), levelNameParser.getLevelName(currentLevel), dateString, gameWorld);
   }
 
-  public void loadGame(String level, String dateString) {
-    gameWorld = gameSaver.loadGame(gameView.getGameName(), level, dateString);
+  public void loadGame(String game, String level, String dateString) {
+    gameWorld = gameSaver.loadGame(game, level, dateString);
+    start();
   }
 
-  public String[] getSaves(String game, String level) {
-    File folder = new File("data/saves/" + game + "/" + level);
-    return Arrays.stream(folder.listFiles()).map(File::getName).toArray(String[]::new);
+  public String[] getSaves(String game) {
+    List<String> levels = new ArrayList<>();
+    int numLevels = levelNameParser.numLevels();
+    for (int i = 0; i < numLevels; i++) {
+      String level =  levelNameParser.getLevelName(i);
+      File folder = new File("data/saves/" + game + "/" + level);
+      levels.addAll(Arrays.stream(folder.listFiles()).map(file -> level+ "/" + file.getName()).collect(Collectors.toList()));
+    }
+    return levels.toArray(String[]::new);
   }
 
   public void nextLevel() {

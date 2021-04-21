@@ -1,5 +1,6 @@
 package ooga.model;
 
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import ooga.Observable;
 import ooga.model.gameobjectcomposites.WorldCollisionHandling;
 import ooga.model.gameobjects.Destroyable;
 import ooga.model.gameobjects.GameObject;
+import ooga.model.gameobjects.MovingDestroyable;
 import ooga.model.gameobjects.Player;
 import ooga.model.util.Action;
 import ooga.model.util.MethodBundle;
@@ -23,12 +25,14 @@ public class GameWorld extends Observable implements Serializable {
 
   private static final double playerXLoc = 0.5;
   private static final double playerYLoc = 2.0/3.0;
+  private static final int correctionCycles = 10;
 
   private List<GameObject> allGameObjects;
   private List<GameObject> allActiveGameObjects;
   private List<GameObject> allDestroyables;
   private List<GameObject> allActiveDestroyables;
   private List<GameObject> allBricks;
+  private List<MovingDestroyable> runtimeCreations;
   private WorldCollisionHandling worldCollisionHandling;
   private double score;
   private Player player;
@@ -39,6 +43,7 @@ public class GameWorld extends Observable implements Serializable {
   private Vector playerViewCoord;
   private boolean playerWin;
 
+  private PropertyChangeListener playerListener;
 
   private final double gravity;
   private final double stepTime;
@@ -49,17 +54,19 @@ public class GameWorld extends Observable implements Serializable {
   public GameWorld(Player gamePlayer, Map<String, Map<String, List<MethodBundle>>> collisionMethods,
       List<GameObject> gameObjects, List<GameObject> actors, Vector frameSize, int startingLives,
       double levelGravity, double frameRate, Vector minScreenLimit, Vector maxScreenLimit) {
+    playerListener = evt -> notifyListeners(evt.getPropertyName(), null, evt.getNewValue());
     player = gamePlayer;
+    player.addListener(playerListener);
     windowSize = frameSize;
     allGameObjects = gameObjects;
     gravity = levelGravity;
     stepTime = 1.0/frameRate;
     score = 0;
-    playerWin = false;
+//    playerWin = false;
     screenLimitsMin = minScreenLimit;
     screenLimitsMax = maxScreenLimit;
     frameCoords = new Vector[4];
-    frameCoordinates(player.getPosition(), player.getSize());
+    updateFrameCoordinates(player.getPosition(), player.getSize());
     allBricks = new ArrayList<>();
     findBricks();
     allActiveGameObjects = findActiveObjects(allGameObjects);
@@ -70,17 +77,33 @@ public class GameWorld extends Observable implements Serializable {
     double playerViewX = frameSize.getX() * playerXLoc;
     double playerViewY = frameSize.getY() * playerYLoc;
     playerViewCoord = new Vector(playerViewX, playerViewY);
+    runtimeCreations = new ArrayList<>();
   }
 
   public void stepFrame(Action pressEffect)
       throws NoSuchMethodException, JjjanException, InvocationTargetException, IllegalAccessException {
-    player.userStepMovement(pressEffect, stepTime, gravity);  // use setPredicted
+    player.userStep(pressEffect, stepTime, gravity);  // use setPredicted
     allGameObjectStep(stepTime);  // use setPredicted
+    collisionsDetectAndExecute();
+    updatePositions();
+    playerOffScreen();
+    // using actual position (after setPosition() was called) --> do later, call internally
+    updateFrameCoordinates(player.getPosition(), player.getSize());
+    appendRuntimeCreations();
+    updateAllActiveInfo();
+    sendViewCoords();
+  }
+
+  private void collisionsDetectAndExecute()
+      throws NoSuchMethodException, JjjanException, InvocationTargetException, IllegalAccessException {
     worldCollisionHandling.detectAllCollisions(); // use setPredicted
     List<Integer> forDeletion = worldCollisionHandling.executeAllCollisions();  // use setPredicted
     removeDeadActors(forDeletion);
+    correctCollisionIntersections();
+  }
 
-    for (int i = 0; i < 10; i++) {
+  private void correctCollisionIntersections() throws NoSuchMethodException, JjjanException {
+    for (int i = 0; i < correctionCycles; i++) {
       if (worldCollisionHandling.detectAllCollisions()) {
         worldCollisionHandling.fixIntersection(allBricks);
         worldCollisionHandling.clear();
@@ -89,15 +112,6 @@ public class GameWorld extends Observable implements Serializable {
         break;
       }
     }
-    updatePositions();
-    playerOffScreen();
-
-    // using actual position (after setPosition() was called) --> do later, call internally
-    frameCoordinates(player.getPosition(), player.getSize());
-    allActiveGameObjects = findActiveObjects(allGameObjects);
-    allActiveDestroyables = findActiveObjects(allDestroyables);
-    worldCollisionHandling.updateActiveGameObjects(allActiveGameObjects, allActiveDestroyables);
-    sendViewCoords();
   }
 
   private void updatePositions() {
@@ -127,36 +141,44 @@ public class GameWorld extends Observable implements Serializable {
         player.getPosition().getY() <= screenLimitsMin.getY()) {
       player.kill();
     }
-    if (player.getPosition().getX() + player.getSize().getX() >= screenLimitsMax.getX()) {
-      playerWin = true;
-      System.out.println("YOU WON!!!!!");
-    }
   }
 
+  public void queueNewMovingDestroyable(List<MovingDestroyable> newMovingDestroyables) {
+    runtimeCreations.addAll(newMovingDestroyables);
+  }
 
+  private void appendRuntimeCreations() {
+    allGameObjects.addAll(runtimeCreations);
+    allDestroyables.addAll(runtimeCreations);
+    runtimeCreations.clear();
+  }
 
-  // TODO: refactor out isActive from GameObject and calculate active status here DO THIS !!!!!
+  private void updateAllActiveInfo() {
+    allActiveGameObjects = findActiveObjects(allGameObjects);
+    allActiveDestroyables = findActiveObjects(allDestroyables);
+    worldCollisionHandling.updateActiveGameObjects(allActiveGameObjects, allActiveDestroyables);
+  }
+
   private List<GameObject> findActiveObjects(List<GameObject> allObjects) {
-    Vector topL = frameCoords[0];
-    Vector botR = frameCoords[3];
+    Vector frameTopL = frameCoords[0];
+    Vector frameBotR = frameCoords[3];
     List<GameObject> ret = new ArrayList<>();
-    if(!player.isAlive()) {
-      player.setActive(false);
-    } else {
-      player.setActive(true);
-    }
+    player.setActive(player.isAlive());
     for (GameObject o : allObjects) {
-      Vector oTopL = o.getPosition();
-      Vector oTopR = o.getPosition().add(new Vector(o.getSize().getX(), 0));
-      Vector oBotL = o.getPosition().add(new Vector(0,o.getSize().getY()));
-      Vector oBotR = o.getPosition().add(new Vector(o.getSize().getX(),o.getSize().getY()));
-
-      if (oTopL.insideBox(topL,botR) || oTopR.insideBox(topL,botR) || oBotL.insideBox(topL, botR) || oBotR.insideBox(topL,botR) || allBricks.contains(o)) {
-        ret.add(o);
-        o.setActive(true);
-      } else { o.setActive(false); }
+      boolean isActive = checkActiveState(o, frameTopL, frameBotR);
+      o.setActive(isActive);
+      if(isActive) {ret.add(o);}
     }
     return ret;
+  }
+
+  private boolean checkActiveState(GameObject o, Vector frameTopL, Vector frameBotR) {
+    Vector oTopL = o.getPosition();
+    Vector oTopR = o.getPosition().add(new Vector(o.getSize().getX(), 0));
+    Vector oBotL = o.getPosition().add(new Vector(0,o.getSize().getY()));
+    Vector oBotR = o.getPosition().add(new Vector(o.getSize().getX(),o.getSize().getY()));
+    return oTopL.insideBox(frameTopL,frameBotR) || oTopR.insideBox(frameTopL,frameBotR) ||
+        oBotL.insideBox(frameTopL, frameBotR) || oBotR.insideBox(frameTopL,frameBotR) || allBricks.contains(o);
   }
 
   private void removeDeadActors(List<Integer> deadActors) {
@@ -188,30 +210,31 @@ public class GameWorld extends Observable implements Serializable {
     return objects;
   }
 
-  private void frameCoordinates(Vector playerCoord, Vector playerSize) {
-    double defaultXLeft = 0;
+  private void updateFrameCoordinates(Vector playerCoord, Vector playerSize) {
+    double defaultXLeft = screenLimitsMin.getX();
     double defaultXRight = screenLimitsMax.getX();
     double defaultYBot = screenLimitsMax.getY();
-    double defaultYTop = 0;
+    double defaultYTop = screenLimitsMin.getY();
     Vector playerCenter = new Vector(playerCoord.getX()+ 0.5*playerSize.getX(), playerCoord.getY() + 0.5*playerSize.getY());
-    double topY = playerCenter.getY() - playerYLoc * windowSize.getY();
-    double botY = playerCoord.getY() + (1-playerYLoc) * windowSize.getY();
+    double topY = playerCenter.getY() - (playerYLoc * windowSize.getY());
+    double botY = playerCoord.getY() + ((1-playerYLoc) * windowSize.getY());
     if(defaultYBot > windowSize.getY()) {botY = defaultYBot;}
-    double leftX = playerCenter.getX() - playerXLoc * windowSize.getX();
-    double rightX = playerCenter.getX() + playerXLoc * windowSize.getX();
-    if (topY < 0) {
+    double leftX = playerCenter.getX() - (playerXLoc * windowSize.getX());
+    double rightX = playerCenter.getX() + (playerXLoc * windowSize.getX());
+    if (topY <= defaultYTop) {
       topY = defaultYTop;
       botY = defaultYTop + windowSize.getY();
     }
-    if (botY > defaultYBot) {
+    if (botY >= defaultYBot) {
       botY = defaultYBot;
       topY = defaultYBot - windowSize.getY();
     }
-    if (leftX < 0) {
+    if (leftX <= defaultXLeft) {
       leftX = defaultXLeft;
       rightX = defaultXLeft + windowSize.getX();
     }
-    if (rightX > defaultXRight) {
+    if (rightX >= defaultXRight) {
+      System.out.println("adjust right");
       leftX = defaultXRight - windowSize.getX();
       rightX = defaultXRight;
     }
@@ -229,14 +252,16 @@ public class GameWorld extends Observable implements Serializable {
   }
 
   /**
-   *
+   * returns all destroyable game objects
    */
   public List<GameObject> getAllDestroyables() {
-    return allDestroyables;
+    List<GameObject> ret = new ArrayList<>(allDestroyables);
+    ret.add(player);
+    return ret;
   }
 
   /**
-   *
+   * returns all gameobjects in the game
    */
   public List<GameObject> getAllGameObjects() {
     List<GameObject> ret = new ArrayList<>(allGameObjects);
@@ -253,7 +278,7 @@ public class GameWorld extends Observable implements Serializable {
   }
 
   public boolean didPlayerWin() {
-    return playerWin;
+    return player.getWinStatus();
   }
 
   /**
