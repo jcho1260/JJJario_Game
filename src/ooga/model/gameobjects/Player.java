@@ -56,7 +56,7 @@ public class Player extends Destroyable {
 
     if (methodName.equals(Action.SHOOT)){
       userActions.shoot(getPosition().getX(), getPosition().getY());
-      notifyListeners("newMovingDestroyable", null, getPosition());
+      notifyListenerIndex(1, "newMovingDestroyable", null, getPosition());
     } else {
       move(direction, elapsedTime, gameGravity);
     }
