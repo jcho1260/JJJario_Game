@@ -95,6 +95,10 @@ public class Player extends Destroyable {
     win = true;
   }
 
+  /**
+   * gives winning status of the player to see if player completed level
+   * @return
+   */
   public boolean getWinStatus() {
     return win;
   }

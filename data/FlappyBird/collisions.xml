@@ -28,6 +28,16 @@
         </Args>
       </Method>
     </GameObject>
+    <GameObject>
+      <Name>WinningBlock</Name>
+      <Method>
+        <Name>playerWinsLevel</Name>
+        <Args></Args>
+      </Method>
+    </GameObject>
+    <GameObject>
+      <Name>EdgeBlock</Name>
+    </GameObject>
   </Actor>
   <Actor>
     <Name>ScoreBlock</Name>
@@ -42,12 +52,12 @@
     </GameObject>
     <GameObject>
       <Name>GameObject</Name>
-      <Method>
-        <Name>incrementHealth</Name>
-        <Args>
-          <Arg>0</Arg>
-        </Args>
-      </Method>
+    </GameObject>
+  </Actor>
+  <Actor>
+    <Name>WinningBlock</Name>
+    <GameObject>
+      <Name>Player</Name>
     </GameObject>
   </Actor>
 </Collisions>

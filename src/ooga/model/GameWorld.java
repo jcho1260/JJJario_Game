@@ -136,15 +136,11 @@ public class GameWorld extends Observable implements Serializable {
     }
   }
 
-  // TODO: WINNER BLOCK INSTEAD OF WIN OFF OFF SCREEN
   private void playerOffScreen() {
     if (player.getPosition().getY()+player.getSize().getY() >= screenLimitsMax.getY() ||
         player.getPosition().getY() <= screenLimitsMin.getY()) {
       player.kill();
     }
-//    if (player.getPosition().getX() + player.getSize().getX() >= screenLimitsMax.getX()) {
-//      playerWin = true;
-//    }
   }
 
   public void queueNewMovingDestroyable(List<MovingDestroyable> newMovingDestroyables) {
