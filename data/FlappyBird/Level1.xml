@@ -1,5 +1,5 @@
 <Level>
-  <GlobalGravity>75</GlobalGravity>
+  <GlobalGravity>45</GlobalGravity>
   <BackgroundImage>view_resources/images/backgrounds/FlappyBird.png</BackgroundImage>
   <DrivingVelocity>
     <x>100</x>
@@ -72,13 +72,13 @@
       <Name>WinningBlock</Name>
       <Tags>
         <Tag>GameObject</Tag>
-        <Tag>ScoreBlock</Tag>
+        <Tag>WinningBlock</Tag>
       </Tags>
       <Type>GameObject</Type>
       <Gravity>0</Gravity>
       <Size>
         <x>100</x>
-        <y>1000</y>
+        <y>500</y>
       </Size>
     </GameObject>
   </GameObjects>
@@ -186,7 +186,6 @@
         <x>1300</x>
         <y>250</y>
       </Location>
-      <Visible>false</Visible>
     </Entity>
   </Layout>
 </Level>

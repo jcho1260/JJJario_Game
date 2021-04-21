@@ -130,6 +130,19 @@
         <y>300</y>
       </Size>
     </GameObject>
+    <GameObject>
+      <Name>EdgeBlock</Name>
+      <Tags>
+        <Tag>GameObject</Tag>
+        <Tag>Block</Tag>
+      </Tags>
+      <Type>GameObject</Type>
+      <Gravity>1</Gravity>
+      <Size>
+        <x>1</x>
+        <y>750</y>
+      </Size>
+    </GameObject>
   </GameObjects>
 
   <Layout>
@@ -541,6 +554,21 @@
       <Location>
         <x>3700</x>
         <y>600</y>
+      </Location>
+    </Entity>
+
+    <Entity>
+      <Name>EdgeBlock</Name>
+      <Location>
+        <x>0</x>
+        <y>0</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>EdgeBlock</Name>
+      <Location>
+        <x>3999</x>
+        <y>0</y>
       </Location>
     </Entity>
   </Layout>
