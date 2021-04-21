@@ -23,6 +23,7 @@ public class MethodBundle implements Serializable {
       Method collisionResponse = destroyableClass.getMethod(methodName, paramTypes);
       return collisionResponse;
     } catch (Exception e){
+      System.out.println(methodName);
       throw new NoSuchMethodException("method doesn't exist sorry :(");
     }
   }

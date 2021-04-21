@@ -32,6 +32,7 @@
       <Name>Goomba</Name>
       <Tags>
         <Tag>GameObject</Tag>
+        <Tage>Destroyable</Tage>
         <Tag>MovingDestroyable</Tag>
         <Tag>Enemy</Tag>
         <Tag>Goomba</Tag>
@@ -47,6 +48,7 @@
       <Name>KoopaTroopa</Name>
       <Tags>
         <Tag>GameObject</Tag>
+        <Tage>Destroyable</Tage>
         <Tag>MovingDestroyable</Tag>
         <Tag>Enemy</Tag>
         <Tag>KoopaTroopa</Tag>

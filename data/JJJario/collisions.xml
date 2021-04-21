@@ -130,7 +130,13 @@
     </GameObject>
   </Actor>
   <Actor>
-    <Name>GameObject</Name>
+    <Name>Destroyable</Name>
+    <GameObject>
+      <Name>GameObject</Name>
+    </GameObject>
+  </Actor>
+  <Actor>
+    <Name>MovingDestroyable</Name>
     <GameObject>
       <Name>GameObject-LEFT</Name>
       <Method>
