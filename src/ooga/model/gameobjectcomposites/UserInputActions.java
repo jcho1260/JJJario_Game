@@ -1,11 +1,12 @@
 package ooga.model.gameobjectcomposites;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import ooga.model.util.Vector;
 
-public class UserInputActions {
+public class UserInputActions implements Serializable {
 
   private Map<String, Integer> parameterCounts;
   private UserInputMovement movement;
