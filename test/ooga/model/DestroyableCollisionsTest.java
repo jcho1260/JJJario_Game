@@ -63,6 +63,16 @@ public class DestroyableCollisionsTest {
     assertEquals(1, d.getScore());
   }
 
+  @Test
+  void checkAliveTest() {
+    Destroyable d = createDestroyable();
+    assertEquals(true, d.isAlive());
+    d.kill();
+    assertEquals(true, d.isAlive());
+    d.kill();
+    assertEquals(false, d.isAlive());
+  }
+
   private MethodBundle createMethodBundle(String name, double[] params) {
     return new MethodBundle(name, params);
   }
