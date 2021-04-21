@@ -13,6 +13,7 @@
     <Text>Load Level</Text>
     <Event method="setOnAction">
       <Type>loadGame</Type>
+      <Game>JJJario</Game>
     </Event>
   </Button>
   <Button id="JJJarioLevelsButton" type="Leaf">
