@@ -19,14 +19,25 @@
         </Args>
       </Method>
     </GameObject>
+    <GameObject>
+      <Name>ScoreBlock</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>0</Arg>
+        </Args>
+      </Method>
+    </GameObject>
   </Actor>
   <Actor>
     <Name>ScoreBlock</Name>
     <GameObject>
-      <Name>MovingDestroyable</Name>
+      <Name>Player</Name>
       <Method>
-        <Name>printCollide</Name>
-        <Args></Args>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
       </Method>
     </GameObject>
     <GameObject>

@@ -65,7 +65,7 @@
       <Gravity>0</Gravity>
       <Size>
         <x>100</x>
-        <y>350</y>
+        <y>200</y>
       </Size>
     </GameObject>
   </GameObjects>
@@ -98,7 +98,7 @@
       <Name>FloorPipe</Name>
       <Location>
         <x>400</x>
-        <y>950</y>
+        <y>800</y>
       </Location>
     </Entity>
     <Entity>
@@ -108,6 +108,8 @@
         <y>600</y>
       </Location>
       <Score>1</Score>
+      <StartLife>0</StartLife>
+      <StartHealth>1</StartHealth>
       <Visible>false</Visible>
     </Entity>
 
@@ -126,6 +128,17 @@
         <y>900</y>
       </Location>
     </Entity>
+    <Entity>
+      <Name>ScoreBlock</Name>
+      <Location>
+        <x>750</x>
+        <y>700</y>
+      </Location>
+      <Score>1</Score>
+      <StartLife>0</StartLife>
+      <StartHealth>1</StartHealth>
+      <Visible>false</Visible>
+    </Entity>
 
 
     <Entity>
@@ -141,6 +154,17 @@
         <x>1100</x>
         <y>850</y>
       </Location>
+    </Entity>
+    <Entity>
+      <Name>ScoreBlock</Name>
+      <Location>
+        <x>1100</x>
+        <y>650</y>
+      </Location>
+      <Score>1</Score>
+      <StartLife>0</StartLife>
+      <StartHealth>1</StartHealth>
+      <Visible>false</Visible>
     </Entity>
   </Layout>
 </Level>
