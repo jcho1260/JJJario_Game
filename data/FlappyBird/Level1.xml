@@ -68,6 +68,19 @@
         <y>200</y>
       </Size>
     </GameObject>
+    <GameObject>
+      <Name>WinningBlock</Name>
+      <Tags>
+        <Tag>GameObject</Tag>
+        <Tag>ScoreBlock</Tag>
+      </Tags>
+      <Type>GameObject</Type>
+      <Gravity>0</Gravity>
+      <Size>
+        <x>100</x>
+        <y>1000</y>
+      </Size>
+    </GameObject>
   </GameObjects>
 
   <Layout>
@@ -164,6 +177,15 @@
       <Score>1</Score>
       <StartLife>0</StartLife>
       <StartHealth>1</StartHealth>
+      <Visible>false</Visible>
+    </Entity>
+
+    <Entity>
+      <Name>WinningBlock</Name>
+      <Location>
+        <x>1300</x>
+        <y>250</y>
+      </Location>
       <Visible>false</Visible>
     </Entity>
   </Layout>

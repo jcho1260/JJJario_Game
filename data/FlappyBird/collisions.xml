@@ -28,6 +28,13 @@
         </Args>
       </Method>
     </GameObject>
+    <GameObject>
+      <Name>WinningBlock</Name>
+      <Method>
+        <Name>playerWinsLevel</Name>
+        <Args></Args>
+      </Method>
+    </GameObject>
   </Actor>
   <Actor>
     <Name>ScoreBlock</Name>
