@@ -1,7 +1,12 @@
 package ooga.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +57,30 @@ public class GameMaker {
 
   public void addGameObjectMaker(GameObjectMaker gameObjectMaker) {
     gameObjectMakerList.add(gameObjectMaker);
+  }
+
+  public void saveGame(String name, GameWorld gameWorld) {
+    try {
+      FileOutputStream f = new FileOutputStream("UserDefined/" + game + "/" + name + ".game");
+      ObjectOutput s = new ObjectOutputStream(f);
+      s.writeObject(gameWorld);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public GameWorld loadGame(String game, String name) {
+
+    String path = "UserDefined/" + game + "/" + name + ".game";
+
+    try {
+      FileInputStream in = new FileInputStream(path);
+      ObjectInputStream s = new ObjectInputStream(in);
+      return (GameWorld) s.readObject();
+    } catch(IOException | ClassNotFoundException e) {
+      e.printStackTrace();
+      return null;
+    }
   }
 
   public GameWorld makeGameWorld(String gameName, Vector frameSize, double frameRate, Vector minScreen, Vector maxScreen)
