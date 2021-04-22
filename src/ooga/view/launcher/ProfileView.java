@@ -34,7 +34,6 @@ public class ProfileView {
   private final Controller controller;
   private final PropertyChangeListener pcl;
   private Pane currMenu;
-  private Scene dummyScene;
 
   public ProfileView(Controller controller, ParentComponentFactory pcf,
       PropertyChangeListener pcl) {

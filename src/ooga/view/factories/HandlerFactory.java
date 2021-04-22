@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ScrollPane;
@@ -22,7 +23,9 @@ import javafx.util.Pair;
 import ooga.controller.Controller;
 import ooga.controller.KeyListener;
 import ooga.controller.Profile;
+import ooga.model.util.Vector;
 import ooga.view.game.GameView;
+import ooga.view.launcher.BuilderView;
 import ooga.view.launcher.ProfileView;
 import org.w3c.dom.Element;
 
@@ -173,5 +176,20 @@ public class HandlerFactory {
   private void loadGame(Node component, Element e) {
     String[] decoded = component.getId().split("_");
     controller.loadGame(decoded[1], decoded[2]);
+  }
+
+  private void startBuilder(Node component, Element e) throws ViewFactoryException {
+    Pane p = ((Pane) component.getParent());
+    Vector frameSize = new Vector(
+        Double.parseDouble(extractText(p, "#ViewWidthInput")),
+            Double.parseDouble(extractText(p, "#ViewHeightInput")));
+    Vector levelSize = new Vector(
+        Double.parseDouble(extractText(p, "#LevelWidthInput")),
+        Double.parseDouble(extractText(p, "#LevelHeightInput")));
+    new BuilderView(controller, pcf).startBuilder((Element) e.getElementsByTagName("FilePath").item(0), extractText(p, "#GameNameInput"), frameSize, levelSize);
+  }
+
+  private String extractText(Parent p, String id) {
+    return ((TextField) p.lookup(id)).getText();
   }
 }

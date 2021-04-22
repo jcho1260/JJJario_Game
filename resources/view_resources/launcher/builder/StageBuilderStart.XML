@@ -1,0 +1,30 @@
+<?xml version = "1.0" ?>
+<VBox id="StageBuilderInfoVBox" type="Pane" style="view_resources/launcher/builder/css/StartVBox.css">
+  <TextObj id="StageBuilderTitle" type="Leaf">
+    <Text>Stage Builder Parameters</Text>
+  </TextObj>
+  <TextField id="GameNameInput" type="Leaf">
+    <Prompt>Game</Prompt>
+  </TextField>
+  <TextField id="ViewWidthInput" type="Leaf">
+    <Prompt>View Width</Prompt>
+  </TextField>
+  <TextField id="ViewHeightInput" type="Leaf">
+    <Prompt>View Height</Prompt>
+  </TextField>
+  <TextField id="LevelWidthInput" type="Leaf">
+    <Prompt>Level Width</Prompt>
+  </TextField>
+  <TextField id="LevelHeightInput" type="Leaf">
+    <Prompt>Level Height</Prompt>
+  </TextField>
+  <Button id="StartBuilderButton" type="Leaf">
+    <Text>Start Building!</Text>
+    <Event method="setOnAction">
+      <Type>startBuilder</Type>
+      <FilePath>
+        <Path>resources/view_resources/launcher/builder/StageBuilderView.XML</Path>
+      </FilePath>
+    </Event>
+  </Button>
+</VBox>

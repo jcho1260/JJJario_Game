@@ -1,0 +1,5 @@
+#JJJarioLevelLibraryScrollable {
+    -fx-border-radius: 5;
+    -fx-hbar-policy: as-needed;
+    -fx-vbar-policy: as-needed;
+}
