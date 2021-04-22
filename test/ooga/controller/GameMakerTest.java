@@ -20,7 +20,7 @@ public class GameMakerTest {
 
   @BeforeEach
   public void init() {
-    gm = new GameMaker();
+    gm = new GameMaker("JJJario");
   }
 
   @Test
@@ -54,10 +54,9 @@ public class GameMakerTest {
     Object[] attributes2 = { tags, new Vector(10, 30), 1, new Vector(10, 10), 1, 1, 2, new Vector(10, 10), 5, new Vector(0, 0), 1, 1, true, 1 };
     GameObjectMaker gom2 = new GameObjectMaker("ooga.model.gameobjects.Player", attributes2);
 
-    List<GameObjectMaker> gameObjects = new ArrayList<>();
-    gameObjects.add(gom1);
-    gameObjects.add(gom2);
+    gm.addGameObjectMaker(gom1);
+    gm.addGameObjectMaker(gom2);
 
-    gm.makeGameWorld("JJJario", gameObjects, new Vector(100,100), 60, new Vector(0, 0), new Vector(100, 40));
+    gm.makeGameWorld("JJJario", new Vector(100,100), 60, new Vector(0, 0), new Vector(100, 40));
   }
 }
