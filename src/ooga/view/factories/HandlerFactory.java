@@ -18,6 +18,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import ooga.controller.Controller;
 import ooga.controller.KeyListener;
 import ooga.controller.Profile;
@@ -157,16 +158,13 @@ public class HandlerFactory {
   }
 
   private void loadLibrary(Node component, Element e) throws ViewFactoryException, ParseException {
-    String[] saves = controller.getSaves(e.getElementsByTagName("Game").item(0).getTextContent());
+    Pair<String, String>[] saves = controller.getSaves(e.getElementsByTagName("Game").item(0).getTextContent());
     ScrollPane sp = (ScrollPane) pcf.make((Element) e.getElementsByTagName("FilePath").item(0));
-    for (String save : saves) {
-      String[] encoded = save.split("/");
-      String level = encoded[0];
-      String timestamp = encoded[1];
+    for (Pair<String, String> save : saves) {
       Button b = (Button) pcf.make((Element) e.getElementsByTagName("Button").item(0));
-      String timePrint = new SimpleDateFormat("HH:mm:ss MM-dd-yyyy").format(new SimpleDateFormat("MM-dd-yyyy_HH_mm_ss").parse(timestamp));
-      b.setText(level.replaceAll( "([A-Za-z])(\\d)", "$1 $2" )+"\t"+timePrint);
-      b.setOnAction(event -> controller.loadGame(level, timestamp));
+      String timestamp = new SimpleDateFormat("HH:mm:ss MM-dd-yyyy").format(new SimpleDateFormat("MM-dd-yyyy_HH_mm_ss").parse(save.getValue()));
+      b.setText(save.getKey().replaceAll( "([A-Za-z])(\\d)", "$1 $2" )+"\t"+timestamp);
+      b.setOnAction(event -> controller.loadGame(save.getKey(), save.getValue()));
       ((Pane) sp.getContent()).getChildren().add(b);
     }
     changeStackPane(component, e, sp);
