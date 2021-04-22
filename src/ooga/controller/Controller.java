@@ -16,6 +16,7 @@ import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import javafx.util.Pair;
 import javax.xml.parsers.ParserConfigurationException;
 import ooga.model.GameWorld;
 import ooga.model.gameobjects.GameObject;
@@ -115,7 +116,7 @@ public class Controller {
     start();
   }
 
-  public String[] getSaves(String game) {
+  public Pair<String, String>[] getSaves(String game) {
     File levelNameFile = new File("data/" + game + "/LevelNames.xml");
     try {
       levelNameParser = new LevelNameParser(levelNameFile);
@@ -123,16 +124,17 @@ public class Controller {
       e.printStackTrace();
     }
 
-    List<String> levels = new ArrayList<>();
+    List<Pair<String, String>> levels = new ArrayList<>();
     int numLevels = levelNameParser.numLevels();
     for (int i = 0; i < numLevels; i++) {
       String level =  levelNameParser.getLevelName(i);
       File folder = new File("data/saves/" + game + "/" + level);
       if (folder.exists()) {
-        levels.addAll(Arrays.stream(folder.listFiles()).map(file -> level + "/" + file.getName()).collect(Collectors.toList()));
+        levels.addAll(Arrays.stream(folder.listFiles()).map(file -> new Pair<>(level,
+            file.getName())).collect(Collectors.toList()));
       }
     }
-    return levels.toArray(String[]::new);
+    return levels.toArray(Pair[]::new);
   }
 
   public void nextLevel() {
