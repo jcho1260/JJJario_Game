@@ -6,6 +6,6 @@
     <Path>resources/view_resources/game/JJJario/SideBar.XML</Path>
   </FilePath>
   <FilePath>
-    <Path>resources/view_resources/game/JJJario/LevelLibrary.XML</Path>
+    <Path>resources/view_resources/game/JJJario/GameStack.XML</Path>
   </FilePath>
 </HBox>

@@ -2,14 +2,20 @@ package ooga.view.factories;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
@@ -150,13 +156,24 @@ public class HandlerFactory {
     controller.saveGame();
   }
 
-  private void loadLibrary(Node component, Element e) {
+  private void loadLibrary(Node component, Element e) throws ViewFactoryException, ParseException {
     String[] saves = controller.getSaves(e.getElementsByTagName("Game").item(0).getTextContent());
-    changeStack(component, e);
+    ScrollPane sp = (ScrollPane) pcf.make((Element) e.getElementsByTagName("FilePath").item(0));
+    for (String save : saves) {
+      String[] encoded = save.split("/");
+      String level = encoded[0];
+      String timestamp = encoded[1];
+      Button b = (Button) pcf.make((Element) e.getElementsByTagName("Button").item(0));
+      String timePrint = new SimpleDateFormat("HH:mm:ss MM-dd-yyyy").format(new SimpleDateFormat("MM-dd-yyyy_HH_mm_ss").parse(timestamp));
+      b.setText(level.replaceAll( "([A-Za-z])(\\d)", "$1 $2" )+"\t"+timePrint);
+      b.setOnAction(event -> controller.loadGame(level, timestamp));
+      ((Pane) sp.getContent()).getChildren().add(b);
+    }
+    changeStackPane(component, e, sp);
   }
 
   private void loadGame(Node component, Element e) {
     String[] decoded = component.getId().split("_");
-    controller.loadGame(decoded[0], decoded[1], decoded[2]);
+    controller.loadGame(decoded[1], decoded[2]);
   }
 }

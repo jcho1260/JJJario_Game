@@ -110,8 +110,8 @@ public class Controller {
     gameSaver.saveGame(gameView.getGameName(), levelNameParser.getLevelName(currentLevel), dateString, gameWorld);
   }
 
-  public void loadGame(String game, String level, String dateString) {
-    gameWorld = gameSaver.loadGame(game, level, dateString);
+  public void loadGame(String level, String dateString) {
+    gameWorld = gameSaver.loadGame(gameView.getGameName(), level, dateString);
     start();
   }
 

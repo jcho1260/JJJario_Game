@@ -10,18 +10,28 @@
     <Height>260</Height>
   </ImageView>
   <Button id="LoadLibraryButton" type="Leaf">
-    <Text>Load Library</Text>
+    <Text>Load from Save</Text>
     <Event method="setOnAction">
       <Type>loadLibrary</Type>
       <Game>JJJario</Game>
-      <FilePath>resources/view_resources/game/JJJario/LoadLibrary.XML</FilePath>
+      <PaneID>GameStackPane</PaneID>
+      <FilePath>
+        <Path>resources/view_resources/game/JJJario/LoadLibrary.XML</Path>
+      </FilePath>
       <Button id="TemplateButton" type="Leaf">
         <Text>TEMPLATE</Text>
       </Button>
     </Event>
   </Button>
   <Button id="JJJarioLevelsButton" type="Leaf">
-    <Text>Level Library</Text>
-    <!--<Action>TODO</Action>-->
+    <Text>Choose a Level</Text>
+    <Event method="setOnAction">
+      <Type>loadLibrary</Type>
+      <Game>JJJario</Game>
+      <PaneID>GameStackPane</PaneID>
+      <FilePath>
+        <Path>resources/view_resources/game/JJJario/LevelLibrary.XML</Path>
+      </FilePath>
+    </Event>
   </Button>
 </VBox>
