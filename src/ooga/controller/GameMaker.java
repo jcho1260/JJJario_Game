@@ -41,7 +41,7 @@ public class GameMaker {
   public void createPlayer(Vector pos)
       throws IOException, SAXException, ParserConfigurationException, ClassNotFoundException {
 
-    LevelParser lp = new LevelParser(new File("data/" + game + "Level1.xml"));
+    LevelParser lp = new LevelParser(new File("data/" + game + "/Level1.xml"));
     player = lp.createPlayerFromCoords(pos);
   }
 
