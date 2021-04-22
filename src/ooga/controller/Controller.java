@@ -129,6 +129,15 @@ public class Controller {
     return null;
   }
 
+  public List<Pair<String, String>> getAllGameObjectsForMaker() {
+    try {
+      return gameMaker.getGameObjects();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
   public void saveGame() {
     String pattern = "MM-dd-yyyy_HH_mm_ss";
     DateFormat df = new SimpleDateFormat(pattern);

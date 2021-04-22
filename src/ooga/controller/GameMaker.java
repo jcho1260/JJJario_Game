@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javafx.util.Pair;
 import javax.xml.parsers.ParserConfigurationException;
 import ooga.model.GameWorld;
 import ooga.model.gameobjects.Destroyable;
@@ -36,7 +37,11 @@ public class GameMaker {
     return lp.getTags(name);
   }
 
-  //public List<String> getGameObjects =
+  public List<Pair<String, String>> getGameObjects()
+      throws IOException, SAXException, ParserConfigurationException {
+    LevelParser lp = new LevelParser(new File("data/" + game + "Level1.xml"));
+    return lp.getAllGameObjects();
+  }
 
   public void createPlayer(Vector pos)
       throws IOException, SAXException, ParserConfigurationException, ClassNotFoundException {
