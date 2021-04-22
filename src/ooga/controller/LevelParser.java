@@ -134,7 +134,7 @@ public class LevelParser {
     return Double.parseDouble(entity.getElementsByTagName(name).item(0).getTextContent());
   }
 
-  private Map<String, GameObjectInfo> getObjectMap(NodeList objects) {
+  public Map<String, GameObjectInfo> getObjectMap(NodeList objects) {
     HashMap<String, GameObjectInfo> gameObjects = new HashMap<>();
     for (int i = 0; i < objects.getLength(); i++) {
       String name = ((Element) objects.item(i)).getElementsByTagName("Name").item(0).getTextContent();

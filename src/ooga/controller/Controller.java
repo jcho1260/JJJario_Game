@@ -16,6 +16,7 @@ import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import javax.xml.parsers.ParserConfigurationException;
 import ooga.model.GameWorld;
 import ooga.model.gameobjects.GameObject;
 import ooga.model.util.MethodBundle;
@@ -26,6 +27,7 @@ import ooga.view.game.Sprite;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import org.xml.sax.SAXException;
 
 public class Controller {
 
@@ -114,12 +116,21 @@ public class Controller {
   }
 
   public String[] getSaves(String game) {
+    File levelNameFile = new File("data/" + game + "/LevelNames.xml");
+    try {
+      levelNameParser = new LevelNameParser(levelNameFile);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
     List<String> levels = new ArrayList<>();
     int numLevels = levelNameParser.numLevels();
     for (int i = 0; i < numLevels; i++) {
       String level =  levelNameParser.getLevelName(i);
       File folder = new File("data/saves/" + game + "/" + level);
-      levels.addAll(Arrays.stream(folder.listFiles()).map(file -> level+ "/" + file.getName()).collect(Collectors.toList()));
+      if (folder.exists()) {
+        levels.addAll(Arrays.stream(folder.listFiles()).map(file -> level + "/" + file.getName()).collect(Collectors.toList()));
+      }
     }
     return levels.toArray(String[]::new);
   }

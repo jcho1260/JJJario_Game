@@ -1,7 +1,5 @@
 package ooga.controller;
 
-import java.lang.reflect.InvocationTargetException;
-
 import ooga.model.gameobjects.GameObject;
 
 public class GameObjectMaker {
