@@ -69,7 +69,7 @@ public class LevelParser {
     Vector screenMin = getScreenLim(doc, "ScreenLimitsMin");
     Vector screenMax = getScreenLim(doc, "ScreenLimitsMax");
 
-    return new GameWorld(player, collisions, gameObjects, actors, frameSize, 3, getGlobalGravity(doc), frameRate, screenMin, screenMax);
+    return new GameWorld(player, collisions, gameObjects, actors, frameSize, 3, getGlobalGravity(), frameRate, screenMin, screenMax);
   }
 
   private Player createPlayer(Element entity, GameObjectInfo info, int id, Document doc)
@@ -156,7 +156,7 @@ public class LevelParser {
     return gameObjects;
   }
 
-  private double getGlobalGravity(Document doc) {
+  public double getGlobalGravity() {
     return Double.parseDouble(doc.getElementsByTagName("GlobalGravity").item(0).getTextContent());
   }
 
