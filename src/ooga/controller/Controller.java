@@ -129,6 +129,20 @@ public class Controller {
     return null;
   }
 
+  public void saveGameMaker(String name, Vector frameSize, double frameRate, Vector minScreen, Vector maxScreen) {
+    try {
+      GameWorld gw = gameMaker.makeGameWorld(name, frameSize, frameRate, minScreen, maxScreen);
+      gameMaker.saveGame(name, gw);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void loadUserDefinedName(String game, String name) {
+    gameWorld = gameMaker.loadGame(game, name);
+    start();
+  }
+
   public List<Pair<String, String>> getAllGameObjectsForMaker() {
     try {
       return gameMaker.getGameObjects();
