@@ -120,7 +120,7 @@ public class Controller {
     }
   }
 
-  public List<String> getEntityType(String name) {
+  public List<String> getEntityTypes(String name) {
     try {
       return gameMaker.getEntityType(name);
     } catch (Exception e) {
