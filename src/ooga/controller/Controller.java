@@ -46,6 +46,7 @@ public class Controller {
   private int currentLevel;
   private int totalLevels;
   private GameSaver gameSaver;
+  private GameMaker gameMaker;
 
   public Controller(Vector frameSize, double frameRate) {
     collisionsParser = new CollisionsParser();
@@ -101,6 +102,31 @@ public class Controller {
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
     animation.play();
+  }
+
+  public void startGameMaker(String game) {
+    gameMaker = new GameMaker(game);
+  }
+
+  public void addObjectToGameMaker(GameObjectMaker gom) {
+    gameMaker.addGameObjectMaker(gom);
+  }
+
+  public void setGameMakerPlayer(Vector pos) {
+    try {
+      gameMaker.createPlayer(pos);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public List<String> getEntityType(String name) {
+    try {
+      return gameMaker.getEntityType(name);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 
   public void saveGame() {
