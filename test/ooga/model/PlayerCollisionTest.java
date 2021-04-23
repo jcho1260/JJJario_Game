@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 public class PlayerCollisionTest {
   Player player;
 
+<<<<<<< HEAD
   @BeforeEach
   @Test
   public void init() {
@@ -85,6 +86,17 @@ public class PlayerCollisionTest {
   void testScaleSize() {
 
   }
+=======
+//  @BeforeEach
+//  @Test
+//  public void init() {
+//    List<String> entityTags = new ArrayList<>();
+//    entityTags.addAll();
+//    try {
+//      player = new Player()
+//    }
+//  }
+>>>>>>> c14071dd08329b2f437feda691fe7abcfb87a495
 }
 
 
