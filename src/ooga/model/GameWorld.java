@@ -129,7 +129,7 @@ public class GameWorld extends Observable implements Serializable {
     }
   }
 
-  private void allGameObjectStep(double elapsedTime) {
+  private void ballGameObjectStep(double elapsedTime) {
     for (GameObject o : allGameObjects) {
       o.step(elapsedTime, gravity);
     }
