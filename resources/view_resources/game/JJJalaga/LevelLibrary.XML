@@ -1,0 +1,13 @@
+<?xml version = "1.0" ?>
+<ScrollPane id="JJJalagaLevelLibraryScrollable" type="Control" style="view_resources/game/JJJalaga/css/LevelLibraryScroll.css">
+  <VBox id="GameLibraryVBox" type="Pane" style="view_resources/game/JJJalaga/css/LevelLibrary.css">
+    <Height>1080</Height>
+    <Button id="Level1Button" type="Leaf">
+      <Text>Level 1</Text>
+      <Event method="setOnAction">
+        <Type>startLevel</Type>
+        <Level>1</Level>
+      </Event>
+    </Button>
+  </VBox>
+</ScrollPane>

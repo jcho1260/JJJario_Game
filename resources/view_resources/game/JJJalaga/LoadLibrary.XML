@@ -1,0 +1,6 @@
+<?xml version = "1.0" ?>
+<ScrollPane id="JJJalagaLoadLibraryScrollable" type="Control" style="view_resources/game/JJJalaga/css/LevelLibraryScroll.css">
+  <VBox id="LoadLibraryVBox" type="Pane" style="view_resources/game/JJJalaga/css/LevelLibrary.css">
+    <Height>1080</Height>
+  </VBox>
+</ScrollPane>
