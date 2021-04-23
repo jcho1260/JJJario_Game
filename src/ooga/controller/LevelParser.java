@@ -75,6 +75,7 @@ public class LevelParser {
   }
 
   public MovingDestroyable makeCreatable(Vector pos, int id) {
+    System.out.println("MAKING CREATABLE");
     NodeList creatables = doc.getElementsByTagName("Creatable");
     if (creatables.getLength() == 0) return null;
 

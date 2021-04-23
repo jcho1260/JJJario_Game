@@ -54,8 +54,9 @@ public class Player extends Destroyable {
 
     String methodName = direction.toString().toLowerCase();
 
-    if (methodName.equals(Action.SHOOT)){
+    if (direction.equals(Action.SHOOT)){
       userActions.shoot(getPosition().getX(), getPosition().getY());
+      System.out.println("SHOOTING");
       notifyListeners("newMovingDestroyable", null, getPosition());
     } else {
       move(direction, elapsedTime, gameGravity);

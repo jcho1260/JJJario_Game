@@ -243,6 +243,7 @@ public class Controller {
     mdList.add(md);
     gameWorld.queueNewMovingDestroyable(mdList);
     String name = md.getEntityType().get(md.getEntityType().size()-1);
+    System.out.println("SENDING SPRITE UP TO FRONTEND");
     Sprite s = new Sprite(gameView.getGameName(), name, md.getSize().getX(), md.getSize().getY(), md.getPosition().getX(), md.getPosition().getY());
     md.addListener(s);
     gameView.propertyChange(new PropertyChangeEvent(this, "addSprite", null, s));

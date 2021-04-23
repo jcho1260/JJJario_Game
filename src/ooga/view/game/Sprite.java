@@ -32,6 +32,9 @@ public class Sprite implements PropertyChangeListener {
   public void propertyChange(PropertyChangeEvent evt) {
     String mName = evt.getPropertyName();
     Object[] mArgs = new Object[]{evt.getNewValue()};
+    if (mName.equals("newMovingDestroyable")) {
+      return;
+    }
     try {
       new Statement(this, mName, mArgs).execute();
     } catch (Exception e) {

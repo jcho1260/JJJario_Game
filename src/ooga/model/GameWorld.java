@@ -143,6 +143,8 @@ public class GameWorld extends Observable implements Serializable {
   }
 
   public void queueNewMovingDestroyable(List<MovingDestroyable> newMovingDestroyables) {
+    System.out.println("Received bullets");
+    System.out.println("BULLET: "+newMovingDestroyables.get(0).getEntityType().get(newMovingDestroyables.get(0).getEntityType().size()-1));
     runtimeCreations.addAll(newMovingDestroyables);
   }
 

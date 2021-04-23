@@ -136,10 +136,10 @@ public class WorldCollisionHandling implements Serializable {
       throws JjjanException {
     for (int d = destroyableTags.size() - 1; d >= 0; d--) {
       String dTag = destroyableTags.get(d);
-      System.out.println("DTAG: "+dTag);
+//      System.out.println("DTAG: "+dTag);
       if (collisionMethods.containsKey(dTag)) {
         for (int c = collidedTags.size() - 1; c >= 0; c--) {
-          System.out.println("COLLIDED TAGS: "+collidedTags.get(c));
+//          System.out.println("COLLIDED TAGS: "+collidedTags.get(c));
           Map<String, List<MethodBundle>> destroyableCollisionMap = collisionMethods.get(dTag);
           if (destroyableCollisionMap.containsKey(collidedTags.get(c))) {
             return destroyableCollisionMap.get(collidedTags.get(c));
