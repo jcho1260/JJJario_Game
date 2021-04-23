@@ -54,6 +54,7 @@ public class Controller {
     keyListener = new KeyListener(new Profile("default").getKeybinds());
     activeProfile = "";
     highscoreListener = new ModelListener();
+    highscoreListener.addController(this);
     gameSaver = new GameSaver();
   }
 
@@ -88,7 +89,7 @@ public class Controller {
   private void start() {
     gameWorld.addListener(highscoreListener);
 
-    gameView.initializeLevel(frameSize.getX(), frameSize.getY(), "view_resources/images/backgrounds/JJJario.png");
+    gameView.initializeLevel(frameSize.getX(), frameSize.getY(), "view_resources/images/backgrounds/"+gameView.getGameName()+".png");
     highscoreListener.reset();
     keyListener.reset();
     gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, 0));
@@ -247,6 +248,7 @@ public class Controller {
     Sprite s = new Sprite(gameView.getGameName(), name, md.getSize().getX(), md.getSize().getY(), md.getPosition().getX(), md.getPosition().getY());
     md.addListener(s);
     gameView.propertyChange(new PropertyChangeEvent(this, "addSprite", null, s));
+    addSprite(md);
   }
 
   private void step(double d) {
@@ -287,11 +289,15 @@ public class Controller {
   private void addSprites(GameWorld gameWorld) {
     List<GameObject> gameObjects = gameWorld.getAllGameObjects();
     for (GameObject gameObject : gameObjects) {
-      String name = gameObject.getEntityType().get(gameObject.getEntityType().size()-1);
-      Sprite s = new Sprite(gameView.getGameName(), name, gameObject.getSize().getX(), gameObject.getSize().getY(), gameObject.getPosition().getX(), gameObject.getPosition().getY());
-      gameObject.addListener(s);
-      gameView.propertyChange(new PropertyChangeEvent(this, "addSprite", null, s));
+      addSprite(gameObject);
     }
+  }
+
+  private void addSprite(GameObject gameObject) {
+    String name = gameObject.getEntityType().get(gameObject.getEntityType().size()-1);
+    Sprite s = new Sprite(gameView.getGameName(), name, gameObject.getSize().getX(), gameObject.getSize().getY(), gameObject.getPosition().getX(), gameObject.getPosition().getY());
+    gameObject.addListener(s);
+    gameView.propertyChange(new PropertyChangeEvent(this, "addSprite", null, s));
   }
 
   public void displayMenu() {
