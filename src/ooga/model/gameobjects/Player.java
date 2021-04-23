@@ -29,14 +29,14 @@ public class Player extends Destroyable {
   public Player(List<String> entityTypes, Vector initialPosition, int id, Vector objSize,
       int startLife, int startHealth, double jumpTime, Vector velocityMagnitude, double gravity,
       Vector drivingVelocity, int continuousJumpLimit, double shootingCooldown, boolean vis, double
-      invincibiility)
+      invincibility)
       throws ClassNotFoundException {
     super(entityTypes, initialPosition, id, objSize, startLife, startHealth, 0, vis);
     userActions = new UserInputActions(jumpTime, velocityMagnitude, gravity, drivingVelocity,
         continuousJumpLimit, shootingCooldown);
     userInputActions = Class.forName("ooga.model.gameobjectcomposites.UserInputActions");
     lives = startLife;
-    invincibilityLimit = invincibiility;
+    invincibilityLimit = invincibility;
     win = false;
   }
 
@@ -56,6 +56,7 @@ public class Player extends Destroyable {
 
     if (methodName.equals(Action.SHOOT)){
       userActions.shoot(getPosition().getX(), getPosition().getY());
+      notifyListeners("newMovingDestroyable", null, getPosition());
     } else {
       move(direction, elapsedTime, gameGravity);
     }
@@ -72,13 +73,6 @@ public class Player extends Destroyable {
     Method moveMethod = userInputActions.getMethod(methodName, paramClasses);
     Vector deltaPosition = (Vector) moveMethod.invoke(userActions, elapsedTime, gameGravity);
     setPredictedPosition(getPredictedPosition().add(deltaPosition));
-  }
-
-  /**
-   * Produces a new destroyable and send a listener to the front end for it to be displayed
-   */
-  public void produceSingleDestroyable() {
-    notifyListeners("newMovingDestroyable", null, getPosition());
   }
 
   /**
@@ -179,15 +173,6 @@ public class Player extends Destroyable {
   }
 
   /**
-   * Returns List of active power ups.
-   *
-   * @return activePowerUps
-   */
-  public List<GameObject> getActivePowerUps() {
-    return new ArrayList<>(activePowerUps);
-  }
-
-  /**
    * scales the size the player
    * @param scaleFactor factor to scale by
    */
@@ -198,10 +183,4 @@ public class Player extends Destroyable {
     notifyListeners("changeWidth", null, getSize().getX());
     notifyListeners("changeHeight", null, getSize().getX());
   }
-
-  private void incrementScore(Double increment) { score += increment; }
-
-  private void incrementLife(Double increment) { lives += increment; }
-
-  private void onKeyPress() { }
 }
