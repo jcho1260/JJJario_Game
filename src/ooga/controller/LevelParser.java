@@ -104,7 +104,7 @@ public class LevelParser {
         .collect(Collectors.toList());
   }
 
-  public Player createPlayerFromCoords(Vector coords) throws ClassNotFoundException {
+  public Player createPlayerFromCoords(Vector coords, Vector size) throws ClassNotFoundException {
     NodeList objects = ((Element) doc.getElementsByTagName("GameObjects").item(0).getChildNodes()).getElementsByTagName("GameObject");
     NodeList entities = ((Element) doc.getElementsByTagName("Layout").item(0).getChildNodes()).getElementsByTagName("Entity");
     for (int i = 0; i < entities.getLength(); i++) {
@@ -118,7 +118,7 @@ public class LevelParser {
         int startLife = (int) getNumberAttribute(entity, "StartLife");
         int startHealth = (int) getNumberAttribute(entity, "StartHealth");
         boolean vis = getVisibility(entity);
-        return new Player(info.tags, coords, 0, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit, 2, vis, 1);
+        return new Player(info.tags, coords, 0, size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit, 2, vis, 1);
       };
     }
     return null;
