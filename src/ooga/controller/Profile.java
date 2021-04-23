@@ -29,6 +29,7 @@ public class Profile implements Serializable, PropertyChangeListener {
     keybinds.put(KeyCode.A, Action.LEFT);
     keybinds.put(KeyCode.S, Action.DOWN);
     keybinds.put(KeyCode.D, Action.RIGHT);
+    keybinds.put(KeyCode.SPACE, Action.SHOOT);
     this.highScores = new HashMap<>();
     save();
   }

@@ -65,6 +65,10 @@ public class GameMaker {
     gameObjectMakerList.add(gameObjectMaker);
   }
 
+  public void removeGameObjectMaker() {
+    gameObjectMakerList.remove(gameObjectMakerList.size()-1);
+  }
+
   public void saveGame(String name, GameWorld gameWorld) {
     try {
       FileOutputStream f = new FileOutputStream("data/UserDefined/" + game + "/" + name + ".game");

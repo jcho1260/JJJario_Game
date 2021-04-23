@@ -17,9 +17,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 import javafx.util.Pair;
-import javax.xml.parsers.ParserConfigurationException;
 import ooga.model.GameWorld;
 import ooga.model.gameobjects.GameObject;
+import ooga.model.gameobjects.MovingDestroyable;
 import ooga.model.util.MethodBundle;
 import ooga.model.util.Vector;
 import ooga.view.game.GameView;
@@ -43,7 +43,7 @@ public class Controller {
   private KeyListener keyListener;
   private Timeline animation;
   private String activeProfile;
-  private final ScoreListener highscoreListener;
+  private final ModelListener highscoreListener;
   private int currentLevel;
   private int totalLevels;
   private GameSaver gameSaver;
@@ -56,7 +56,8 @@ public class Controller {
     this.frameRate = frameRate;
     keyListener = new KeyListener(new Profile("default").getKeybinds());
     activeProfile = "";
-    highscoreListener = new ScoreListener();
+    highscoreListener = new ModelListener();
+    highscoreListener.addController(this);
     gameSaver = new GameSaver();
   }
 
@@ -91,7 +92,7 @@ public class Controller {
   private void start() {
     gameWorld.addListener(highscoreListener);
 
-    gameView.initializeLevel(frameSize.getX(), frameSize.getY(), "view_resources/images/backgrounds/JJJario.png");
+    gameView.initializeLevel(frameSize.getX(), frameSize.getY(), "view_resources/images/backgrounds/"+gameView.getGameName()+".png");
     highscoreListener.reset();
     keyListener.reset();
     gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, 0));
@@ -248,6 +249,15 @@ public class Controller {
     }
   }
 
+  public void addCreatable(Vector pos) {
+    int id = gameWorld.getAllGameObjects().size();
+    MovingDestroyable md = gameWorldFactory.makeCreatable(pos, id);
+    List<MovingDestroyable> mdList = new ArrayList<>();
+    mdList.add(md);
+    gameWorld.queueNewMovingDestroyable(mdList);
+    addSprite(md);
+  }
+
   private void step(double d) {
 
     double finalScore = highscoreListener.getScore();
@@ -286,11 +296,15 @@ public class Controller {
   private void addSprites(GameWorld gameWorld) {
     List<GameObject> gameObjects = gameWorld.getAllGameObjects();
     for (GameObject gameObject : gameObjects) {
-      String name = gameObject.getEntityType().get(gameObject.getEntityType().size()-1);
-      Sprite s = new Sprite(gameView.getGameName(), name, gameObject.getSize().getX(), gameObject.getSize().getY(), gameObject.getPosition().getX(), gameObject.getPosition().getY());
-      gameObject.addListener(s);
-      gameView.propertyChange(new PropertyChangeEvent(this, "addSprite", null, s));
+      addSprite(gameObject);
     }
+  }
+
+  private void addSprite(GameObject gameObject) {
+    String name = gameObject.getEntityType().get(gameObject.getEntityType().size()-1);
+    Sprite s = new Sprite(gameView.getGameName(), name, gameObject.getSize().getX(), gameObject.getSize().getY(), gameObject.getPosition().getX(), gameObject.getPosition().getY());
+    gameObject.addListener(s);
+    gameView.propertyChange(new PropertyChangeEvent(this, "addSprite", null, s));
   }
 
   public void displayMenu() {
