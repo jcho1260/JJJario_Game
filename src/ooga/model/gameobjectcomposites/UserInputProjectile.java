@@ -1,8 +1,9 @@
 package ooga.model.gameobjectcomposites;
 
+import java.io.Serializable;
 import ooga.model.util.Vector;
 
-public class UserInputProjectile {
+public class UserInputProjectile implements Serializable {
 
   private double shootingCooldown;
   private double startTime;

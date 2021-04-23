@@ -30,7 +30,7 @@ public class GameSaver {
     String path = "data/saves/" + game + "/" + level;
 
     try {
-      FileInputStream in = new FileInputStream(path + "/" + name + ".game");
+      FileInputStream in = new FileInputStream(path + "/" + name);
       ObjectInputStream s = new ObjectInputStream(in);
       return (GameWorld) s.readObject();
     } catch(IOException | ClassNotFoundException e) {

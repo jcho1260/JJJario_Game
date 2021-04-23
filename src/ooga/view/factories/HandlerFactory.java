@@ -2,16 +2,23 @@ package ooga.view.factories;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import ooga.controller.Controller;
 import ooga.controller.KeyListener;
 import ooga.controller.Profile;
@@ -150,7 +157,21 @@ public class HandlerFactory {
     controller.saveGame();
   }
 
+  private void loadLibrary(Node component, Element e) throws ViewFactoryException, ParseException {
+    Pair<String, String>[] saves = controller.getSaves(e.getElementsByTagName("Game").item(0).getTextContent());
+    ScrollPane sp = (ScrollPane) pcf.make((Element) e.getElementsByTagName("FilePath").item(0));
+    for (Pair<String, String> save : saves) {
+      Button b = (Button) pcf.make((Element) e.getElementsByTagName("Button").item(0));
+      String timestamp = new SimpleDateFormat("HH:mm:ss MM-dd-yyyy").format(new SimpleDateFormat("MM-dd-yyyy_HH_mm_ss").parse(save.getValue()));
+      b.setText(save.getKey().replaceAll( "([A-Za-z])(\\d)", "$1 $2" )+"\t"+timestamp);
+      b.setOnAction(event -> controller.loadGame(save.getKey(), save.getValue()));
+      ((Pane) sp.getContent()).getChildren().add(b);
+    }
+    changeStackPane(component, e, sp);
+  }
+
   private void loadGame(Node component, Element e) {
-    controller.loadGame("Level1", "04-19-2021_23_06_41");
+    String[] decoded = component.getId().split("_");
+    controller.loadGame(decoded[1], decoded[2]);
   }
 }

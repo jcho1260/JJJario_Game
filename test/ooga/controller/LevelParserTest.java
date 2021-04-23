@@ -26,6 +26,6 @@ public class LevelParserTest {
       throws IOException, SAXException, ParserConfigurationException, ClassNotFoundException {
 
     GameWorld gw = gameWorldFactory.createGameWorld(null, new Vector(1000, 1000), 10);
-    assertEquals(2, gw.getAllDestroyables().size());
+    assertEquals(3, gw.getAllDestroyables().size());
   }
 }

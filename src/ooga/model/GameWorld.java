@@ -43,8 +43,6 @@ public class GameWorld extends Observable implements Serializable {
   private Vector playerViewCoord;
   private boolean playerWin;
 
-  private PropertyChangeListener playerListener;
-
   private final double gravity;
   private final double stepTime;
 
@@ -54,7 +52,8 @@ public class GameWorld extends Observable implements Serializable {
   public GameWorld(Player gamePlayer, Map<String, Map<String, List<MethodBundle>>> collisionMethods,
       List<GameObject> gameObjects, List<GameObject> actors, Vector frameSize, int startingLives,
       double levelGravity, double frameRate, Vector minScreenLimit, Vector maxScreenLimit) {
-    playerListener = evt -> notifyListeners(evt.getPropertyName(), null, evt.getNewValue());
+    PropertyChangeListener playerListener = evt -> notifyListeners(evt.getPropertyName(), null,
+        evt.getNewValue());
     player = gamePlayer;
     player.addListener(playerListener);
     windowSize = frameSize;

@@ -27,8 +27,8 @@ public class SaveLoadGameTest {
 
   @Test
   public void testSaveLoad() {
-    gameSaver.saveGame("testGame", "Level1", "testSave", gameWorld);
-    GameWorld loadedWorld = gameSaver.loadGame("testGame", "Level1", "testSave");
+    gameSaver.saveGame("testGame", "level", "testSave", gameWorld);
+    GameWorld loadedWorld = gameSaver.loadGame("testGame", "level", "testSave.game");
 
     int originalNumObjects = gameWorld.getAllGameObjects().size();
     int loadedNumObjects = loadedWorld.getAllGameObjects().size();

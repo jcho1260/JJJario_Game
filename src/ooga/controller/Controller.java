@@ -7,15 +7,19 @@ import java.io.ObjectInputStream;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import javafx.util.Pair;
 import ooga.model.GameWorld;
 import ooga.model.gameobjects.GameObject;
+import ooga.model.gameobjects.MovingDestroyable;
 import ooga.model.util.MethodBundle;
 import ooga.model.util.Vector;
 import ooga.view.game.GameView;
@@ -37,10 +41,11 @@ public class Controller {
   private KeyListener keyListener;
   private Timeline animation;
   private String activeProfile;
-  private final ScoreListener highscoreListener;
+  private final ModelListener highscoreListener;
   private int currentLevel;
   private int totalLevels;
   private GameSaver gameSaver;
+  private GameMaker gameMaker;
 
   public Controller(Vector frameSize, double frameRate) {
     collisionsParser = new CollisionsParser();
@@ -48,7 +53,7 @@ public class Controller {
     this.frameRate = frameRate;
     keyListener = new KeyListener(new Profile("default").getKeybinds());
     activeProfile = "";
-    highscoreListener = new ScoreListener();
+    highscoreListener = new ModelListener();
     gameSaver = new GameSaver();
   }
 
@@ -98,6 +103,54 @@ public class Controller {
     animation.play();
   }
 
+  public void startGameMaker(String game) {
+    gameMaker = new GameMaker(game);
+  }
+
+  public void addObjectToGameMaker(GameObjectMaker gom) {
+    gameMaker.addGameObjectMaker(gom);
+  }
+
+  public void setGameMakerPlayer(Vector pos) {
+    try {
+      gameMaker.createPlayer(pos);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public List<String> getEntityType(String name) {
+    try {
+      return gameMaker.getEntityType(name);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public void saveGameMaker(String name, Vector frameSize, double frameRate, Vector minScreen, Vector maxScreen) {
+    try {
+      GameWorld gw = gameMaker.makeGameWorld(name, frameSize, frameRate, minScreen, maxScreen);
+      gameMaker.saveGame(name, gw);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void loadUserDefinedName(String game, String name) {
+    gameWorld = gameMaker.loadGame(game, name);
+    start();
+  }
+
+  public List<Pair<String, String>> getAllGameObjectsForMaker() {
+    try {
+      return gameMaker.getGameObjects();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
   public void saveGame() {
     String pattern = "MM-dd-yyyy_HH_mm_ss";
     DateFormat df = new SimpleDateFormat(pattern);
@@ -111,9 +164,25 @@ public class Controller {
     start();
   }
 
-  public String[] getSaves(String game, String level) {
-    File folder = new File("data/saves/" + game + "/" + level);
-    return Arrays.stream(folder.listFiles()).map(File::getName).toArray(String[]::new);
+  public Pair<String, String>[] getSaves(String game) {
+    File levelNameFile = new File("data/" + game + "/LevelNames.xml");
+    try {
+      levelNameParser = new LevelNameParser(levelNameFile);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    List<Pair<String, String>> levels = new ArrayList<>();
+    int numLevels = levelNameParser.numLevels();
+    for (int i = 0; i < numLevels; i++) {
+      String level =  levelNameParser.getLevelName(i);
+      File folder = new File("data/saves/" + game + "/" + level);
+      if (folder.exists()) {
+        levels.addAll(Arrays.stream(folder.listFiles()).map(file -> new Pair<>(level,
+            file.getName())).collect(Collectors.toList()));
+      }
+    }
+    return levels.toArray(Pair[]::new);
   }
 
   public void nextLevel() {
@@ -165,6 +234,18 @@ public class Controller {
     if (animation != null) {
       animation.stop();
     }
+  }
+
+  public void addCreatable(Vector pos) {
+    int id = gameWorld.getAllGameObjects().size();
+    MovingDestroyable md = gameWorldFactory.makeCreatable(pos, id);
+    List<MovingDestroyable> mdList = new ArrayList<>();
+    mdList.add(md);
+    gameWorld.queueNewMovingDestroyable(mdList);
+    String name = md.getEntityType().get(md.getEntityType().size()-1);
+    Sprite s = new Sprite(gameView.getGameName(), name, md.getSize().getX(), md.getSize().getY(), md.getPosition().getX(), md.getPosition().getY());
+    md.addListener(s);
+    gameView.propertyChange(new PropertyChangeEvent(this, "addSprite", null, s));
   }
 
   private void step(double d) {
