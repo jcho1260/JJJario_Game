@@ -17,9 +17,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 import javafx.util.Pair;
-import javax.xml.parsers.ParserConfigurationException;
 import ooga.model.GameWorld;
 import ooga.model.gameobjects.GameObject;
+import ooga.model.gameobjects.MovingDestroyable;
 import ooga.model.util.MethodBundle;
 import ooga.model.util.Vector;
 import ooga.view.game.GameView;
@@ -28,7 +28,6 @@ import ooga.view.game.Sprite;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
-import org.xml.sax.SAXException;
 
 public class Controller {
 
@@ -42,7 +41,7 @@ public class Controller {
   private KeyListener keyListener;
   private Timeline animation;
   private String activeProfile;
-  private final ScoreListener highscoreListener;
+  private final ModelListener highscoreListener;
   private int currentLevel;
   private int totalLevels;
   private GameSaver gameSaver;
@@ -54,7 +53,7 @@ public class Controller {
     this.frameRate = frameRate;
     keyListener = new KeyListener(new Profile("default").getKeybinds());
     activeProfile = "";
-    highscoreListener = new ScoreListener();
+    highscoreListener = new ModelListener();
     gameSaver = new GameSaver();
   }
 
@@ -235,6 +234,18 @@ public class Controller {
     if (animation != null) {
       animation.stop();
     }
+  }
+
+  public void addCreatable(Vector pos) {
+    int id = gameWorld.getAllGameObjects().size();
+    MovingDestroyable md = gameWorldFactory.makeCreatable(pos, id);
+    List<MovingDestroyable> mdList = new ArrayList<>();
+    mdList.add(md);
+    gameWorld.queueNewMovingDestroyable(mdList);
+    String name = md.getEntityType().get(md.getEntityType().size()-1);
+    Sprite s = new Sprite(gameView.getGameName(), name, md.getSize().getX(), md.getSize().getY(), md.getPosition().getX(), md.getPosition().getY());
+    md.addListener(s);
+    gameView.propertyChange(new PropertyChangeEvent(this, "addSprite", null, s));
   }
 
   private void step(double d) {

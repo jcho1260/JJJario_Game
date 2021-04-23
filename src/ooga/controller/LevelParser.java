@@ -74,6 +74,21 @@ public class LevelParser {
     return new GameWorld(player, collisions, gameObjects, actors, frameSize, 3, getGlobalGravity(), frameRate, screenMin, screenMax);
   }
 
+  public MovingDestroyable makeCreatable(Vector pos, int id) {
+    NodeList creatables = doc.getElementsByTagName("Creatable");
+    if (creatables.getLength() == 0) return null;
+
+    Element entity = (Element) creatables.item(0);
+
+    NodeList objects = ((Element) doc.getElementsByTagName("GameObjects").item(0).getChildNodes()).getElementsByTagName("GameObject");
+    Map<String, GameObjectInfo> gameObjectMap = getObjectMap(objects);
+
+    String name = entity.getElementsByTagName("Name").item(0).getTextContent();
+
+    GameObjectInfo info = gameObjectMap.get(name);
+    return new MovingDestroyable(info.tags, pos, id, info.size, 0, 1, 0, new Vector(0, -1), new Vector(pos.getX(), 0), info.gravity, true);
+  }
+
   public List<String> getTags(String name) {
     NodeList objects = ((Element) doc.getElementsByTagName("GameObjects").item(0).getChildNodes()).getElementsByTagName("GameObject");
     Map<String, GameObjectInfo> gameObjectMap = getObjectMap(objects);

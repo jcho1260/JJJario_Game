@@ -13,9 +13,9 @@ public class PlayerCollisionTest {
   @Test
   public void init() {
     List<String> entityTags = new ArrayList<>();
-    entityTags.addAll();
-    try {
-      player = new Player()
-    }
+//    entityTags.addAll();
+//    try {
+//      player = new Player()
+//    }
   }
 }

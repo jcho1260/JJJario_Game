@@ -13,6 +13,22 @@
     <x>2000</x>
     <y>1000</y>
   </ScreenLimitsMax>
+
+  <Creatable>
+    <Name>Bullet</Name>
+    <Tags>
+      <Tag>GameObject</Tag>
+      <Tag>MovingDestroyable</Tag>
+      <Tag>Bullet</Tag>
+    </Tags>
+    <Type>MovingDestroyable</Type>
+    <Gravity>0</Gravity>
+    <Size>
+      <x>25</x>
+      <y>25</y>
+    </Size>
+  </Creatable>
+
   <GameObjects>
     <GameObject>
       <Name>Ship</Name>
@@ -39,20 +55,6 @@
       <Size>
         <x>100</x>
         <y>100</y>
-      </Size>
-    </GameObject>
-    <GameObject>
-      <Name>Bullet</Name>
-      <Tags>
-        <Tag>GameObject</Tag>
-        <Tag>MovingDestroyable</Tag>
-        <Tag>Bullet</Tag>
-      </Tags>
-      <Type>MovingDestroyable</Type>
-      <Gravity>0</Gravity>
-      <Size>
-        <x>25</x>
-        <y>25</y>
       </Size>
     </GameObject>
   </GameObjects>
