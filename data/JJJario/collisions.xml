@@ -72,6 +72,20 @@
       </Method>
     </GameObject>
   </Actor>
+
+  <Actor>
+    <Name>Bullet</Name>
+    <GameObject>
+      <Name>GameObject</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+  </Actor>
+
   <Actor>
     <Name>PowerUp</Name>
     <GameObject>
@@ -86,6 +100,15 @@
   </Actor>
   <Actor>
     <Name>Enemy</Name>
+    <GameObject>
+      <Name>Bullet</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
     <GameObject>
       <Name>PowerUp</Name>
     </GameObject>
