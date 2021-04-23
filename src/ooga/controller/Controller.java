@@ -28,6 +28,7 @@ import ooga.view.game.Sprite;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import ooga.view.launcher.BuilderView;
 import org.xml.sax.SAXException;
 
 public class Controller {
@@ -47,6 +48,7 @@ public class Controller {
   private int totalLevels;
   private GameSaver gameSaver;
   private GameMaker gameMaker;
+  private BuilderView builderView;
 
   public Controller(Vector frameSize, double frameRate) {
     collisionsParser = new CollisionsParser();
@@ -104,7 +106,8 @@ public class Controller {
     animation.play();
   }
 
-  public void startGameMaker(String game) {
+  public void startGameMaker(String game, BuilderView builderView) {
+    this.builderView = builderView;
     gameMaker = new GameMaker(game);
   }
 
@@ -154,6 +157,10 @@ public class Controller {
       e.printStackTrace();
     }
     return null;
+  }
+
+  public void displayBuilderSprite(String imageName, Vector pos, Vector size) {
+    builderView.displayBuilderSprite(imageName, pos, size);
   }
 
   public void saveGame() {

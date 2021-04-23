@@ -195,7 +195,6 @@ public class HandlerFactory {
         stringFromTextField(p, "#LevelNameInput"),
         frameSize,
         levelSize);
-    controller.setGameMakerPlayer(new Vector(0,0));
   }
 
   private String stringFromTextField(Node n, String id) {
@@ -220,6 +219,8 @@ public class HandlerFactory {
     ArrayList<Object> objList = new ArrayList<>();
     objList.add(controller.getEntityTypes(objName));
     NodeList argNodes = e.getElementsByTagName("Arg");
+    Vector pos = null;
+    Vector size = null;
     for (int i = 0; i < argNodes.getLength(); i++) {
       if (argNodes.item(i).getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
         Element argElem = (Element) argNodes.item(i);
@@ -231,7 +232,13 @@ public class HandlerFactory {
         String argClass =  argElem.getElementsByTagName("Class").item(0).getTextContent();
         try {
           Method m = HandlerFactory.class.getDeclaredMethod(argClass.toLowerCase()+"FromTextField", Node.class, String.class);
-          objList.add(m.invoke(this, component.getScene().lookup("#StageBuilderInfoVBox"), "#"+name+"Input"));
+          Object o = m.invoke(this, component.getScene().lookup("#StageBuilderInfoVBox"), "#"+name+"Input");
+          if (name.equals("Position")) {
+            pos = (Vector) o;
+          } if (name.equals("Size")) {
+            size = (Vector) o;
+          }
+          objList.add(o);
         } catch (Exception exception) {
           exception.printStackTrace();
         }
@@ -244,5 +251,16 @@ public class HandlerFactory {
         new GameObjectMaker(
             "ooga.model.gameobjects."+e.getElementsByTagName("ObjectType").item(0).getTextContent(),
             objList.toArray()));
+    controller.displayBuilderSprite(objName, pos, size);
+  }
+
+  private void makePlayer(Node component, Element e) {
+    controller.setGameMakerPlayer(
+        vectorFromTextField(
+            component.getScene().lookup("#StageBuilderInfoVBox"),
+            "#PositionInput"),
+        vectorFromTextField(
+            component.getScene().lookup("#StageBuilderInfoVBox"),
+            "#SizeInput"));
   }
 }

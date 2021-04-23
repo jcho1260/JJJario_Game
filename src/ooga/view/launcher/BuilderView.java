@@ -20,6 +20,7 @@ import ooga.model.util.Vector;
 import ooga.view.factories.ParentComponentFactory;
 import ooga.view.factories.SceneFactory;
 import ooga.view.factories.ViewFactoryException;
+import ooga.view.game.Sprite;
 import org.w3c.dom.Element;
 
 public class BuilderView {
@@ -32,6 +33,7 @@ public class BuilderView {
   private Vector levelSize;
   private Stage builderStage;
   private String colors;
+  private Group builderGroup;
 
   public BuilderView(Controller controller, ParentComponentFactory pcf, String colors) {
     this.controller = controller;
@@ -46,9 +48,9 @@ public class BuilderView {
     this.levelSize = levelSize;
     this.levelName = levelName;
 
-    controller.startGameMaker(game);
+    controller.startGameMaker(game, this);
 
-    Group builderGroup = new Group();
+    builderGroup = new Group();
     builderGroup.setId("BuilderGroup");
     Button b = new Button("Build Level");
     b.setOnAction(event -> buildCustomStage());
@@ -60,7 +62,7 @@ public class BuilderView {
     p.setPrefWidth(levelSize.getX());
     sp.setPrefViewportHeight(frameSize.getY());
     sp.setPrefViewportWidth(frameSize.getX());
-    sp.setContextMenu(makeObjectTypeMenu(sp));
+    sp.setContextMenu(makeObjectTypeMenu());
     p.getChildren().add(builderGroup);
 
     builderStage = new Stage();
@@ -68,8 +70,12 @@ public class BuilderView {
     Scene temp = new Scene(sp);
     builderStage.setScene(temp);
     builderStage.show();
+  }
 
-    System.out.println("Make Game Maker");
+  public void displayBuilderSprite(String imageName, Vector pos, Vector size) {
+    ImageView newSprite = new Sprite(game, imageName, size.getX(), size.getY(), pos.getX(), pos.getY()).getImageView();
+    newSprite.setVisible(true);
+    builderGroup.getChildren().add(newSprite);
   }
 
   private void queryObjectInfo(String name, String type) throws ViewFactoryException {
@@ -90,14 +96,21 @@ public class BuilderView {
     queryStage.show();
   }
 
-  private ContextMenu makeObjectTypeMenu(ScrollPane sp) {
+  private ContextMenu makeObjectTypeMenu() {
     List<Pair<String, String>> objectTypes = controller.getAllGameObjectsForMaker();
     ContextMenu contextMenu = new ContextMenu();
+    MenuItem buildItem = new MenuItem("Build");
+    buildItem.setOnAction(event -> buildCustomStage());
+    contextMenu.getItems().add(buildItem);
     for (Pair<String, String> type : objectTypes) {
       MenuItem mi = new MenuItem(type.getKey());
       mi.setOnAction(event -> {
         try {
-          queryObjectInfo(type.getKey(), type.getValue());
+          if (type.equals("Player")) {
+            setPlayer();
+          } else {
+            queryObjectInfo(type.getKey(), type.getValue());
+          }
         } catch (ViewFactoryException e) {
           e.printStackTrace();
         }
@@ -105,6 +118,15 @@ public class BuilderView {
       contextMenu.getItems().add(mi);
     }
     return contextMenu;
+  }
+
+  private void setPlayer() throws ViewFactoryException {
+    Scene queryScene = new SceneFactory(controller).make("resources/view_resources/launcher/builder/PlayerMaker.XML");
+    queryScene.getStylesheets().add(colors);
+    Stage queryStage = new Stage();
+    queryStage.setTitle("Player Maker");
+    queryStage.setScene(queryScene);
+    queryStage.show();
   }
 
   private void buildCustomStage() {
