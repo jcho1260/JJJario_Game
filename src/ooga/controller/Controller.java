@@ -54,6 +54,7 @@ public class Controller {
     keyListener = new KeyListener(new Profile("default").getKeybinds());
     activeProfile = "";
     highscoreListener = new ModelListener();
+    highscoreListener.addController(this);
     gameSaver = new GameSaver();
   }
 
