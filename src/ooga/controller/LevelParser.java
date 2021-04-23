@@ -80,7 +80,7 @@ public class LevelParser {
 
     Element entity = (Element) creatables.item(0);
 
-    NodeList objects = ((Element) doc.getElementsByTagName("GameObjects").item(0).getChildNodes()).getElementsByTagName("GameObject");
+    NodeList objects = doc.getElementsByTagName("Creatable");
     Map<String, GameObjectInfo> gameObjectMap = getObjectMap(objects);
 
     String name = entity.getElementsByTagName("Name").item(0).getTextContent();
