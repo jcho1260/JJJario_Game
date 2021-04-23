@@ -26,10 +26,15 @@ public class GameMaker {
   private List<GameObjectMaker> gameObjectMakerList;
   private String game;
   private Player player;
+  private int numObjects = 1;
 
   public GameMaker(String game) {
     this.game = game;
     gameObjectMakerList = new ArrayList<>();
+  }
+
+  public int getNumObjects() {
+    return numObjects;
   }
 
   public String getGame() {
@@ -38,13 +43,13 @@ public class GameMaker {
 
   public List<String> getEntityType(String name)
       throws IOException, SAXException, ParserConfigurationException {
-    LevelParser lp = new LevelParser(new File("data/" + game + "Level1.xml"));
+    LevelParser lp = new LevelParser(new File("data/" + game + "/Level1.xml"));
     return lp.getTags(name);
   }
 
   public List<Pair<String, String>> getGameObjects()
       throws IOException, SAXException, ParserConfigurationException {
-    LevelParser lp = new LevelParser(new File("data/" + game + "Level1.xml"));
+    LevelParser lp = new LevelParser(new File("data/" + game + "/Level1.xml"));
     return lp.getAllGameObjects();
   }
 
@@ -56,12 +61,13 @@ public class GameMaker {
   }
 
   public void addGameObjectMaker(GameObjectMaker gameObjectMaker) {
+    numObjects++;
     gameObjectMakerList.add(gameObjectMaker);
   }
 
   public void saveGame(String name, GameWorld gameWorld) {
     try {
-      FileOutputStream f = new FileOutputStream("UserDefined/" + game + "/" + name + ".game");
+      FileOutputStream f = new FileOutputStream("data/UserDefined/" + game + "/" + name + ".game");
       ObjectOutput s = new ObjectOutputStream(f);
       s.writeObject(gameWorld);
     } catch (Exception e) {
@@ -71,7 +77,7 @@ public class GameMaker {
 
   public GameWorld loadGame(String game, String name) {
 
-    String path = "UserDefined/" + game + "/" + name + ".game";
+    String path = "data/UserDefined/" + game + "/" + name + ".game";
 
     try {
       FileInputStream in = new FileInputStream(path);

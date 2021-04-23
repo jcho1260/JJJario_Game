@@ -129,10 +129,10 @@ public class Controller {
     return null;
   }
 
-  public void saveGameMaker(String name, Vector frameSize, double frameRate, Vector minScreen, Vector maxScreen) {
+  public void saveGameMaker(String gameName, String levelName, Vector frameSize, double frameRate, Vector minScreen, Vector maxScreen) {
     try {
-      GameWorld gw = gameMaker.makeGameWorld(name, frameSize, frameRate, minScreen, maxScreen);
-      gameMaker.saveGame(name, gw);
+      GameWorld gw = gameMaker.makeGameWorld(gameName, frameSize, frameRate, minScreen, maxScreen);
+      gameMaker.saveGame(levelName, gw);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -141,6 +141,10 @@ public class Controller {
   public void loadUserDefinedName(String game, String name) {
     gameWorld = gameMaker.loadGame(game, name);
     start();
+  }
+
+  public int getNumGameMakers() {
+    return gameMaker.getNumObjects();
   }
 
   public List<Pair<String, String>> getAllGameObjectsForMaker() {

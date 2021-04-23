@@ -1,16 +1,24 @@
-HBox {
+VBox {
     -fx-background-color:-dark-color;
-    -fx-spacing: 10;
+    -fx-spacing: 20;
+    -fx-alignment: CENTER;
+    -fx-background-radius: 10;
+    -fx-padding: 20;
+}
+
+.button {
+    -fx-text-fill: -text-color;
+    -fx-text-alignment: left;
+    -fx-font-family: "Roboto Light";
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-wrap-text: true;
+    -fx-background-color: -normal-color;
     -fx-alignment: CENTER;
 }
 
-Text {
-    -fx-fill: -text-color;
-    -fx-text-alignment: right;
-    -fx-font-family: "Roboto Light";
-    -fx-font-weight: bold;
-    -fx-font-size: 40px;
-    -fx-wrap-text: true;
+.button:hover {
+    -fx-background-color: -light-color;
 }
 
 .text-field {

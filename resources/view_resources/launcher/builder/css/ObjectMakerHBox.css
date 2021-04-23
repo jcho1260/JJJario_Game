@@ -1,0 +1,15 @@
+HBox {
+    -fx-background-color:-normal-color;
+    -fx-spacing: 40;
+    -fx-alignment: CENTER;
+    -fx-padding: 40;
+}
+
+Text {
+    -fx-fill: -text-color;
+    -fx-text-alignment: right;
+    -fx-font-family: "Roboto Light";
+    -fx-font-weight: bold;
+    -fx-font-size: 40px;
+    -fx-wrap-text: true;
+}

@@ -2,9 +2,10 @@ package ooga.view.factories;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,6 +22,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import ooga.controller.Controller;
+import ooga.controller.GameObjectMaker;
 import ooga.controller.KeyListener;
 import ooga.controller.Profile;
 import ooga.model.util.Vector;
@@ -28,6 +30,7 @@ import ooga.view.game.GameView;
 import ooga.view.launcher.BuilderView;
 import ooga.view.launcher.ProfileView;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 public class HandlerFactory {
 
@@ -179,17 +182,67 @@ public class HandlerFactory {
   }
 
   private void startBuilder(Node component, Element e) throws ViewFactoryException {
-    Pane p = ((Pane) component.getParent());
+    Node p = component.getParent();
     Vector frameSize = new Vector(
-        Double.parseDouble(extractText(p, "#ViewWidthInput")),
-            Double.parseDouble(extractText(p, "#ViewHeightInput")));
+        doubleFromTextField(p, "#ViewWidthInput"),
+        doubleFromTextField(p, "#ViewHeightInput"));
     Vector levelSize = new Vector(
-        Double.parseDouble(extractText(p, "#LevelWidthInput")),
-        Double.parseDouble(extractText(p, "#LevelHeightInput")));
-    new BuilderView(controller, pcf).startBuilder((Element) e.getElementsByTagName("FilePath").item(0), extractText(p, "#GameNameInput"), frameSize, levelSize);
+        doubleFromTextField(p, "#LevelWidthInput"),
+        doubleFromTextField(p, "#LevelHeightInput"));
+    new BuilderView(controller, pcf, component.getScene().getStylesheets().get(0)).startBuilder(
+        (Element) e.getElementsByTagName("FilePath").item(0),
+        stringFromTextField(p, "#GameNameInput"),
+        stringFromTextField(p, "#LevelNameInput"),
+        frameSize,
+        levelSize);
+    controller.setGameMakerPlayer(new Vector(0,0));
   }
 
-  private String extractText(Parent p, String id) {
-    return ((TextField) p.lookup(id)).getText();
+  private String stringFromTextField(Node n, String id) {
+    return ((TextField) n.lookup(id)).getText();
+  }
+
+  private int intFromTextField(Node n, String id) {
+    return Integer.parseInt(((TextField) n.lookup(id)).getText());
+  }
+
+  private double doubleFromTextField(Node n, String id) {
+    return Double.parseDouble(((TextField) n.lookup(id)).getText());
+  }
+
+  private Vector vectorFromTextField(Node n, String id) {
+    String[] arr = ((TextField) n.lookup(id)).getText().split(",");
+    return new Vector(Double.parseDouble(arr[0]), Double.parseDouble(arr[1]));
+  }
+
+  private void makeObject(Node component, Element e) {
+    String objName = ((Button) component).getText().substring(5,((Button) component).getText().length()-1);
+    ArrayList<Object> objList = new ArrayList<>();
+    objList.add(controller.getEntityTypes(objName));
+    NodeList argNodes = e.getElementsByTagName("Arg");
+    for (int i = 0; i < argNodes.getLength(); i++) {
+      if (argNodes.item(i).getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+        Element argElem = (Element) argNodes.item(i);
+        String name = argElem.getElementsByTagName("Name").item(0).getTextContent();
+        if (name.equals("ID")) {
+          objList.add(controller.getNumGameMakers());
+          continue;
+        }
+        String argClass =  argElem.getElementsByTagName("Class").item(0).getTextContent();
+        try {
+          Method m = HandlerFactory.class.getDeclaredMethod(argClass.toLowerCase()+"FromTextField", Node.class, String.class);
+          objList.add(m.invoke(this, component.getScene().lookup("#StageBuilderInfoVBox"), "#"+name+"Input"));
+        } catch (Exception exception) {
+          exception.printStackTrace();
+        }
+      }
+    }
+    objList.add(true);
+    System.out.println(objName);
+    System.out.println(Arrays.toString(objList.toArray()));
+    controller.addObjectToGameMaker(
+        new GameObjectMaker(
+            "ooga.model.gameobjects."+e.getElementsByTagName("ObjectType").item(0).getTextContent(),
+            objList.toArray()));
   }
 }

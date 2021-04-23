@@ -4,18 +4,27 @@
     <Text>Stage Builder Parameters</Text>
   </TextObj>
   <TextField id="GameNameInput" type="Leaf">
+    <Width>300</Width>
     <Prompt>Game</Prompt>
   </TextField>
+  <TextField id="LevelNameInput" type="Leaf">
+    <Width>300</Width>
+    <Prompt>Level Name</Prompt>
+  </TextField>
   <TextField id="ViewWidthInput" type="Leaf">
+    <Width>300</Width>
     <Prompt>View Width</Prompt>
   </TextField>
   <TextField id="ViewHeightInput" type="Leaf">
+    <Width>300</Width>
     <Prompt>View Height</Prompt>
   </TextField>
   <TextField id="LevelWidthInput" type="Leaf">
+    <Width>300</Width>
     <Prompt>Level Width</Prompt>
   </TextField>
   <TextField id="LevelHeightInput" type="Leaf">
+    <Width>300</Width>
     <Prompt>Level Height</Prompt>
   </TextField>
   <Button id="StartBuilderButton" type="Leaf">

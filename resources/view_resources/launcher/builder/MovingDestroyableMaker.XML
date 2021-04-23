@@ -1,0 +1,84 @@
+<?xml version = "1.0" ?>
+<HBox id="StageBuilderInfoVBox" type="Pane" style="view_resources/launcher/builder/css/ObjectMakerHBox.css">
+  <VBox id="StageBuilderInfoVBox" type="Pane" style="view_resources/launcher/builder/css/ObjectMakerVBox.css">
+    <ImageView id="GameObjectImage" type="Leaf">
+      <Image>
+        <Path>view_resources/images/button_icons/HammerAnvil.png</Path>
+      </Image>
+      <Ratio>true</Ratio>
+      <Height>200</Height>
+      <Width>200</Width>
+    </ImageView>
+    <Button id="MakeObjectButton" type="Leaf">
+      <Text>Make MovingDestroyable!</Text>
+      <Event method="setOnAction">
+        <Type>makeObject</Type>
+        <ObjectType>MovingDestroyable</ObjectType>
+        <Arg>
+          <Name>Position</Name>
+          <Class>Vector</Class>
+        </Arg>
+        <Arg>
+          <Name>ID</Name>
+        </Arg>
+        <Arg>
+          <Name>Size</Name>
+          <Class>Vector</Class>
+        </Arg>
+        <Arg>
+          <Name>StartLife</Name>
+          <Class>Integer</Class>
+        </Arg>
+        <Arg>
+          <Name>StartHealth</Name>
+          <Class>Integer</Class>
+        </Arg>
+        <Arg>
+          <Name>Score</Name>
+          <Class>Integer</Class>
+        </Arg>
+        <Arg>
+          <Name>IntVelocity</Name>
+          <Class>Vector</Class>
+        </Arg>
+        <Arg>
+          <Name>FinalPosition</Name>
+          <Class>Vector</Class>
+        </Arg>
+        <Arg>
+          <Name>GravityScale</Name>
+          <Class>Double</Class>
+        </Arg>
+      </Event>
+    </Button>
+  </VBox>
+  <VBox id="StageBuilderInfoVBox" type="Pane" style="view_resources/launcher/builder/css/ObjectMakerVBox.css">
+    <TextObj id="StageBuilderTitle" type="Leaf">
+      <Text>MovingDestroyable Parameters</Text>
+    </TextObj>
+    <TextField id="PositionInput" type="Leaf">
+      <Prompt>Initial Position (Format: x,y)</Prompt>
+    </TextField>
+    <TextField id="SizeInput" type="Leaf">
+      <Prompt>Size (Format: w,h)</Prompt>
+    </TextField>
+    <TextField id="StartLifeInput" type="Leaf">
+      <Prompt>Number of Lives</Prompt>
+    </TextField>
+    <TextField id="StartHealthInput" type="Leaf">
+      <Prompt>Hit-Point Number</Prompt>
+    </TextField>
+    <TextField id="ScoreInput" type="Leaf">
+      <Prompt>Point Value</Prompt>
+    </TextField>
+    <TextField id="IntVelocityInput" type="Leaf">
+      <Prompt>Initial Velocity (Format: x,y)</Prompt>
+    </TextField>
+    <TextField id="FinalPositionInput" type="Leaf">
+      <Prompt>Final Position (Format: x,y)</Prompt>
+    </TextField>
+    <TextField id="GravityScaleInput" type="Leaf">
+      <Prompt>Gravity Scalar</Prompt>
+    </TextField>
+  </VBox>
+</HBox>
