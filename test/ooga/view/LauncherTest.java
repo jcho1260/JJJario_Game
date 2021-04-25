@@ -159,7 +159,7 @@ class LauncherTest extends DukeApplicationTest {
     TextField tf = lookup("#UsernameInputBox").query();
     assertNotNull(tf);
     clickOn(tf);
-    type(KeyCode.A, KeyCode.D, KeyCode.A, KeyCode.M, KeyCode.ENTER);
+    type(KeyCode.T, KeyCode.E, KeyCode.S, KeyCode.T, KeyCode.ENTER);
     assertNotNull(lookup("#ProfileMenuVBox1").query());
   }
 
