@@ -90,6 +90,7 @@ public class GameWorld extends Observable implements Serializable {
     updateAllActiveInfo();
     sendViewCoords();
     currentFrameCount++;
+//    System.out.println(player.getPosition());
   }
 
   private void printAllDest(List<GameObject> obj) {
@@ -149,7 +150,7 @@ public class GameWorld extends Observable implements Serializable {
   }
 
   public void queueNewMovingDestroyable(List<MovingDestroyable> newMovingDestroyables) {
-    if (newMovingDestroyables.size() != 0){
+    if (newMovingDestroyables.size() != 0 && newMovingDestroyables.get(0) != null){
       runtimeCreations.addAll(newMovingDestroyables);
     }
   }
