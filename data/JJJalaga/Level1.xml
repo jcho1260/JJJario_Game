@@ -27,6 +27,10 @@
       <x>25</x>
       <y>25</y>
     </Size>
+    <Offset>
+      <x>0</x>
+      <y>100</y>
+    </Offset>
   </Creatable>
 
   <GameObjects>

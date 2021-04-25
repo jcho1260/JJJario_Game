@@ -34,7 +34,7 @@ public class LevelParser {
     doc = db.parse(file);
   }
 
-  public GameWorld createGameWorld(Map<String, Map<String, List<MethodBundle>>> collisions, Vector frameSize, double frameRate) throws ClassNotFoundException {
+  public GameWorld createGameWorld(Map<String, Map<String, List<MethodBundle>>> collisions, double frameRate) throws ClassNotFoundException {
 
     NodeList objects = ((Element) doc.getElementsByTagName("GameObjects").item(0).getChildNodes()).getElementsByTagName("GameObject");
 
@@ -71,7 +71,13 @@ public class LevelParser {
     Vector screenMin = getScreenLim(doc, "ScreenLimitsMin");
     Vector screenMax = getScreenLim(doc, "ScreenLimitsMax");
 
+    Vector frameSize = getFrameSize();
+
     return new GameWorld(player, collisions, gameObjects, actors, frameSize, 3, getGlobalGravity(), frameRate, screenMin, screenMax);
+  }
+
+  public Vector getFrameSize() {
+    return getVectorAttribute(doc.getDocumentElement(), "Size");
   }
 
   public MovingDestroyable makeCreatable(Vector pos, int id) {
@@ -86,8 +92,10 @@ public class LevelParser {
 
     String name = entity.getElementsByTagName("Name").item(0).getTextContent();
 
+    Vector offset = getVectorAttribute(entity, "Offset");
+
     GameObjectInfo info = gameObjectMap.get(name);
-    return new MovingDestroyable(info.tags, new Vector(pos.getX(), pos.getY()-50), id, info.size, 0, 1, 0, new Vector(0, -100), new Vector(pos.getX(), 0), info.gravity, true);
+    return new MovingDestroyable(info.tags, new Vector(pos.getX()+offset.getX(), pos.getY()+offset.getY()), id, info.size, 0, 1, 0, new Vector(0, -1), new Vector(pos.getX(), 0), info.gravity, true);
   }
 
   public List<String> getTags(String name) {
