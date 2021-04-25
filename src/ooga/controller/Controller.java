@@ -7,10 +7,7 @@ import java.io.ObjectInputStream;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 import java.util.stream.Collectors;
 import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
@@ -26,8 +23,7 @@ import ooga.view.game.GameView;
 import ooga.view.game.Sprite;
 
 import java.io.File;
-import java.util.List;
-import java.util.Map;
+
 import ooga.view.launcher.BuilderView;
 import org.xml.sax.SAXException;
 
@@ -298,7 +294,7 @@ public class Controller {
   }
 
   public void addCreatable(Vector pos) {
-    int id = gameWorld.getAllGameObjects().size();
+    int id = new Random().nextInt(Integer.MAX_VALUE);
     MovingDestroyable md = gameWorldFactory.makeCreatable(pos, id);
     List<MovingDestroyable> mdList = new ArrayList<>();
     mdList.add(md);
