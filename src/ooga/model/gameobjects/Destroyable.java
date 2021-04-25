@@ -118,7 +118,7 @@ public class Destroyable extends GameObject{
    *
    * @return health
    */
-  protected int getHealth() {
+  protected double getHealth() {
     return health.getHealth();
   }
 
@@ -127,7 +127,7 @@ public class Destroyable extends GameObject{
    *
    * @return lives
    */
-  protected int getLives() {
+  protected double getLives() {
     return health.getLives();
   }
 

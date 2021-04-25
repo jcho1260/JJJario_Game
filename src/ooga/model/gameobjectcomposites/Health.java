@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public class Health implements Serializable {
 
-  private int startHealth;
-  private int health;
-  private int lives;
+  private double startHealth;
+  private double health;
+  private double lives;
 
   public Health(int startingHealth, int startingLives) {
     startHealth = startingHealth;
@@ -46,7 +46,7 @@ public class Health implements Serializable {
    *
    * @return health
    */
-  public int getHealth() {
+  public double getHealth() {
     return health;
   }
 
@@ -55,7 +55,7 @@ public class Health implements Serializable {
    *
    * @return lives
    */
-  public int getLives() {
+  public double getLives() {
     return lives;
   }
 
