@@ -47,6 +47,7 @@ public class Controller {
   private GameSaver gameSaver;
   private GameMaker gameMaker;
   private BuilderView builderView;
+  private String currGame;
 
   public Controller(Vector frameSize, double frameRate) {
     collisionsParser = new CollisionsParser();
@@ -63,26 +64,26 @@ public class Controller {
     gameSaver = new GameSaver();
   }
 
-  public int getNumLevels(String gameName) {
+  public int getNumLevels() {
     try {
-      levelNameParser = new LevelNameParser(new File("data/" + gameName + "/LevelNames.xml"));
+      levelNameParser = new LevelNameParser(new File("data/" + currGame + "/LevelNames.xml"));
     } catch (Exception e) {
       e.printStackTrace();
     }
     return levelNameParser.numLevels();
   }
 
-  public String getLevelName(String gameName, int n) {
+  public String getLevelName(int n) {
     try {
-      levelNameParser = new LevelNameParser(new File("data/" + gameName + "/LevelNames.xml"));
+      levelNameParser = new LevelNameParser(new File("data/" + currGame + "/LevelNames.xml"));
     } catch (Exception e) {
       e.printStackTrace();
     }
     return levelNameParser.getLevelName(n);
   }
 
-  public String[] getUserDefinedLevels(String game) {
-    File folder = new File("data/UserDefined/" + game);
+  public String[] getUserDefinedLevels() {
+    File folder = new File("data/UserDefined/" + currGame);
     return Arrays.stream(folder.listFiles()).map(file -> file.getName().replaceAll(".game", ""))
             .filter(name -> !name.equals("FOLDER_PURPOSE.md")).toArray(String[]::new);
   }
@@ -95,7 +96,7 @@ public class Controller {
 
     currentLevel = n;
 
-    String gameName = gameView.getGameName();
+    String gameName = currGame;
     File levelNameFile = new File("data/" + gameName + "/LevelNames.xml");
 
     try {
@@ -115,10 +116,14 @@ public class Controller {
     start();
   }
 
+  public void setCurrGame(String game) {
+    this.currGame = game;
+  }
+
   private void start() {
     gameWorld.addListener(highscoreListener);
 
-    gameView.initializeLevel(frameSize.getX(), frameSize.getY(), "view_resources/images/backgrounds/"+gameView.getGameName()+".png");
+    gameView.initializeLevel(frameSize.getX(), frameSize.getY(), "view_resources/images/backgrounds/"+currGame+".png");
     highscoreListener.reset();
     keyListener.reset();
     gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, 0));
@@ -168,10 +173,10 @@ public class Controller {
     }
   }
 
-  public void loadUserDefinedName(String game, String name) {
+  public void loadUserDefinedName(String name) {
     try {
-      gameMaker = new GameMaker(game);
-      gameWorld = gameMaker.loadGame(game, name);
+      gameMaker = new GameMaker(currGame);
+      gameWorld = gameMaker.loadGame(currGame, name);
     } catch (Exception e) {
       reportError(e);
     }
@@ -201,7 +206,7 @@ public class Controller {
     String dateString = df.format(new Date());
 
     try {
-      gameSaver.saveGame(gameView.getGameName(), levelNameParser.getLevelName(currentLevel), dateString, gameWorld);
+      gameSaver.saveGame(currGame, levelNameParser.getLevelName(currentLevel), dateString, gameWorld);
     } catch (Exception e) {
       reportError(e);
     }
@@ -209,15 +214,15 @@ public class Controller {
 
   public void loadGame(String level, String dateString) {
     try {
-      gameWorld = gameSaver.loadGame(gameView.getGameName(), level, dateString);
+      gameWorld = gameSaver.loadGame(currGame, level, dateString);
     } catch (Exception e) {
       reportError(e);
     }
     start();
   }
 
-  public Pair<String, String>[] getSaves(String game) {
-    File levelNameFile = new File("data/" + game + "/LevelNames.xml");
+  public Pair<String, String>[] getSaves() {
+    File levelNameFile = new File("data/" + currGame + "/LevelNames.xml");
     try {
       levelNameParser = new LevelNameParser(levelNameFile);
     } catch (Exception e) {
@@ -228,7 +233,7 @@ public class Controller {
     int numLevels = levelNameParser.numLevels();
     for (int i = 0; i < numLevels; i++) {
       String level =  levelNameParser.getLevelName(i);
-      File folder = new File("data/saves/" + game + "/" + level);
+      File folder = new File("data/saves/" + currGame + "/" + level);
       if (folder.exists()) {
         levels.addAll(Arrays.stream(folder.listFiles()).map(file -> new Pair<>(level,
             file.getName())).collect(Collectors.toList()));
@@ -327,8 +332,8 @@ public class Controller {
   private void handleHighscore(double score) {
     Profile profile = getProfile(activeProfile);
 
-    profile.getHighScores().computeIfAbsent(gameView.getGameName(), k -> new HashMap<>());
-    Map<String, Integer> scores = profile.getHighScores().get(gameView.getGameName());
+    profile.getHighScores().computeIfAbsent(currGame, k -> new HashMap<>());
+    Map<String, Integer> scores = profile.getHighScores().get(currGame);
 
     String levelName = levelNameParser.getLevelName(currentLevel);
     if (scores.get(levelName) == null || scores.get(levelName) < score) {
@@ -346,7 +351,7 @@ public class Controller {
 
   private void addSprite(GameObject gameObject) {
     String name = gameObject.getEntityType().get(gameObject.getEntityType().size()-1);
-    Sprite s = new Sprite(gameView.getGameName(), name, gameObject.getSize().getX(), gameObject.getSize().getY(), gameObject.getPosition().getX(), gameObject.getPosition().getY());
+    Sprite s = new Sprite(currGame, name, gameObject.getSize().getX(), gameObject.getSize().getY(), gameObject.getPosition().getX(), gameObject.getPosition().getY());
     gameObject.addListener(s);
     gameView.propertyChange(new PropertyChangeEvent(this, "addSprite", null, s));
   }

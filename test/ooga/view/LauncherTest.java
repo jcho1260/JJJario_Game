@@ -123,6 +123,8 @@ class LauncherTest extends DukeApplicationTest {
   @Test
   void JJJarioLevel1Button () {
     JJJarioGameButton();
+    Button levelLibrary = lookup("#LevelLibraryButton").query();
+    clickOn(levelLibrary);
     assertNotNull(lookup("#Level1Button").query());
     Button level1Button = lookup("#Level1Button").query();
     clickOn(level1Button);

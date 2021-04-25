@@ -5,12 +5,10 @@ import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ScrollPane;
@@ -70,15 +68,11 @@ public class HandlerFactory {
     String filePath = e.getElementsByTagName("Path").item(0).getTextContent();
     String gameName = e.getElementsByTagName("Game").item(0).getTextContent();
     KeyListener kl = controller.getKeyListener();
+    controller.setCurrGame(gameName);
     GameView gv = new GameView(gameName, newStage, kl, controller,
         component.getScene().getStylesheets().get(0));
     controller.startGame(gv);
     gv.start(filePath);
-  }
-
-  private void startLevel(Node component, Element e) {
-    int levelName = Integer.parseInt(e.getElementsByTagName("Level").item(0).getTextContent());
-    controller.startLevel(levelName-1);
   }
 
   private void goToMenu(Node component, Element e) {
@@ -163,8 +157,31 @@ public class HandlerFactory {
     controller.saveGame();
   }
 
+  private void levelLibrary(Node component, Element e) throws ViewFactoryException {
+    int numLevels = controller.getNumLevels();
+    ScrollPane sp = (ScrollPane) pcf.make((Element) e.getElementsByTagName("FilePath").item(0));
+    for (int i = 0; i < numLevels; i++) {
+      String levelName = controller.getLevelName(i);
+      Button b = (Button) pcf.make((Element) e.getElementsByTagName("Button").item(0));
+      b.setText(levelName.replaceAll("([A-Za-z])(\\d)", "$1 $2"));
+      b.setId(levelName+"Button");
+      int finalI = i;
+      b.setOnAction(event -> controller.startLevel(finalI));
+      ((Pane) sp.getContent()).getChildren().add(b);
+    }
+    String[] userDefined = controller.getUserDefinedLevels();
+    for (String levelName : userDefined) {
+      Button b = (Button) pcf.make((Element) e.getElementsByTagName("Button").item(0));
+      b.setText(levelName);
+      b.setId(levelName+"Button");
+      b.setOnAction(event -> controller.loadUserDefinedName(levelName));
+      ((Pane) sp.getContent()).getChildren().add(b);
+    }
+    changeStackPane(component, e, sp);
+  }
+
   private void loadLibrary(Node component, Element e) throws ViewFactoryException, ParseException {
-    Pair<String, String>[] saves = controller.getSaves(e.getElementsByTagName("Game").item(0).getTextContent());
+    Pair<String, String>[] saves = controller.getSaves();
     ScrollPane sp = (ScrollPane) pcf.make((Element) e.getElementsByTagName("FilePath").item(0));
     for (Pair<String, String> save : saves) {
       Button b = (Button) pcf.make((Element) e.getElementsByTagName("Button").item(0));
@@ -245,8 +262,6 @@ public class HandlerFactory {
       }
     }
     objList.add(true);
-    System.out.println(objName);
-    System.out.println(Arrays.toString(objList.toArray()));
     controller.addObjectToGameMaker(
         new GameObjectMaker(
             "ooga.model.gameobjects."+e.getElementsByTagName("ObjectType").item(0).getTextContent(),
