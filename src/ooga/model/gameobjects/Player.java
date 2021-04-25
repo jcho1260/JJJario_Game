@@ -39,11 +39,6 @@ public class Player extends Destroyable {
     initialPosition = initPosition;
   }
 
-  public void initalizeHUD() {
-    notifyListenerIndex(0, "changeHealth", null, super.getHealth());
-    notifyListenerIndex(0, "changeLife", null, super.getLives());
-  }
-
   /**
    * Handles player movement given user input.
    *
@@ -54,6 +49,8 @@ public class Player extends Destroyable {
   public void userStep(Action direction, double elapsedTime, double gameGravity, int currentFrame)
       throws NoSuchMethodException, SecurityException, IllegalAccessException,
       IllegalArgumentException, InvocationTargetException {
+    notifyListenerIndex(0, "changeHealth", null, super.getHealth());
+    notifyListenerIndex(0, "changeLife", null, super.getLives());
     framesSinceDamage++;
 
     String methodName = direction.toString().toLowerCase();

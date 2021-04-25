@@ -8,12 +8,18 @@ import java.beans.PropertyChangeListener;
 public class ModelListener implements PropertyChangeListener {
 
     double score;
+    double health;
+    double lives;
     Vector creatableLocation;
     Controller controller;
 
     public double getScore() {
         return score;
     }
+
+    public double getHealth() { return health; }
+
+    public double getLives() { return  lives; }
 
     public Vector getCreatableLocation() {
         return  creatableLocation;
@@ -37,6 +43,12 @@ public class ModelListener implements PropertyChangeListener {
                 creatableLocation = (Vector) evt.getNewValue();
                 controller.addCreatable(creatableLocation);
             }
+        }
+        if (evt.getPropertyName().equals("changeHealth")) {
+            health = (double) evt.getNewValue();
+        }
+        if (evt.getPropertyName().equals("changeLife")) {
+            lives = (double) evt.getNewValue();
         }
     }
 }
