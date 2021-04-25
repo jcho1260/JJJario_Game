@@ -55,7 +55,6 @@ public class GameWorld extends Observable implements Serializable {
         evt.getNewValue());
     player = gamePlayer;
     player.addListener(playerListener);
-    player.initalizeHUD();
     windowSize = frameSize;
     allGameObjects = gameObjects;
     gravity = levelGravity;

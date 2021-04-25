@@ -327,6 +327,8 @@ public class Controller {
       try {
         gameWorld.stepFrame(keyListener.getCurrentKey());
         gameView.propertyChange(new PropertyChangeEvent(this, "changeScore", null, (int) highscoreListener.getScore()));
+        gameView.propertyChange(new PropertyChangeEvent(this, "changeHealth", null, (int) highscoreListener.getHealth()));
+        gameView.propertyChange(new PropertyChangeEvent(this, "changeLife", null, (int) highscoreListener.getLives()));
       } catch (Exception e){
         e.printStackTrace();
       }

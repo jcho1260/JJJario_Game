@@ -96,7 +96,6 @@ public class LevelParser {
 
     GameObjectInfo info = gameObjectMap.get(name);
     return new MovingDestroyable(info.tags, pos.add(offset), id, info.size, 0, 1, 0, new Vector(0, -1), new Vector(pos.getX(), 0), info.gravity, true);
-
   }
 
   public List<String> getTags(String name) {
