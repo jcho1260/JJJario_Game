@@ -3,6 +3,8 @@ package ooga.model;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import ooga.model.gameobjects.Player;
 import ooga.model.util.Action;
@@ -32,7 +34,12 @@ public class PlayerMovementTest {
       user = new Player(new ArrayList<>(), initPosition, 0, new Vector(1, 1),
           1, 1, 2, velocityMagnitude, 1, new Vector(0, 0),
           0, 2, true, 0);
-
+      user.addListener(new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+          System.out.println("added listener");
+        }
+      });
     } catch (ClassNotFoundException e) {
       System.out.println(e.getMessage());
     }
@@ -49,6 +56,7 @@ public class PlayerMovementTest {
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
+    System.out.println(user.getPredictedPosition());
     assertTrue(user.getPredictedPosition().equals(new Vector(0, 1)));
   }
 
