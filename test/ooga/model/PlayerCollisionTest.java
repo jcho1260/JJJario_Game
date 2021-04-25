@@ -34,22 +34,7 @@ public class PlayerCollisionTest {
     }
     assertNotNull(player);
   }
-
-  @Test
-  void testUserStepShoot() {
-    try {
-      player.userStep(Action.SHOOT, 1, 25, 0);
-    } catch (NoSuchMethodException e) {
-      e.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (InvocationTargetException e) {
-      e.printStackTrace();
-    }
-
-    //TODO: how to check if new bullet was made?
-  }
-
+  
   @Test
   void testGeneralBottomCollision() {
 
