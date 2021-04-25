@@ -31,6 +31,8 @@ import java.util.Map;
 import ooga.view.launcher.BuilderView;
 import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 public class Controller {
 
   private LevelParser gameWorldFactory;
@@ -59,6 +61,24 @@ public class Controller {
     highscoreListener = new ModelListener();
     highscoreListener.addController(this);
     gameSaver = new GameSaver();
+  }
+
+  public int getNumLevels(String gameName) {
+    try {
+      levelNameParser = new LevelNameParser(new File("data/" + gameName + "/LevelNames.xml"));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return levelNameParser.numLevels();
+  }
+
+  public String getLevelName(String gameName, int n) {
+    try {
+      levelNameParser = new LevelNameParser(new File("data/" + gameName + "/LevelNames.xml"));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return levelNameParser.getLevelName(n);
   }
 
   public void startGame(GameView gameView) {
