@@ -220,16 +220,11 @@ public class LevelParser {
     return getVectorAttribute(root, name);
   }
 
-  public String getBackground(File file) {
-    try {
-      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-      DocumentBuilder db = dbf.newDocumentBuilder();
-      Document doc = db.parse(file);
-      return doc.getElementsByTagName("BackgroundImage").item(0).getTextContent();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return "";
+  public String getBackground(File file) throws ParserConfigurationException, IOException, SAXException {
+    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    DocumentBuilder db = dbf.newDocumentBuilder();
+    Document doc = db.parse(file);
+    return doc.getElementsByTagName("BackgroundImage").item(0).getTextContent();
   }
 
   private class GameObjectInfo {

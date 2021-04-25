@@ -1,42 +1,27 @@
 package ooga.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.Arrays;
 import ooga.model.GameWorld;
 
 public class GameSaver {
 
-  public void saveGame(String game, String level, String name, GameWorld gameWorld) {
+  public void saveGame(String game, String level, String name, GameWorld gameWorld) throws IOException {
     String path = "data/saves/" + game + "/" + level;
     new File(path).mkdirs();
 
-    try {
-      FileOutputStream f = new FileOutputStream(path + "/" + name + ".game");
-      ObjectOutput s = new ObjectOutputStream(f);
-      s.writeObject(gameWorld);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    FileOutputStream f = new FileOutputStream(path + "/" + name + ".game");
+    ObjectOutput s = new ObjectOutputStream(f);
+    s.writeObject(gameWorld);
   }
 
-  public GameWorld loadGame(String game, String level, String name) {
+  public GameWorld loadGame(String game, String level, String name) throws IOException, ClassNotFoundException {
 
     String path = "data/saves/" + game + "/" + level;
 
-    try {
-      FileInputStream in = new FileInputStream(path + "/" + name);
-      ObjectInputStream s = new ObjectInputStream(in);
-      return (GameWorld) s.readObject();
-    } catch(IOException | ClassNotFoundException e) {
-      e.printStackTrace();
-      return null;
-    }
+    FileInputStream in = new FileInputStream(path + "/" + name);
+    ObjectInputStream s = new ObjectInputStream(in);
+    return (GameWorld) s.readObject();
   }
 
   public String[] getSaves(String game, String level) {

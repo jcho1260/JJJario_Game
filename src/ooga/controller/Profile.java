@@ -3,10 +3,7 @@ package ooga.controller;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.Statement;
-import java.io.FileOutputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.input.KeyCode;
@@ -21,7 +18,7 @@ public class Profile implements Serializable, PropertyChangeListener {
   private final Map<KeyCode, Action> keybinds;
   private Map<String, Map<String, Integer>> highScores;
 
-  public Profile(String name) {
+  public Profile(String name) throws IOException {
     this.name = name;
     this.picture = "view_resources/images/button_icons/User.png";
     this.keybinds = new HashMap<>();
@@ -72,26 +69,22 @@ public class Profile implements Serializable, PropertyChangeListener {
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
     if (evt.getPropertyName().equals("mapUpdated")) {
-      save();
+      try {
+        save();
+      } catch (IOException ignored) {}
       return;
     }
     String method = evt.getPropertyName();
     Object[] args = new Object[]{evt.getNewValue()};
     try {
       new Statement(this, method, args).execute();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    save();
+      save();
+    } catch (Exception ignored) {}
   }
 
-  private void save() {
-    try {
-      FileOutputStream f = new FileOutputStream("data/profiles/" + name + ".player");
-      ObjectOutput s = new ObjectOutputStream(f);
-      s.writeObject(this);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+  private void save() throws IOException {
+    FileOutputStream f = new FileOutputStream("data/profiles/" + name + ".player");
+    ObjectOutput s = new ObjectOutputStream(f);
+    s.writeObject(this);
   }
 }
