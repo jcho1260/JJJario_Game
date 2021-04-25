@@ -53,7 +53,6 @@ public class Player extends Destroyable {
 
     String methodName = direction.toString().toLowerCase();
 
-    System.out.println(currentFrame);
     if (direction.equals(Action.SHOOT)){
       if (userActions.shoot(getPosition().getX(), getPosition().getY(), currentFrame)) {
         System.out.println("SHOOTING");

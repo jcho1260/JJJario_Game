@@ -133,6 +133,7 @@ public class Destroyable extends GameObject{
    *
    */
   public void kill() {
+    System.out.println("KILLING");
     health.kill();
     if (!health.isAlive()) {
       notifyListeners("changeVisibility", true, false);

@@ -173,6 +173,24 @@
     <GameObject>
       <Name>GameObject</Name>
     </GameObject>
+    <GameObject>
+      <Name>LREdgeBlock</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+    <GameObject>
+      <Name>TBEdgeBlock</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
   </Actor>
   <Actor>
     <Name>MovingDestroyable</Name>

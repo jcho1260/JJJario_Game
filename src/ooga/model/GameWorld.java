@@ -41,8 +41,6 @@ public class GameWorld extends Observable implements Serializable {
   private Vector[] frameCoords;
   private Vector screenLimitsMin;
   private Vector screenLimitsMax;
-  private Vector playerViewCoord;
-  private boolean playerWin;
 
   private final double gravity;
   private final double stepTime;
@@ -63,7 +61,6 @@ public class GameWorld extends Observable implements Serializable {
     stepTime = 1.0/frameRate;
     score = 0;
     currentFrameCount = 0;
-//    playerWin = false;
     screenLimitsMin = minScreenLimit;
     screenLimitsMax = maxScreenLimit;
     frameCoords = new Vector[4];
@@ -77,7 +74,6 @@ public class GameWorld extends Observable implements Serializable {
     windowSize = frameSize;
     double playerViewX = frameSize.getX() * playerXLoc;
     double playerViewY = frameSize.getY() * playerYLoc;
-    playerViewCoord = new Vector(playerViewX, playerViewY);
     runtimeCreations = new ArrayList<>();
   }
 
@@ -94,6 +90,14 @@ public class GameWorld extends Observable implements Serializable {
     updateAllActiveInfo();
     sendViewCoords();
     currentFrameCount++;
+    printAllDest();
+  }
+
+  private void printAllDest() {
+    for(GameObject o : allDestroyables) {
+      System.out.print(o.getEntityType().get(o.getEntityType().size()-1) +" : "+o.getId() +", ");
+    }
+    System.out.println("");
   }
 
   private void collisionsDetectAndExecute()

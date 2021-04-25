@@ -148,7 +148,7 @@
       </Size>
     </GameObject>
     <GameObject>
-      <Name>EdgeBlock</Name>
+      <Name>LREdgeBlock</Name>
       <Tags>
         <Tag>GameObject</Tag>
         <Tag>Block</Tag>
@@ -158,6 +158,19 @@
       <Size>
         <x>1</x>
         <y>750</y>
+      </Size>
+    </GameObject>
+    <GameObject>
+      <Name>TBEdgeBlock</Name>
+      <Tags>
+        <Tag>GameObject</Tag>
+        <Tag>Block</Tag>
+      </Tags>
+      <Type>GameObject</Type>
+      <Gravity>0</Gravity>
+      <Size>
+        <x>4000</x>
+        <y>1</y>
       </Size>
     </GameObject>
   </GameObjects>
@@ -575,17 +588,31 @@
     </Entity>
 
     <Entity>
-      <Name>EdgeBlock</Name>
+      <Name>LREdgeBlock</Name>
       <Location>
         <x>0</x>
         <y>0</y>
       </Location>
     </Entity>
     <Entity>
-      <Name>EdgeBlock</Name>
+      <Name>LREdgeBlock</Name>
       <Location>
         <x>3999</x>
         <y>0</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>TBEdgeBlock</Name>
+      <Location>
+        <x>0</x>
+        <y>0</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>LREdgeBlock</Name>
+      <Location>
+        <x>0</x>
+        <y>748</y>
       </Location>
     </Entity>
   </Layout>
