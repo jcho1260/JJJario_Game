@@ -85,8 +85,10 @@ public class LevelParser {
 
     String name = entity.getElementsByTagName("Name").item(0).getTextContent();
 
+    Vector offset = getVectorAttribute(entity, "Offset");
+
     GameObjectInfo info = gameObjectMap.get(name);
-    return new MovingDestroyable(info.tags, new Vector(pos.getX(), pos.getY()-1), id, info.size, 0, 1, 0, new Vector(0, -1), new Vector(pos.getX(), 0), info.gravity, true);
+    return new MovingDestroyable(info.tags, new Vector(pos.getX()+offset.getX(), pos.getY()+offset.getY()), id, info.size, 0, 1, 0, new Vector(0, -1), new Vector(pos.getX(), 0), info.gravity, true);
   }
 
   public List<String> getTags(String name) {
