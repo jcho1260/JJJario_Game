@@ -50,6 +50,7 @@ public class GameView implements PropertyChangeListener {
       stage.setTitle(gameName);
       stage.setScene(menuScene);
       currScene = menuScene;
+      stage.setResizable(false);
       stage.show();
     } catch (Exception e) {
       new ExceptionView().displayError(e);
@@ -93,8 +94,32 @@ public class GameView implements PropertyChangeListener {
     ((Group) currScene.getRoot()).getChildren().add(t);
   }
 
+  public void addLife(int life) {
+    Text t = new Text("Lives: " + life);
+    t.setId("LifeText");
+    t.setX(10);
+    t.setY(60);
+    ((Group) currScene.getRoot()).getChildren().add(t);
+  }
+
+  public void addHealth(int health) {
+    Text t = new Text("Health: " + health);
+    t.setId("HealthText");
+    t.setX(10);
+    t.setY(90);
+    ((Group) currScene.getRoot()).getChildren().add(t);
+  }
+
   public void changeScore(int score) {
     ((Text) currScene.lookup("#ScoreText")).setText("Score: " + score);
+  }
+
+  public void changeLife(int newLife) {
+    ((Text) currScene.lookup("#LifeText")).setText("Lives: " + newLife);
+  }
+
+  public void changeHealth(int newHealth) {
+    ((Text) currScene.lookup("#HealthText")).setText("Health: " + newHealth);
   }
 
   public void startLevel() {
