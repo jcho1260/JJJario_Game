@@ -132,9 +132,10 @@ public class LevelParser {
     int startHealth = (int) getNumberAttribute(entity, "StartHealth");
     double jumpTime = getNumberAttribute(entity, "JumpTime");
     int jumpLimit = (int) getNumberAttribute(entity, "ContinuousJumpLimit");
+    int shootCoolDown = (int) getNumberAttribute(entity, "ShootCoolDown");
+    int invincibility = (int) getNumberAttribute(entity, "InvincibilityLimit");
     boolean vis = getVisibility(entity);
-    // 2 is the cooldown
-    return new Player(info.tags, pos, id, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit, 30, vis, 1);
+    return new Player(info.tags, pos, id, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit, shootCoolDown, vis, invincibility);
   }
 
   private MovingDestroyable createMovingDestroyable(Element entity, GameObjectInfo info, int id) {

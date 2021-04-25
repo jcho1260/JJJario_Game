@@ -189,6 +189,8 @@
       <StartLife>3</StartLife>
       <JumpTime>0.75</JumpTime>
       <ContinuousJumpLimit>1</ContinuousJumpLimit>
+      <ShootCoolDown>30</ShootCoolDown>
+      <InvincibilityLimit>1</InvincibilityLimit>
       <StartHealth>1</StartHealth>
     </Entity>
     <Entity>
