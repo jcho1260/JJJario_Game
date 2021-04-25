@@ -63,7 +63,6 @@ public class LeafComponentFactory extends ComponentFactory {
     try {
       new Statement(component, e.getAttribute("method"), new Object[]{eh}).execute();
     } catch (Exception exception) {
-      exception.printStackTrace();
       throw new ViewFactoryException(exception.getMessage());
     }
   }

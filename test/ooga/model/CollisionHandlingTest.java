@@ -1,5 +1,7 @@
 package ooga.model;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 import ooga.model.gameobjects.DestroyableCollisionHandling;
@@ -7,9 +9,9 @@ import ooga.model.gameobjects.MovingDestroyable;
 import ooga.model.util.Vector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class CollisionHandlingTest {
+
   DestroyableCollisionHandling collisionHandling;
 
   @BeforeEach
@@ -31,13 +33,15 @@ public class CollisionHandlingTest {
     Vector aSize = new Vector(5, 5);
     Vector aPosEnd = new Vector(40, 15);
     Vector aVel = new Vector(0, 1);
-    MovingDestroyable b = new MovingDestroyable(bTags, bPos, 2, bSize, 1, 1, 5, bVel, bPosEnd, 1, true);
-    MovingDestroyable a = new MovingDestroyable(aTags, aPos, 1, aSize, 1, 1, 5, aVel, aPosEnd, 1, true);
+    MovingDestroyable b = new MovingDestroyable(bTags, bPos, 2, bSize, 1, 1, 5, bVel, bPosEnd, 1,
+        true);
+    MovingDestroyable a = new MovingDestroyable(aTags, aPos, 1, aSize, 1, 1, 5, aVel, aPosEnd, 1,
+        true);
 
     List<String> expected = new ArrayList<>();
     expected.add("Enemy");
     expected.add("Enemy-DOWN");
-    assertEquals(expected, collisionHandling.determineCollisionMethods(a,b));
+    assertEquals(expected, collisionHandling.determineCollisionMethods(a, b));
 
   }
 
@@ -55,13 +59,15 @@ public class CollisionHandlingTest {
     Vector aSize = new Vector(5, 5);
     Vector aPosEnd = new Vector(40, 15);
     Vector aVel = new Vector(0, 1);
-    MovingDestroyable b = new MovingDestroyable(bTags, bPos, 2, bSize, 1, 1, 5, bVel, bPosEnd, 1, true);
-    MovingDestroyable a = new MovingDestroyable(aTags, aPos, 1, aSize, 1, 1, 5, aVel, aPosEnd, 1, true);
+    MovingDestroyable b = new MovingDestroyable(bTags, bPos, 2, bSize, 1, 1, 5, bVel, bPosEnd, 1,
+        true);
+    MovingDestroyable a = new MovingDestroyable(aTags, aPos, 1, aSize, 1, 1, 5, aVel, aPosEnd, 1,
+        true);
 
     List<String> expected = new ArrayList<>();
     expected.add("Enemy");
     expected.add("Enemy-UP");
-    assertEquals(expected, collisionHandling.determineCollisionMethods(b,a));
+    assertEquals(expected, collisionHandling.determineCollisionMethods(b, a));
   }
 
   @Test
@@ -78,13 +84,15 @@ public class CollisionHandlingTest {
     Vector aSize = new Vector(5, 5);
     Vector aPosEnd = new Vector(40, 15);
     Vector aVel = new Vector(0, 1);
-    MovingDestroyable b = new MovingDestroyable(bTags, bPos, 2, bSize, 1, 1, 5, bVel, bPosEnd, 1, true);
-    MovingDestroyable a = new MovingDestroyable(aTags, aPos, 1, aSize, 1, 1, 5, aVel, aPosEnd, 1, true);
+    MovingDestroyable b = new MovingDestroyable(bTags, bPos, 2, bSize, 1, 1, 5, bVel, bPosEnd, 1,
+        true);
+    MovingDestroyable a = new MovingDestroyable(aTags, aPos, 1, aSize, 1, 1, 5, aVel, aPosEnd, 1,
+        true);
 
     List<String> expected = new ArrayList<>();
     expected.add("Enemy");
     expected.add("Enemy-UP");
-    assertEquals(expected, collisionHandling.determineCollisionMethods(b,a));
+    assertEquals(expected, collisionHandling.determineCollisionMethods(b, a));
   }
 
   @Test
@@ -101,8 +109,10 @@ public class CollisionHandlingTest {
     Vector aSize = new Vector(5, 5);
     Vector aPosEnd = new Vector(40, 15);
     Vector aVel = new Vector(0, 1);
-    MovingDestroyable b = new MovingDestroyable(bTags, bPos, 2, bSize, 1, 1, 5, bVel, bPosEnd, 1, true);
-    MovingDestroyable a = new MovingDestroyable(aTags, aPos, 1, aSize, 1, 1, 5, aVel, aPosEnd, 1, true);
+    MovingDestroyable b = new MovingDestroyable(bTags, bPos, 2, bSize, 1, 1, 5, bVel, bPosEnd, 1,
+        true);
+    MovingDestroyable a = new MovingDestroyable(aTags, aPos, 1, aSize, 1, 1, 5, aVel, aPosEnd, 1,
+        true);
 
     List<String> expected = new ArrayList<>();
     expected.add("Enemy");
@@ -125,13 +135,15 @@ public class CollisionHandlingTest {
     Vector aPosEnd = new Vector(40, 20);
     Vector aVel = new Vector(1, 0);
 
-    MovingDestroyable b = new MovingDestroyable(bTags, bPos, 2, bSize, 1, 1, 5, bVel, bPosEnd, 1, true);
-    MovingDestroyable a = new MovingDestroyable(aTags, aPos, 1, aSize, 1, 1, 5, aVel, aPosEnd, 1, true);
+    MovingDestroyable b = new MovingDestroyable(bTags, bPos, 2, bSize, 1, 1, 5, bVel, bPosEnd, 1,
+        true);
+    MovingDestroyable a = new MovingDestroyable(aTags, aPos, 1, aSize, 1, 1, 5, aVel, aPosEnd, 1,
+        true);
 
     List<String> expected = new ArrayList<>();
     expected.add("Enemy");
     expected.add("Enemy-RIGHT");
-    assertEquals(expected, collisionHandling.determineCollisionMethods(a,b));
+    assertEquals(expected, collisionHandling.determineCollisionMethods(a, b));
   }
 
   @Test
@@ -149,13 +161,15 @@ public class CollisionHandlingTest {
     Vector aPosEnd = new Vector(40, 20);
     Vector aVel = new Vector(1, 0);
 
-    MovingDestroyable b = new MovingDestroyable(bTags, bPos, 2, bSize, 1, 1, 5, bVel, bPosEnd, 1, true);
-    MovingDestroyable a = new MovingDestroyable(aTags, aPos, 1, aSize, 1, 1, 5, aVel, aPosEnd, 1, true);
+    MovingDestroyable b = new MovingDestroyable(bTags, bPos, 2, bSize, 1, 1, 5, bVel, bPosEnd, 1,
+        true);
+    MovingDestroyable a = new MovingDestroyable(aTags, aPos, 1, aSize, 1, 1, 5, aVel, aPosEnd, 1,
+        true);
 
     List<String> expected = new ArrayList<>();
     expected.add("Enemy");
     expected.add("Enemy-LEFT");
-    assertEquals(expected, collisionHandling.determineCollisionMethods(b,a));
+    assertEquals(expected, collisionHandling.determineCollisionMethods(b, a));
   }
 
   @Test
@@ -172,10 +186,12 @@ public class CollisionHandlingTest {
     Vector aSize = new Vector(5, 5);
     Vector aPosEnd = new Vector(40, 15);
     Vector aVel = new Vector(0, 1);
-    MovingDestroyable b = new MovingDestroyable(bTags, bPos, 2, bSize, 1, 1, 5, bVel, bPosEnd, 1, true);
-    MovingDestroyable a = new MovingDestroyable(aTags, aPos, 1, aSize, 1, 1, 5, aVel, aPosEnd, 1, true);
+    MovingDestroyable b = new MovingDestroyable(bTags, bPos, 2, bSize, 1, 1, 5, bVel, bPosEnd, 1,
+        true);
+    MovingDestroyable a = new MovingDestroyable(aTags, aPos, 1, aSize, 1, 1, 5, aVel, aPosEnd, 1,
+        true);
 
-    assertEquals(true, collisionHandling.smallCorner(a,b));
+    assertEquals(true, collisionHandling.smallCorner(a, b));
   }
 
 

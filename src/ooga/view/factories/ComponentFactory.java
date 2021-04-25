@@ -12,7 +12,6 @@ import org.w3c.dom.NodeList;
 
 public abstract class ComponentFactory {
 
-  //TODO: FIX THE THROWS
   public abstract Object make(Element e) throws ViewFactoryException;
 
   protected void addChild(ResourceBundle rb, Node component, Element e)

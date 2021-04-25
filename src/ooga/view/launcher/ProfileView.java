@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Objects;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -63,8 +62,7 @@ public class ProfileView {
         }
       }
     } catch (Exception exception) {
-      exception.printStackTrace();
-      new ViewFactoryException(exception.getMessage()).printStackTrace();
+      new ExceptionView().displayError(exception);;
     }
   }
 
@@ -78,10 +76,9 @@ public class ProfileView {
   }
 
   private void makeHighScores(String game, String level, Integer score) {
-    System.out.println(game);
-
     ((Pane) ((ScrollPane) currMenu.lookup("#HighScoreScrollPane")).getContent()
-        .lookup("#JJJarioHighScores")).getChildren().add(new Text(level.replaceAll( "([A-Za-z])(\\d)", "$1 $2" ) + ": " + score));
+        .lookup("#JJJarioHighScores")).getChildren()
+        .add(new Text(level.replaceAll("([A-Za-z])(\\d)", "$1 $2") + ": " + score));
   }
 
   private void makeTextFieldInput(String type, String prompt) {
@@ -111,10 +108,13 @@ public class ProfileView {
       fileChooser.setInitialDirectory(new File("resources/view_resources/images/profiles"));
 
       File selectedFile = fileChooser.showOpenDialog(currMenu.getScene().getWindow());
-      String imagePath = selectedFile.toURI().toString().split("/resources/")[1];
-      System.out.println(imagePath);
-      pcl.propertyChange(new PropertyChangeEvent(this, "setPicture", null, imagePath));
-      editProfile(imagePath);
+      if (selectedFile == null) {
+        new ExceptionView().displayWarning("Invalid File","Please choose an image!");
+      } else {
+        String imagePath = selectedFile.toURI().toString().split("/resources/")[1];
+        pcl.propertyChange(new PropertyChangeEvent(this, "setPicture", null, imagePath));
+        editProfile(imagePath);
+      }
     });
   }
 
@@ -125,7 +125,7 @@ public class ProfileView {
         try {
           controller.setActiveProfile(component.getText());
         } catch (IOException e) {
-          e.printStackTrace();
+          new ExceptionView().displayError(e);
         }
         component.setPromptText(component.getText());
       }

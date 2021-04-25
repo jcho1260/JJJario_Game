@@ -1,5 +1,7 @@
 package ooga.model;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -7,9 +9,7 @@ import java.util.List;
 import ooga.model.gameobjects.Destroyable;
 import ooga.model.util.MethodBundle;
 import ooga.model.util.Vector;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class DestroyableCollisionsTest {
 
@@ -26,7 +26,7 @@ public class DestroyableCollisionsTest {
     d.executeCollisions();
     Method healthCheck = Destroyable.class.getDeclaredMethod("getHealth");
     healthCheck.setAccessible(true);
-    assertEquals(2,(int)healthCheck.invoke(d));
+    assertEquals(2, (int) healthCheck.invoke(d));
   }
 
   @Test
@@ -42,7 +42,7 @@ public class DestroyableCollisionsTest {
     d.executeCollisions();
     Method healthCheck = Destroyable.class.getDeclaredMethod("getLives");
     healthCheck.setAccessible(true);
-    assertEquals(2,(int)healthCheck.invoke(d));
+    assertEquals(2, (int) healthCheck.invoke(d));
   }
 
   @Test
@@ -53,8 +53,8 @@ public class DestroyableCollisionsTest {
     Method healthCheck = Destroyable.class.getDeclaredMethod("getHealth");
     livesCheck.setAccessible(true);
     healthCheck.setAccessible(true);
-    assertEquals(1,(int)healthCheck.invoke(d));
-    assertEquals(0,(int)livesCheck.invoke(d));
+    assertEquals(1, (int) healthCheck.invoke(d));
+    assertEquals(0, (int) livesCheck.invoke(d));
   }
 
   @Test
@@ -83,7 +83,7 @@ public class DestroyableCollisionsTest {
     tags.add("Destroyable");
     int startHealth = 1;
     int startLife = 1;
-    Destroyable d = new Destroyable(tags, new Vector(0,0), 1, new Vector(5,5), startLife,
+    Destroyable d = new Destroyable(tags, new Vector(0, 0), 1, new Vector(5, 5), startLife,
         startHealth, 1, true);
     return d;
   }
