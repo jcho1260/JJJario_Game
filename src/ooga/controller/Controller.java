@@ -122,7 +122,7 @@ public class Controller {
   }
 
   private void start() {
-    gameWorld.addListener(highscoreListener);
+    gameWorld.addListener("highscore", highscoreListener);
 
     Vector size = gameWorldFactory.getFrameSize();
     gameView.initializeLevel(size.getX(), size.getY(),
@@ -319,7 +319,7 @@ public class Controller {
     String name = md.getEntityType().get(md.getEntityType().size() - 1);
     Sprite s = new Sprite(gameView.getGameName(), name, md.getSize().getX(), md.getSize().getY(),
         md.getPosition().getX(), md.getPosition().getY());
-    md.addListener(s);
+    md.addListener("sprite", s);
     gameView.propertyChange(new PropertyChangeEvent(this, "addSprite", null, s));
     addSprite(md);
   }
@@ -376,7 +376,7 @@ public class Controller {
     String name = gameObject.getEntityType().get(gameObject.getEntityType().size() - 1);
     Sprite s = new Sprite(currGame, name, gameObject.getSize().getX(), gameObject.getSize().getY(),
         gameObject.getPosition().getX(), gameObject.getPosition().getY());
-    gameObject.addListener(s);
+    gameObject.addListener("sprite", s);
     gameView.propertyChange(new PropertyChangeEvent(this, "addSprite", null, s));
   }
 

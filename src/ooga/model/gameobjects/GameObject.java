@@ -84,7 +84,7 @@ public class GameObject extends Observable implements Serializable {
 
   public void setActive(boolean activeState) {
     isActive = activeState;
-    notifyListeners("changeVisibility", null, isActive && isVisible);
+    notifyListenerKey("sprite", "changeVisibility", null, isActive && isVisible);
   }
 
   /**
@@ -95,7 +95,7 @@ public class GameObject extends Observable implements Serializable {
     double viewPositionY;
     viewPositionX = rect.getPosition().getX() - frameTopL.getX();
     viewPositionY = rect.getPosition().getY() - frameTopL.getY();
-    notifyListeners("changeX", null, viewPositionX);
-    notifyListeners("changeY", null, viewPositionY);
+    notifyListenerKey("sprite", "changeX", null, viewPositionX);
+    notifyListenerKey("sprite", "changeY", null, viewPositionY);
   }
 }
