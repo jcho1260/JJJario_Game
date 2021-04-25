@@ -1,5 +1,5 @@
 <Level>
-  <GlobalGravity>25</GlobalGravity>
+  <GlobalGravity>1</GlobalGravity>
   <BackgroundImage>view_resources/images/backgrounds/JJJario.png</BackgroundImage>
   <DrivingVelocity>
     <x>0</x>
@@ -135,6 +135,19 @@
       </Size>
     </GameObject>
     <GameObject>
+      <Name>FloorBlock</Name>
+      <Tags>
+        <Tag>GameObject</Tag>
+        <Tag>Block</Tag>
+      </Tags>
+      <Type>GameObject</Type>
+      <Gravity>1</Gravity>
+      <Size>
+        <x>4000</x>
+        <y>100</y>
+      </Size>
+    </GameObject>
+    <GameObject>
       <Name>WinningFlag</Name>
       <Tags>
         <Tag>GameObject</Tag>
@@ -214,7 +227,7 @@
         <y>0</y>
       </Velocity>
       <StartHealth>1</StartHealth>
-      <StartLife>1</StartLife>
+      <StartLife>0</StartLife>
       <Score>3</Score>
       <FinalLocation>
         <x>600</x>
@@ -232,7 +245,7 @@
         <y>0</y>
       </Velocity>
       <StartHealth>1</StartHealth>
-      <StartLife>1</StartLife>
+      <StartLife>0</StartLife>
       <Score>3</Score>
       <FinalLocation>
         <x>1000</x>
@@ -250,7 +263,7 @@
         <y>0</y>
       </Velocity>
       <StartHealth>1</StartHealth>
-      <StartLife>1</StartLife>
+      <StartLife>0</StartLife>
       <Score>3</Score>
       <FinalLocation>
         <x>1300</x>

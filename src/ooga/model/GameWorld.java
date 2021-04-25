@@ -90,7 +90,7 @@ public class GameWorld extends Observable implements Serializable {
     updateAllActiveInfo();
     sendViewCoords();
     currentFrameCount++;
-    printAllDest();
+//    printAllDest();
   }
 
   private void printAllDest() {
