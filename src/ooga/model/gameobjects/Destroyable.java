@@ -24,6 +24,11 @@ public class Destroyable extends GameObject{
     collisionHandler = new DestroyableCollisionHandling();
     health = new Health(startHealth, startLife);
     score = points;
+    printLoc();
+  }
+
+  private void printLoc() {
+    System.out.println(getEntityType().get(getEntityType().size()-1)+" LOCATE: "+getPosition().getX()+", "+getPosition().getY());
   }
 
   /**
@@ -94,6 +99,9 @@ public class Destroyable extends GameObject{
    */
   public void incrementHealth(Double increment) {
     health.incrementHealth(increment);
+    if(health.getHealth() <= 0) {
+      health.loseLife();
+    }
   }
 
   /**

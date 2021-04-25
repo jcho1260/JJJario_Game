@@ -86,6 +86,9 @@ public class GameObject extends Observable implements Serializable {
 
   public void setActive(boolean activeState) {
     isActive = activeState;
+    System.out.print(getEntityType().get(getEntityType().size()-1) +" : "+getId()+" : ");
+    System.out.print("IS ACTIVE: "+activeState);
+    System.out.println(" IS VISIBLE: "+isVisible);
     notifyListeners("changeVisibility", null, isActive && isVisible);
   }
 

@@ -69,8 +69,8 @@ public class WorldCollisionHandling implements Serializable {
           ((Destroyable) actor).addCollision(actorCollisionMethods);
           if (!((Destroyable) actor).cornerCollision(collisionObject)) {
             collisions.add(((Destroyable) actor));
-            System.out.println(actor.getEntityType().get(actor.getEntityType().size() - 1)
-                + " " + collisionObject.getEntityType().get(collisionObject.getEntityType().size() - 1)+" "+directionalTags.get(directionalTags.size()-1));
+//            System.out.println(actor.getEntityType().get(actor.getEntityType().size() - 1)
+//                + " " + collisionObject.getEntityType().get(collisionObject.getEntityType().size() - 1)+" "+directionalTags.get(directionalTags.size()-1));
           }
           Entry<GameObject, GameObject> pair = new SimpleEntry<>(actor, collisionObject);
           Entry<GameObject, GameObject> unPair = new SimpleEntry<>(collisionObject, actor);
@@ -134,7 +134,7 @@ public class WorldCollisionHandling implements Serializable {
       throws JjjanException {
     for (int d = destroyableTags.size() - 1; d >= 0; d--) {
       String dTag = destroyableTags.get(d);
-      System.out.println("DTAG: "+dTag);
+//      System.out.println("DTAG: "+dTag);
       if (collisionMethods.containsKey(dTag)) {
         for (int c = collidedTags.size() - 1; c >= 0; c--) {
 //          System.out.println("COLLIDED TAGS: "+collidedTags.get(c));

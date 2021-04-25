@@ -1,6 +1,10 @@
 <Level>
   <GlobalGravity>45</GlobalGravity>
   <BackgroundImage>view_resources/images/backgrounds/FlappyBird.png</BackgroundImage>
+  <Size>
+    <x>1400</x>
+    <y>810</y>
+  </Size>
   <DrivingVelocity>
     <x>100</x>
     <y>0</y>

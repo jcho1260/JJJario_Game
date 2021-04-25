@@ -2,8 +2,8 @@
   <GlobalGravity>1</GlobalGravity>
   <BackgroundImage>view_resources/images/backgrounds/JJJario.png</BackgroundImage>
   <Size>
-    <x>1000</x>
-    <y>1000</y>
+    <x>1400</x>
+    <y>810</y>
   </Size>
   <DrivingVelocity>
     <x>0</x>

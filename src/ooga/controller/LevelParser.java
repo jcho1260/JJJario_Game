@@ -151,7 +151,8 @@ public class LevelParser {
     int jumpLimit = (int) getNumberAttribute(entity, "ContinuousJumpLimit");
     Vector size = getSize(entity, info);
     int shootCoolDown = (int) getNumberAttribute(entity, "ShootCoolDown");
-    int invincibility = (int) getNumberAttribute(entity, "InvincibilityLimit");
+    double invincibility = getNumberAttribute(entity, "InvincibilityLimit");
+    System.out.println("INVINCIBILITY: "+ invincibility);
     boolean vis = getVisibility(entity);
     return new Player(info.tags, pos, id, size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit, shootCoolDown, vis, invincibility);
   }

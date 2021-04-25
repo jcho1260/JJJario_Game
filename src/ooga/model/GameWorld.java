@@ -91,11 +91,11 @@ public class GameWorld extends Observable implements Serializable {
     updateAllActiveInfo();
     sendViewCoords();
     currentFrameCount++;
-//    printAllDest();
+    printAllDest();
   }
 
   private void printAllDest() {
-    for(GameObject o : allDestroyables) {
+    for(GameObject o : allActiveDestroyables) {
       System.out.print(o.getEntityType().get(o.getEntityType().size()-1) +" : "+o.getId() +", ");
     }
     System.out.println("");
