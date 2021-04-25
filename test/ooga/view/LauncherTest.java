@@ -1,5 +1,9 @@
 package ooga.view;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,20 +19,18 @@ import ooga.controller.Controller;
 import ooga.model.util.Vector;
 import ooga.util.DukeApplicationTest;
 import ooga.view.launcher.LauncherView;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 
 /**
  * Feel free to completely change this code or delete it entirely.
  */
 class LauncherTest extends DukeApplicationTest {
+
   // how close do real valued numbers need to be to count as the same
   static final double TOLERANCE = 0.0005;
   private ArrayList<String> ids;
@@ -41,7 +43,7 @@ class LauncherTest extends DukeApplicationTest {
   public void start(Stage stage) {
     ids = new ArrayList<>();
     getFileIds("resources/view_resources/launcher/LauncherRoot.XML", ids);
-    controller = new Controller(new Vector(1440, 810),30);
+    controller = new Controller(new Vector(1440, 810), 30);
     new LauncherView(stage).start(controller);
   }
 
@@ -69,7 +71,7 @@ class LauncherTest extends DukeApplicationTest {
 
   private ArrayList<String> getElementIds(Element e, ArrayList<String> ids) {
     if (e.hasAttribute("id")) {
-      ids.add("#"+e.getAttribute("id"));
+      ids.add("#" + e.getAttribute("id"));
     } else if (e.getNodeName().equals("Parent")) {
       ids.addAll(getFileIds(e.getTextContent(), ids));
     }
@@ -88,7 +90,7 @@ class LauncherTest extends DukeApplicationTest {
    * Test that the view creates all objects described by the XML document
    */
   @Test
-  void testXMLObjectDisplay () {
+  void testXMLObjectDisplay() {
     for (String id : ids) {
       assertNotNull(lookup(id).query());
     }
@@ -98,7 +100,7 @@ class LauncherTest extends DukeApplicationTest {
    * Test to see if the user can open the JJJario Game
    */
   @Test
-  void GameLibraryButton () {
+  void GameLibraryButton() {
     assertNotNull(lookup("#GameLibraryButton").query());
     Button gameLibraryButton = lookup("#GameLibraryButton").query();
     clickOn(gameLibraryButton);
@@ -109,7 +111,7 @@ class LauncherTest extends DukeApplicationTest {
    * Test to see if the user can open the JJJario Game
    */
   @Test
-  void JJJarioGameButton () {
+  void JJJarioGameButton() {
     GameLibraryButton();
     assertNotNull(lookup("#Game1Button").query());
     Button game1Button = lookup("#Game1Button").query();
@@ -121,7 +123,7 @@ class LauncherTest extends DukeApplicationTest {
    * Test to see if the user can open the JJJario Level 1
    */
   @Test
-  void JJJarioLevel1Button () {
+  void JJJarioLevel1Button() {
     JJJarioGameButton();
     Button levelLibrary = lookup("#LevelLibraryButton").query();
     clickOn(levelLibrary);
@@ -135,7 +137,7 @@ class LauncherTest extends DukeApplicationTest {
    * Test to see if the user can open the JJJario Level 1
    */
   @Test
-  void JJJarioMoveGuyOnKey () {
+  void JJJarioMoveGuyOnKey() {
     JJJarioLevel1Button();
     assertNotNull(lookup("#Player").query());
     ImageView playerImg = lookup("#Player").query();
@@ -147,7 +149,7 @@ class LauncherTest extends DukeApplicationTest {
   }
 
   @Test
-  void ProfileLoginTest () {
+  void ProfileLoginTest() {
     try {
       controller.setActiveProfile("");
     } catch (IOException e) {
@@ -164,7 +166,7 @@ class LauncherTest extends DukeApplicationTest {
   }
 
   @Test
-  void ProfileEditTest () {
+  void ProfileEditTest() {
     ProfileLoginTest();
     TextField upMenu = lookup("#UPMenuInput").query();
     assertNotNull(upMenu);

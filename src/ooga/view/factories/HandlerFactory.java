@@ -55,7 +55,8 @@ public class HandlerFactory {
     String eventType = e.getElementsByTagName("Type").item(0).getTextContent();
     return event -> {
       try {
-        Method m = HandlerFactory.class.getDeclaredMethod(eventType, Node.class, Element.class, KeyEvent.class);
+        Method m = HandlerFactory.class
+            .getDeclaredMethod(eventType, Node.class, Element.class, KeyEvent.class);
         m.invoke(this, component, e, event);
       } catch (Exception exception) {
         exception.printStackTrace();
@@ -164,7 +165,7 @@ public class HandlerFactory {
       String levelName = controller.getLevelName(i);
       Button b = (Button) pcf.make((Element) e.getElementsByTagName("Button").item(0));
       b.setText(levelName.replaceAll("([A-Za-z])(\\d)", "$1 $2"));
-      b.setId(levelName+"Button");
+      b.setId(levelName + "Button");
       int finalI = i;
       b.setOnAction(event -> controller.startLevel(finalI));
       ((Pane) sp.getContent()).getChildren().add(b);
@@ -173,7 +174,7 @@ public class HandlerFactory {
     for (String levelName : userDefined) {
       Button b = (Button) pcf.make((Element) e.getElementsByTagName("Button").item(0));
       b.setText(levelName);
-      b.setId(levelName+"Button");
+      b.setId(levelName + "Button");
       b.setOnAction(event -> controller.loadUserDefinedName(levelName));
       ((Pane) sp.getContent()).getChildren().add(b);
     }
@@ -185,8 +186,9 @@ public class HandlerFactory {
     ScrollPane sp = (ScrollPane) pcf.make((Element) e.getElementsByTagName("FilePath").item(0));
     for (Pair<String, String> save : saves) {
       Button b = (Button) pcf.make((Element) e.getElementsByTagName("Button").item(0));
-      String timestamp = new SimpleDateFormat("HH:mm:ss MM-dd-yyyy").format(new SimpleDateFormat("MM-dd-yyyy_HH_mm_ss").parse(save.getValue()));
-      b.setText(save.getKey().replaceAll( "([A-Za-z])(\\d)", "$1 $2" )+"\t"+timestamp);
+      String timestamp = new SimpleDateFormat("HH:mm:ss MM-dd-yyyy")
+          .format(new SimpleDateFormat("MM-dd-yyyy_HH_mm_ss").parse(save.getValue()));
+      b.setText(save.getKey().replaceAll("([A-Za-z])(\\d)", "$1 $2") + "\t" + timestamp);
       b.setOnAction(event -> controller.loadGame(save.getKey(), save.getValue()));
       ((Pane) sp.getContent()).getChildren().add(b);
     }
@@ -232,7 +234,8 @@ public class HandlerFactory {
   }
 
   private void makeObject(Node component, Element e) {
-    String objName = ((Button) component).getText().substring(5,((Button) component).getText().length()-1);
+    String objName = ((Button) component).getText()
+        .substring(5, ((Button) component).getText().length() - 1);
     ArrayList<Object> objList = new ArrayList<>();
     objList.add(controller.getEntityTypes(objName));
     NodeList argNodes = e.getElementsByTagName("Arg");
@@ -246,13 +249,17 @@ public class HandlerFactory {
           objList.add(controller.getNumGameMakers());
           continue;
         }
-        String argClass =  argElem.getElementsByTagName("Class").item(0).getTextContent();
+        String argClass = argElem.getElementsByTagName("Class").item(0).getTextContent();
         try {
-          Method m = HandlerFactory.class.getDeclaredMethod(argClass.toLowerCase()+"FromTextField", Node.class, String.class);
-          Object o = m.invoke(this, component.getScene().lookup("#StageBuilderInfoVBox"), "#"+name+"Input");
+          Method m = HandlerFactory.class
+              .getDeclaredMethod(argClass.toLowerCase() + "FromTextField", Node.class,
+                  String.class);
+          Object o = m.invoke(this, component.getScene().lookup("#StageBuilderInfoVBox"),
+              "#" + name + "Input");
           if (name.equals("Position")) {
             pos = (Vector) o;
-          } if (name.equals("Size")) {
+          }
+          if (name.equals("Size")) {
             size = (Vector) o;
           }
           objList.add(o);
@@ -264,7 +271,8 @@ public class HandlerFactory {
     objList.add(true);
     controller.addObjectToGameMaker(
         new GameObjectMaker(
-            "ooga.model.gameobjects."+e.getElementsByTagName("ObjectType").item(0).getTextContent(),
+            "ooga.model.gameobjects." + e.getElementsByTagName("ObjectType").item(0)
+                .getTextContent(),
             objList.toArray()));
     controller.displayBuilderSprite(objName, pos, size);
     ((Stage) component.getScene().getWindow()).close();

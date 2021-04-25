@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Objects;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -79,7 +78,8 @@ public class ProfileView {
 
   private void makeHighScores(String game, String level, Integer score) {
     ((Pane) ((ScrollPane) currMenu.lookup("#HighScoreScrollPane")).getContent()
-        .lookup("#JJJarioHighScores")).getChildren().add(new Text(level.replaceAll( "([A-Za-z])(\\d)", "$1 $2" ) + ": " + score));
+        .lookup("#JJJarioHighScores")).getChildren()
+        .add(new Text(level.replaceAll("([A-Za-z])(\\d)", "$1 $2") + ": " + score));
   }
 
   private void makeTextFieldInput(String type, String prompt) {

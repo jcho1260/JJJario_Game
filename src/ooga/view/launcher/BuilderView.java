@@ -32,7 +32,7 @@ public class BuilderView {
   private Vector frameSize;
   private Vector levelSize;
   private Stage builderStage;
-  private String colors;
+  private final String colors;
   private Group builderGroup;
 
   public BuilderView(Controller controller, ParentComponentFactory pcf, String colors) {
@@ -41,7 +41,8 @@ public class BuilderView {
     this.colors = colors;
   }
 
-  public void startBuilder(Element e, String game, String levelName, Vector frameSize, Vector levelSize)
+  public void startBuilder(Element e, String game, String levelName, Vector frameSize,
+      Vector levelSize)
       throws ViewFactoryException {
     this.game = game;
     this.frameSize = frameSize;
@@ -73,13 +74,15 @@ public class BuilderView {
   }
 
   public void displayBuilderSprite(String imageName, Vector pos, Vector size) {
-    ImageView newSprite = new Sprite(game, imageName, size.getX(), size.getY(), pos.getX(), pos.getY()).getImageView();
+    ImageView newSprite = new Sprite(game, imageName, size.getX(), size.getY(), pos.getX(),
+        pos.getY()).getImageView();
     newSprite.setVisible(true);
     builderGroup.getChildren().add(newSprite);
   }
 
   private void queryObjectInfo(String name, String type) throws ViewFactoryException {
-    Scene queryScene = new SceneFactory(controller).make("resources/view_resources/launcher/builder/"+type+"Maker.XML");
+    Scene queryScene = new SceneFactory(controller)
+        .make("resources/view_resources/launcher/builder/" + type + "Maker.XML");
     queryScene.getStylesheets().add(colors);
     ResourceBundle imgKeys = ResourceBundle
         .getBundle("view_resources/game/SpriteImageKeys/" + game + "SpriteKeys");
@@ -91,7 +94,7 @@ public class BuilderView {
     Text t = (Text) queryScene.lookup("#StageBuilderTitle");
     t.setText(t.getText().replace(type, name));
     Stage queryStage = new Stage();
-    queryStage.setTitle(name+" Maker");
+    queryStage.setTitle(name + " Maker");
     queryStage.setScene(queryScene);
     queryStage.show();
   }
@@ -121,7 +124,8 @@ public class BuilderView {
   }
 
   private void setPlayer() throws ViewFactoryException {
-    Scene queryScene = new SceneFactory(controller).make("resources/view_resources/launcher/builder/PlayerMaker.XML");
+    Scene queryScene = new SceneFactory(controller)
+        .make("resources/view_resources/launcher/builder/PlayerMaker.XML");
     queryScene.getStylesheets().add(colors);
     Stage queryStage = new Stage();
     queryStage.setTitle("Player Maker");
@@ -130,6 +134,6 @@ public class BuilderView {
   }
 
   private void buildCustomStage() {
-    controller.saveGameMaker(game, levelName, frameSize, 60, new Vector(0,0), levelSize);
+    controller.saveGameMaker(game, levelName, frameSize, 60, new Vector(0, 0), levelSize);
   }
 }

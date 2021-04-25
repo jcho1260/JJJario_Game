@@ -1,16 +1,15 @@
 package ooga.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.io.File;
+import java.io.IOException;
+import javax.xml.parsers.ParserConfigurationException;
 import ooga.model.GameWorld;
 import ooga.model.util.Vector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LevelParserTest {
 
