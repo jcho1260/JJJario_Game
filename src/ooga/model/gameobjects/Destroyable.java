@@ -27,9 +27,9 @@ public class Destroyable extends GameObject{
 //    printLoc();
   }
 
-  private void printLoc() {
-    System.out.println(getEntityType().get(getEntityType().size()-1)+" LOCATE: "+getPosition().getX()+", "+getPosition().getY());
-  }
+//  private void printLoc() {
+//    System.out.println(getEntityType().get(getEntityType().size()-1)+" LOCATE: "+getPosition().getX()+", "+getPosition().getY());
+//  }
 
   /**
    * checks to see if destroyable is still alive
@@ -144,6 +144,7 @@ public class Destroyable extends GameObject{
   public void kill() {
 //    System.out.println("KILLING: "+getEntityType().get(getEntityType().size()-1));
     health.kill();
+    health.loseLife();
     if (!health.isAlive()) {
       notifyListeners("changeVisibility", true, false);
     }
