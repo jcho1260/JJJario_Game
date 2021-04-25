@@ -18,6 +18,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import ooga.controller.Controller;
 import ooga.model.util.Vector;
 import ooga.util.DukeApplicationTest;
+import ooga.view.launcher.ExceptionView;
 import ooga.view.launcher.LauncherView;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
@@ -43,7 +44,7 @@ class LauncherTest extends DukeApplicationTest {
   public void start(Stage stage) {
     ids = new ArrayList<>();
     getFileIds("resources/view_resources/launcher/LauncherRoot.XML", ids);
-    controller = new Controller(new Vector(1440, 810), 30);
+    controller = new Controller(new Vector(1440, 810), 30, new ExceptionView());
     new LauncherView(stage).start(controller);
   }
 

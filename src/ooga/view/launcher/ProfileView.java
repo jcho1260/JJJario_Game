@@ -109,9 +109,13 @@ public class ProfileView {
       fileChooser.setInitialDirectory(new File("resources/view_resources/images/profiles"));
 
       File selectedFile = fileChooser.showOpenDialog(currMenu.getScene().getWindow());
-      String imagePath = selectedFile.toURI().toString().split("/resources/")[1];
-      pcl.propertyChange(new PropertyChangeEvent(this, "setPicture", null, imagePath));
-      editProfile(imagePath);
+      if (selectedFile == null) {
+        new ExceptionView().displayWarning("Invalid File","Please choose an image!");
+      } else {
+        String imagePath = selectedFile.toURI().toString().split("/resources/")[1];
+        pcl.propertyChange(new PropertyChangeEvent(this, "setPicture", null, imagePath));
+        editProfile(imagePath);
+      }
     });
   }
 

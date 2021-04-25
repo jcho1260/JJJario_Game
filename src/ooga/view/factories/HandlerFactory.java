@@ -26,6 +26,7 @@ import ooga.controller.Profile;
 import ooga.model.util.Vector;
 import ooga.view.game.GameView;
 import ooga.view.launcher.BuilderView;
+import ooga.view.launcher.ExceptionView;
 import ooga.view.launcher.ProfileView;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -46,7 +47,7 @@ public class HandlerFactory {
         Method m = HandlerFactory.class.getDeclaredMethod(eventType, Node.class, Element.class);
         m.invoke(this, component, e);
       } catch (Exception exception) {
-        exception.printStackTrace();
+        new ExceptionView().displayError(exception);
       }
     };
   }
@@ -59,7 +60,7 @@ public class HandlerFactory {
             .getDeclaredMethod(eventType, Node.class, Element.class, KeyEvent.class);
         m.invoke(this, component, e, event);
       } catch (Exception exception) {
-        exception.printStackTrace();
+        new ExceptionView().displayError(exception);
       }
     };
   }
@@ -93,7 +94,7 @@ public class HandlerFactory {
       changeStackPane(component, e,
           (Node) pcf.make((Element) e.getElementsByTagName("FilePath").item(0)));
     } catch (Exception exception) {
-      exception.printStackTrace();
+      new ExceptionView().displayError(exception);
     }
   }
 
@@ -107,7 +108,7 @@ public class HandlerFactory {
         makeAndDisplayProfile(component, e, pfName);
       }
     } catch (ViewFactoryException vfe) {
-      vfe.printStackTrace();
+      new ExceptionView().displayError(vfe);
     }
   }
 
@@ -122,10 +123,13 @@ public class HandlerFactory {
     if (event.getCode() == KeyCode.ENTER) {
       try {
         String pfName = ((TextField) component).getText();
+        if (pfName.length() == 0) {
+          throw new ViewFactoryException("Please provide a non-empty username!");
+        }
         controller.setActiveProfile(pfName);
         makeAndDisplayProfile(component, e, pfName);
-      } catch (IOException ioException) {
-        ioException.printStackTrace();
+      } catch (ViewFactoryException | IOException exception) {
+        new ExceptionView().displayError(exception);
       }
     }
   }
@@ -135,7 +139,7 @@ public class HandlerFactory {
       controller.setActiveProfile("");
       changeStack(component, e);
     } catch (IOException ioException) {
-      ioException.printStackTrace();
+      new ExceptionView().displayError(ioException);
     }
   }
 
@@ -158,41 +162,49 @@ public class HandlerFactory {
     controller.saveGame();
   }
 
-  private void levelLibrary(Node component, Element e) throws ViewFactoryException {
-    int numLevels = controller.getNumLevels();
-    ScrollPane sp = (ScrollPane) pcf.make((Element) e.getElementsByTagName("FilePath").item(0));
-    for (int i = 0; i < numLevels; i++) {
-      String levelName = controller.getLevelName(i);
-      Button b = (Button) pcf.make((Element) e.getElementsByTagName("Button").item(0));
-      b.setText(levelName.replaceAll("([A-Za-z])(\\d)", "$1 $2"));
-      b.setId(levelName + "Button");
-      int finalI = i;
-      b.setOnAction(event -> controller.startLevel(finalI));
-      ((Pane) sp.getContent()).getChildren().add(b);
+  private void levelLibrary(Node component, Element e) {
+    try {
+      int numLevels = controller.getNumLevels();
+      ScrollPane sp = (ScrollPane) pcf.make((Element) e.getElementsByTagName("FilePath").item(0));
+      for (int i = 0; i < numLevels; i++) {
+        String levelName = controller.getLevelName(i);
+        Button b = (Button) pcf.make((Element) e.getElementsByTagName("Button").item(0));
+        b.setText(levelName.replaceAll("([A-Za-z])(\\d)", "$1 $2"));
+        b.setId(levelName + "Button");
+        int finalI = i;
+        b.setOnAction(event -> controller.startLevel(finalI));
+        ((Pane) sp.getContent()).getChildren().add(b);
+      }
+      String[] userDefined = controller.getUserDefinedLevels();
+      for (String levelName : userDefined) {
+        Button b = (Button) pcf.make((Element) e.getElementsByTagName("Button").item(0));
+        b.setText(levelName);
+        b.setId(levelName + "Button");
+        b.setOnAction(event -> controller.loadUserDefinedName(levelName));
+        ((Pane) sp.getContent()).getChildren().add(b);
+      }
+      changeStackPane(component, e, sp);
+    } catch (ViewFactoryException vfe) {
+      new ExceptionView().displayError(vfe);
     }
-    String[] userDefined = controller.getUserDefinedLevels();
-    for (String levelName : userDefined) {
-      Button b = (Button) pcf.make((Element) e.getElementsByTagName("Button").item(0));
-      b.setText(levelName);
-      b.setId(levelName + "Button");
-      b.setOnAction(event -> controller.loadUserDefinedName(levelName));
-      ((Pane) sp.getContent()).getChildren().add(b);
-    }
-    changeStackPane(component, e, sp);
   }
 
-  private void loadLibrary(Node component, Element e) throws ViewFactoryException, ParseException {
-    Pair<String, String>[] saves = controller.getSaves();
-    ScrollPane sp = (ScrollPane) pcf.make((Element) e.getElementsByTagName("FilePath").item(0));
-    for (Pair<String, String> save : saves) {
-      Button b = (Button) pcf.make((Element) e.getElementsByTagName("Button").item(0));
-      String timestamp = new SimpleDateFormat("HH:mm:ss MM-dd-yyyy")
-          .format(new SimpleDateFormat("MM-dd-yyyy_HH_mm_ss").parse(save.getValue()));
-      b.setText(save.getKey().replaceAll("([A-Za-z])(\\d)", "$1 $2") + "\t" + timestamp);
-      b.setOnAction(event -> controller.loadGame(save.getKey(), save.getValue()));
-      ((Pane) sp.getContent()).getChildren().add(b);
+  private void loadLibrary(Node component, Element e) {
+    try {
+      Pair<String, String>[] saves = controller.getSaves();
+      ScrollPane sp = (ScrollPane) pcf.make((Element) e.getElementsByTagName("FilePath").item(0));
+      for (Pair<String, String> save : saves) {
+        Button b = (Button) pcf.make((Element) e.getElementsByTagName("Button").item(0));
+        String timestamp = new SimpleDateFormat("HH:mm:ss MM-dd-yyyy")
+            .format(new SimpleDateFormat("MM-dd-yyyy_HH_mm_ss").parse(save.getValue()));
+        b.setText(save.getKey().replaceAll("([A-Za-z])(\\d)", "$1 $2") + "\t" + timestamp);
+        b.setOnAction(event -> controller.loadGame(save.getKey(), save.getValue()));
+        ((Pane) sp.getContent()).getChildren().add(b);
+      }
+      changeStackPane(component, e, sp);
+    } catch (ViewFactoryException | ParseException exception) {
+      new ExceptionView().displayError(exception);
     }
-    changeStackPane(component, e, sp);
   }
 
   private void loadGame(Node component, Element e) {
@@ -200,37 +212,56 @@ public class HandlerFactory {
     controller.loadGame(decoded[1], decoded[2]);
   }
 
-  private void startBuilder(Node component, Element e) throws ViewFactoryException {
-    Node p = component.getParent();
-    Vector frameSize = new Vector(
-        doubleFromTextField(p, "#ViewWidthInput"),
-        doubleFromTextField(p, "#ViewHeightInput"));
-    Vector levelSize = new Vector(
-        doubleFromTextField(p, "#LevelWidthInput"),
-        doubleFromTextField(p, "#LevelHeightInput"));
-    new BuilderView(controller, pcf, component.getScene().getStylesheets().get(0)).startBuilder(
-        (Element) e.getElementsByTagName("FilePath").item(0),
-        stringFromTextField(p, "#GameNameInput"),
-        stringFromTextField(p, "#LevelNameInput"),
-        frameSize,
-        levelSize);
+  private void startBuilder(Node component, Element e) {
+    try {
+      Node p = component.getParent();
+      Vector frameSize = new Vector(
+          doubleFromTextField(p, "#ViewWidthInput"),
+          doubleFromTextField(p, "#ViewHeightInput"));
+      Vector levelSize = new Vector(
+          doubleFromTextField(p, "#LevelWidthInput"),
+          doubleFromTextField(p, "#LevelHeightInput"));
+      new BuilderView(controller, pcf, component.getScene().getStylesheets().get(0)).startBuilder(
+          (Element) e.getElementsByTagName("FilePath").item(0),
+          stringFromTextField(p, "#GameNameInput"),
+          stringFromTextField(p, "#LevelNameInput"),
+          frameSize,
+          levelSize);
+    } catch (ViewFactoryException vfe) {
+      new ExceptionView().displayError(vfe);
+    }
   }
 
-  private String stringFromTextField(Node n, String id) {
+  private String stringFromTextField(Node n, String id) throws ViewFactoryException {
+    if (((TextField) n.lookup(id)).getText() == null) {
+      throw new ViewFactoryException("Please provide proper input for " + id);
+    }
     return ((TextField) n.lookup(id)).getText();
   }
 
-  private int intFromTextField(Node n, String id) {
-    return Integer.parseInt(((TextField) n.lookup(id)).getText());
+  private int intFromTextField(Node n, String id) throws ViewFactoryException {
+    try {
+      return Integer.parseInt(((TextField) n.lookup(id)).getText());
+    } catch (Exception e) {
+      throw new ViewFactoryException("Please provide proper input for " + id);
+    }
   }
 
-  private double doubleFromTextField(Node n, String id) {
-    return Double.parseDouble(((TextField) n.lookup(id)).getText());
+  private double doubleFromTextField(Node n, String id) throws ViewFactoryException {
+    try {
+      return Double.parseDouble(((TextField) n.lookup(id)).getText());
+    } catch (Exception e) {
+      throw new ViewFactoryException("Please provide proper input for " + id);
+    }
   }
 
-  private Vector vectorFromTextField(Node n, String id) {
+  private Vector vectorFromTextField(Node n, String id) throws ViewFactoryException {
     String[] arr = ((TextField) n.lookup(id)).getText().split(",");
-    return new Vector(Double.parseDouble(arr[0]), Double.parseDouble(arr[1]));
+    try {
+      return new Vector(Double.parseDouble(arr[0]), Double.parseDouble(arr[1]));
+    } catch (Exception e) {
+      throw new ViewFactoryException("Please provide proper input for " + id);
+    }
   }
 
   private void makeObject(Node component, Element e) {
@@ -279,14 +310,18 @@ public class HandlerFactory {
   }
 
   private void makePlayer(Node component, Element e) {
-    Vector pos = vectorFromTextField(
-        component.getScene().lookup("#StageBuilderInfoVBox"),
-        "#PositionInput");
-    Vector size = vectorFromTextField(
-        component.getScene().lookup("#StageBuilderInfoVBox"),
-        "#SizeInput");
-    controller.setGameMakerPlayer(pos, size);
-    controller.displayBuilderSprite("Player", pos, size);
-    ((Stage) component.getScene().getWindow()).close();
+    try {
+      Vector pos = vectorFromTextField(
+          component.getScene().lookup("#StageBuilderInfoVBox"),
+          "#PositionInput");
+      Vector size = vectorFromTextField(
+          component.getScene().lookup("#StageBuilderInfoVBox"),
+          "#SizeInput");
+      controller.setGameMakerPlayer(pos, size);
+      controller.displayBuilderSprite("Player", pos, size);
+      ((Stage) component.getScene().getWindow()).close();
+    } catch (ViewFactoryException vfe) {
+      new ExceptionView().displayError(vfe);
+    }
   }
 }

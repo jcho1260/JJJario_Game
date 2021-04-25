@@ -53,9 +53,6 @@ public class BuilderView {
 
     builderGroup = new Group();
     builderGroup.setId("BuilderGroup");
-    Button b = new Button("Build Level");
-    b.setOnAction(event -> buildCustomStage());
-    builderGroup.getChildren().add(b);
 
     ScrollPane sp = (ScrollPane) pcf.make(e);
     Pane p = (Pane) sp.getContent();
