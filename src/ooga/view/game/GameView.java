@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.KeyListener;
 import ooga.view.factories.SceneFactory;
+import ooga.view.launcher.ExceptionView;
 
 public class GameView implements PropertyChangeListener {
 
@@ -51,7 +52,7 @@ public class GameView implements PropertyChangeListener {
       currScene = menuScene;
       stage.show();
     } catch (Exception e) {
-      e.printStackTrace();
+      new ExceptionView().displayError(e);
     }
   }
 
@@ -109,7 +110,7 @@ public class GameView implements PropertyChangeListener {
       stage.setScene(currScene);
       stage.show();
     } catch (Exception e) {
-      e.printStackTrace();
+      new ExceptionView().displayError(e);
     }
   }
 
@@ -121,7 +122,7 @@ public class GameView implements PropertyChangeListener {
       stage.setScene(currScene);
       stage.show();
     } catch (Exception e) {
-      e.printStackTrace();
+      new ExceptionView().displayError(e);
     }
   }
 
@@ -155,7 +156,7 @@ public class GameView implements PropertyChangeListener {
     try {
       new Statement(this, mName, mArgs).execute();
     } catch (Exception e) {
-      e.printStackTrace();
+      new ExceptionView().displayError(e);
     }
   }
 
@@ -182,7 +183,7 @@ public class GameView implements PropertyChangeListener {
         stage.setScene(currScene);
         stage.show();
       } catch (Exception e) {
-        e.printStackTrace();
+        new ExceptionView().displayError(e);
       }
     }
   }

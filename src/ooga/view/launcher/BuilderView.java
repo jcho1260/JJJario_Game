@@ -112,7 +112,7 @@ public class BuilderView {
             queryObjectInfo(type.getKey(), type.getValue());
           }
         } catch (ViewFactoryException e) {
-          e.printStackTrace();
+          new ExceptionView().displayError(e);
         }
       });
       contextMenu.getItems().add(mi);
