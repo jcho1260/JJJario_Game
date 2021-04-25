@@ -1,5 +1,20 @@
 package ooga.controller;
 
+import java.beans.PropertyChangeEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
 import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -15,40 +30,28 @@ import ooga.view.game.Sprite;
 import ooga.view.launcher.BuilderView;
 import ooga.view.launcher.ExceptionView;
 
-import java.beans.PropertyChangeEvent;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Collectors;
-
 public class Controller {
 
+  private final CollisionsParser collisionsParser;
+  private final double frameRate;
+  private final ModelListener highscoreListener;
+  private final GameSaver gameSaver;
   private LevelParser gameWorldFactory;
   private LevelNameParser levelNameParser;
-  private final CollisionsParser collisionsParser;
   private GameWorld gameWorld;
-  private final double frameRate;
   private GameView gameView;
   private KeyListener keyListener;
   private Timeline animation;
   private String activeProfile;
-  private final ModelListener highscoreListener;
   private int currentLevel;
   private int totalLevels;
-  private GameSaver gameSaver;
   private GameMaker gameMaker;
   private BuilderView builderView;
   private String currGame;
-  private ExceptionView exceptionView;
 
-  public Controller(double frameRate, ExceptionView exceptionView) {
+  public Controller(double frameRate) {
     collisionsParser = new CollisionsParser();
     this.frameRate = frameRate;
-    this.exceptionView = exceptionView;
     try {
       keyListener = new KeyListener(new Profile("default").getKeybinds());
     } catch (Exception e) {
@@ -64,7 +67,7 @@ public class Controller {
     try {
       levelNameParser = new LevelNameParser(new File("data/" + currGame + "/LevelNames.xml"));
     } catch (Exception e) {
-      e.printStackTrace();
+      reportError(e);
     }
     return levelNameParser.numLevels();
   }
@@ -73,7 +76,7 @@ public class Controller {
     try {
       levelNameParser = new LevelNameParser(new File("data/" + currGame + "/LevelNames.xml"));
     } catch (Exception e) {
-      e.printStackTrace();
+      reportError(e);
     }
     return levelNameParser.getLevelName(n);
   }
@@ -81,7 +84,7 @@ public class Controller {
   public String[] getUserDefinedLevels() {
     File folder = new File("data/UserDefined/" + currGame);
     return Arrays.stream(folder.listFiles()).map(file -> file.getName().replaceAll(".game", ""))
-            .filter(name -> !name.equals("FOLDER_PURPOSE.md")).toArray(String[]::new);
+        .filter(name -> !name.equals("FOLDER_PURPOSE.md")).toArray(String[]::new);
   }
 
   public void startGame(GameView gameView) {
@@ -99,14 +102,16 @@ public class Controller {
       levelNameParser = new LevelNameParser(levelNameFile);
       totalLevels = levelNameParser.numLevels();
       File collisionsFile = new File("data/" + gameName + "/collisions.xml");
-      File levelFile = new File("data/" + gameName + "/" + levelNameParser.getLevelName(n) + ".xml");
+      File levelFile = new File(
+          "data/" + gameName + "/" + levelNameParser.getLevelName(n) + ".xml");
 
-      Map<String, Map<String, List<MethodBundle>>> collisions = collisionsParser.parseCollisions(collisionsFile);
+      Map<String, Map<String, List<MethodBundle>>> collisions = collisionsParser
+          .parseCollisions(collisionsFile);
 
       gameWorldFactory = new LevelParser(levelFile);
       gameWorld = gameWorldFactory.createGameWorld(collisions, frameRate);
     } catch (Exception e) {
-      e.printStackTrace();
+      reportError(e);
     }
 
     start();
@@ -120,7 +125,8 @@ public class Controller {
     gameWorld.addListener(highscoreListener);
 
     Vector size = gameWorldFactory.getFrameSize();
-    gameView.initializeLevel(size.getX(), size.getY(), "view_resources/images/backgrounds/"+currGame+".png");
+    gameView.initializeLevel(size.getX(), size.getY(),
+        "view_resources/images/backgrounds/" + currGame + ".png");
     highscoreListener.reset();
     keyListener.reset();
     gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, 0));
@@ -130,7 +136,7 @@ public class Controller {
     addSprites(gameWorld);
     gameView.startLevel();
 
-    KeyFrame frame = new KeyFrame(Duration.seconds(1/frameRate), e -> step(1/frameRate));
+    KeyFrame frame = new KeyFrame(Duration.seconds(1 / frameRate), e -> step(1 / frameRate));
     animation = new Timeline();
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
@@ -142,6 +148,10 @@ public class Controller {
     gameMaker = new GameMaker(game);
   }
 
+  public void undoGameMaker() {
+    gameMaker.removeGameObjectMaker();
+  }
+
   public void addObjectToGameMaker(GameObjectMaker gom) {
     gameMaker.addGameObjectMaker(gom);
   }
@@ -150,7 +160,7 @@ public class Controller {
     try {
       gameMaker.createPlayer(pos, size);
     } catch (Exception e) {
-      e.printStackTrace();
+      reportError(e);
     }
   }
 
@@ -158,17 +168,18 @@ public class Controller {
     try {
       return gameMaker.getEntityType(name);
     } catch (Exception e) {
-      e.printStackTrace();
+      reportError(e);
     }
     return null;
   }
 
-  public void saveGameMaker(String gameName, String levelName, Vector frameSize, double frameRate, Vector minScreen, Vector maxScreen) {
+  public void saveGameMaker(String gameName, String levelName, Vector frameSize, double frameRate,
+      Vector minScreen, Vector maxScreen) {
     try {
       GameWorld gw = gameMaker.makeGameWorld(gameName, frameSize, frameRate, minScreen, maxScreen);
       gameMaker.saveGame(levelName, gw);
     } catch (Exception e) {
-      e.printStackTrace();
+      reportError(e);
     }
   }
 
@@ -190,7 +201,7 @@ public class Controller {
     try {
       return gameMaker.getGameObjects();
     } catch (Exception e) {
-      e.printStackTrace();
+      reportError(e);
     }
     return null;
   }
@@ -205,7 +216,8 @@ public class Controller {
     String dateString = df.format(new Date());
 
     try {
-      gameSaver.saveGame(currGame, levelNameParser.getLevelName(currentLevel), dateString, gameWorld);
+      gameSaver
+          .saveGame(currGame, levelNameParser.getLevelName(currentLevel), dateString, gameWorld);
     } catch (Exception e) {
       reportError(e);
     }
@@ -225,17 +237,18 @@ public class Controller {
     try {
       levelNameParser = new LevelNameParser(levelNameFile);
     } catch (Exception e) {
-      e.printStackTrace();
+      reportError(e);
     }
 
     List<Pair<String, String>> levels = new ArrayList<>();
     int numLevels = levelNameParser.numLevels();
     for (int i = 0; i < numLevels; i++) {
-      String level =  levelNameParser.getLevelName(i);
+      String level = levelNameParser.getLevelName(i);
       File folder = new File("data/saves/" + currGame + "/" + level);
       if (folder.exists()) {
         levels.addAll(Arrays.stream(folder.listFiles()).map(file -> new Pair<>(level,
-            file.getName())).collect(Collectors.toList()));
+            file.getName())).filter(name -> !name.getValue().equals("FOLDER_PURPOSE.md"))
+            .collect(Collectors.toList()));
       }
     }
     return levels.toArray(Pair[]::new);
@@ -272,7 +285,7 @@ public class Controller {
       FileInputStream in = new FileInputStream("data/profiles/" + name + ".player");
       ObjectInputStream s = new ObjectInputStream(in);
       return (Profile) s.readObject();
-    } catch(IOException | ClassNotFoundException e) {
+    } catch (IOException | ClassNotFoundException e) {
       try {
         return new Profile(name);
       } catch (Exception ex) {
@@ -303,8 +316,9 @@ public class Controller {
     List<MovingDestroyable> mdList = new ArrayList<>();
     mdList.add(md);
     gameWorld.queueNewMovingDestroyable(mdList);
-    String name = md.getEntityType().get(md.getEntityType().size()-1);
-    Sprite s = new Sprite(gameView.getGameName(), name, md.getSize().getX(), md.getSize().getY(), md.getPosition().getX(), md.getPosition().getY());
+    String name = md.getEntityType().get(md.getEntityType().size() - 1);
+    Sprite s = new Sprite(gameView.getGameName(), name, md.getSize().getX(), md.getSize().getY(),
+        md.getPosition().getX(), md.getPosition().getY());
     md.addListener(s);
     gameView.propertyChange(new PropertyChangeEvent(this, "addSprite", null, s));
     addSprite(md);
@@ -325,11 +339,15 @@ public class Controller {
     } else {
       try {
         gameWorld.stepFrame(keyListener.getCurrentKey());
-        gameView.propertyChange(new PropertyChangeEvent(this, "changeScore", null, (int) highscoreListener.getScore()));
-        gameView.propertyChange(new PropertyChangeEvent(this, "changeHealth", null, (int) highscoreListener.getHealth()));
-        gameView.propertyChange(new PropertyChangeEvent(this, "changeLife", null, (int) highscoreListener.getLives()));
-      } catch (Exception e){
-        e.printStackTrace();
+
+        gameView.propertyChange(
+            new PropertyChangeEvent(this, "changeScore", null, (int) highscoreListener.getScore()));
+        gameView.propertyChange(new PropertyChangeEvent(this, "changeHealth", null,
+            (int) highscoreListener.getHealth()));
+        gameView.propertyChange(
+            new PropertyChangeEvent(this, "changeLife", null, (int) highscoreListener.getLives()));
+      } catch (Exception e) {
+        reportError(e);
       }
     }
   }
@@ -355,8 +373,9 @@ public class Controller {
   }
 
   private void addSprite(GameObject gameObject) {
-    String name = gameObject.getEntityType().get(gameObject.getEntityType().size()-1);
-    Sprite s = new Sprite(currGame, name, gameObject.getSize().getX(), gameObject.getSize().getY(), gameObject.getPosition().getX(), gameObject.getPosition().getY());
+    String name = gameObject.getEntityType().get(gameObject.getEntityType().size() - 1);
+    Sprite s = new Sprite(currGame, name, gameObject.getSize().getX(), gameObject.getSize().getY(),
+        gameObject.getPosition().getX(), gameObject.getPosition().getY());
     gameObject.addListener(s);
     gameView.propertyChange(new PropertyChangeEvent(this, "addSprite", null, s));
   }
@@ -366,6 +385,6 @@ public class Controller {
   }
 
   private void reportError(Exception e) {
-    exceptionView.displayError(e);
+    new ExceptionView().displayError(e);
   }
 }
