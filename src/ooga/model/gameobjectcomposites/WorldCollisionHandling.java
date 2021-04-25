@@ -103,11 +103,13 @@ public class WorldCollisionHandling implements Serializable {
   private void ignoreCornerCollisions(GameObject actor, GameObject collisionObject) {
     if (!((Destroyable) actor).cornerCollision(collisionObject)) {
       collisions.add(((Destroyable) actor));
-//            System.out.println(actor.getEntityType().get(actor.getEntityType().size() - 1)
-//                + " " + collisionObject.getEntityType().get(collisionObject.getEntityType().size() - 1)+" "+directionalTags.get(directionalTags.size()-1));
     }
   }
 
+  /**
+   * corrects all intersections resulting from movement and collisions and corrects them so collisions are not repeatedly detected
+   * @param allBricks all bricks in the game so that they don't get corrected
+   */
   public void fixIntersection(List<GameObject> allBricks) {
     for (Entry<GameObject, GameObject> pair : collisionPairs) {
       Destroyable destroyable = (Destroyable) pair.getKey();
@@ -116,14 +118,8 @@ public class WorldCollisionHandling implements Serializable {
       if (collisionRect == null) return;
       Vector fixAmount = calculatCollisionFixAmount(destroyable, collisionRect);
       destroyable.setPredictedPosition(destroyable.getPredictedPosition().add(fixAmount));
-      if (!allBricks.contains(gameObject)) {
-        gameObject.setPredictedPosition(gameObject.getPredictedPosition().add(fixAmount
-            .multiply(new Vector(-1, -1))));
-      } else {
-        destroyable.setPredictedPosition(destroyable.getPredictedPosition().add(fixAmount));
-      }
+      ignoreBrickCollisionCorrections(allBricks, destroyable, gameObject, fixAmount);
     }
-
   }
 
   private Vector calculatCollisionFixAmount(Destroyable destroyable, Vector[] collisionRect) {
@@ -134,15 +130,27 @@ public class WorldCollisionHandling implements Serializable {
     return collisionRectSize.multiply(direction).add(direction.multiply(new Vector(0, 0)));
   }
 
+  private void ignoreBrickCollisionCorrections(List<GameObject> allBricks, Destroyable destroyable, GameObject gameObject, Vector fixAmount) {
+    if (!allBricks.contains(gameObject)) {
+      gameObject.setPredictedPosition(gameObject.getPredictedPosition().add(fixAmount
+          .multiply(new Vector(-1, -1))));
+    } else {
+      destroyable.setPredictedPosition(destroyable.getPredictedPosition().add(fixAmount));
+    }
+  }
+
   /**
    * executes all collision methods for every destroyable that is colliding with a game object. also checks if destroyable should die.
+   * @return
+   * @throws NoSuchMethodException
+   * @throws IllegalAccessException
+   * @throws InvocationTargetException
    */
   public List<Integer> executeAllCollisions()
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
     List<Integer> toDelete = new ArrayList<>();
     for (Destroyable destroyable : collisions) {
       destroyable.executeCollisions();
-//      System.out.println("KILLING: "+getEntityType().get(getEntityType().size()-1));
       if (!destroyable.isAlive()) {
         destroyable.kill();
         toDelete.add(destroyable.getId());
@@ -155,10 +163,8 @@ public class WorldCollisionHandling implements Serializable {
       throws JjjanException {
     for (int d = destroyableTags.size() - 1; d >= 0; d--) {
       String dTag = destroyableTags.get(d);
-//      System.out.println("DTAG: "+dTag);
       if (collisionMethods.containsKey(dTag)) {
         for (int c = collidedTags.size() - 1; c >= 0; c--) {
-//          System.out.println("COLLIDED TAGS: "+collidedTags.get(c));
           Map<String, List<MethodBundle>> destroyableCollisionMap = collisionMethods.get(dTag);
           if (destroyableCollisionMap.containsKey(collidedTags.get(c))) {
             return destroyableCollisionMap.get(collidedTags.get(c));
