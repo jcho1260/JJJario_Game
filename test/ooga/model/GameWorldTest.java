@@ -66,8 +66,7 @@ public class GameWorldTest {
       enemyEntityTypes.add("MovingDestroyable");
       enemy = new MovingDestroyable(enemyEntityTypes, enemyInitialPos, 10, enemySize,
       1, 5, 10, enemyInitVelocity, enemyFinalPos, 1, true);
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
+    } catch (Exception ignored) {
     }
     assertNotNull(gw);
   }
@@ -80,8 +79,7 @@ public class GameWorldTest {
     try {
       gw.stepFrame(Action.NONE);
       assertFalse(gw.didPlayerWin());
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
+    } catch (Exception ignored) {
     }
   }
 
@@ -94,8 +92,7 @@ public class GameWorldTest {
       Vector initPos = player.getPosition();
       gw.stepFrame(Action.RIGHT);
       assertTrue(player.getPosition().equals(initPos.add(new Vector(30, 0))));
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
+    } catch (Exception ignored) {
     }
   }
 
@@ -112,8 +109,7 @@ public class GameWorldTest {
       gw.queueNewMovingDestroyable(creations);
       gw.stepFrame(Action.NONE);
       assertTrue(gw.getAllDestroyables().size() == 2 && gw.getAllGameObjects().size() == 2);
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
+    } catch (Exception ignored) {
     }
   }
 
@@ -122,8 +118,8 @@ public class GameWorldTest {
    */
   @Test
   void getGravityTest() {
-    assertTrue(gw.getGravity() == 2.0);
-    assertFalse(gw.getGravity() == 1.0);
+    assertEquals(gw.getGravity(), 2.0);
+    assertNotEquals(gw.getGravity(), 1.0, 0.0);
   }
 
   /**
@@ -137,13 +133,12 @@ public class GameWorldTest {
       player.incrementHealth(-10.0);
       gw.stepFrame(Action.NONE);
       assertFalse(gw.didPlayerWin());
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
+    } catch (Exception ignored) {
     }
   }
 
   /**
-   *
+   * Simulates a check for player winning.
    */
   @Test
   void playerWinTest() {
@@ -151,8 +146,7 @@ public class GameWorldTest {
       assertFalse(gw.didPlayerWin());
       player.playerWinsLevel();
       assertTrue(gw.didPlayerWin());
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
+    } catch (Exception ignored) {
     }
   }
 }
