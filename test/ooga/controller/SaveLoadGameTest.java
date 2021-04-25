@@ -26,7 +26,7 @@ public class SaveLoadGameTest {
   }
 
   @Test
-  public void testSaveLoad() {
+  public void testSaveLoad() throws IOException, ClassNotFoundException {
     gameSaver.saveGame("testGame", "level", "testSave", gameWorld);
     GameWorld loadedWorld = gameSaver.loadGame("testGame", "level", "testSave.game");
 

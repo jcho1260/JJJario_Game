@@ -69,28 +69,19 @@ public class GameMaker {
     gameObjectMakerList.remove(gameObjectMakerList.size()-1);
   }
 
-  public void saveGame(String name, GameWorld gameWorld) {
-    try {
-      FileOutputStream f = new FileOutputStream("data/UserDefined/" + game + "/" + name + ".game");
-      ObjectOutput s = new ObjectOutputStream(f);
-      s.writeObject(gameWorld);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+  public void saveGame(String name, GameWorld gameWorld) throws IOException {
+    FileOutputStream f = new FileOutputStream("data/UserDefined/" + game + "/" + name + ".game");
+    ObjectOutput s = new ObjectOutputStream(f);
+    s.writeObject(gameWorld);
   }
 
-  public GameWorld loadGame(String game, String name) {
+  public GameWorld loadGame(String game, String name) throws IOException, ClassNotFoundException {
 
     String path = "data/UserDefined/" + game + "/" + name + ".game";
 
-    try {
-      FileInputStream in = new FileInputStream(path);
-      ObjectInputStream s = new ObjectInputStream(in);
-      return (GameWorld) s.readObject();
-    } catch(IOException | ClassNotFoundException e) {
-      e.printStackTrace();
-      return null;
-    }
+    FileInputStream in = new FileInputStream(path);
+    ObjectInputStream s = new ObjectInputStream(in);
+    return (GameWorld) s.readObject();
   }
 
   public GameWorld makeGameWorld(String gameName, Vector frameSize, double frameRate, Vector minScreen, Vector maxScreen)

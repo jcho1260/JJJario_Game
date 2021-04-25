@@ -56,7 +56,11 @@ public class Controller {
     collisionsParser = new CollisionsParser();
     this.frameSize =  frameSize;
     this.frameRate = frameRate;
-    keyListener = new KeyListener(new Profile("default").getKeybinds());
+    try {
+      keyListener = new KeyListener(new Profile("default").getKeybinds());
+    } catch (Exception e) {
+      reportError(e);
+    }
     activeProfile = "";
     highscoreListener = new ModelListener();
     highscoreListener.addController(this);
@@ -168,7 +172,12 @@ public class Controller {
   }
 
   public void loadUserDefinedName(String game, String name) {
-    gameWorld = gameMaker.loadGame(game, name);
+    try {
+      gameMaker = new GameMaker(game);
+      gameWorld = gameMaker.loadGame(game, name);
+    } catch (Exception e) {
+      reportError(e);
+    }
     start();
   }
 
@@ -194,11 +203,19 @@ public class Controller {
     DateFormat df = new SimpleDateFormat(pattern);
     String dateString = df.format(new Date());
 
-    gameSaver.saveGame(gameView.getGameName(), levelNameParser.getLevelName(currentLevel), dateString, gameWorld);
+    try {
+      gameSaver.saveGame(gameView.getGameName(), levelNameParser.getLevelName(currentLevel), dateString, gameWorld);
+    } catch (Exception e) {
+      reportError(e);
+    }
   }
 
   public void loadGame(String level, String dateString) {
-    gameWorld = gameSaver.loadGame(gameView.getGameName(), level, dateString);
+    try {
+      gameWorld = gameSaver.loadGame(gameView.getGameName(), level, dateString);
+    } catch (Exception e) {
+      reportError(e);
+    }
     start();
   }
 
@@ -255,8 +272,13 @@ public class Controller {
       ObjectInputStream s = new ObjectInputStream(in);
       return (Profile) s.readObject();
     } catch(IOException | ClassNotFoundException e) {
-      return new Profile(name);
+      try {
+        return new Profile(name);
+      } catch (Exception ex) {
+        reportError(e);
+      }
     }
+    return null;
   }
 
   public String getActiveProfile() {
@@ -334,5 +356,9 @@ public class Controller {
 
   public void displayMenu() {
     gameView.displayMenu();
+  }
+
+  private void reportError(Exception e) {
+
   }
 }
