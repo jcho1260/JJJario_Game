@@ -68,6 +68,7 @@ public class HandlerFactory {
     String filePath = e.getElementsByTagName("Path").item(0).getTextContent();
     String gameName = e.getElementsByTagName("Game").item(0).getTextContent();
     KeyListener kl = controller.getKeyListener();
+    controller.setCurrGame(gameName);
     GameView gv = new GameView(gameName, newStage, kl, controller,
         component.getScene().getStylesheets().get(0));
     controller.startGame(gv);
@@ -157,11 +158,10 @@ public class HandlerFactory {
   }
 
   private void levelLibrary(Node component, Element e) throws ViewFactoryException {
-    String game = e.getElementsByTagName("Game").item(0).getTextContent();
-    int numLevels = controller.getNumLevels(game);
+    int numLevels = controller.getNumLevels();
     ScrollPane sp = (ScrollPane) pcf.make((Element) e.getElementsByTagName("FilePath").item(0));
     for (int i = 0; i < numLevels; i++) {
-      String levelName = controller.getLevelName(game, i);
+      String levelName = controller.getLevelName(i);
       Button b = (Button) pcf.make((Element) e.getElementsByTagName("Button").item(0));
       b.setText(levelName.replaceAll("([A-Za-z])(\\d)", "$1 $2"));
       b.setId(levelName+"Button");
@@ -169,27 +169,25 @@ public class HandlerFactory {
       b.setOnAction(event -> controller.startLevel(finalI));
       ((Pane) sp.getContent()).getChildren().add(b);
     }
-    String[] userDefined = controller.getUserDefinedLevels(game);
+    String[] userDefined = controller.getUserDefinedLevels();
     for (String levelName : userDefined) {
       Button b = (Button) pcf.make((Element) e.getElementsByTagName("Button").item(0));
       b.setText(levelName);
       b.setId(levelName+"Button");
-      b.setOnAction(event -> controller.loadUserDefinedName(game, levelName));
+      b.setOnAction(event -> controller.loadUserDefinedName(levelName));
       ((Pane) sp.getContent()).getChildren().add(b);
     }
     changeStackPane(component, e, sp);
   }
 
   private void loadLibrary(Node component, Element e) throws ViewFactoryException, ParseException {
-    Pair<String, String>[] saves = controller.getSaves(e.getElementsByTagName("Game").item(0).getTextContent());
+    Pair<String, String>[] saves = controller.getSaves();
     ScrollPane sp = (ScrollPane) pcf.make((Element) e.getElementsByTagName("FilePath").item(0));
     for (Pair<String, String> save : saves) {
       Button b = (Button) pcf.make((Element) e.getElementsByTagName("Button").item(0));
       String timestamp = new SimpleDateFormat("HH:mm:ss MM-dd-yyyy").format(new SimpleDateFormat("MM-dd-yyyy_HH_mm_ss").parse(save.getValue()));
       b.setText(save.getKey().replaceAll( "([A-Za-z])(\\d)", "$1 $2" )+"\t"+timestamp);
-      b.setOnAction(event -> {
-        controller.loadGame(save.getKey(), save.getValue());
-      });
+      b.setOnAction(event -> controller.loadGame(save.getKey(), save.getValue()));
       ((Pane) sp.getContent()).getChildren().add(b);
     }
     changeStackPane(component, e, sp);

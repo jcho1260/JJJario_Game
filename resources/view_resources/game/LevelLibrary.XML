@@ -1,0 +1,6 @@
+<?xml version = "1.0" ?>
+<ScrollPane id="LevelLibraryScrollable" type="Control" style="view_resources/game/css/LevelLibraryScroll.css">
+  <VBox id="GameLibraryVBox" type="Pane" style="view_resources/game/css/LevelLibrary.css">
+    <Height>1080</Height>
+  </VBox>
+</ScrollPane>

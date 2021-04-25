@@ -1,8 +1,8 @@
 <?xml version = "1.0" ?>
-<VBox id="SideBar" type="Pane" style="view_resources/game/JJJario/css/SideBar.css">
+<VBox id="SideBar" type="Pane" style="view_resources/game/css/SideBar.css">
   <Height>360</Height>
   <Width>320</Width>
-  <ImageView id="JJJarioLogo" type="Leaf">
+  <ImageView id="Logo" type="Leaf">
     <Image>
       <Path>view_resources/images/logo/JJJarioLogo.png</Path>
     </Image>
@@ -13,24 +13,22 @@
     <Text>Load from Save</Text>
     <Event method="setOnAction">
       <Type>loadLibrary</Type>
-      <Game>JJJario</Game>
       <PaneID>GameStackPane</PaneID>
       <FilePath>
-        <Path>resources/view_resources/game/JJJario/LoadLibrary.XML</Path>
+        <Path>resources/view_resources/game/LoadLibrary.XML</Path>
       </FilePath>
       <Button id="TemplateButton" type="Leaf">
         <Text>TEMPLATE</Text>
       </Button>
     </Event>
   </Button>
-  <Button id="JJJarioLevelsButton" type="Leaf">
+  <Button id="LevelLibraryButton" type="Leaf">
     <Text>Choose Level</Text>
     <Event method="setOnAction">
       <Type>levelLibrary</Type>
-      <Game>JJJario</Game>
       <PaneID>GameStackPane</PaneID>
       <FilePath>
-        <Path>resources/view_resources/game/JJJario/LevelLibrary.XML</Path>
+        <Path>resources/view_resources/game/LevelLibrary.XML</Path>
       </FilePath>
       <Button id="TemplateButton" type="Leaf">
         <Text>TEMPLATE</Text>
