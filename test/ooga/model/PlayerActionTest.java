@@ -35,7 +35,7 @@ public class PlayerActionTest {
       user = new Player(new ArrayList<>(), initPosition, 0, new Vector(1, 1),
           1, 1, 2, velocityMagnitude, 1, new Vector(0, 0),
           0, 2, true, 0);
-      user.addListener("test", new PropertyChangeListener() {
+      user.addListener("gameworld", new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
           if (evt.getPropertyName().equals("newMovingDestroyable")) {
