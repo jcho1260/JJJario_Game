@@ -130,6 +130,8 @@ public class Controller {
     highscoreListener.reset();
     keyListener.reset();
     gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, 0));
+    gameView.propertyChange(new PropertyChangeEvent(this, "addHealth", null, 0));
+    gameView.propertyChange(new PropertyChangeEvent(this, "addLife", null, 0));
 
     addSprites(gameWorld);
     gameView.startLevel();
