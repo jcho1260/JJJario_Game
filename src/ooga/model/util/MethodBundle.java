@@ -34,7 +34,4 @@ public class MethodBundle implements Serializable {
     }
     return d;
   }
-
-  public String getMethodName() {return methodName;}
-
 }
