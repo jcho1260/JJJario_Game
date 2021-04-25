@@ -30,7 +30,7 @@ public class GameObject extends Observable implements Serializable {
   }
 
   /**
-   * Returns x coordinate of position.  // TODO return the position vector instead?
+   * Returns x coordinate of position.
    *
    * @return x coordinate
    */

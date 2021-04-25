@@ -1,7 +1,6 @@
 package ooga.model.gameobjectcomposites;
 
 import java.io.Serializable;
-import ooga.model.util.Action;
 import ooga.model.util.Vector;
 
 public class Rectangle implements Serializable {

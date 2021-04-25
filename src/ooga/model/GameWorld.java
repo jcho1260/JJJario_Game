@@ -111,7 +111,7 @@ public class GameWorld extends Observable implements Serializable {
     correctCollisionIntersections();
   }
 
-  private void correctCollisionIntersections() throws NoSuchMethodException, JjjanException {
+  private void correctCollisionIntersections() throws JjjanException {
     for (int i = 0; i < correctionCycles; i++) {
       if (worldCollisionHandling.detectAllCollisions()) {
         worldCollisionHandling.fixIntersection(allAlwaysActive);
