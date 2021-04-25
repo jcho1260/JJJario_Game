@@ -123,6 +123,8 @@ class LauncherTest extends DukeApplicationTest {
   @Test
   void JJJarioLevel1Button () {
     JJJarioGameButton();
+    Button levelLibrary = lookup("#LevelLibraryButton").query();
+    clickOn(levelLibrary);
     assertNotNull(lookup("#Level1Button").query());
     Button level1Button = lookup("#Level1Button").query();
     clickOn(level1Button);
@@ -157,7 +159,7 @@ class LauncherTest extends DukeApplicationTest {
     TextField tf = lookup("#UsernameInputBox").query();
     assertNotNull(tf);
     clickOn(tf);
-    type(KeyCode.A, KeyCode.D, KeyCode.A, KeyCode.M, KeyCode.ENTER);
+    type(KeyCode.T, KeyCode.E, KeyCode.S, KeyCode.T, KeyCode.ENTER);
     assertNotNull(lookup("#ProfileMenuVBox1").query());
   }
 

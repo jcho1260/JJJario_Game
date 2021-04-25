@@ -1,0 +1,11 @@
+<?xml version = "1.0" ?>
+<HBox id="SuperMarioMenu" type="Pane" style="view_resources/game/css/Menu.css">
+  <Height>420</Height>
+  <Width>960</Width>
+  <FilePath>
+    <Path>resources/view_resources/game/SideBar.XML</Path>
+  </FilePath>
+  <FilePath>
+    <Path>resources/view_resources/game/GameStack.XML</Path>
+  </FilePath>
+</HBox>
