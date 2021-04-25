@@ -16,8 +16,6 @@ public class GameObjectMaker {
   public GameObject createGameObject() throws GameObjectMakerException {
 
     try {
-      System.out.println(type);
-      System.out.println(Arrays.toString(attributes));
       Class clazz = Class.forName(type);
       return (GameObject) clazz.getConstructors()[0].newInstance(attributes);
     } catch (Exception e) {

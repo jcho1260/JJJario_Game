@@ -1,12 +1,14 @@
 package ooga.model;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.ArrayList;
 import ooga.model.gameobjects.Player;
 import ooga.model.util.Action;
 import ooga.model.util.Vector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests userinputmovement for player.
@@ -14,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Jessica Yang
  */
 public class PlayerMovementTest {
+
   Vector initPosition = new Vector(0, 0);
   Vector velocityMagnitude = new Vector(1, 1);
 

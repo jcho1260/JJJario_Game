@@ -25,6 +25,7 @@ import ooga.view.game.Sprite;
 import java.io.File;
 
 import ooga.view.launcher.BuilderView;
+import ooga.view.launcher.ExceptionView;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -48,11 +49,13 @@ public class Controller {
   private GameMaker gameMaker;
   private BuilderView builderView;
   private String currGame;
+  private ExceptionView exceptionView;
 
-  public Controller(Vector frameSize, double frameRate) {
+  public Controller(Vector frameSize, double frameRate, ExceptionView exceptionView) {
     collisionsParser = new CollisionsParser();
     this.frameSize =  frameSize;
     this.frameRate = frameRate;
+    this.exceptionView = exceptionView;
     try {
       keyListener = new KeyListener(new Profile("default").getKeybinds());
     } catch (Exception e) {
@@ -361,6 +364,6 @@ public class Controller {
   }
 
   private void reportError(Exception e) {
-
+    exceptionView.displayError(e);
   }
 }

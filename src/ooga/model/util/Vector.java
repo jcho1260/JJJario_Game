@@ -66,7 +66,7 @@ public class Vector implements Serializable {
 
   public Vector toUnit() {
     Vector ret = toCardinal();
-    double diveFrac = 1.0/Math.max(Math.abs(xVal), Math.abs(yVal));
+    double diveFrac = 1.0 / Math.max(Math.abs(xVal), Math.abs(yVal));
     return ret.multiply(new Vector(diveFrac, diveFrac));
   }
 
@@ -74,18 +74,18 @@ public class Vector implements Serializable {
     if (Math.abs(yVal) >= Math.abs(xVal)) {
       return new Vector(0, yVal);
     }
-      return new Vector(xVal, 0);
+    return new Vector(xVal, 0);
   }
 
   public Action getDirection() {
     Vector cardinal = toCardinal();
-    if(cardinal.getX() < 0) {
+    if (cardinal.getX() < 0) {
       return Action.LEFT;
-    } else if(cardinal.getX() > 0) {
+    } else if (cardinal.getX() > 0) {
       return Action.RIGHT;
-    } else if(cardinal.getY() < 0) {
+    } else if (cardinal.getY() < 0) {
       return Action.UP;
-    } else if(cardinal.getY() > 0) {
+    } else if (cardinal.getY() > 0) {
       return Action.DOWN;
     } else {
       return Action.DOWN;

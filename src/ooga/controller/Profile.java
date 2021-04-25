@@ -53,7 +53,6 @@ public class Profile implements Serializable, PropertyChangeListener {
       }
     }
     keybinds.put(bind.getKey(), action);
-    System.out.println(keybinds);
   }
 
   public Map<KeyCode, Action> getKeybinds() {
