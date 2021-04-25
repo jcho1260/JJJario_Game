@@ -87,7 +87,8 @@ public class Controller {
 
   public String[] getUserDefinedLevels(String game) {
     File folder = new File("data/UserDefined/" + game);
-    return Arrays.stream(folder.listFiles()).map(file -> file.getName().replaceAll(".game", "")).toArray(String[]::new);
+    return Arrays.stream(folder.listFiles()).map(file -> file.getName().replaceAll(".game", ""))
+            .filter(name -> !name.equals("FOLDER_PURPOSE.md")).toArray(String[]::new);
   }
 
   public void startGame(GameView gameView) {
