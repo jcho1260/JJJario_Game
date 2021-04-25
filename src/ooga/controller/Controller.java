@@ -173,6 +173,7 @@ public class Controller {
 
   public void loadUserDefinedName(String game, String name) {
     try {
+      gameMaker = new GameMaker(game);
       gameWorld = gameMaker.loadGame(game, name);
     } catch (Exception e) {
       reportError(e);
