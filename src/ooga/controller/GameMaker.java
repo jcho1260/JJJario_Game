@@ -102,6 +102,10 @@ public class GameMaker {
       gameObjects.add(gameObject);
     }
 
+    if (player == null) {
+      throw new GameObjectMakerException("Must have a valid Player");
+    }
+
     LevelParser levelParser = new LevelParser(new File("data/" + gameName + "/Level1.xml"));
     return new GameWorld(player, collisions, gameObjects, actors, frameSize, 3, levelParser.getGlobalGravity(), frameRate, minScreen, maxScreen);
   }

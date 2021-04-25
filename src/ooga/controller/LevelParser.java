@@ -123,6 +123,14 @@ public class LevelParser {
     return null;
   }
 
+  private Vector getSize(Element entity, GameObjectInfo info) {
+    Vector size = getVectorAttribute(entity, "Size");
+    if (size.getX() == 0 && size.getY() == 0) {
+      return info.size;
+    }
+    return size;
+  }
+
   private Player createPlayer(Element entity, GameObjectInfo info, int id, Document doc)
       throws ClassNotFoundException {
     Vector pos = getVectorAttribute(entity, "Location");
@@ -131,9 +139,11 @@ public class LevelParser {
     int startHealth = (int) getNumberAttribute(entity, "StartHealth");
     double jumpTime = getNumberAttribute(entity, "JumpTime");
     int jumpLimit = (int) getNumberAttribute(entity, "ContinuousJumpLimit");
+    Vector size = getSize(entity, info);
+
     boolean vis = getVisibility(entity);
     // 2 is the cooldown
-    return new Player(info.tags, pos, id, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit, 2, vis, 1);
+    return new Player(info.tags, pos, id, size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit, 2, vis, 1);
   }
 
   private MovingDestroyable createMovingDestroyable(Element entity, GameObjectInfo info, int id) {
@@ -144,7 +154,8 @@ public class LevelParser {
     Vector finalPos = getVectorAttribute(entity, "FinalLocation");
     boolean vis = getVisibility(entity);
     int score = (int) getNumberAttribute(entity, "Score");
-    return new MovingDestroyable(info.tags, pos, id, info.size, startLife, startHealth, score, vel, finalPos, info.gravity, vis);
+    Vector size = getSize(entity, info);
+    return new MovingDestroyable(info.tags, pos, id, size, startLife, startHealth, score, vel, finalPos, info.gravity, vis);
   }
 
   private Destroyable createDestroyable(Element entity, GameObjectInfo info, int id) {
@@ -153,14 +164,16 @@ public class LevelParser {
     int startHealth = (int) getNumberAttribute(entity, "StartHealth");
     boolean vis = getVisibility(entity);
     int score = (int) getNumberAttribute(entity, "Score");
-    return new Destroyable(info.tags, pos, id, info.size, startLife, startHealth, score, vis);
+    Vector size = getSize(entity, info);
+    return new Destroyable(info.tags, pos, id, size, startLife, startHealth, score, vis);
 
   }
 
   private GameObject createGameObject(Element entity, GameObjectInfo info, int id) {
     Vector pos = getVectorAttribute(entity, "Location");
     boolean vis = getVisibility(entity);
-    return  new GameObject(info.tags, pos, id, info.size, vis);
+    Vector size = getSize(entity, info);
+    return  new GameObject(info.tags, pos, id, size, vis);
   }
 
   private boolean getVisibility(Element entity) {
