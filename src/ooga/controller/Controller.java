@@ -81,6 +81,11 @@ public class Controller {
     return levelNameParser.getLevelName(n);
   }
 
+  public String[] getUserDefinedLevels(String game) {
+    File folder = new File("data/UserDefined/" + game);
+    return Arrays.stream(folder.listFiles()).map(File::getName).toArray(String[]::new);
+  }
+
   public void startGame(GameView gameView) {
     this.gameView = gameView;
   }
