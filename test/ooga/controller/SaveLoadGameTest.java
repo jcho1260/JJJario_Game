@@ -1,10 +1,13 @@
 package ooga.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
+import ooga.JjjanException;
 import ooga.model.GameWorld;
 import ooga.model.util.Vector;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +28,7 @@ public class SaveLoadGameTest {
   }
 
   @Test
-  public void testSaveLoad() throws IOException, ClassNotFoundException {
+  public void testSaveLoad() throws IOException, ClassNotFoundException, JjjanException {
     gameSaver.saveGame("testGame", "level", "testSave", gameWorld);
     GameWorld loadedWorld = gameSaver.loadGame("testGame", "level", "testSave.game");
 
@@ -33,5 +36,15 @@ public class SaveLoadGameTest {
     int loadedNumObjects = loadedWorld.getAllGameObjects().size();
 
     assertEquals(originalNumObjects, loadedNumObjects);
+  }
+
+  @Test
+  public void testNullGameWorldThrows() {
+    assertThrows(JjjanException.class, () -> gameSaver.saveGame("testGame", "level", "testSave", null));
+  }
+
+  @Test
+  public void testLoadNonExistingSaveThrows() {
+    assertThrows(FileNotFoundException.class, () -> gameSaver.loadGame("testGame", "level", "notValid.game"));
   }
 }

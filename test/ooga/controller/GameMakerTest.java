@@ -1,6 +1,7 @@
 package ooga.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,5 +54,19 @@ public class GameMakerTest {
         .makeGameWorld("JJJario", new Vector(100, 100), 60, new Vector(0, 0), new Vector(100, 40));
 
     assertEquals(10, gw.getAllGameObjects().get(0).getPosition().getX());
+  }
+
+  @Test
+  public void testGameMakerNoPlayerThrows() {
+
+    List<String> tags = new ArrayList<>();
+    tags.add("test");
+    tags.add("GameObject");
+
+    Object[] attributes = {tags, new Vector(10, 50), 1, new Vector(10, 10), true};
+    GameObjectMaker gom = new GameObjectMaker("ooga.model.gameobjects.GameObject", attributes);
+
+    gm.addGameObjectMaker(gom);
+    assertThrows(GameObjectMakerException.class, () -> gm.makeGameWorld("JJJario", new Vector(100, 100), 60, new Vector(0, 0), new Vector(100, 40)));
   }
 }

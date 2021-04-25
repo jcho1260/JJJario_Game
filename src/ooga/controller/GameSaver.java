@@ -2,11 +2,18 @@ package ooga.controller;
 
 import java.io.*;
 import java.util.Arrays;
+import ooga.JjjanException;
 import ooga.model.GameWorld;
 
 public class GameSaver {
 
-  public void saveGame(String game, String level, String name, GameWorld gameWorld) throws IOException {
+  public void saveGame(String game, String level, String name, GameWorld gameWorld)
+      throws IOException, JjjanException {
+
+    if (gameWorld == null) {
+      throw new JjjanException("Invalid Game World");
+    }
+
     String path = "data/saves/" + game + "/" + level;
     new File(path).mkdirs();
 
