@@ -78,8 +78,6 @@ public class ProfileView {
   }
 
   private void makeHighScores(String game, String level, Integer score) {
-    System.out.println(game);
-
     ((Pane) ((ScrollPane) currMenu.lookup("#HighScoreScrollPane")).getContent()
         .lookup("#JJJarioHighScores")).getChildren().add(new Text(level.replaceAll( "([A-Za-z])(\\d)", "$1 $2" ) + ": " + score));
   }
@@ -112,7 +110,6 @@ public class ProfileView {
 
       File selectedFile = fileChooser.showOpenDialog(currMenu.getScene().getWindow());
       String imagePath = selectedFile.toURI().toString().split("/resources/")[1];
-      System.out.println(imagePath);
       pcl.propertyChange(new PropertyChangeEvent(this, "setPicture", null, imagePath));
       editProfile(imagePath);
     });
