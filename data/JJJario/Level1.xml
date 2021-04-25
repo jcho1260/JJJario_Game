@@ -35,6 +35,10 @@
       <x>0</x>
       <y>-50</y>
     </Offset>
+    <Velocity>
+      <x>0</x>
+      <y>-50</y>
+    </Velocity>
   </Creatable>
 
 
@@ -57,7 +61,7 @@
       <Name>Goomba</Name>
       <Tags>
         <Tag>GameObject</Tag>
-        <Tage>Destroyable</Tage>
+        <Tag>Destroyable</Tag>
         <Tag>MovingDestroyable</Tag>
         <Tag>Enemy</Tag>
         <Tag>Goomba</Tag>
@@ -73,7 +77,7 @@
       <Name>KoopaTroopa</Name>
       <Tags>
         <Tag>GameObject</Tag>
-        <Tage>Destroyable</Tage>
+        <Tag>Destroyable</Tag>
         <Tag>MovingDestroyable</Tag>
         <Tag>Enemy</Tag>
         <Tag>KoopaTroopa</Tag>
@@ -198,8 +202,8 @@
       <JumpTime>0.75</JumpTime>
       <ContinuousJumpLimit>1</ContinuousJumpLimit>
       <ShootCoolDown>30</ShootCoolDown>
-      <InvincibilityLimit>1</InvincibilityLimit>
-      <StartHealth>1</StartHealth>
+      <InvincibilityLimit>5</InvincibilityLimit>
+      <StartHealth>2</StartHealth>
     </Entity>
     <Entity>
       <Name>Mushroom</Name>

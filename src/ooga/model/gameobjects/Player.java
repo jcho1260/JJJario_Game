@@ -114,11 +114,11 @@ public class Player extends Destroyable {
    */
   @Override
   public void incrementHealth(Double increment) {
-    System.out.println("HEALTH BEFORE: " +health.getHealth());
+//    System.out.println("HEALTH BEFORE: " +health.getHealth());
     if (canBeHurt(increment)) {
       framesSinceDamage = 0;
       health.incrementHealth(increment);
-      System.out.println("HEALTH AFTER: " +health.getHealth());
+//      System.out.println("HEALTH AFTER: " +health.getHealth());
       notifyListenerIndex(0, "changeHealth", null, super.getHealth());
     }
     checkReSpawn();
@@ -132,10 +132,10 @@ public class Player extends Destroyable {
    */
   @Override
   public void incrementLives(Double increment) {
-    System.out.println("LIVES BEFORE: " +health.getLives());
+//    System.out.println("LIVES BEFORE: " +health.getLives());
     if (canBeHurt(increment)) {
       health.incrementLives(increment);
-      System.out.println("LIVES AFTER: " +health.getLives());
+//      System.out.println("LIVES AFTER: " +health.getLives());
       notifyListenerIndex(0, "changeLife", null, super.getLives());
     }
     checkReSpawn();

@@ -122,6 +122,7 @@ public class WorldCollisionHandling implements Serializable {
     List<Integer> toDelete = new ArrayList<>();
     for (Destroyable destroyable : collisions) {
       destroyable.executeCollisions();
+//      System.out.println("KILLING: "+getEntityType().get(getEntityType().size()-1));
       if (!destroyable.isAlive()) {
         destroyable.kill();
         toDelete.add(destroyable.getId());

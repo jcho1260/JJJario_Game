@@ -90,11 +90,10 @@ public class GameWorld extends Observable implements Serializable {
     updateAllActiveInfo();
     sendViewCoords();
     currentFrameCount++;
-    printAllDest();
   }
 
-  private void printAllDest() {
-    for(GameObject o : allActiveDestroyables) {
+  private void printAllDest(List<GameObject> obj) {
+    for(GameObject o : obj) {
       System.out.print(o.getEntityType().get(o.getEntityType().size()-1) +" : "+o.getId() +", ");
     }
     System.out.println("");
@@ -150,8 +149,6 @@ public class GameWorld extends Observable implements Serializable {
   }
 
   public void queueNewMovingDestroyable(List<MovingDestroyable> newMovingDestroyables) {
-    System.out.println("Received bullets");
-    System.out.println("BULLET: "+newMovingDestroyables.get(0).getEntityType().get(newMovingDestroyables.get(0).getEntityType().size()-1));
     if (newMovingDestroyables.size() != 0){
       runtimeCreations.addAll(newMovingDestroyables);
     }
