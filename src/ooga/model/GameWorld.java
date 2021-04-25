@@ -35,6 +35,7 @@ public class GameWorld extends Observable implements Serializable {
   private List<MovingDestroyable> runtimeCreations;
   private WorldCollisionHandling worldCollisionHandling;
   private double score;
+  private int currentFrameCount;
   private Player player;
   private Vector windowSize;
   private Vector[] frameCoords;
@@ -61,6 +62,7 @@ public class GameWorld extends Observable implements Serializable {
     gravity = levelGravity;
     stepTime = 1.0/frameRate;
     score = 0;
+    currentFrameCount = 0;
 //    playerWin = false;
     screenLimitsMin = minScreenLimit;
     screenLimitsMax = maxScreenLimit;
@@ -81,7 +83,7 @@ public class GameWorld extends Observable implements Serializable {
 
   public void stepFrame(Action pressEffect)
       throws NoSuchMethodException, JjjanException, InvocationTargetException, IllegalAccessException {
-    player.userStep(pressEffect, stepTime, gravity);  // use setPredicted
+    player.userStep(pressEffect, stepTime, gravity, currentFrameCount);  // use setPredicted
     allGameObjectStep(stepTime);  // use setPredicted
     collisionsDetectAndExecute();
     updatePositions();
@@ -91,6 +93,7 @@ public class GameWorld extends Observable implements Serializable {
     appendRuntimeCreations();
     updateAllActiveInfo();
     sendViewCoords();
+    currentFrameCount++;
   }
 
   private void collisionsDetectAndExecute()
@@ -145,7 +148,9 @@ public class GameWorld extends Observable implements Serializable {
   public void queueNewMovingDestroyable(List<MovingDestroyable> newMovingDestroyables) {
     System.out.println("Received bullets");
     System.out.println("BULLET: "+newMovingDestroyables.get(0).getEntityType().get(newMovingDestroyables.get(0).getEntityType().size()-1));
-    runtimeCreations.addAll(newMovingDestroyables);
+    if (newMovingDestroyables.size() != 0){
+      runtimeCreations.addAll(newMovingDestroyables);
+    }
   }
 
   private void appendRuntimeCreations() {

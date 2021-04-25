@@ -38,7 +38,7 @@ public class PlayerCollisionTest {
   @Test
   void testUserStepShoot() {
     try {
-      player.userStep(Action.SHOOT, 1, 25);
+      player.userStep(Action.SHOOT, 1, 25, 0);
     } catch (NoSuchMethodException e) {
       e.printStackTrace();
     } catch (IllegalAccessException e) {

@@ -11,11 +11,15 @@ public class UserInputActions implements Serializable {
   private Map<String, Integer> parameterCounts;
   private UserInputMovement movement;
   private UserInputProjectile projectile;
+  private double shootingDelay;
+  private double lastShot;
 
   public UserInputActions(double jumpTime, Vector defaultVelocity, double gravity,
       Vector autoscrollVector, int contJumpLimit, double shootingCooldown) {
     movement = new UserInputMovement(jumpTime, defaultVelocity, gravity, autoscrollVector, contJumpLimit);
     projectile = new UserInputProjectile(shootingCooldown);
+    shootingDelay = shootingCooldown;
+    lastShot = shootingDelay * -1;
     createParameterCounts();
   }
 
@@ -23,8 +27,12 @@ public class UserInputActions implements Serializable {
     return parameterCounts.get(methodName);
   }
 
-  public void shoot(Double x, Double y) {
-    // reflectively call from UserInputProjectile
+  public boolean shoot(Double x, Double y, int currentFrame) {
+    if (currentFrame >= lastShot + shootingDelay){
+      lastShot = currentFrame;
+      return true;
+    }
+    return false;
   }
 
   public Vector up(Double elapsedTime, Double gameGravity) {

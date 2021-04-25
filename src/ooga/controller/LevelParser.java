@@ -87,7 +87,7 @@ public class LevelParser {
     String name = entity.getElementsByTagName("Name").item(0).getTextContent();
 
     GameObjectInfo info = gameObjectMap.get(name);
-    return new MovingDestroyable(info.tags, new Vector(pos.getX(), pos.getY()-50), id, info.size, 0, 1, 0, new Vector(0, -20), new Vector(pos.getX(), 0), info.gravity, true);
+    return new MovingDestroyable(info.tags, new Vector(pos.getX(), pos.getY()-50), id, info.size, 0, 1, 0, new Vector(0, -100), new Vector(pos.getX(), 0), info.gravity, true);
   }
 
   public List<String> getTags(String name) {
@@ -119,7 +119,7 @@ public class LevelParser {
         int startLife = (int) getNumberAttribute(entity, "StartLife");
         int startHealth = (int) getNumberAttribute(entity, "StartHealth");
         boolean vis = getVisibility(entity);
-        return new Player(info.tags, coords, 0, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit, 2, vis, 1);
+        return new Player(info.tags, coords, 0, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit, 30, vis, 1);
       };
     }
     return null;
@@ -135,7 +135,7 @@ public class LevelParser {
     int jumpLimit = (int) getNumberAttribute(entity, "ContinuousJumpLimit");
     boolean vis = getVisibility(entity);
     // 2 is the cooldown
-    return new Player(info.tags, pos, id, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit, 2, vis, 1);
+    return new Player(info.tags, pos, id, info.size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit, 30, vis, 1);
   }
 
   private MovingDestroyable createMovingDestroyable(Element entity, GameObjectInfo info, int id) {

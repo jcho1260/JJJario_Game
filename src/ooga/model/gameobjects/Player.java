@@ -2,7 +2,6 @@ package ooga.model.gameobjects;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 import ooga.model.gameobjectcomposites.UserInputActions;
 import ooga.model.util.Action;
@@ -20,7 +19,7 @@ public class Player extends Destroyable {
   private Class<?> userInputActions;
   private int lives;
   private final double invincibilityLimit;
-  private double frameCount = 0;
+  private double framesSinceDamage = 0;
   private boolean win;
 
   /**
@@ -47,17 +46,19 @@ public class Player extends Destroyable {
    * @param elapsedTime
    * @param gameGravity
    */
-  public void userStep(Action direction, double elapsedTime, double gameGravity)
+  public void userStep(Action direction, double elapsedTime, double gameGravity, int currentFrame)
       throws NoSuchMethodException, SecurityException, IllegalAccessException,
       IllegalArgumentException, InvocationTargetException {
-    frameCount++;
+    framesSinceDamage++;
 
     String methodName = direction.toString().toLowerCase();
 
+    System.out.println(currentFrame);
     if (direction.equals(Action.SHOOT)){
-      userActions.shoot(getPosition().getX(), getPosition().getY());
-      System.out.println("SHOOTING");
-      notifyListenerIndex(0, "newMovingDestroyable", null, getPosition().add(new Vector(getSize().getX()/2, 0)));
+      if (userActions.shoot(getPosition().getX(), getPosition().getY(), currentFrame)) {
+        System.out.println("SHOOTING");
+        notifyListenerIndex(0, "newMovingDestroyable", null, getPosition().add(new Vector(getSize().getX()/2, 0)));
+      }
     } else {
       move(direction, elapsedTime, gameGravity);
     }
@@ -133,7 +134,7 @@ public class Player extends Destroyable {
 
     if (canBeHurt(increment)) {
       int j = 0;
-      frameCount = 0;
+      framesSinceDamage = 0;
       super.incrementHealth(increment);
 //    notifyListeners("playerHealth", prevHealth, getHealth());
 
@@ -159,7 +160,7 @@ public class Player extends Destroyable {
   }
 
   private boolean canBeHurt(double value) {
-    return value < 0 && frameCount > invincibilityLimit;
+    return value < 0 && framesSinceDamage > invincibilityLimit;
   }
 
   /**

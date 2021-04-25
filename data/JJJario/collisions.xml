@@ -76,6 +76,15 @@
   <Actor>
     <Name>Bullet</Name>
     <GameObject>
+      <Name>Bullet</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+    <GameObject>
       <Name>GameObject</Name>
       <Method>
         <Name>incrementHealth</Name>
