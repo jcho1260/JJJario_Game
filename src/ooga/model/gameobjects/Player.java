@@ -37,6 +37,9 @@ public class Player extends Destroyable {
     invincibilityLimit = invincibility;
     win = false;
     initialPosition = initPosition;
+  }
+
+  public void initalizeHUD() {
     notifyListenerIndex(0, "changeHealth", null, super.getHealth());
     notifyListenerIndex(0, "changeLife", null, super.getLives());
   }
