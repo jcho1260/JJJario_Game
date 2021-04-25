@@ -14,11 +14,10 @@ import ooga.model.util.Vector;
  */
 public class Player extends Destroyable {
 
-  private List<GameObject> activePowerUps;
   private final UserInputActions userActions;
   private Class<?> userInputActions;
   private final double invincibilityLimit;
-  private double framesSinceDamage = 0;
+  private double framesSinceDamage;
   private boolean win;
   private Vector initialPosition;
 
@@ -37,6 +36,7 @@ public class Player extends Destroyable {
     invincibilityLimit = invincibility;
     win = false;
     initialPosition = initPosition;
+    framesSinceDamage = invincibility+1;
   }
 
   /**
@@ -115,7 +115,7 @@ public class Player extends Destroyable {
   @Override
   public void incrementHealth(Double increment) {
 //    System.out.println("HEALTH BEFORE: " +health.getHealth());
-    if (canBeHurt(increment)) {
+    if (increment < 0 && canBeHurt() || increment > 0) {
       framesSinceDamage = 0;
       health.incrementHealth(increment);
 //      System.out.println("HEALTH AFTER: " +health.getHealth());
@@ -133,7 +133,7 @@ public class Player extends Destroyable {
   @Override
   public void incrementLives(Double increment) {
 //    System.out.println("LIVES BEFORE: " +health.getLives());
-    if (canBeHurt(increment)) {
+    if (increment < 0 && canBeHurt() || increment > 0) {
       health.incrementLives(increment);
 //      System.out.println("LIVES AFTER: " +health.getLives());
       notifyListenerIndex(0, "changeLife", null, super.getLives());
@@ -158,8 +158,8 @@ public class Player extends Destroyable {
     }
   }
 
-  private boolean canBeHurt(double value) {
-    return value < 0 && framesSinceDamage > invincibilityLimit;
+  private boolean canBeHurt() {
+    return framesSinceDamage > invincibilityLimit;
   }
 
   /**
