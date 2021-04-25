@@ -125,7 +125,7 @@ public class LevelParser {
   }
 
   private Vector getSize(Element entity, GameObjectInfo info) {
-    Vector size = getVectorAttribute(entity, "size");
+    Vector size = getVectorAttribute(entity, "Size");
     if (size.getX() == 0 && size.getY() == 0) {
       return info.size;
     }
