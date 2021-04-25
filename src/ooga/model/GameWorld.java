@@ -91,13 +91,11 @@ public class GameWorld extends Observable implements Serializable {
       throws NoSuchMethodException, JjjanException, InvocationTargetException, IllegalAccessException {
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allActiveDestroyables = findActiveObjects(allDestroyables);
-
-    player.userStep(pressEffect, stepTime, gravity, currentFrameCount);  // use setPredicted
-    allGameObjectStep(stepTime);  // use setPredicted
+    player.userStep(pressEffect, stepTime, gravity, currentFrameCount);
+    allGameObjectStep(stepTime);
     collisionsDetectAndExecute();
     updatePositions();
     playerOffScreen();
-    // using actual position (after setPosition() was called) --> do later, call internally
     updateFrameCoordinates(player.getPosition(), player.getSize());
     appendRuntimeCreations();
     updateAllActiveInfo();
@@ -107,8 +105,8 @@ public class GameWorld extends Observable implements Serializable {
 
   private void collisionsDetectAndExecute()
       throws NoSuchMethodException, JjjanException, InvocationTargetException, IllegalAccessException {
-    worldCollisionHandling.detectAllCollisions(); // use setPredicted
-    List<Integer> forDeletion = worldCollisionHandling.executeAllCollisions();  // use setPredicted
+    worldCollisionHandling.detectAllCollisions();
+    List<Integer> forDeletion = worldCollisionHandling.executeAllCollisions();
     removeDeadActors(forDeletion);
     correctCollisionIntersections();
   }
@@ -155,6 +153,10 @@ public class GameWorld extends Observable implements Serializable {
     }
   }
 
+  /**
+   *
+   * @param newMovingDestroyables
+   */
   public void queueNewMovingDestroyable(List<MovingDestroyable> newMovingDestroyables) {
     if (newMovingDestroyables.size() != 0 && newMovingDestroyables.get(0) != null){
       runtimeCreations.addAll(newMovingDestroyables);
@@ -198,11 +200,9 @@ public class GameWorld extends Observable implements Serializable {
 
   private void removeDeadActors(List<Integer> deadActors) {
     getScoreDead(deadActors);
-
     allGameObjects = removeIndicesFromList(allGameObjects, deadActors);
     allDestroyables = removeIndicesFromList(allDestroyables, deadActors);
     allAlwaysActive = removeIndicesFromList(allAlwaysActive, deadActors);
-
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allActiveDestroyables = findActiveObjects(allDestroyables);
     worldCollisionHandling.updateActiveGameObjects(allActiveGameObjects, allActiveDestroyables);
@@ -283,14 +283,26 @@ public class GameWorld extends Observable implements Serializable {
     return ret;
   }
 
+  /**
+   * returns the game gravity
+   * @return game gravity
+   */
   public double getGravity() {
     return gravity;
   }
 
+  /**
+   * gives the status of the game
+   * @return true if the game is over and the player has lost
+   */
   public boolean isGameOver() {
     return !player.isAlive();
   }
 
+  /**
+   * gives the status of the player
+   * @return true if the player has won
+   */
   public boolean didPlayerWin() {
     return player.getWinStatus();
   }
