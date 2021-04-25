@@ -46,7 +46,6 @@ public class GameObject extends Observable implements Serializable {
     return rect;
   }
 
-  // TODO REFACTOR FOR reasons
   public Vector getPredictedPosition() {
     return rect.getPredictedPos();
   }
@@ -59,7 +58,6 @@ public class GameObject extends Observable implements Serializable {
    *
    */
   public List<String> getEntityType() {
-    // TODO implement here
     return entityTypes;
   }
 

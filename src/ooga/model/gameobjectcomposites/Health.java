@@ -21,10 +21,6 @@ public class Health implements Serializable {
    */
   public void incrementHealth(Double increment) {
     health += increment;
-    if (health <= 0) {
-      health = startHealth;
-      lives--;
-    }
   }
 
   /**
@@ -63,8 +59,13 @@ public class Health implements Serializable {
     return lives;
   }
 
-  public void kill() {
+  public void loseLife() {
     health = startHealth;
     lives--;
+  }
+
+  public void kill() {
+    health = 0;
+//    lives--;
   }
 }

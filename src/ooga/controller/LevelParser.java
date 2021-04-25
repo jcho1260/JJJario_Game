@@ -81,7 +81,6 @@ public class LevelParser {
   }
 
   public MovingDestroyable makeCreatable(Vector pos, int id) {
-    System.out.println("MAKING CREATABLE");
     NodeList creatables = doc.getElementsByTagName("Creatable");
     if (creatables.getLength() == 0) return null;
 
@@ -93,9 +92,9 @@ public class LevelParser {
     String name = entity.getElementsByTagName("Name").item(0).getTextContent();
 
     Vector offset = getVectorAttribute(entity, "Offset");
-
+    Vector velocity = getVectorAttribute(entity, "Velocity");
     GameObjectInfo info = gameObjectMap.get(name);
-    return new MovingDestroyable(info.tags, pos.add(offset), id, info.size, 0, 1, 0, new Vector(0, -1), new Vector(pos.getX(), 0), info.gravity, true);
+    return new MovingDestroyable(info.tags, pos.add(offset), id, info.size, 0, 1, 0, velocity, new Vector(pos.getX(), 0), info.gravity, true);
   }
 
   public List<String> getTags(String name) {
@@ -150,7 +149,7 @@ public class LevelParser {
     int jumpLimit = (int) getNumberAttribute(entity, "ContinuousJumpLimit");
     Vector size = getSize(entity, info);
     int shootCoolDown = (int) getNumberAttribute(entity, "ShootCoolDown");
-    int invincibility = (int) getNumberAttribute(entity, "InvincibilityLimit");
+    double invincibility = getNumberAttribute(entity, "InvincibilityLimit");
     boolean vis = getVisibility(entity);
     return new Player(info.tags, pos, id, size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit, shootCoolDown, vis, invincibility);
   }

@@ -24,7 +24,12 @@ public class Destroyable extends GameObject{
     collisionHandler = new DestroyableCollisionHandling();
     health = new Health(startHealth, startLife);
     score = points;
+//    printLoc();
   }
+
+//  private void printLoc() {
+//    System.out.println(getEntityType().get(getEntityType().size()-1)+" LOCATE: "+getPosition().getX()+", "+getPosition().getY());
+//  }
 
   /**
    * checks to see if destroyable is still alive
@@ -73,7 +78,7 @@ public class Destroyable extends GameObject{
   /**
    * create a Queue of all methods to invoke on self for collisions with other GameObjects
    */
-  public void addCollision(List<MethodBundle> methodList) throws NoSuchMethodException {
+  public void addCollision(List<MethodBundle> methodList) {
     for (MethodBundle mb : methodList) {
       collisionQueue.add(mb);
     }
@@ -93,7 +98,11 @@ public class Destroyable extends GameObject{
    * @param increment
    */
   public void incrementHealth(Double increment) {
+//    System.out.println(getEntityType().get(getEntityType().size()-1) + " is incrementing health: "+health.getHealth());
     health.incrementHealth(increment);
+    if(health.getHealth() <= 0) {
+      health.loseLife();
+    }
   }
 
   /**
@@ -133,8 +142,9 @@ public class Destroyable extends GameObject{
    *
    */
   public void kill() {
-    System.out.println("KILLING");
+//    System.out.println("KILLING: "+getEntityType().get(getEntityType().size()-1));
     health.kill();
+    health.loseLife();
     if (!health.isAlive()) {
       notifyListeners("changeVisibility", true, false);
     }

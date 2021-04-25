@@ -14,11 +14,10 @@ import ooga.model.util.Vector;
  */
 public class Player extends Destroyable {
 
-  private List<GameObject> activePowerUps;
   private final UserInputActions userActions;
   private Class<?> userInputActions;
   private final double invincibilityLimit;
-  private double framesSinceDamage = 0;
+  private double framesSinceDamage;
   private boolean win;
   private Vector initialPosition;
 
@@ -37,14 +36,15 @@ public class Player extends Destroyable {
     invincibilityLimit = invincibility;
     win = false;
     initialPosition = initPosition;
+    framesSinceDamage = invincibility+1;
   }
 
   /**
    * Handles player movement given user input.
    *
-   * @param direction
+   * @param direction key input respective action linked to it
    * @param elapsedTime
-   * @param gameGravity
+   * @param gameGravity the global game gravity applied to the player
    */
   public void userStep(Action direction, double elapsedTime, double gameGravity, int currentFrame)
       throws NoSuchMethodException, SecurityException, IllegalAccessException,
@@ -87,7 +87,7 @@ public class Player extends Destroyable {
 
   /**
    * gets velocity of player
-   * @return
+   * @return velocity vector of the player
    */
   public Vector getVelocity() {return userActions.getVelocity();}
 
@@ -100,7 +100,7 @@ public class Player extends Destroyable {
 
   /**
    * gives winning status of the player to see if player completed level
-   * @return
+   * @return true if it has won the game
    */
   public boolean getWinStatus() {
     return win;
@@ -114,12 +114,15 @@ public class Player extends Destroyable {
    */
   @Override
   public void incrementHealth(Double increment) {
-    if (canBeHurt(increment)) {
+//    System.out.println("HEALTH BEFORE: " +health.getHealth());
+    if (increment < 0 && canBeHurt() || increment > 0) {
       framesSinceDamage = 0;
-      super.incrementHealth(increment);
+      health.incrementHealth(increment);
+//      System.out.println("HEALTH AFTER: " +health.getHealth());
       notifyListenerIndex(0, "changeHealth", null, super.getHealth());
     }
     checkReSpawn();
+
   }
 
   /**
@@ -129,37 +132,41 @@ public class Player extends Destroyable {
    */
   @Override
   public void incrementLives(Double increment) {
-    if (canBeHurt(increment)) {
-      super.incrementLives(increment);
+//    System.out.println("LIVES BEFORE: " +health.getLives());
+    if (increment < 0 && canBeHurt() || increment > 0) {
+      health.incrementLives(increment);
+//      System.out.println("LIVES AFTER: " +health.getLives());
       notifyListenerIndex(0, "changeLife", null, super.getLives());
     }
     checkReSpawn();
+
   }
 
   /**
-   *
+   * kills the player in its current life and respawns it if not dead
    */
   @Override
   public void kill() {
-    super.kill();
+    health.kill();
     checkReSpawn();
   }
 
   private void checkReSpawn() {
-    if(health.getLives()>0) {
+    if(health.getLives()>0 && health.getHealth()<=0) {
       rect.setPredictedPos(initialPosition);
+      health.loseLife();
     }
   }
 
-  private boolean canBeHurt(double value) {
-    return value < 0 && framesSinceDamage > invincibilityLimit;
+  private boolean canBeHurt() {
+    return framesSinceDamage > invincibilityLimit;
   }
 
   /**
    * Scales velocity by given amount.
    *
-   * @param x
-   * @param y
+   * @param x velocity x-direction scale factor
+   * @param y velocity y-direction scale factor
    */
   public void scaleVelocity(Double x, Double y) {
     Vector newVelocity = userActions.getVelocity().multiply(new Vector(x, y));

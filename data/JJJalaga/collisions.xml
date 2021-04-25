@@ -10,9 +10,28 @@
         </Args>
       </Method>
     </GameObject>
+    <GameObject>
+      <Name>WinningBlock</Name>
+      <Method>
+        <Name>playerWinsLevel</Name>
+        <Args></Args>
+      </Method>
+    </GameObject>
+    <GameObject>
+      <Name>GameObject</Name>
+    </GameObject>
   </Actor>
   <Actor>
     <Name>Bullet</Name>
+    <GameObject>
+      <Name>Block</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
     <GameObject>
       <Name>Asteroid</Name>
       <Method>
@@ -21,6 +40,9 @@
           <Arg>-1</Arg>
         </Args>
       </Method>
+    </GameObject>
+    <GameObject>
+      <Name>GameObject</Name>
     </GameObject>
   </Actor>
   <Actor>
@@ -33,6 +55,18 @@
           <Arg>-1</Arg>
         </Args>
       </Method>
+    </GameObject>
+    <GameObject>
+      <Name>GameObject</Name>
+    </GameObject>
+  </Actor>
+  <Actor>
+    <Name>WinningBlock</Name>
+    <GameObject>
+      <Name>GameObject</Name>
+    </GameObject>
+    <GameObject>
+      <Name>Bullet</Name>
     </GameObject>
   </Actor>
 </Collisions>
