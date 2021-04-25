@@ -17,26 +17,26 @@ public class Player extends Destroyable {
   private List<GameObject> activePowerUps;
   private final UserInputActions userActions;
   private Class<?> userInputActions;
-  private int lives;
   private final double invincibilityLimit;
   private double framesSinceDamage = 0;
   private boolean win;
+  private Vector initialPosition;
 
   /**
    * Default constructor for Player.
    */
-  public Player(List<String> entityTypes, Vector initialPosition, int id, Vector objSize,
+  public Player(List<String> entityTypes, Vector initPosition, int id, Vector objSize,
       int startLife, int startHealth, double jumpTime, Vector velocityMagnitude, double gravity,
       Vector drivingVelocity, int continuousJumpLimit, double shootingCooldown, boolean vis, double
       invincibility)
       throws ClassNotFoundException {
-    super(entityTypes, initialPosition, id, objSize, startLife, startHealth, 0, vis);
+    super(entityTypes, initPosition, id, objSize, startLife, startHealth, 0, vis);
     userActions = new UserInputActions(jumpTime, velocityMagnitude, gravity, drivingVelocity,
         continuousJumpLimit, shootingCooldown);
     userInputActions = Class.forName("ooga.model.gameobjectcomposites.UserInputActions");
-    lives = startLife;
     invincibilityLimit = invincibility;
     win = false;
+    initialPosition = initPosition;
   }
 
   /**
@@ -105,22 +105,6 @@ public class Player extends Destroyable {
   }
 
   /**
-   * Collision method for adding a new power up to the Player.
-   */
-  public void addPowerUp() {
-    // TODO add actual logic for adding a powerup
-    notifyListeners("powerUpChange", null, null); // TODO what does frontend need
-  }
-
-  /**
-   * Collision method for removing an expired power up from the Player.
-   */
-  public void removePowerUp() {
-    // TODO add actual logic for removing a power up
-    notifyListeners("powerUpChange", null, null); // TODO what does frontend need
-  }
-
-  /**
    * Increments health of player by given amount. Notifies listeners of change in health, and if
    * applicable, change in lives.
    *
@@ -128,19 +112,11 @@ public class Player extends Destroyable {
    */
   @Override
   public void incrementHealth(Double increment) {
-    int prevHealth = getHealth();
-    int prevLives = getLives();
-
     if (canBeHurt(increment)) {
-      int j = 0;
       framesSinceDamage = 0;
       super.incrementHealth(increment);
-//    notifyListeners("playerHealth", prevHealth, getHealth());
-
-      if (getHealth() != prevLives) {
-//      notifyListeners("playerLives", prevLives, getLives());
-      }
     }
+    checkReSpawn();
   }
 
   /**
@@ -150,11 +126,24 @@ public class Player extends Destroyable {
    */
   @Override
   public void incrementLives(Double increment) {
-    int prevLives = getLives();
-
     if (canBeHurt(increment)) {
       super.incrementLives(increment);
-//    notifyListeners("playerLives", prevLives, getLives());
+    }
+    checkReSpawn();
+  }
+
+  /**
+   *
+   */
+  @Override
+  public void kill() {
+    super.kill();
+    checkReSpawn();
+  }
+
+  private void checkReSpawn() {
+    if(health.getLives()>0) {
+      rect.setPredictedPos(initialPosition);
     }
   }
 

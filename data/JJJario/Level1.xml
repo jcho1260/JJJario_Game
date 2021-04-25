@@ -186,7 +186,7 @@
         <x>150</x>
         <y>150</y>
       </Velocity>
-      <StartLife>3</StartLife>
+      <StartLife>5</StartLife>
       <JumpTime>0.75</JumpTime>
       <ContinuousJumpLimit>1</ContinuousJumpLimit>
       <ShootCoolDown>30</ShootCoolDown>

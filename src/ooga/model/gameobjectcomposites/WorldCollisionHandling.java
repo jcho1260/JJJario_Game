@@ -64,7 +64,6 @@ public class WorldCollisionHandling implements Serializable {
           continue;
         }
         List<String> directionalTags = ((Destroyable) actor).determineCollision(collisionObject);
-
         if (!directionalTags.isEmpty()) {
           List<MethodBundle> actorCollisionMethods = handleTagHierarchy(actor.getEntityType(), directionalTags);
           ((Destroyable) actor).addCollision(actorCollisionMethods);
@@ -72,7 +71,6 @@ public class WorldCollisionHandling implements Serializable {
             collisions.add(((Destroyable) actor));
 //            System.out.println(actor.getEntityType().get(actor.getEntityType().size() - 1)
 //                + " " + collisionObject.getEntityType().get(collisionObject.getEntityType().size() - 1)+" "+directionalTags.get(directionalTags.size()-1));
-
           }
           Entry<GameObject, GameObject> pair = new SimpleEntry<>(actor, collisionObject);
           Entry<GameObject, GameObject> unPair = new SimpleEntry<>(collisionObject, actor);
