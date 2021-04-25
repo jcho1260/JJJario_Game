@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import ooga.view.launcher.ExceptionView;
 
 public class Sprite implements PropertyChangeListener {
 
@@ -35,7 +36,7 @@ public class Sprite implements PropertyChangeListener {
     try {
       new Statement(this, mName, mArgs).execute();
     } catch (Exception e) {
-      e.printStackTrace();
+      new ExceptionView().displayError(e);
     }
   }
 

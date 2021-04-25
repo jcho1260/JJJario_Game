@@ -37,6 +37,8 @@ public class Player extends Destroyable {
     invincibilityLimit = invincibility;
     win = false;
     initialPosition = initPosition;
+    notifyListenerIndex(0, "changeHealth", null, super.getHealth());
+    notifyListenerIndex(0, "changeLife", null, super.getLives());
   }
 
   /**
@@ -115,6 +117,7 @@ public class Player extends Destroyable {
     if (canBeHurt(increment)) {
       framesSinceDamage = 0;
       super.incrementHealth(increment);
+      notifyListenerIndex(0, "changeHealth", null, super.getHealth());
     }
     checkReSpawn();
   }
@@ -128,6 +131,7 @@ public class Player extends Destroyable {
   public void incrementLives(Double increment) {
     if (canBeHurt(increment)) {
       super.incrementLives(increment);
+      notifyListenerIndex(0, "changeLife", null, super.getLives());
     }
     checkReSpawn();
   }

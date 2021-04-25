@@ -244,7 +244,6 @@ public class GameWorld extends Observable implements Serializable {
       rightX = defaultXLeft + windowSize.getX();
     }
     if (rightX >= defaultXRight) {
-      System.out.println("adjust right");
       leftX = defaultXRight - windowSize.getX();
       rightX = defaultXRight;
     }
@@ -299,7 +298,6 @@ public class GameWorld extends Observable implements Serializable {
   private void incrementScore(double increment) {
     double prevScore = score;
     score += increment;
-    System.out.println("score: "+score);
     notifyListeners("score", prevScore, score);
   }
 
