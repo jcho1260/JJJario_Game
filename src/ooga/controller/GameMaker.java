@@ -26,10 +26,15 @@ public class GameMaker {
   private List<GameObjectMaker> gameObjectMakerList;
   private String game;
   private Player player;
+  private int numObjects = 1;
 
   public GameMaker(String game) {
     this.game = game;
     gameObjectMakerList = new ArrayList<>();
+  }
+
+  public int getNumObjects() {
+    return numObjects;
   }
 
   public String getGame() {
@@ -38,24 +43,25 @@ public class GameMaker {
 
   public List<String> getEntityType(String name)
       throws IOException, SAXException, ParserConfigurationException {
-    LevelParser lp = new LevelParser(new File("data/" + game + "Level1.xml"));
+    LevelParser lp = new LevelParser(new File("data/" + game + "/Level1.xml"));
     return lp.getTags(name);
   }
 
   public List<Pair<String, String>> getGameObjects()
       throws IOException, SAXException, ParserConfigurationException {
-    LevelParser lp = new LevelParser(new File("data/" + game + "Level1.xml"));
+    LevelParser lp = new LevelParser(new File("data/" + game + "/Level1.xml"));
     return lp.getAllGameObjects();
   }
 
-  public void createPlayer(Vector pos)
+  public void createPlayer(Vector pos, Vector size)
       throws IOException, SAXException, ParserConfigurationException, ClassNotFoundException {
 
     LevelParser lp = new LevelParser(new File("data/" + game + "/Level1.xml"));
-    player = lp.createPlayerFromCoords(pos);
+    player = lp.createPlayerFromCoords(pos, size);
   }
 
   public void addGameObjectMaker(GameObjectMaker gameObjectMaker) {
+    numObjects++;
     gameObjectMakerList.add(gameObjectMaker);
   }
 
@@ -63,28 +69,19 @@ public class GameMaker {
     gameObjectMakerList.remove(gameObjectMakerList.size()-1);
   }
 
-  public void saveGame(String name, GameWorld gameWorld) {
-    try {
-      FileOutputStream f = new FileOutputStream("UserDefined/" + game + "/" + name + ".game");
-      ObjectOutput s = new ObjectOutputStream(f);
-      s.writeObject(gameWorld);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+  public void saveGame(String name, GameWorld gameWorld) throws IOException {
+    FileOutputStream f = new FileOutputStream("data/UserDefined/" + game + "/" + name + ".game");
+    ObjectOutput s = new ObjectOutputStream(f);
+    s.writeObject(gameWorld);
   }
 
-  public GameWorld loadGame(String game, String name) {
+  public GameWorld loadGame(String game, String name) throws IOException, ClassNotFoundException {
 
-    String path = "UserDefined/" + game + "/" + name + ".game";
+    String path = "data/UserDefined/" + game + "/" + name + ".game";
 
-    try {
-      FileInputStream in = new FileInputStream(path);
-      ObjectInputStream s = new ObjectInputStream(in);
-      return (GameWorld) s.readObject();
-    } catch(IOException | ClassNotFoundException e) {
-      e.printStackTrace();
-      return null;
-    }
+    FileInputStream in = new FileInputStream(path);
+    ObjectInputStream s = new ObjectInputStream(in);
+    return (GameWorld) s.readObject();
   }
 
   public GameWorld makeGameWorld(String gameName, Vector frameSize, double frameRate, Vector minScreen, Vector maxScreen)

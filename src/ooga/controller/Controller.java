@@ -7,10 +7,7 @@ import java.io.ObjectInputStream;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 import java.util.stream.Collectors;
 import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
@@ -26,8 +23,11 @@ import ooga.view.game.GameView;
 import ooga.view.game.Sprite;
 
 import java.io.File;
-import java.util.List;
-import java.util.Map;
+
+import ooga.view.launcher.BuilderView;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 public class Controller {
 
@@ -46,16 +46,45 @@ public class Controller {
   private int totalLevels;
   private GameSaver gameSaver;
   private GameMaker gameMaker;
+  private BuilderView builderView;
 
   public Controller(Vector frameSize, double frameRate) {
     collisionsParser = new CollisionsParser();
     this.frameSize =  frameSize;
     this.frameRate = frameRate;
-    keyListener = new KeyListener(new Profile("default").getKeybinds());
+    try {
+      keyListener = new KeyListener(new Profile("default").getKeybinds());
+    } catch (Exception e) {
+      reportError(e);
+    }
     activeProfile = "";
     highscoreListener = new ModelListener();
     highscoreListener.addController(this);
     gameSaver = new GameSaver();
+  }
+
+  public int getNumLevels(String gameName) {
+    try {
+      levelNameParser = new LevelNameParser(new File("data/" + gameName + "/LevelNames.xml"));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return levelNameParser.numLevels();
+  }
+
+  public String getLevelName(String gameName, int n) {
+    try {
+      levelNameParser = new LevelNameParser(new File("data/" + gameName + "/LevelNames.xml"));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return levelNameParser.getLevelName(n);
+  }
+
+  public String[] getUserDefinedLevels(String game) {
+    File folder = new File("data/UserDefined/" + game);
+    return Arrays.stream(folder.listFiles()).map(file -> file.getName().replaceAll(".game", ""))
+            .filter(name -> !name.equals("FOLDER_PURPOSE.md")).toArray(String[]::new);
   }
 
   public void startGame(GameView gameView) {
@@ -104,7 +133,8 @@ public class Controller {
     animation.play();
   }
 
-  public void startGameMaker(String game) {
+  public void startGameMaker(String game, BuilderView builderView) {
+    this.builderView = builderView;
     gameMaker = new GameMaker(game);
   }
 
@@ -112,15 +142,15 @@ public class Controller {
     gameMaker.addGameObjectMaker(gom);
   }
 
-  public void setGameMakerPlayer(Vector pos) {
+  public void setGameMakerPlayer(Vector pos, Vector size) {
     try {
-      gameMaker.createPlayer(pos);
+      gameMaker.createPlayer(pos, size);
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
-  public List<String> getEntityType(String name) {
+  public List<String> getEntityTypes(String name) {
     try {
       return gameMaker.getEntityType(name);
     } catch (Exception e) {
@@ -129,18 +159,27 @@ public class Controller {
     return null;
   }
 
-  public void saveGameMaker(String name, Vector frameSize, double frameRate, Vector minScreen, Vector maxScreen) {
+  public void saveGameMaker(String gameName, String levelName, Vector frameSize, double frameRate, Vector minScreen, Vector maxScreen) {
     try {
-      GameWorld gw = gameMaker.makeGameWorld(name, frameSize, frameRate, minScreen, maxScreen);
-      gameMaker.saveGame(name, gw);
+      GameWorld gw = gameMaker.makeGameWorld(gameName, frameSize, frameRate, minScreen, maxScreen);
+      gameMaker.saveGame(levelName, gw);
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
   public void loadUserDefinedName(String game, String name) {
-    gameWorld = gameMaker.loadGame(game, name);
+    try {
+      gameMaker = new GameMaker(game);
+      gameWorld = gameMaker.loadGame(game, name);
+    } catch (Exception e) {
+      reportError(e);
+    }
     start();
+  }
+
+  public int getNumGameMakers() {
+    return gameMaker.getNumObjects();
   }
 
   public List<Pair<String, String>> getAllGameObjectsForMaker() {
@@ -152,16 +191,28 @@ public class Controller {
     return null;
   }
 
+  public void displayBuilderSprite(String imageName, Vector pos, Vector size) {
+    builderView.displayBuilderSprite(imageName, pos, size);
+  }
+
   public void saveGame() {
     String pattern = "MM-dd-yyyy_HH_mm_ss";
     DateFormat df = new SimpleDateFormat(pattern);
     String dateString = df.format(new Date());
 
-    gameSaver.saveGame(gameView.getGameName(), levelNameParser.getLevelName(currentLevel), dateString, gameWorld);
+    try {
+      gameSaver.saveGame(gameView.getGameName(), levelNameParser.getLevelName(currentLevel), dateString, gameWorld);
+    } catch (Exception e) {
+      reportError(e);
+    }
   }
 
   public void loadGame(String level, String dateString) {
-    gameWorld = gameSaver.loadGame(gameView.getGameName(), level, dateString);
+    try {
+      gameWorld = gameSaver.loadGame(gameView.getGameName(), level, dateString);
+    } catch (Exception e) {
+      reportError(e);
+    }
     start();
   }
 
@@ -218,8 +269,13 @@ public class Controller {
       ObjectInputStream s = new ObjectInputStream(in);
       return (Profile) s.readObject();
     } catch(IOException | ClassNotFoundException e) {
-      return new Profile(name);
+      try {
+        return new Profile(name);
+      } catch (Exception ex) {
+        reportError(e);
+      }
     }
+    return null;
   }
 
   public String getActiveProfile() {
@@ -238,7 +294,7 @@ public class Controller {
   }
 
   public void addCreatable(Vector pos) {
-    int id = gameWorld.getAllGameObjects().size();
+    int id = new Random().nextInt(Integer.MAX_VALUE);
     MovingDestroyable md = gameWorldFactory.makeCreatable(pos, id);
     List<MovingDestroyable> mdList = new ArrayList<>();
     mdList.add(md);
@@ -302,5 +358,9 @@ public class Controller {
 
   public void displayMenu() {
     gameView.displayMenu();
+  }
+
+  private void reportError(Exception e) {
+
   }
 }

@@ -100,12 +100,11 @@ public class LevelParser {
     NodeList objects = ((Element) doc.getElementsByTagName("GameObjects").item(0).getChildNodes()).getElementsByTagName("GameObject");
     Map<String, GameObjectInfo> gameObjectMap = getObjectMap(objects);
     return new ArrayList<>(gameObjectMap.keySet())
-        .stream().filter(name -> gameObjectMap.get(name).type.equals("Player"))
-        .map(name -> new Pair<String, String>(name, gameObjectMap.get(name).type))
+        .stream().map(name -> new Pair<>(name, gameObjectMap.get(name).type))
         .collect(Collectors.toList());
   }
 
-  public Player createPlayerFromCoords(Vector coords) throws ClassNotFoundException {
+  public Player createPlayerFromCoords(Vector coords, Vector size) throws ClassNotFoundException {
     NodeList objects = ((Element) doc.getElementsByTagName("GameObjects").item(0).getChildNodes()).getElementsByTagName("GameObject");
     NodeList entities = ((Element) doc.getElementsByTagName("Layout").item(0).getChildNodes()).getElementsByTagName("Entity");
     for (int i = 0; i < entities.getLength(); i++) {
@@ -222,16 +221,11 @@ public class LevelParser {
     return getVectorAttribute(root, name);
   }
 
-  public String getBackground(File file) {
-    try {
-      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-      DocumentBuilder db = dbf.newDocumentBuilder();
-      Document doc = db.parse(file);
-      return doc.getElementsByTagName("BackgroundImage").item(0).getTextContent();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return "";
+  public String getBackground(File file) throws ParserConfigurationException, IOException, SAXException {
+    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    DocumentBuilder db = dbf.newDocumentBuilder();
+    Document doc = db.parse(file);
+    return doc.getElementsByTagName("BackgroundImage").item(0).getTextContent();
   }
 
   private class GameObjectInfo {

@@ -1,0 +1,42 @@
+<?xml version = "1.0" ?>
+<HBox id="StageBuilderInfoVBox" type="Pane" style="view_resources/launcher/builder/css/ObjectMakerHBox.css">
+  <VBox id="StageBuilderInfoVBox" type="Pane" style="view_resources/launcher/builder/css/ObjectMakerVBox.css">
+    <ImageView id="GameObjectImage" type="Leaf">
+      <Image>
+        <Path>view_resources/images/button_icons/HammerAnvil.png</Path>
+      </Image>
+      <Ratio>true</Ratio>
+      <Height>200</Height>
+      <Width>200</Width>
+    </ImageView>
+    <Button id="MakeObjectButton" type="Leaf">
+      <Text>Make GameObject!</Text>
+      <Event method="setOnAction">
+        <Type>makeObject</Type>
+        <ObjectType>GameObject</ObjectType>
+        <Arg>
+          <Name>Position</Name>
+          <Class>Vector</Class>
+        </Arg>
+        <Arg>
+          <Name>ID</Name>
+        </Arg>
+        <Arg>
+          <Name>Size</Name>
+          <Class>Vector</Class>
+        </Arg>
+      </Event>
+    </Button>
+  </VBox>
+  <VBox id="StageBuilderInfoVBox" type="Pane" style="view_resources/launcher/builder/css/ObjectMakerVBox.css">
+    <TextObj id="StageBuilderTitle" type="Leaf">
+      <Text>MovingDestroyable Parameters</Text>
+    </TextObj>
+    <TextField id="PositionInput" type="Leaf">
+      <Prompt>Initial Position (Format: x,y)</Prompt>
+    </TextField>
+    <TextField id="SizeInput" type="Leaf">
+      <Prompt>Size (Format: w,h)</Prompt>
+    </TextField>
+  </VBox>
+</HBox>

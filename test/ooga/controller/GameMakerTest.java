@@ -48,7 +48,7 @@ public class GameMakerTest {
     Object[] attributes = { tags, new Vector(10, 50), 1, new Vector(10, 10), true };
     GameObjectMaker gom = new GameObjectMaker("ooga.model.gameobjects.GameObject", attributes);
 
-    gm.createPlayer(new Vector(50, 10));
+    gm.createPlayer(new Vector(50, 10), new Vector(80, 80));
     gm.addGameObjectMaker(gom);
 
     GameWorld gw = gm.makeGameWorld("JJJario", new Vector(100,100), 60, new Vector(0, 0), new Vector(100, 40));
