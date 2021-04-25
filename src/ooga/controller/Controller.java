@@ -111,7 +111,7 @@ public class Controller {
       Map<String, Map<String, List<MethodBundle>>> collisions = collisionsParser.parseCollisions(collisionsFile);
 
       gameWorldFactory = new LevelParser(levelFile);
-      gameWorld = gameWorldFactory.createGameWorld(collisions, frameSize, frameRate);
+      gameWorld = gameWorldFactory.createGameWorld(collisions, frameRate);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -126,7 +126,8 @@ public class Controller {
   private void start() {
     gameWorld.addListener(highscoreListener);
 
-    gameView.initializeLevel(frameSize.getX(), frameSize.getY(), "view_resources/images/backgrounds/"+currGame+".png");
+    Vector size = gameWorldFactory.getFrameSize();
+    gameView.initializeLevel(size.getX(), size.getY(), "view_resources/images/backgrounds/"+currGame+".png");
     highscoreListener.reset();
     keyListener.reset();
     gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, 0));
