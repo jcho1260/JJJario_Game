@@ -24,14 +24,17 @@
     </Event>
   </Button>
   <Button id="JJJarioLevelsButton" type="Leaf">
-    <Text>Choose a Level</Text>
+    <Text>Choose Level</Text>
     <Event method="setOnAction">
-      <Type>loadLibrary</Type>
+      <Type>levelLibrary</Type>
       <Game>JJJario</Game>
       <PaneID>GameStackPane</PaneID>
       <FilePath>
         <Path>resources/view_resources/game/JJJario/LevelLibrary.XML</Path>
       </FilePath>
+      <Button id="TemplateButton" type="Leaf">
+        <Text>TEMPLATE</Text>
+      </Button>
     </Event>
   </Button>
 </VBox>

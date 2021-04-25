@@ -2,7 +2,4 @@
 <StackPane id="GameStackPane" type="Pane" style="view_resources/launcher/css/LauncherStack.css">
   <Height>750</Height>
   <Width>1050</Width>
-  <FilePath>
-    <Path>resources/view_resources/game/JJJario/LevelLibrary.XML</Path>
-  </FilePath>
 </StackPane>
