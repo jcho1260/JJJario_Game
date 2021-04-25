@@ -116,9 +116,9 @@ public class Controller {
     gameMaker.addGameObjectMaker(gom);
   }
 
-  public void setGameMakerPlayer(Vector pos) {
+  public void setGameMakerPlayer(Vector pos, Vector size) {
     try {
-      gameMaker.createPlayer(pos);
+      gameMaker.createPlayer(pos, size);
     } catch (Exception e) {
       e.printStackTrace();
     }

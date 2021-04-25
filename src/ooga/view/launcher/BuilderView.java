@@ -106,7 +106,7 @@ public class BuilderView {
       MenuItem mi = new MenuItem(type.getKey());
       mi.setOnAction(event -> {
         try {
-          if (type.equals("Player")) {
+          if (type.getValue().equals("Player")) {
             setPlayer();
           } else {
             queryObjectInfo(type.getKey(), type.getValue());

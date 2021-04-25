@@ -252,15 +252,18 @@ public class HandlerFactory {
             "ooga.model.gameobjects."+e.getElementsByTagName("ObjectType").item(0).getTextContent(),
             objList.toArray()));
     controller.displayBuilderSprite(objName, pos, size);
+    ((Stage) component.getScene().getWindow()).close();
   }
 
   private void makePlayer(Node component, Element e) {
-    controller.setGameMakerPlayer(
-        vectorFromTextField(
-            component.getScene().lookup("#StageBuilderInfoVBox"),
-            "#PositionInput"),
-        vectorFromTextField(
-            component.getScene().lookup("#StageBuilderInfoVBox"),
-            "#SizeInput"));
+    Vector pos = vectorFromTextField(
+        component.getScene().lookup("#StageBuilderInfoVBox"),
+        "#PositionInput");
+    Vector size = vectorFromTextField(
+        component.getScene().lookup("#StageBuilderInfoVBox"),
+        "#SizeInput");
+    controller.setGameMakerPlayer(pos, size);
+    controller.displayBuilderSprite("Player", pos, size);
+    ((Stage) component.getScene().getWindow()).close();
   }
 }
