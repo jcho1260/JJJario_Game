@@ -1,14 +1,5 @@
 package ooga.controller;
 
-import java.beans.PropertyChangeEvent;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Collectors;
 import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -21,14 +12,18 @@ import ooga.model.util.MethodBundle;
 import ooga.model.util.Vector;
 import ooga.view.game.GameView;
 import ooga.view.game.Sprite;
-
-import java.io.File;
-
 import ooga.view.launcher.BuilderView;
 import ooga.view.launcher.ExceptionView;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
+import java.beans.PropertyChangeEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Controller {
 
@@ -36,7 +31,6 @@ public class Controller {
   private LevelNameParser levelNameParser;
   private final CollisionsParser collisionsParser;
   private GameWorld gameWorld;
-  private final Vector frameSize;
   private final double frameRate;
   private GameView gameView;
   private KeyListener keyListener;
@@ -51,9 +45,8 @@ public class Controller {
   private String currGame;
   private ExceptionView exceptionView;
 
-  public Controller(Vector frameSize, double frameRate, ExceptionView exceptionView) {
+  public Controller(double frameRate, ExceptionView exceptionView) {
     collisionsParser = new CollisionsParser();
-    this.frameSize =  frameSize;
     this.frameRate = frameRate;
     this.exceptionView = exceptionView;
     try {
@@ -111,7 +104,7 @@ public class Controller {
       Map<String, Map<String, List<MethodBundle>>> collisions = collisionsParser.parseCollisions(collisionsFile);
 
       gameWorldFactory = new LevelParser(levelFile);
-      gameWorld = gameWorldFactory.createGameWorld(collisions, frameSize, frameRate);
+      gameWorld = gameWorldFactory.createGameWorld(collisions, frameRate);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -126,7 +119,8 @@ public class Controller {
   private void start() {
     gameWorld.addListener(highscoreListener);
 
-    gameView.initializeLevel(frameSize.getX(), frameSize.getY(), "view_resources/images/backgrounds/"+currGame+".png");
+    Vector size = gameWorldFactory.getFrameSize();
+    gameView.initializeLevel(size.getX(), size.getY(), "view_resources/images/backgrounds/"+currGame+".png");
     highscoreListener.reset();
     keyListener.reset();
     gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, 0));
