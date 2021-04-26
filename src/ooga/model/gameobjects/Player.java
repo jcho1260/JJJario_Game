@@ -49,8 +49,8 @@ public class Player extends Destroyable {
   public void userStep(Action direction, double elapsedTime, double gameGravity, int currentFrame)
       throws NoSuchMethodException, SecurityException, IllegalAccessException,
       IllegalArgumentException, InvocationTargetException {
-    notifyListenerIndex(0, "changeHealth", null, super.getHealth());
-    notifyListenerIndex(0, "changeLife", null, super.getLives());
+    notifyListenerKey("gameworld", "changeHealth", null, super.getHealth());
+    notifyListenerKey("gameworld", "changeLife", null, super.getLives());
     framesSinceDamage++;
 
     String methodName = direction.toString().toLowerCase();
@@ -58,7 +58,7 @@ public class Player extends Destroyable {
     if (direction.equals(Action.SHOOT)){
       move(Action.NONE, elapsedTime, gameGravity);
       if (userActions.shoot(getPosition().getX(), getPosition().getY(), currentFrame)) {
-        notifyListenerIndex(0, "newMovingDestroyable", null, getPosition().add(new Vector(getSize().getX()/2, 0)));
+        notifyListenerKey("gameworld", "newMovingDestroyable", null, getPosition().add(new Vector(getSize().getX()/2, 0)));
       }
     } else {
       move(direction, elapsedTime, gameGravity);
@@ -117,7 +117,7 @@ public class Player extends Destroyable {
     if (increment < 0 && canBeHurt() || increment > 0) {
       framesSinceDamage = 0;
       health.incrementHealth(increment);
-      notifyListenerIndex(0, "changeHealth", null, super.getHealth());
+      notifyListenerKey("gameworld", "changeHealth", null, super.getHealth());
     }
     checkReSpawn();
 
@@ -132,7 +132,7 @@ public class Player extends Destroyable {
   public void incrementLives(Double increment) {
     if (increment < 0 && canBeHurt() || increment > 0) {
       health.incrementLives(increment);
-      notifyListenerIndex(0, "changeLife", null, super.getLives());
+      notifyListenerKey("gameworld", "changeLife", null, super.getLives());
     }
     checkReSpawn();
 
@@ -175,9 +175,9 @@ public class Player extends Destroyable {
    */
   public void scaleSize(Double scaleFactor) {
     getRect().scaleSize(scaleFactor);
-    notifyListeners("changeX", null, getPredictedPosition().getX());
-    notifyListeners("changeY", null, getPredictedPosition().getY());
-    notifyListeners("changeWidth", null, getSize().getX());
-    notifyListeners("changeHeight", null, getSize().getX());
+    notifyListenerKey("sprite", "changeX", null, getPredictedPosition().getX());
+    notifyListenerKey("sprite", "changeY", null, getPredictedPosition().getY());
+    notifyListenerKey("sprite", "changeWidth", null, getSize().getX());
+    notifyListenerKey("sprite", "changeHeight", null, getSize().getX());
   }
 }

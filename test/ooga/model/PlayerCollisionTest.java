@@ -120,7 +120,7 @@ public class PlayerCollisionTest {
   }
 
   private void addListenerPlayer(Player p) {
-    p.addListener(new PropertyChangeListener() {
+    p.addListener("test", new PropertyChangeListener() {
       @Override
       public void propertyChange(PropertyChangeEvent evt) {
         System.out.println("added listener");

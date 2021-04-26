@@ -30,7 +30,7 @@ public class MovingDestroyableMovementTest {
     PropertyChangeListener standIn = evt -> {
       changes++;
     };
-    npc.addListener(standIn);
+    npc.addListener("temp", standIn);
   }
 
   /**
