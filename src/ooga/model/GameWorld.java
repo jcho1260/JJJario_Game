@@ -93,12 +93,12 @@ public class GameWorld extends Observable implements Serializable {
 //    System.out.println(player.getPosition());
   }
 
-  private void printAllDest(List<GameObject> obj) {
-    for(GameObject o : obj) {
-      System.out.print(o.getEntityType().get(o.getEntityType().size()-1) +" : "+o.getId() +", ");
-    }
-    System.out.println("");
-  }
+//  private void printAllDest(List<GameObject> obj) {
+//    for(GameObject o : obj) {
+//      System.out.print(o.getEntityType().get(o.getEntityType().size()-1) +" : "+o.getId() +", ");
+//    }
+//    System.out.println("");
+//  }
 
   private void collisionsDetectAndExecute()
       throws NoSuchMethodException, JjjanException, InvocationTargetException, IllegalAccessException {

@@ -17,22 +17,4 @@ public enum Action implements Serializable {
     this.axis = axis;
   }
 
-  public static Action actionFactory(Vector velo) {
-    Vector goal = velo.toUnit();
-    for (Action a : Action.values()) {
-      if (goal.equals(a.getAxis())) {
-        return a;
-      }
-    }
-    return null;
-  }
-
-  public Vector getAxis() {
-    return axis;
-  }
-
-  public Action getOppositeAction(Action unit) {
-    Vector goal = unit.getAxis().multiply(new Vector(-1, -1));
-    return actionFactory(goal);
-  }
 }
