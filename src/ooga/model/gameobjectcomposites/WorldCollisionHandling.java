@@ -108,6 +108,10 @@ public class WorldCollisionHandling implements Serializable {
     }
   }
 
+  /**
+   * corrects all intersections resulting from movement and collisions and corrects them so collisions are not repeatedly detected
+   * @param allBricks all bricks in the game so that they don't get corrected
+   */
   public void fixIntersection(List<GameObject> allBricks) {
     for (Entry<GameObject, GameObject> pair : collisionPairs) {
       Destroyable destroyable = (Destroyable) pair.getKey();
@@ -116,14 +120,8 @@ public class WorldCollisionHandling implements Serializable {
       if (collisionRect == null) return;
       Vector fixAmount = calculatCollisionFixAmount(destroyable, collisionRect);
       destroyable.setPredictedPosition(destroyable.getPredictedPosition().add(fixAmount));
-      if (!allBricks.contains(gameObject)) {
-        gameObject.setPredictedPosition(gameObject.getPredictedPosition().add(fixAmount
-            .multiply(new Vector(-1, -1))));
-      } else {
-        destroyable.setPredictedPosition(destroyable.getPredictedPosition().add(fixAmount));
-      }
+      ignoreBrickCollisionCorrections(allBricks, destroyable, gameObject, fixAmount);
     }
-
   }
 
   private Vector calculatCollisionFixAmount(Destroyable destroyable, Vector[] collisionRect) {
@@ -134,8 +132,21 @@ public class WorldCollisionHandling implements Serializable {
     return collisionRectSize.multiply(direction).add(direction.multiply(new Vector(0, 0)));
   }
 
+  private void ignoreBrickCollisionCorrections(List<GameObject> allBricks, Destroyable destroyable, GameObject gameObject, Vector fixAmount) {
+    if (!allBricks.contains(gameObject)) {
+      gameObject.setPredictedPosition(gameObject.getPredictedPosition().add(fixAmount
+          .multiply(new Vector(-1, -1))));
+    } else {
+      destroyable.setPredictedPosition(destroyable.getPredictedPosition().add(fixAmount));
+    }
+  }
+
   /**
    * executes all collision methods for every destroyable that is colliding with a game object. also checks if destroyable should die.
+   * @return
+   * @throws NoSuchMethodException
+   * @throws IllegalAccessException
+   * @throws InvocationTargetException
    */
   public List<Integer> executeAllCollisions()
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
