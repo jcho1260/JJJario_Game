@@ -56,7 +56,7 @@ class LauncherTest extends DukeApplicationTest {
   public void start(Stage stage) {
     ids = new ArrayList<>();
     getFileIds("resources/view_resources/launcher/LauncherRoot.XML", ids);
-    controller = new Controller(new Vector(1440, 810), 30, new ExceptionView());
+    controller = new Controller(30);
     new LauncherView(stage).start(controller);
   }
 

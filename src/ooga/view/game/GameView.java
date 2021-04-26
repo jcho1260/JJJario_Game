@@ -79,7 +79,8 @@ public class GameView implements PropertyChangeListener {
             getClass().getClassLoader().getResourceAsStream(imagePath))));
     background.setX(0);
     background.setY(0);
-    background.setPreserveRatio(true);
+//    background.setPreserveRatio(true);
+    background.setFitWidth(w);
     background.setFitHeight(h);
     g.getChildren().add(background);
     newScene.getStylesheets().addAll(currScene.getStylesheets());

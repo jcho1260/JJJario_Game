@@ -1,6 +1,10 @@
 <Level>
-  <GlobalGravity>25</GlobalGravity>
+  <GlobalGravity>1</GlobalGravity>
   <BackgroundImage>view_resources/images/backgrounds/JJJario.png</BackgroundImage>
+  <Size>
+    <x>1400</x>
+    <y>810</y>
+  </Size>
   <DrivingVelocity>
     <x>0</x>
     <y>0</y>
@@ -13,6 +17,31 @@
     <x>4000</x>
     <y>750</y>
   </ScreenLimitsMax>
+
+<!--  <Creatable>-->
+<!--    <Name>Bullet</Name>-->
+<!--    <Tags>-->
+<!--      <Tag>GameObject</Tag>-->
+<!--      <Tag>MovingDestroyable</Tag>-->
+<!--      <Tag>Bullet</Tag>-->
+<!--    </Tags>-->
+<!--    <Type>MovingDestroyable</Type>-->
+<!--    <Gravity>0</Gravity>-->
+<!--    <Size>-->
+<!--      <x>25</x>-->
+<!--      <y>25</y>-->
+<!--    </Size>-->
+<!--    <Offset>-->
+<!--      <x>0</x>-->
+<!--      <y>-50</y>-->
+<!--    </Offset>-->
+<!--    <Velocity>-->
+<!--      <x>0</x>-->
+<!--      <y>-50</y>-->
+<!--    </Velocity>-->
+<!--  </Creatable>-->
+
+
   <GameObjects>
     <GameObject>
       <Name>Mario</Name>
@@ -22,7 +51,7 @@
         <Tag>Player</Tag>
       </Tags>
       <Type>Player</Type>
-      <Gravity>1</Gravity>
+      <Gravity>1.5</Gravity>
       <Size>
         <x>80</x>
         <y>80</y>
@@ -32,7 +61,7 @@
       <Name>Goomba</Name>
       <Tags>
         <Tag>GameObject</Tag>
-        <Tage>Destroyable</Tage>
+        <Tag>Destroyable</Tag>
         <Tag>MovingDestroyable</Tag>
         <Tag>Enemy</Tag>
         <Tag>Goomba</Tag>
@@ -48,7 +77,7 @@
       <Name>KoopaTroopa</Name>
       <Tags>
         <Tag>GameObject</Tag>
-        <Tage>Destroyable</Tage>
+        <Tag>Destroyable</Tag>
         <Tag>MovingDestroyable</Tag>
         <Tag>Enemy</Tag>
         <Tag>KoopaTroopa</Tag>
@@ -131,7 +160,7 @@
       </Size>
     </GameObject>
     <GameObject>
-      <Name>EdgeBlock</Name>
+      <Name>LREdgeBlock</Name>
       <Tags>
         <Tag>GameObject</Tag>
         <Tag>Block</Tag>
@@ -141,6 +170,19 @@
       <Size>
         <x>1</x>
         <y>750</y>
+      </Size>
+    </GameObject>
+    <GameObject>
+      <Name>TBEdgeBlock</Name>
+      <Tags>
+        <Tag>GameObject</Tag>
+        <Tag>Block</Tag>
+      </Tags>
+      <Type>GameObject</Type>
+      <Gravity>0</Gravity>
+      <Size>
+        <x>4000</x>
+        <y>1</y>
       </Size>
     </GameObject>
   </GameObjects>
@@ -153,24 +195,59 @@
         <y>650</y>
       </Location>
       <Velocity>
-        <x>150</x>
-        <y>150</y>
+        <x>250</x>
+        <y>250</y>
       </Velocity>
       <StartLife>3</StartLife>
       <JumpTime>0.75</JumpTime>
       <ContinuousJumpLimit>1</ContinuousJumpLimit>
-      <StartHealth>1</StartHealth>
+      <ShootCoolDown>30</ShootCoolDown>
+      <InvincibilityLimit>5</InvincibilityLimit>
+      <StartHealth>2</StartHealth>
+    </Entity>
+
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>50</x>
+        <y>400</y>
+      </Location>
+      <Size>
+        <x>50</x>
+        <y>50</y>
+      </Size>
     </Entity>
     <Entity>
       <Name>Mushroom</Name>
       <Location>
-        <x>350</x>
-        <y>650</y>
+        <x>750</x>
+        <y>250</y>
       </Location>
       <StartHealth>1</StartHealth>
       <StartLife>0</StartLife>
       <Score>1</Score>
     </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>750</x>
+        <y>300</y>
+      </Location>
+      <Size>
+        <x>50</x>
+        <y>50</y>
+      </Size>
+    </Entity>
+<!--    <Entity>-->
+<!--      <Name>PowerUpBlock</Name>-->
+<!--      <Location>-->
+<!--        <x>1000</x>-->
+<!--        <y>450</y>-->
+<!--      </Location>-->
+<!--      <StartHealth>0</StartHealth>-->
+<!--      <StartLife>1</StartLife>-->
+<!--    </Entity>-->
+
     <Entity>
       <Name>Goomba</Name>
       <Location>
@@ -182,7 +259,7 @@
         <y>0</y>
       </Velocity>
       <StartHealth>1</StartHealth>
-      <StartLife>1</StartLife>
+      <StartLife>0</StartLife>
       <Score>3</Score>
       <FinalLocation>
         <x>600</x>
@@ -200,7 +277,7 @@
         <y>0</y>
       </Velocity>
       <StartHealth>1</StartHealth>
-      <StartLife>1</StartLife>
+      <StartLife>0</StartLife>
       <Score>3</Score>
       <FinalLocation>
         <x>1000</x>
@@ -218,7 +295,7 @@
         <y>0</y>
       </Velocity>
       <StartHealth>1</StartHealth>
-      <StartLife>1</StartLife>
+      <StartLife>0</StartLife>
       <Score>3</Score>
       <FinalLocation>
         <x>1300</x>
@@ -294,282 +371,181 @@
       <StartLife>1</StartLife>
       <Score>1</Score>
     </Entity>
-    <Entity>
-      <Name>PowerUpBlock</Name>
-      <Location>
-        <x>400</x>
-        <y>450</y>
-      </Location>
-      <StartHealth>0</StartHealth>
-      <StartLife>1</StartLife>
-    </Entity>
+
     <Entity>
       <Name>Block</Name>
       <Location>
         <x>0</x>
         <y>700</y>
       </Location>
+      <Size>
+        <x>4000</x>
+        <y>100</y>
+      </Size>
     </Entity>
+
     <Entity>
       <Name>Block</Name>
       <Location>
         <x>100</x>
-        <y>700</y>
+        <y>600</y>
       </Location>
     </Entity>
     <Entity>
       <Name>Block</Name>
       <Location>
-        <x>200</x>
-        <y>700</y>
+        <x>3700</x>
+        <y>600</y>
+      </Location>
+    </Entity>
+
+    <Entity>
+      <Name>LREdgeBlock</Name>
+      <Location>
+        <x>0</x>
+        <y>0</y>
+      </Location>
+      <Visible>false</Visible>
+    </Entity>
+    <Entity>
+      <Name>LREdgeBlock</Name>
+      <Location>
+        <x>3999</x>
+        <y>0</y>
+      </Location>
+      <Visible>false</Visible>
+    </Entity>
+    <Entity>
+      <Name>TBEdgeBlock</Name>
+      <Location>
+        <x>0</x>
+        <y>0</y>
+      </Location>
+      <Visible>false</Visible>
+    </Entity>
+    <Entity>
+      <Name>LREdgeBlock</Name>
+      <Location>
+        <x>0</x>
+        <y>748</y>
+      </Location>
+      <Visible>false</Visible>
+    </Entity>
+
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>1850</x>
+        <y>600</y>
       </Location>
     </Entity>
     <Entity>
       <Name>Block</Name>
       <Location>
-        <x>300</x>
-        <y>700</y>
+        <x>1950</x>
+        <y>600</y>
       </Location>
     </Entity>
     <Entity>
       <Name>Block</Name>
       <Location>
-        <x>400</x>
-        <y>700</y>
+        <x>1950</x>
+        <y>500</y>
+      </Location>
+    </Entity>
+
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>2250</x>
+        <y>500</y>
       </Location>
     </Entity>
     <Entity>
       <Name>Block</Name>
       <Location>
-        <x>500</x>
-        <y>700</y>
+        <x>2250</x>
+        <y>600</y>
       </Location>
     </Entity>
     <Entity>
       <Name>Block</Name>
       <Location>
-        <x>600</x>
-        <y>700</y>
+        <x>2350</x>
+        <y>600</y>
       </Location>
     </Entity>
     <Entity>
-      <Name>Block</Name>
+      <Name>Coin</Name>
       <Location>
-        <x>700</x>
-        <y>700</y>
+        <x>2125</x>
+        <y>540</y>
       </Location>
+      <StartHealth>1</StartHealth>
+      <StartLife>1</StartLife>
+      <Score>1</Score>
     </Entity>
     <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>800</x>
-        <y>700</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>900</x>
-        <y>700</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>1000</x>
-        <y>700</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>1100</x>
-        <y>700</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>1200</x>
-        <y>700</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>1300</x>
-        <y>700</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>1400</x>
-        <y>700</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>1500</x>
-        <y>700</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>1700</x>
-        <y>700</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>1800</x>
-        <y>700</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>1900</x>
-        <y>700</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>2100</x>
-        <y>700</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>Block</Name>
+      <Name>KoopaTroopa</Name>
       <Location>
         <x>2200</x>
-        <y>700</y>
+        <y>650</y>
       </Location>
+      <Velocity>
+        <x>-50</x>
+        <y>0</y>a
+      </Velocity>
+      <StartHealth>2</StartHealth>
+      <StartLife>0</StartLife>
+      <Score>3</Score>
+      <FinalLocation>
+        <x>2050</x>
+        <y>650</y>
+      </FinalLocation>
     </Entity>
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>2300</x>
-        <y>700</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>2400</x>
-        <y>700</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>2600</x>
-        <y>700</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>2700</x>
-        <y>700</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>2900</x>
-        <y>700</y>
-      </Location>
-    </Entity>
+
     <Entity>
       <Name>Block</Name>
       <Location>
         <x>3000</x>
-        <y>700</y>
+        <y>600</y>
       </Location>
     </Entity>
     <Entity>
       <Name>Block</Name>
       <Location>
         <x>3100</x>
-        <y>700</y>
+        <y>500</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>Block</Name>
+      <Location>
+        <x>3100</x>
+        <y>600</y>
       </Location>
     </Entity>
     <Entity>
       <Name>Block</Name>
       <Location>
         <x>3200</x>
-        <y>700</y>
+        <y>400</y>
       </Location>
     </Entity>
     <Entity>
       <Name>Block</Name>
       <Location>
-        <x>3400</x>
-        <y>700</y>
+        <x>3200</x>
+        <y>500</y>
       </Location>
     </Entity>
     <Entity>
       <Name>Block</Name>
       <Location>
-        <x>3500</x>
-        <y>700</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>3700</x>
-        <y>700</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>3800</x>
-        <y>700</y>
-      </Location>
-    </Entity>
-
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>100</x>
-        <y>600</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>600</x>
-        <y>600</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>Block</Name>
-      <Location>
-        <x>3700</x>
+        <x>3200</x>
         <y>600</y>
       </Location>
     </Entity>
 
-    <Entity>
-      <Name>EdgeBlock</Name>
-      <Location>
-        <x>0</x>
-        <y>0</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>EdgeBlock</Name>
-      <Location>
-        <x>3999</x>
-        <y>0</y>
-      </Location>
-    </Entity>
   </Layout>
 </Level>

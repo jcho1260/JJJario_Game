@@ -1,17 +1,21 @@
 <Level>
-  <GlobalGravity>200</GlobalGravity>
-  <BackgroundImage>view_resources/images/backgrounds/FlappyBird.png</BackgroundImage>
+  <GlobalGravity>50</GlobalGravity>
+  <BackgroundImage>view_resources/images/backgrounds/JJJalaga.png</BackgroundImage>
+  <Size>
+    <x>1400</x>
+    <y>810</y>
+  </Size>
   <DrivingVelocity>
     <x>0</x>
     <y>0</y>
   </DrivingVelocity>
   <ScreenLimitsMin>
     <x>0</x>
-    <y>250</y>
+    <y>0</y>
   </ScreenLimitsMin>
   <ScreenLimitsMax>
-    <x>2000</x>
-    <y>1000</y>
+    <x>1400</x>
+    <y>1100</y>
   </ScreenLimitsMax>
 
   <Creatable>
@@ -27,6 +31,14 @@
       <x>25</x>
       <y>25</y>
     </Size>
+    <Offset>
+      <x>0</x>
+      <y>-50</y>
+    </Offset>
+    <Velocity>
+      <x>0</x>
+      <y>-100</y>
+    </Velocity>
   </Creatable>
 
   <GameObjects>
@@ -48,13 +60,56 @@
       <Name>Asteroid</Name>
       <Tags>
         <Tag>GameObject</Tag>
+        <Tag>MovingDestroyable</Tag>
+        <Tag>Block</Tag>
         <Tag>Asteroid</Tag>
       </Tags>
-      <Type>GameObject</Type>
+      <Type>MovingDestroyable</Type>
       <Gravity>1</Gravity>
       <Size>
         <x>100</x>
         <y>100</y>
+      </Size>
+    </GameObject>
+    <GameObject>
+      <Name>LREdgeBlock</Name>
+      <Tags>
+        <Tag>GameObject</Tag>
+        <Tag>Block</Tag>
+      </Tags>
+      <Type>GameObject</Type>
+      <Size>
+        <x>1</x>
+        <y>810</y>
+      </Size>
+      <Gravity>1</Gravity>
+    </GameObject>
+    <GameObject>
+      <Name>TBEdgeBlock</Name>
+      <Tags>
+        <Tag>GameObject</Tag>
+        <Tag>Block</Tag>
+      </Tags>
+      <Type>GameObject</Type>
+      <Size>
+        <x>1400</x>
+        <y>10</y>
+      </Size>
+      <Gravity>1</Gravity>
+    </GameObject>
+    <GameObject>
+      <Name>WinningBlock</Name>
+      <Tags>
+        <Tag>GameObject</Tag>
+        <Tag>MovingDestroyable</Tag>
+        <Tag>Block</Tag>
+        <Tag>WinningBlock</Tag>
+      </Tags>
+      <Type>MovingDestroyable</Type>
+      <Gravity>1</Gravity>
+      <Size>
+        <x>1396</x>
+        <y>1</y>
       </Size>
     </GameObject>
   </GameObjects>
@@ -63,16 +118,17 @@
     <Entity>
       <Name>Ship</Name>
       <Location>
-        <x>400</x>
-        <y>550</y>
+        <x>675</x>
+        <y>1000</y>
       </Location>
       <Velocity>
-        <x>10</x>
+        <x>150</x>
         <y>0</y>
       </Velocity>
-      <StartLife>1</StartLife>
+      <StartLife>0</StartLife>
       <JumpTime>0.1</JumpTime>
       <ContinuousJumpLimit>1</ContinuousJumpLimit>
+      <ShootCoolDown>30</ShootCoolDown>
       <StartHealth>1</StartHealth>
     </Entity>
 
@@ -80,8 +136,19 @@
       <Name>Asteroid</Name>
       <Location>
         <x>300</x>
-        <y>100</y>
+        <y>50</y>
       </Location>
+      <Velocity>
+        <x>0</x>
+        <y>0</y>
+      </Velocity>
+      <StartHealth>1</StartHealth>
+      <StartLife>0</StartLife>
+      <Score>3</Score>
+      <FinalLocation>
+        <x>300</x>
+        <y>1000</y>
+      </FinalLocation>
     </Entity>
     <Entity>
       <Name>Asteroid</Name>
@@ -89,6 +156,56 @@
         <x>400</x>
         <y>200</y>
       </Location>
+      <Velocity>
+        <x>0</x>
+        <y>0</y>
+      </Velocity>
+      <StartHealth>1</StartHealth>
+      <StartLife>0</StartLife>
+      <Score>3</Score>
+      <FinalLocation>
+        <x>400</x>
+        <y>1000</y>
+      </FinalLocation>
+    </Entity>
+
+    <Entity>
+      <Name>LREdgeBlock</Name>
+      <Location>
+        <x>0</x>
+        <y>0</y>
+      </Location>
+      <Visible>false</Visible>
+    </Entity>
+    <Entity>
+      <Name>LREdgeBlock</Name>
+      <Location>
+        <x>1399</x>
+        <y>0</y>
+      </Location>
+      <Visible>false</Visible>
+    </Entity>
+    <Entity>
+      <Name>TBEdgeBlock</Name>
+      <Location>
+        <x>0</x>
+        <y>-10</y>
+      </Location>
+      <Visible>false</Visible>
+    </Entity>
+    <Entity>
+      <Name>WinningBlock</Name>
+      <Location>
+        <x>2</x>
+        <y>0</y>
+      </Location>
+      <StartHealth>1</StartHealth>
+      <StartLife>0</StartLife>
+      <Visible>true</Visible>
+      <FinalLocation>
+        <x>0</x>
+        <y>810</y>
+      </FinalLocation>
     </Entity>
   </Layout>
 </Level>

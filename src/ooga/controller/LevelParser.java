@@ -1,7 +1,16 @@
 package ooga.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javafx.util.Pair;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import ooga.model.GameWorld;
 import ooga.model.gameobjects.Destroyable;
 import ooga.model.gameobjects.GameObject;
@@ -14,16 +23,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class LevelParser {
 
   private final Document doc;
@@ -34,14 +33,17 @@ public class LevelParser {
     doc = db.parse(file);
   }
 
-  public GameWorld createGameWorld(Map<String, Map<String, List<MethodBundle>>> collisions, Vector frameSize, double frameRate) throws ClassNotFoundException {
+  public GameWorld createGameWorld(Map<String, Map<String, List<MethodBundle>>> collisions,
+      double frameRate) throws ClassNotFoundException {
 
-    NodeList objects = ((Element) doc.getElementsByTagName("GameObjects").item(0).getChildNodes()).getElementsByTagName("GameObject");
+    NodeList objects = ((Element) doc.getElementsByTagName("GameObjects").item(0).getChildNodes())
+        .getElementsByTagName("GameObject");
 
     Map<String, GameObjectInfo> gameObjectMap = getObjectMap(objects);
     List<GameObject> actors = new ArrayList<>();
-    List<GameObject> gameObjects =  new ArrayList<>();
-    NodeList entities = ((Element) doc.getElementsByTagName("Layout").item(0).getChildNodes()).getElementsByTagName("Entity");
+    List<GameObject> gameObjects = new ArrayList<>();
+    NodeList entities = ((Element) doc.getElementsByTagName("Layout").item(0).getChildNodes())
+        .getElementsByTagName("Entity");
     Player player = null;
 
     for (int i = 0; i < entities.getLength(); i++) {
@@ -65,18 +67,27 @@ public class LevelParser {
           gameObjects.add(d);
         }
         case "GameObject" -> gameObjects.add(createGameObject(entity, info, i));
-      };
+      }
     }
 
     Vector screenMin = getScreenLim(doc, "ScreenLimitsMin");
     Vector screenMax = getScreenLim(doc, "ScreenLimitsMax");
 
-    return new GameWorld(player, collisions, gameObjects, actors, frameSize, 3, getGlobalGravity(), frameRate, screenMin, screenMax);
+    Vector frameSize = getFrameSize();
+
+    return new GameWorld(player, collisions, gameObjects, actors, frameSize, 3, getGlobalGravity(),
+        frameRate, screenMin, screenMax);
+  }
+
+  public Vector getFrameSize() {
+    return getVectorAttribute(doc.getDocumentElement(), "Size");
   }
 
   public MovingDestroyable makeCreatable(Vector pos, int id) {
     NodeList creatables = doc.getElementsByTagName("Creatable");
-    if (creatables.getLength() == 0) return null;
+    if (creatables.getLength() == 0) {
+      return null;
+    }
 
     Element entity = (Element) creatables.item(0);
 
@@ -85,18 +96,23 @@ public class LevelParser {
 
     String name = entity.getElementsByTagName("Name").item(0).getTextContent();
 
+    Vector offset = getVectorAttribute(entity, "Offset");
+    Vector velocity = getVectorAttribute(entity, "Velocity");
     GameObjectInfo info = gameObjectMap.get(name);
-    return new MovingDestroyable(info.tags, new Vector(pos.getX(), pos.getY()-1), id, info.size, 0, 1, 0, new Vector(0, -1), new Vector(pos.getX(), 0), info.gravity, true);
+    return new MovingDestroyable(info.tags, pos.add(offset), id, info.size, 0, 1, 0, velocity,
+        new Vector(pos.getX(), 0), info.gravity, true);
   }
 
   public List<String> getTags(String name) {
-    NodeList objects = ((Element) doc.getElementsByTagName("GameObjects").item(0).getChildNodes()).getElementsByTagName("GameObject");
+    NodeList objects = ((Element) doc.getElementsByTagName("GameObjects").item(0).getChildNodes())
+        .getElementsByTagName("GameObject");
     Map<String, GameObjectInfo> gameObjectMap = getObjectMap(objects);
     return gameObjectMap.get(name).tags;
   }
 
   public List<Pair<String, String>> getAllGameObjects() {
-    NodeList objects = ((Element) doc.getElementsByTagName("GameObjects").item(0).getChildNodes()).getElementsByTagName("GameObject");
+    NodeList objects = ((Element) doc.getElementsByTagName("GameObjects").item(0).getChildNodes())
+        .getElementsByTagName("GameObject");
     Map<String, GameObjectInfo> gameObjectMap = getObjectMap(objects);
     return new ArrayList<>(gameObjectMap.keySet())
         .stream().map(name -> new Pair<>(name, gameObjectMap.get(name).type))
@@ -104,8 +120,10 @@ public class LevelParser {
   }
 
   public Player createPlayerFromCoords(Vector coords, Vector size) throws ClassNotFoundException {
-    NodeList objects = ((Element) doc.getElementsByTagName("GameObjects").item(0).getChildNodes()).getElementsByTagName("GameObject");
-    NodeList entities = ((Element) doc.getElementsByTagName("Layout").item(0).getChildNodes()).getElementsByTagName("Entity");
+    NodeList objects = ((Element) doc.getElementsByTagName("GameObjects").item(0).getChildNodes())
+        .getElementsByTagName("GameObject");
+    NodeList entities = ((Element) doc.getElementsByTagName("Layout").item(0).getChildNodes())
+        .getElementsByTagName("Entity");
     for (int i = 0; i < entities.getLength(); i++) {
       Element entity = (Element) entities.item(i);
       String name = entity.getElementsByTagName("Name").item(0).getTextContent();
@@ -117,8 +135,9 @@ public class LevelParser {
         int startLife = (int) getNumberAttribute(entity, "StartLife");
         int startHealth = (int) getNumberAttribute(entity, "StartHealth");
         boolean vis = getVisibility(entity);
-        return new Player(info.tags, coords, 0, size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit, 2, vis, 1);
-      };
+        return new Player(info.tags, coords, 0, info.size, startLife, startHealth, jumpTime, vel,
+            info.gravity, getDrivingVelocity(doc), jumpLimit, 30, vis, 1);
+      }
     }
     return null;
   }
@@ -140,10 +159,11 @@ public class LevelParser {
     double jumpTime = getNumberAttribute(entity, "JumpTime");
     int jumpLimit = (int) getNumberAttribute(entity, "ContinuousJumpLimit");
     Vector size = getSize(entity, info);
-
+    int shootCoolDown = (int) getNumberAttribute(entity, "ShootCoolDown");
+    double invincibility = getNumberAttribute(entity, "InvincibilityLimit");
     boolean vis = getVisibility(entity);
-    // 2 is the cooldown
-    return new Player(info.tags, pos, id, size, startLife, startHealth, jumpTime, vel, info.gravity, getDrivingVelocity(doc), jumpLimit, 2, vis, 1);
+    return new Player(info.tags, pos, id, size, startLife, startHealth, jumpTime, vel, info.gravity,
+        getDrivingVelocity(doc), jumpLimit, shootCoolDown, vis, invincibility);
   }
 
   private MovingDestroyable createMovingDestroyable(Element entity, GameObjectInfo info, int id) {
@@ -155,7 +175,8 @@ public class LevelParser {
     boolean vis = getVisibility(entity);
     int score = (int) getNumberAttribute(entity, "Score");
     Vector size = getSize(entity, info);
-    return new MovingDestroyable(info.tags, pos, id, size, startLife, startHealth, score, vel, finalPos, info.gravity, vis);
+    return new MovingDestroyable(info.tags, pos, id, size, startLife, startHealth, score, vel,
+        finalPos, info.gravity, vis);
   }
 
   private Destroyable createDestroyable(Element entity, GameObjectInfo info, int id) {
@@ -173,18 +194,22 @@ public class LevelParser {
     Vector pos = getVectorAttribute(entity, "Location");
     boolean vis = getVisibility(entity);
     Vector size = getSize(entity, info);
-    return  new GameObject(info.tags, pos, id, size, vis);
+    return new GameObject(info.tags, pos, id, size, vis);
   }
 
   private boolean getVisibility(Element entity) {
     NodeList visList = entity.getElementsByTagName("Visible");
-    if (visList.getLength() == 0) return true;
+    if (visList.getLength() == 0) {
+      return true;
+    }
     return Boolean.parseBoolean(visList.item(0).getTextContent());
   }
 
   private Vector getVectorAttribute(Element entity, String name) {
     Element location = (Element) entity.getElementsByTagName(name).item(0);
-    if (location == null) return new Vector(0, 0);
+    if (location == null) {
+      return new Vector(0, 0);
+    }
     double x = Double.parseDouble(location.getElementsByTagName("x").item(0).getTextContent());
     double y = Double.parseDouble(location.getElementsByTagName("y").item(0).getTextContent());
     return new Vector(x, y);
@@ -200,20 +225,25 @@ public class LevelParser {
   public Map<String, GameObjectInfo> getObjectMap(NodeList objects) {
     HashMap<String, GameObjectInfo> gameObjects = new HashMap<>();
     for (int i = 0; i < objects.getLength(); i++) {
-      String name = ((Element) objects.item(i)).getElementsByTagName("Name").item(0).getTextContent();
-      String type = ((Element) objects.item(i)).getElementsByTagName("Type").item(0).getTextContent();
-      double gravity = Double.parseDouble(((Element) objects.item(i)).getElementsByTagName("Gravity").item(0).getTextContent());
+      String name = ((Element) objects.item(i)).getElementsByTagName("Name").item(0)
+          .getTextContent();
+      String type = ((Element) objects.item(i)).getElementsByTagName("Type").item(0)
+          .getTextContent();
+      double gravity = Double.parseDouble(
+          ((Element) objects.item(i)).getElementsByTagName("Gravity").item(0).getTextContent());
 
       Vector size = getVectorAttribute((Element) objects.item(i), "Size");
 
       ArrayList<String> tags = new ArrayList<>();
-      Element tagsElement = (Element) ((Element) objects.item(i)).getElementsByTagName("Tags").item(0);
+      Element tagsElement = (Element) ((Element) objects.item(i)).getElementsByTagName("Tags")
+          .item(0);
       NodeList tagElement = tagsElement.getElementsByTagName("Tag");
       for (int j = 0; j < tagElement.getLength(); j++) {
         tags.add(tagElement.item(j).getTextContent());
       }
 
-      GameObjectInfo gameObjectInfo = new GameObjectInfo(type, tags, gravity, size.getX(), size.getY());
+      GameObjectInfo gameObjectInfo = new GameObjectInfo(type, tags, gravity, size.getX(),
+          size.getY());
       gameObjects.put(name, gameObjectInfo);
     }
     return gameObjects;
@@ -233,7 +263,8 @@ public class LevelParser {
     return getVectorAttribute(root, name);
   }
 
-  public String getBackground(File file) throws ParserConfigurationException, IOException, SAXException {
+  public String getBackground(File file)
+      throws ParserConfigurationException, IOException, SAXException {
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
     DocumentBuilder db = dbf.newDocumentBuilder();
     Document doc = db.parse(file);
@@ -247,11 +278,12 @@ public class LevelParser {
     final double gravity;
     final Vector size;
 
-    public GameObjectInfo(String type, List<String> tags, double gravity, double sizeX, double sizeY) {
+    public GameObjectInfo(String type, List<String> tags, double gravity, double sizeX,
+        double sizeY) {
       this.type = type;
       this.tags = tags;
       this.gravity = gravity;
-      this.size =  new Vector(sizeX, sizeY);
+      this.size = new Vector(sizeX, sizeY);
     }
   }
 }

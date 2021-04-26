@@ -1,6 +1,10 @@
 <Level>
   <GlobalGravity>45</GlobalGravity>
   <BackgroundImage>view_resources/images/backgrounds/FlappyBird.png</BackgroundImage>
+  <Size>
+    <x>1400</x>
+    <y>810</y>
+  </Size>
   <DrivingVelocity>
     <x>100</x>
     <y>0</y>
@@ -38,7 +42,7 @@
       <Gravity>0</Gravity>
       <Size>
         <x>100</x>
-        <y>600</y>
+        <y>400</y>
       </Size>
     </GameObject>
     <GameObject>
@@ -65,7 +69,7 @@
       <Gravity>0</Gravity>
       <Size>
         <x>100</x>
-        <y>200</y>
+        <y>400</y>
       </Size>
     </GameObject>
     <GameObject>
@@ -107,7 +111,7 @@
         <x>0</x>
         <y>450</y>
       </Velocity>
-      <StartLife>1</StartLife>
+      <StartLife>0</StartLife>
       <JumpTime>0.1</JumpTime>
       <ContinuousJumpLimit>999999999</ContinuousJumpLimit>
       <StartHealth>1</StartHealth>
@@ -131,7 +135,7 @@
       <Name>ScoreBlock</Name>
       <Location>
         <x>400</x>
-        <y>600</y>
+        <y>400</y>
       </Location>
       <Score>1</Score>
       <StartLife>0</StartLife>
@@ -158,7 +162,7 @@
       <Name>ScoreBlock</Name>
       <Location>
         <x>750</x>
-        <y>700</y>
+        <y>500</y>
       </Location>
       <Score>1</Score>
       <StartLife>0</StartLife>
@@ -185,13 +189,22 @@
       <Name>ScoreBlock</Name>
       <Location>
         <x>1100</x>
-        <y>650</y>
+        <y>450</y>
       </Location>
       <Score>1</Score>
       <StartLife>0</StartLife>
       <StartHealth>1</StartHealth>
       <Visible>false</Visible>
     </Entity>
-    
+
+    <Entity>
+      <Name>WinningBlock</Name>
+      <Location>
+        <x>1300</x>
+        <y>0</y>
+      </Location>
+      <Visible>false</Visible>
+    </Entity>
+
   </Layout>
 </Level>

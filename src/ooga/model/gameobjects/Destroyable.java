@@ -11,7 +11,7 @@ import ooga.model.util.Vector;
 public class Destroyable extends GameObject{
   private Queue<MethodBundle> collisionQueue;
   private DestroyableCollisionHandling collisionHandler;
-  private Health health;
+  protected Health health;
   protected int score;
 
   /**
@@ -24,6 +24,11 @@ public class Destroyable extends GameObject{
     collisionHandler = new DestroyableCollisionHandling();
     health = new Health(startHealth, startLife);
     score = points;
+//    printLoc();
+  }
+
+  private void printLoc() {
+    System.out.println(getEntityType().get(getEntityType().size()-1)+" LOCATE: "+getPosition().getX()+", "+getPosition().getY());
   }
 
   /**
@@ -93,7 +98,11 @@ public class Destroyable extends GameObject{
    * @param increment
    */
   public void incrementHealth(Double increment) {
+//    System.out.println(getEntityType().get(getEntityType().size()-1) + " is incrementing health: "+health.getHealth());
     health.incrementHealth(increment);
+    if(health.getHealth() <= 0) {
+      health.loseLife();
+    }
   }
 
   /**
@@ -110,7 +119,7 @@ public class Destroyable extends GameObject{
    *
    * @return health
    */
-  protected int getHealth() {
+  protected double getHealth() {
     return health.getHealth();
   }
 
@@ -119,7 +128,7 @@ public class Destroyable extends GameObject{
    *
    * @return lives
    */
-  protected int getLives() {
+  protected double getLives() {
     return health.getLives();
   }
 
@@ -133,6 +142,7 @@ public class Destroyable extends GameObject{
    *
    */
   public void kill() {
+//    System.out.println("KILLING: "+getEntityType().get(getEntityType().size()-1));
     health.kill();
     if (!health.isAlive()) {
       notifyListeners("changeVisibility", true, false);

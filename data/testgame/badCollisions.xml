@@ -1,0 +1,21 @@
+<Collisions>
+  <Actor>
+    <Name>Player</Name>
+    <GameObject>
+      <Name>Enemy</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>uh oh, a string</Arg>
+        </Args>
+      </Method>
+      <Method>
+        <Name>move</Name>
+        <Args>
+          <Arg>8</Arg>
+          <Arg>7</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+  </Actor>
+</Collisions>

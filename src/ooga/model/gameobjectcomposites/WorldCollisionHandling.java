@@ -64,7 +64,6 @@ public class WorldCollisionHandling implements Serializable {
           continue;
         }
         List<String> directionalTags = ((Destroyable) actor).determineCollision(collisionObject);
-
         if (!directionalTags.isEmpty()) {
           List<MethodBundle> actorCollisionMethods = handleTagHierarchy(actor.getEntityType(), directionalTags);
           ((Destroyable) actor).addCollision(actorCollisionMethods);
@@ -72,7 +71,6 @@ public class WorldCollisionHandling implements Serializable {
             collisions.add(((Destroyable) actor));
 //            System.out.println(actor.getEntityType().get(actor.getEntityType().size() - 1)
 //                + " " + collisionObject.getEntityType().get(collisionObject.getEntityType().size() - 1)+" "+directionalTags.get(directionalTags.size()-1));
-
           }
           Entry<GameObject, GameObject> pair = new SimpleEntry<>(actor, collisionObject);
           Entry<GameObject, GameObject> unPair = new SimpleEntry<>(collisionObject, actor);
@@ -124,6 +122,7 @@ public class WorldCollisionHandling implements Serializable {
     List<Integer> toDelete = new ArrayList<>();
     for (Destroyable destroyable : collisions) {
       destroyable.executeCollisions();
+//      System.out.println("KILLING: "+getEntityType().get(getEntityType().size()-1));
       if (!destroyable.isAlive()) {
         destroyable.kill();
         toDelete.add(destroyable.getId());
@@ -136,8 +135,10 @@ public class WorldCollisionHandling implements Serializable {
       throws JjjanException {
     for (int d = destroyableTags.size() - 1; d >= 0; d--) {
       String dTag = destroyableTags.get(d);
+//      System.out.println("DTAG: "+dTag);
       if (collisionMethods.containsKey(dTag)) {
         for (int c = collidedTags.size() - 1; c >= 0; c--) {
+//          System.out.println("COLLIDED TAGS: "+collidedTags.get(c));
           Map<String, List<MethodBundle>> destroyableCollisionMap = collisionMethods.get(dTag);
           if (destroyableCollisionMap.containsKey(collidedTags.get(c))) {
             return destroyableCollisionMap.get(collidedTags.get(c));

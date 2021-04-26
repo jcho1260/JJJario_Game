@@ -72,6 +72,29 @@
       </Method>
     </GameObject>
   </Actor>
+
+  <Actor>
+    <Name>Bullet</Name>
+    <GameObject>
+      <Name>Bullet</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+    <GameObject>
+      <Name>GameObject</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+  </Actor>
+
   <Actor>
     <Name>PowerUp</Name>
     <GameObject>
@@ -86,6 +109,15 @@
   </Actor>
   <Actor>
     <Name>Enemy</Name>
+    <GameObject>
+      <Name>Bullet</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
     <GameObject>
       <Name>PowerUp</Name>
     </GameObject>
@@ -140,6 +172,24 @@
     <Name>Destroyable</Name>
     <GameObject>
       <Name>GameObject</Name>
+    </GameObject>
+    <GameObject>
+      <Name>LREdgeBlock</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+    <GameObject>
+      <Name>TBEdgeBlock</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
     </GameObject>
   </Actor>
   <Actor>
