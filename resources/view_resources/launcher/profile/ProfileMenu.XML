@@ -23,7 +23,7 @@
     </VBox>
   </HBox>
   <ScrollPane id="HighScoreScrollPane" type="Control" style="view_resources/launcher/profile/css/ProfileMenuScroll.css">
-    <HBox id="ProfileHighScoresVBox" type="Pane" style="view_resources/launcher/profile/css/ProfileScrollHBox.css">
+    <HBox id="ProfileHighScoresHBox" type="Pane" style="view_resources/launcher/profile/css/ProfileScrollHBox.css">
       <Width>1000</Width>
       <VBox id="JJJarioHighScores" type="Pane" style="view_resources/launcher/profile/css/ProfileScrollVBox.css">
         <ImageView id="JJJarioLogo" type="Leaf">
