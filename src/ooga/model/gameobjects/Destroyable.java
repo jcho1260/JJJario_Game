@@ -78,7 +78,7 @@ public class Destroyable extends GameObject{
   /**
    * create a Queue of all methods to invoke on self for collisions with other GameObjects
    */
-  public void addCollision(List<MethodBundle> methodList) throws NoSuchMethodException {
+  public void addCollision(List<MethodBundle> methodList) {
     for (MethodBundle mb : methodList) {
       collisionQueue.add(mb);
     }

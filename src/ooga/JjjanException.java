@@ -6,8 +6,4 @@ public class JjjanException extends Exception {
     super(message);
   }
 
-  public JjjanException(String message, Throwable cause) {
-    super(message, cause);
-  }
-
 }

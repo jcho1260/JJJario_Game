@@ -14,6 +14,7 @@ import ooga.model.util.Vector;
 
 /**
  *
+ * @author: JinCho, JuhyoungLee
  */
 public class WorldCollisionHandling implements Serializable {
 
@@ -21,8 +22,8 @@ public class WorldCollisionHandling implements Serializable {
   private List<GameObject> activeGameObjects;
   private List<GameObject> activeDestroyable;
   private Player player;
-  private Set<Destroyable> collisions;  // for execution of methods
-  private List<Entry<GameObject, GameObject>> collisionPairs; // for post collision position fixes
+  private Set<Destroyable> collisions;
+  private List<Entry<GameObject, GameObject>> collisionPairs;
 
   /**
    * Default constructor
@@ -52,58 +53,69 @@ public class WorldCollisionHandling implements Serializable {
   }
 
   /**
-   *
+   * detects all collisions between all actors and the game objects of the game.
+   * @return true if there are collisions that occured between a pair of game objects
+   * @throws JjjanException if a collisions wasn't defined between two gameobjects in the data file
    */
-  public boolean detectAllCollisions() throws NoSuchMethodException, JjjanException {
-    // TODO refactorrrr here
+  public boolean detectAllCollisions() throws JjjanException {
+    includePlayer();
+    for (GameObject actor : activeDestroyable) {
+      checkCollisionsWithOthers(actor);
+    }
+    dontIncludePlayer();
+    return !collisionPairs.isEmpty();
+  }
+
+  private void includePlayer() {
     activeDestroyable.add(player);
     activeGameObjects.add(player);
-    for (GameObject actor : activeDestroyable) {
-      for (GameObject collisionObject : activeGameObjects) {
-        if (actor.equals(collisionObject)) {
-          continue;
-        }
-        List<String> directionalTags = ((Destroyable) actor).determineCollision(collisionObject);
-        if (!directionalTags.isEmpty()) {
-          List<MethodBundle> actorCollisionMethods = handleTagHierarchy(actor.getEntityType(), directionalTags);
-          ((Destroyable) actor).addCollision(actorCollisionMethods);
-          if (!((Destroyable) actor).cornerCollision(collisionObject)) {
-            collisions.add(((Destroyable) actor));
-//            System.out.println(actor.getEntityType().get(actor.getEntityType().size() - 1)
-//                + " " + collisionObject.getEntityType().get(collisionObject.getEntityType().size() - 1)+" "+directionalTags.get(directionalTags.size()-1));
-          }
-          Entry<GameObject, GameObject> pair = new SimpleEntry<>(actor, collisionObject);
-          Entry<GameObject, GameObject> unPair = new SimpleEntry<>(collisionObject, actor);
-          if (!collisionPairs.contains(unPair)) {
-            collisionPairs.add(pair);
+  }
 
-          }
-        }
-      }
-    }
-
-    // TODO refacotr :')
+  private void dontIncludePlayer() {
     activeDestroyable.remove(player);
     activeGameObjects.remove(player);
+  }
 
-    return !collisionPairs.isEmpty();
+  private void checkCollisionsWithOthers(GameObject actor) throws JjjanException {
+    for (GameObject collisionObject : activeGameObjects) {
+      if (actor.equals(collisionObject)) {
+        continue;
+      }
+      List<String> directionalTags = ((Destroyable) actor).determineCollision(collisionObject);
+      if (!directionalTags.isEmpty()) {
+        determineCollisionPairs(actor, collisionObject, directionalTags);
+      }
+    }
+  }
+
+  private void determineCollisionPairs(GameObject actor, GameObject collisionObject, List<String> directionalTags)
+      throws JjjanException {
+    List<MethodBundle> actorCollisionMethods = handleTagHierarchy(actor.getEntityType(), directionalTags);
+    ((Destroyable) actor).addCollision(actorCollisionMethods);
+    ignoreCornerCollisions(actor, collisionObject);
+    Entry<GameObject, GameObject> pair = new SimpleEntry<>(actor, collisionObject);
+    Entry<GameObject, GameObject> unPair = new SimpleEntry<>(collisionObject, actor);
+    if (!collisionPairs.contains(unPair)) {
+      collisionPairs.add(pair);
+    }
+  }
+
+  private void ignoreCornerCollisions(GameObject actor, GameObject collisionObject) {
+    if (!((Destroyable) actor).cornerCollision(collisionObject)) {
+      collisions.add(((Destroyable) actor));
+//            System.out.println(actor.getEntityType().get(actor.getEntityType().size() - 1)
+//                + " " + collisionObject.getEntityType().get(collisionObject.getEntityType().size() - 1)+" "+directionalTags.get(directionalTags.size()-1));
+    }
   }
 
   public void fixIntersection(List<GameObject> allBricks) {
     for (Entry<GameObject, GameObject> pair : collisionPairs) {
       Destroyable destroyable = (Destroyable) pair.getKey();
       GameObject gameObject = pair.getValue();
-
       Vector[] collisionRect = destroyable.determineCollisionRect(destroyable, gameObject);
       if (collisionRect == null) return;
-      Vector direction = destroyable.calculateCollisionDirection(destroyable, collisionRect)
-          .toUnit().multiply(new Vector(-0.5, -0.5));
-      Vector collisionRectSize = new Vector(collisionRect[1].getX() - collisionRect[0].getX(),
-          collisionRect[1].getY() - collisionRect[0].getY());
-      Vector fixAmount = collisionRectSize.multiply(direction).add(direction.multiply(new Vector(0, 0)));
+      Vector fixAmount = calculatCollisionFixAmount(destroyable, collisionRect);
       destroyable.setPredictedPosition(destroyable.getPredictedPosition().add(fixAmount));
-
-      // TODO use list of all blocks to check what to move
       if (!allBricks.contains(gameObject)) {
         gameObject.setPredictedPosition(gameObject.getPredictedPosition().add(fixAmount
             .multiply(new Vector(-1, -1))));
@@ -112,6 +124,14 @@ public class WorldCollisionHandling implements Serializable {
       }
     }
 
+  }
+
+  private Vector calculatCollisionFixAmount(Destroyable destroyable, Vector[] collisionRect) {
+    Vector direction = destroyable.calculateCollisionDirection(destroyable, collisionRect)
+        .toUnit().multiply(new Vector(-0.5, -0.5));
+    Vector collisionRectSize = new Vector(collisionRect[1].getX() - collisionRect[0].getX(),
+        collisionRect[1].getY() - collisionRect[0].getY());
+    return collisionRectSize.multiply(direction).add(direction.multiply(new Vector(0, 0)));
   }
 
   /**
