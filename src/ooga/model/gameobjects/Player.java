@@ -42,9 +42,9 @@ public class Player extends Destroyable {
   /**
    * Handles player movement given user input.
    *
-   * @param direction
+   * @param direction key input respective action linked to it
    * @param elapsedTime
-   * @param gameGravity
+   * @param gameGravity the global game gravity applied to the player
    */
   public void userStep(Action direction, double elapsedTime, double gameGravity, int currentFrame)
       throws NoSuchMethodException, SecurityException, IllegalAccessException,
@@ -87,7 +87,7 @@ public class Player extends Destroyable {
 
   /**
    * gets velocity of player
-   * @return
+   * @return velocity vector of the player
    */
   public Vector getVelocity() {return userActions.getVelocity();}
 
@@ -100,7 +100,7 @@ public class Player extends Destroyable {
 
   /**
    * gives winning status of the player to see if player completed level
-   * @return
+   * @return true if it has won the game
    */
   public boolean getWinStatus() {
     return win;
@@ -143,11 +143,11 @@ public class Player extends Destroyable {
   }
 
   /**
-   *
+   * kills the player in its current life and respawns it if not dead
    */
   @Override
   public void kill() {
-    super.kill();
+    health.kill();
     checkReSpawn();
   }
 
@@ -165,8 +165,8 @@ public class Player extends Destroyable {
   /**
    * Scales velocity by given amount.
    *
-   * @param x
-   * @param y
+   * @param x velocity x-direction scale factor
+   * @param y velocity y-direction scale factor
    */
   public void scaleVelocity(Double x, Double y) {
     Vector newVelocity = userActions.getVelocity().multiply(new Vector(x, y));

@@ -23,6 +23,7 @@ public class MethodBundle implements Serializable {
       Method collisionResponse = destroyableClass.getMethod(methodName, paramTypes);
       return collisionResponse;
     } catch (Exception e){
+
       throw new NoSuchMethodException("method doesn't exist sorry :(");
     }
   }
@@ -34,7 +35,4 @@ public class MethodBundle implements Serializable {
     }
     return d;
   }
-
-  public String getMethodName() {return methodName;}
-
 }
