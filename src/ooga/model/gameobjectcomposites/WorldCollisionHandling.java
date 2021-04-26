@@ -54,7 +54,7 @@ public class WorldCollisionHandling implements Serializable {
   /**
    *
    */
-  public boolean detectAllCollisions() throws NoSuchMethodException, JjjanException {
+  public boolean detectAllCollisions() throws JjjanException {
     // TODO refactorrrr here
     activeDestroyable.add(player);
     activeGameObjects.add(player);

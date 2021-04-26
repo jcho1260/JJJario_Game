@@ -1,6 +1,7 @@
 package ooga.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -36,18 +37,10 @@ public class DestroyableCollisionsTest {
     params[0] = 1;
     params[1] = 1;
     List<MethodBundle> methods = new ArrayList<>();
-    try {
-      MethodBundle incHealth = createMethodBundle("incrementHealth", params);
-      methods.add(incHealth);
-      d.addCollision(methods);
-      d.executeCollisions();
-    } catch (NoSuchMethodException e) {
-      assertEquals(true, true);
-    } catch (IllegalAccessException e) {
-      assertEquals(true, true);
-    } catch (InvocationTargetException e) {
-      assertEquals(true, true);
-    }
+    MethodBundle incHealth = createMethodBundle("incrementHealth", params);
+    methods.add(incHealth);
+    d.addCollision(methods);
+    assertThrows(NoSuchMethodException.class, ()-> d.executeCollisions());
   }
 
   @Test
@@ -73,18 +66,10 @@ public class DestroyableCollisionsTest {
     params[0] = 1;
     params[1] = 1;
     List<MethodBundle> methods = new ArrayList<>();
-    try {
-      MethodBundle incHealth = createMethodBundle("incrementLives", params);
-      methods.add(incHealth);
-      d.addCollision(methods);
-      d.executeCollisions();
-    } catch (NoSuchMethodException e) {
-      assertEquals(true, true);
-    } catch (IllegalAccessException e) {
-      assertEquals(true, true);
-    } catch (InvocationTargetException e) {
-      assertEquals(true, true);
-    }
+    MethodBundle incHealth = createMethodBundle("incrementLives", params);
+    methods.add(incHealth);
+    d.addCollision(methods);
+    assertThrows(NoSuchMethodException.class, ()-> d.executeCollisions());
   }
 
   @Test
