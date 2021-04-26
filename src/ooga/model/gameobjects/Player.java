@@ -15,11 +15,11 @@ import ooga.model.util.Vector;
 public class Player extends Destroyable {
 
   private final UserInputActions userActions;
-  private Class<?> userInputActions;
+  private final Class<?> userInputActions;
   private final double invincibilityLimit;
   private double framesSinceDamage;
   private boolean win;
-  private Vector initialPosition;
+  private final Vector initialPosition;
 
   /**
    * Default constructor for Player.
@@ -36,13 +36,13 @@ public class Player extends Destroyable {
     invincibilityLimit = invincibility;
     win = false;
     initialPosition = initPosition;
-    framesSinceDamage = invincibility+1;
+    framesSinceDamage = invincibility + 1;
   }
 
   /**
    * Handles player movement given user input.
    *
-   * @param direction key input respective action linked to it
+   * @param direction   key input respective action linked to it
    * @param elapsedTime
    * @param gameGravity the global game gravity applied to the player
    */
@@ -52,10 +52,11 @@ public class Player extends Destroyable {
     notifyListenerKey("gameworld", "changeHealth", null, super.getHealth());
     notifyListenerKey("gameworld", "changeLife", null, super.getLives());
     framesSinceDamage++;
-    if (direction.equals(Action.SHOOT)){
+    if (direction.equals(Action.SHOOT)) {
       move(Action.NONE, elapsedTime, gameGravity);
       if (userActions.shoot(getPosition().getX(), getPosition().getY(), currentFrame)) {
-        notifyListenerKey("gameworld", "newMovingDestroyable", null, getPosition().add(new Vector(getSize().getX()/2, 0)));
+        notifyListenerKey("gameworld", "newMovingDestroyable", null,
+            getPosition().add(new Vector(getSize().getX() / 2, 0)));
       }
     } else {
       move(direction, elapsedTime, gameGravity);
@@ -84,9 +85,12 @@ public class Player extends Destroyable {
 
   /**
    * gets velocity of player
+   *
    * @return velocity vector of the player
    */
-  public Vector getVelocity() {return userActions.getVelocity();}
+  public Vector getVelocity() {
+    return userActions.getVelocity();
+  }
 
   /**
    * collision method called whenever the player hits the win checkpoint for that level
@@ -97,6 +101,7 @@ public class Player extends Destroyable {
 
   /**
    * gives winning status of the player to see if player completed level
+   *
    * @return true if it has won the game
    */
   public boolean getWinStatus() {
@@ -145,7 +150,7 @@ public class Player extends Destroyable {
   }
 
   private void checkReSpawn() {
-    if(health.getLives()>0 && health.getHealth()<=0) {
+    if (health.getLives() > 0 && health.getHealth() <= 0) {
       rect.setPredictedPos(initialPosition);
       health.loseLife();
     }
@@ -168,6 +173,7 @@ public class Player extends Destroyable {
 
   /**
    * scales the size the player
+   *
    * @param scaleFactor factor to scale by
    */
   public void scaleSize(Double scaleFactor) {

@@ -115,7 +115,7 @@ public class BuilderView {
     contextMenu.getItems().add(buildItem);
     for (Pair<String, String> type : objectTypes) {
       MenuItem mi = new MenuItem(type.getKey());
-      mi.setId(type.getKey()+"MenuItem");
+      mi.setId(type.getKey() + "MenuItem");
       mi.setOnAction(event -> {
         try {
           if (type.getValue().equals("Player")) {
@@ -148,7 +148,7 @@ public class BuilderView {
 
   private void undoLastGameObject() {
     if (!spriteCache.isEmpty()) {
-      builderPane.getChildren().remove(spriteCache.get(spriteCache.size()-1));
+      builderPane.getChildren().remove(spriteCache.get(spriteCache.size() - 1));
       controller.undoGameMaker();
     }
   }

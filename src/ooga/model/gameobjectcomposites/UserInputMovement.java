@@ -12,18 +12,17 @@ public class UserInputMovement implements Serializable {
 
   private final double jumpTimeLimit;
   private Vector stepVelocityMagnitude;
-  private double gravityScale;
+  private final double gravityScale;
   private double jumpTimeCounter;
   private double fallTimeCounter = 1;
   private boolean isJumping;
   private int continuousJumps;
   private final int continuousJumpLimit;
   private double gravitySink;
-  private Vector drivingVelocity;
+  private final Vector drivingVelocity;
 
   /**
-   * Constructor for UserInputMovement.
-   * jumpTime should be based of the animation frame stuff
+   * Constructor for UserInputMovement. jumpTime should be based of the animation frame stuff
    *
    * @param defaultVelocity per step
    */
@@ -63,8 +62,8 @@ public class UserInputMovement implements Serializable {
   }
 
   /**
-   * Returns vector of change in position as a result of UP. Once the jump has reached its peak,
-   * it should hold briefly, then begin to fall.
+   * Returns vector of change in position as a result of UP. Once the jump has reached its peak, it
+   * should hold briefly, then begin to fall.
    *
    * @param elapsedTime
    * @param gameGravity
