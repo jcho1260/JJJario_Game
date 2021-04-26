@@ -136,7 +136,6 @@ public class UserInputMovement implements Serializable {
     stepVelocityMagnitude = newVelocity;
   }
 
-  // TODO refactor duplicate code w/ automatedmovement
   private Vector deltaPosition(double elapsedTime, double gameGravity, Vector change) {
     gravitySink = (1 + change.getY()) * elapsedTime * gameGravity * gravityScale * fallTimeCounter;
 

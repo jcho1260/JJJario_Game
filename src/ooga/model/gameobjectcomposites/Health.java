@@ -65,7 +65,7 @@ public class Health implements Serializable {
   }
 
   public void kill() {
-    health = startHealth;
-    lives--;
+    health = 0;
+//    lives--;
   }
 }

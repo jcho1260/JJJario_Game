@@ -2,6 +2,15 @@
   <Actor>
     <Name>Player</Name>
     <GameObject>
+      <Name>Platform</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+    <GameObject>
       <Name>FloorPipe</Name>
       <Method>
         <Name>incrementHealth</Name>

@@ -6,7 +6,7 @@
     <y>810</y>
   </Size>
   <DrivingVelocity>
-    <x>100</x>
+    <x>300</x>
     <y>0</y>
   </DrivingVelocity>
   <ScreenLimitsMin>
@@ -131,19 +131,23 @@
         <x>400</x>
         <y>0</y>
       </Location>
+      <Size>
+        <x>100</x>
+        <y>300</y>
+      </Size>
     </Entity>
     <Entity>
       <Name>FloorPipe</Name>
       <Location>
         <x>400</x>
-        <y>800</y>
+        <y>700</y>
       </Location>
     </Entity>
     <Entity>
       <Name>ScoreBlock</Name>
       <Location>
         <x>400</x>
-        <y>400</y>
+        <y>300</y>
       </Location>
       <Score>1</Score>
       <StartLife>0</StartLife>
@@ -156,8 +160,12 @@
       <Name>CeilingPipe</Name>
       <Location>
         <x>750</x>
-        <y>100</y>
+        <y>0</y>
       </Location>
+      <Size>
+        <x>100</x>
+        <y>500</y>
+      </Size>
     </Entity>
     <Entity>
       <Name>FloorPipe</Name>
@@ -183,51 +191,55 @@
       <Name>CeilingPipe</Name>
       <Location>
         <x>1100</x>
-        <y>50</y>
+        <y>0</y>
       </Location>
+      <Size>
+        <x>100</x>
+        <y>250</y>
+      </Size>
     </Entity>
     <Entity>
       <Name>FloorPipe</Name>
       <Location>
         <x>1100</x>
-        <y>850</y>
+        <y>650</y>
       </Location>
     </Entity>
     <Entity>
       <Name>ScoreBlock</Name>
       <Location>
         <x>1100</x>
+        <y>250</y>
+      </Location>
+      <Score>1</Score>
+      <StartLife>0</StartLife>
+      <StartHealth>1</StartHealth>
+      <Visible>false</Visible>
+    </Entity>
+    <!---->
+    <Entity>
+      <Name>CeilingPipe</Name>
+      <Location>
+        <x>1800</x>
+        <y>0</y>
+      </Location>
+      <Size>
+        <x>100</x>
+        <y>250</y>
+      </Size>
+    </Entity>
+    <Entity>
+      <Name>FloorPipe</Name>
+      <Location>
+        <x>1800</x>
         <y>450</y>
       </Location>
-      <Score>1</Score>
-      <StartLife>0</StartLife>
-      <StartHealth>1</StartHealth>
-      <Visible>false</Visible>
-    </Entity>
-<!---->
-    <Entity>
-      <Name>CeilingPipe</Name>
-      <Location>
-        <x>1800</x>
-        <y>0</y>
-      </Location>
-      <Size>
-        <x>100</x>
-        <y>650</y>
-      </Size>
-    </Entity>
-    <Entity>
-      <Name>FloorPipe</Name>
-      <Location>
-        <x>1800</x>
-        <y>850</y>
-      </Location>
     </Entity>
     <Entity>
       <Name>ScoreBlock</Name>
       <Location>
         <x>1800</x>
-        <y>650</y>
+        <y>250</y>
       </Location>
       <Score>1</Score>
       <StartLife>0</StartLife>
@@ -243,74 +255,6 @@
       <Name>CeilingPipe</Name>
       <Location>
         <x>2150</x>
-        <y>0</y>
-      </Location>
-      <Size>
-        <x>100</x>
-        <y>400</y>
-      </Size>
-    </Entity>
-    <Entity>
-      <Name>FloorPipe</Name>
-      <Location>
-        <x>2150</x>
-        <y>600</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>ScoreBlock</Name>
-      <Location>
-        <x>2150</x>
-        <y>400</y>
-      </Location>
-      <Score>1</Score>
-      <StartLife>0</StartLife>
-      <StartHealth>1</StartHealth>
-      <Visible>false</Visible>
-      <Size>
-        <x>100</x>
-        <y>200</y>
-      </Size>
-    </Entity>
-
-    <Entity>
-      <Name>CeilingPipe</Name>
-      <Location>
-        <x>2500</x>
-        <y>0</y>
-      </Location>
-      <Size>
-        <x>100</x>
-        <y>650</y>
-      </Size>
-    </Entity>
-    <Entity>
-      <Name>FloorPipe</Name>
-      <Location>
-        <x>2500</x>
-        <y>850</y>
-      </Location>
-    </Entity>
-    <Entity>
-      <Name>ScoreBlock</Name>
-      <Location>
-        <x>2500</x>
-        <y>650</y>
-      </Location>
-      <Score>1</Score>
-      <StartLife>0</StartLife>
-      <StartHealth>1</StartHealth>
-      <Visible>false</Visible>
-      <Size>
-        <x>100</x>
-        <y>200</y>
-      </Size>
-    </Entity>
-
-    <Entity>
-      <Name>CeilingPipe</Name>
-      <Location>
-        <x>2850</x>
         <y>0</y>
       </Location>
       <Size>
@@ -321,15 +265,83 @@
     <Entity>
       <Name>FloorPipe</Name>
       <Location>
-        <x>2850</x>
+        <x>2150</x>
         <y>500</y>
       </Location>
     </Entity>
     <Entity>
       <Name>ScoreBlock</Name>
       <Location>
-        <x>2850</x>
+        <x>2150</x>
+        <y>300</y>
+      </Location>
+      <Score>1</Score>
+      <StartLife>0</StartLife>
+      <StartHealth>1</StartHealth>
+      <Visible>false</Visible>
+      <Size>
+        <x>100</x>
         <y>200</y>
+      </Size>
+    </Entity>
+
+    <Entity>
+      <Name>CeilingPipe</Name>
+      <Location>
+        <x>2500</x>
+        <y>0</y>
+      </Location>
+      <Size>
+        <x>100</x>
+        <y>750</y>
+      </Size>
+    </Entity>
+    <Entity>
+      <Name>FloorPipe</Name>
+      <Location>
+        <x>2500</x>
+        <y>950</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>ScoreBlock</Name>
+      <Location>
+        <x>2500</x>
+        <y>750</y>
+      </Location>
+      <Score>1</Score>
+      <StartLife>0</StartLife>
+      <StartHealth>1</StartHealth>
+      <Visible>false</Visible>
+      <Size>
+        <x>100</x>
+        <y>200</y>
+      </Size>
+    </Entity>
+
+    <Entity>
+      <Name>CeilingPipe</Name>
+      <Location>
+        <x>2850</x>
+        <y>0</y>
+      </Location>
+      <Size>
+        <x>100</x>
+        <y>450</y>
+      </Size>
+    </Entity>
+    <Entity>
+      <Name>FloorPipe</Name>
+      <Location>
+        <x>2850</x>
+        <y>650</y>
+      </Location>
+    </Entity>
+    <Entity>
+      <Name>ScoreBlock</Name>
+      <Location>
+        <x>2850</x>
+        <y>450</y>
       </Location>
       <Score>1</Score>
       <StartLife>0</StartLife>

@@ -1,11 +1,15 @@
 package ooga.model;
 
 import java.beans.PropertyChangeListener;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import ooga.JjjanException;
 import ooga.Observable;
 import ooga.model.gameobjectcomposites.WorldCollisionHandling;
@@ -26,12 +30,14 @@ public class GameWorld extends Observable implements Serializable {
   private static final double playerXLoc = 0.5;
   private static final double playerYLoc = 2.0/3.0;
   private static final int correctionCycles = 10;
+  private static final String TAG_SPECIFICATIONS =  "ooga.model.model_resources.games.EntityTagSpecifications";
+  private static final String ALL_ACTIVE_KEY = "ALWAYSACTIVE";
 
   private List<GameObject> allGameObjects;
   private List<GameObject> allActiveGameObjects;
   private List<GameObject> allDestroyables;
   private List<GameObject> allActiveDestroyables;
-  private List<GameObject> allBricks;
+  private List<GameObject> allAlwaysActive;
   private List<MovingDestroyable> runtimeCreations;
   private WorldCollisionHandling worldCollisionHandling;
   private double score;
@@ -42,6 +48,7 @@ public class GameWorld extends Observable implements Serializable {
   private Vector screenLimitsMin;
   private Vector screenLimitsMax;
 
+  private final List<String> alwaysActiveTags;
   private final double gravity;
   private final double stepTime;
 
@@ -63,18 +70,23 @@ public class GameWorld extends Observable implements Serializable {
     currentFrameCount = 0;
     screenLimitsMin = minScreenLimit;
     screenLimitsMax = maxScreenLimit;
+    alwaysActiveTags = getAlwaysActiveTags();
     frameCoords = new Vector[4];
     updateFrameCoordinates(player.getPosition(), player.getSize());
-    allBricks = new ArrayList<>();
-    findBricks();
+    allAlwaysActive = new ArrayList<>();
+    findAlwaysActive();
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allDestroyables = actors;
     allActiveDestroyables = findActiveObjects(allDestroyables);
     worldCollisionHandling = new WorldCollisionHandling(collisionMethods, gameObjects, actors, player);
     windowSize = frameSize;
-    double playerViewX = frameSize.getX() * playerXLoc;
-    double playerViewY = frameSize.getY() * playerYLoc;
     runtimeCreations = new ArrayList<>();
+  }
+
+  private List<String> getAlwaysActiveTags() {
+    ResourceBundle tagSpecifications = ResourceBundle.getBundle(TAG_SPECIFICATIONS);
+    String allTags = tagSpecifications.getString(ALL_ACTIVE_KEY);
+    return Arrays.asList(allTags.split(" ").clone());
   }
 
   public void stepFrame(Action pressEffect)
@@ -90,14 +102,6 @@ public class GameWorld extends Observable implements Serializable {
     updateAllActiveInfo();
     sendViewCoords();
     currentFrameCount++;
-//    System.out.println(player.getPosition());
-  }
-
-  private void printAllDest(List<GameObject> obj) {
-    for(GameObject o : obj) {
-      System.out.print(o.getEntityType().get(o.getEntityType().size()-1) +" : "+o.getId() +", ");
-    }
-    System.out.println("");
   }
 
   private void collisionsDetectAndExecute()
@@ -111,7 +115,7 @@ public class GameWorld extends Observable implements Serializable {
   private void correctCollisionIntersections() throws NoSuchMethodException, JjjanException {
     for (int i = 0; i < correctionCycles; i++) {
       if (worldCollisionHandling.detectAllCollisions()) {
-        worldCollisionHandling.fixIntersection(allBricks);
+        worldCollisionHandling.fixIntersection(allAlwaysActive);
         worldCollisionHandling.clear();
       } else {
         worldCollisionHandling.clear();
@@ -127,11 +131,12 @@ public class GameWorld extends Observable implements Serializable {
     player.updatePosition();
   }
 
-  private void findBricks() {
+  private void findAlwaysActive() {
     for (GameObject go : allGameObjects) {
-      // TODO ah
-      if (go.getEntityType().contains("Block")) {
-        allBricks.add(go);
+      for(String tag : alwaysActiveTags) {
+        if (go.getEntityType().contains(tag)) {
+          allAlwaysActive.add(go);
+        }
       }
     }
   }
@@ -186,7 +191,8 @@ public class GameWorld extends Observable implements Serializable {
     Vector oBotL = o.getPosition().add(new Vector(0,o.getSize().getY()));
     Vector oBotR = o.getPosition().add(new Vector(o.getSize().getX(),o.getSize().getY()));
     return oTopL.insideBox(frameTopL,frameBotR) || oTopR.insideBox(frameTopL,frameBotR) ||
-        oBotL.insideBox(frameTopL, frameBotR) || oBotR.insideBox(frameTopL,frameBotR) || allBricks.contains(o);
+        oBotL.insideBox(frameTopL, frameBotR) || oBotR.insideBox(frameTopL,frameBotR) || allAlwaysActive
+        .contains(o);
   }
 
   private void removeDeadActors(List<Integer> deadActors) {
@@ -194,7 +200,7 @@ public class GameWorld extends Observable implements Serializable {
 
     allGameObjects = removeIndicesFromList(allGameObjects, deadActors);
     allDestroyables = removeIndicesFromList(allDestroyables, deadActors);
-    allBricks = removeIndicesFromList(allBricks, deadActors);
+    allAlwaysActive = removeIndicesFromList(allAlwaysActive, deadActors);
 
     allActiveGameObjects = findActiveObjects(allGameObjects);
     allActiveDestroyables = findActiveObjects(allDestroyables);

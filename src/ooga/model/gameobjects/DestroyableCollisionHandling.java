@@ -75,7 +75,6 @@ public class DestroyableCollisionHandling implements Serializable {
     return ret;
   }
 
-  // TODO REFACTOR
   private List<String> getCollisionMethods(GameObject myself, List<String> oTags, Vector[] collisionBox) {
     Action edgeAction = calculateCollisionDirection(myself, collisionBox).getDirection();
 
