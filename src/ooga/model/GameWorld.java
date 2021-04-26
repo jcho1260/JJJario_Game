@@ -48,7 +48,6 @@ public class GameWorld extends Observable implements Serializable {
   private Vector screenLimitsMin;
   private Vector screenLimitsMax;
 
-  private final ResourceBundle tagSpecifications;
   private final List<String> alwaysActiveTags;
   private final double gravity;
   private final double stepTime;
@@ -71,7 +70,6 @@ public class GameWorld extends Observable implements Serializable {
     currentFrameCount = 0;
     screenLimitsMin = minScreenLimit;
     screenLimitsMax = maxScreenLimit;
-    tagSpecifications = ResourceBundle.getBundle(TAG_SPECIFICATIONS);
     alwaysActiveTags = getAlwaysActiveTags();
     frameCoords = new Vector[4];
     updateFrameCoordinates(player.getPosition(), player.getSize());
@@ -86,6 +84,7 @@ public class GameWorld extends Observable implements Serializable {
   }
 
   private List<String> getAlwaysActiveTags() {
+    ResourceBundle tagSpecifications = ResourceBundle.getBundle(TAG_SPECIFICATIONS);
     String allTags = tagSpecifications.getString(ALL_ACTIVE_KEY);
     return Arrays.asList(allTags.split(" ").clone());
   }
@@ -135,7 +134,6 @@ public class GameWorld extends Observable implements Serializable {
   private void findAlwaysActive() {
     for (GameObject go : allGameObjects) {
       for(String tag : alwaysActiveTags) {
-        System.out.println(tag);
         if (go.getEntityType().contains(tag)) {
           allAlwaysActive.add(go);
         }
