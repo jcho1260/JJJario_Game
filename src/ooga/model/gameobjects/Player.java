@@ -2,7 +2,6 @@ package ooga.model.gameobjects;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 import ooga.model.gameobjectcomposites.UserInputActions;
 import ooga.model.util.Action;
@@ -15,29 +14,29 @@ import ooga.model.util.Vector;
  */
 public class Player extends Destroyable {
 
-  private List<GameObject> activePowerUps;
   private final UserInputActions userActions;
   private Class<?> userInputActions;
-  private int lives;
   private final double invincibilityLimit;
-  private double frameCount = 0;
+  private double framesSinceDamage;
   private boolean win;
+  private Vector initialPosition;
 
   /**
    * Default constructor for Player.
    */
-  public Player(List<String> entityTypes, Vector initialPosition, int id, Vector objSize,
+  public Player(List<String> entityTypes, Vector initPosition, int id, Vector objSize,
       int startLife, int startHealth, double jumpTime, Vector velocityMagnitude, double gravity,
       Vector drivingVelocity, int continuousJumpLimit, double shootingCooldown, boolean vis, double
       invincibility)
       throws ClassNotFoundException {
-    super(entityTypes, initialPosition, id, objSize, startLife, startHealth, 0, vis);
+    super(entityTypes, initPosition, id, objSize, startLife, startHealth, 0, vis);
     userActions = new UserInputActions(jumpTime, velocityMagnitude, gravity, drivingVelocity,
         continuousJumpLimit, shootingCooldown);
     userInputActions = Class.forName("ooga.model.gameobjectcomposites.UserInputActions");
-    lives = startLife;
     invincibilityLimit = invincibility;
     win = false;
+    initialPosition = initPosition;
+    framesSinceDamage = invincibility+1;
   }
 
   /**
@@ -47,16 +46,20 @@ public class Player extends Destroyable {
    * @param elapsedTime
    * @param gameGravity
    */
-  public void userStep(Action direction, double elapsedTime, double gameGravity)
+  public void userStep(Action direction, double elapsedTime, double gameGravity, int currentFrame)
       throws NoSuchMethodException, SecurityException, IllegalAccessException,
       IllegalArgumentException, InvocationTargetException {
-    frameCount++;
+    notifyListenerIndex(0, "changeHealth", null, super.getHealth());
+    notifyListenerIndex(0, "changeLife", null, super.getLives());
+    framesSinceDamage++;
 
     String methodName = direction.toString().toLowerCase();
 
-    if (methodName.equals(Action.SHOOT)){
-      userActions.shoot(getPosition().getX(), getPosition().getY());
-      notifyListeners("newMovingDestroyable", null, getPosition());
+    if (direction.equals(Action.SHOOT)){
+      move(Action.NONE, elapsedTime, gameGravity);
+      if (userActions.shoot(getPosition().getX(), getPosition().getY(), currentFrame)) {
+        notifyListenerIndex(0, "newMovingDestroyable", null, getPosition().add(new Vector(getSize().getX()/2, 0)));
+      }
     } else {
       move(direction, elapsedTime, gameGravity);
     }
@@ -104,22 +107,6 @@ public class Player extends Destroyable {
   }
 
   /**
-   * Collision method for adding a new power up to the Player.
-   */
-  public void addPowerUp() {
-    // TODO add actual logic for adding a powerup
-    notifyListeners("powerUpChange", null, null); // TODO what does frontend need
-  }
-
-  /**
-   * Collision method for removing an expired power up from the Player.
-   */
-  public void removePowerUp() {
-    // TODO add actual logic for removing a power up
-    notifyListeners("powerUpChange", null, null); // TODO what does frontend need
-  }
-
-  /**
    * Increments health of player by given amount. Notifies listeners of change in health, and if
    * applicable, change in lives.
    *
@@ -127,19 +114,15 @@ public class Player extends Destroyable {
    */
   @Override
   public void incrementHealth(Double increment) {
-    int prevHealth = getHealth();
-    int prevLives = getLives();
-
-    if (canBeHurt(increment)) {
-      int j = 0;
-      frameCount = 0;
-      super.incrementHealth(increment);
-//    notifyListeners("playerHealth", prevHealth, getHealth());
-
-      if (getHealth() != prevLives) {
-//      notifyListeners("playerLives", prevLives, getLives());
-      }
+//    System.out.println("HEALTH BEFORE: " +health.getHealth());
+    if (increment < 0 && canBeHurt() || increment > 0) {
+      framesSinceDamage = 0;
+      health.incrementHealth(increment);
+//      System.out.println("HEALTH AFTER: " +health.getHealth());
+      notifyListenerIndex(0, "changeHealth", null, super.getHealth());
     }
+    checkReSpawn();
+
   }
 
   /**
@@ -149,16 +132,34 @@ public class Player extends Destroyable {
    */
   @Override
   public void incrementLives(Double increment) {
-    int prevLives = getLives();
+//    System.out.println("LIVES BEFORE: " +health.getLives());
+    if (increment < 0 && canBeHurt() || increment > 0) {
+      health.incrementLives(increment);
+//      System.out.println("LIVES AFTER: " +health.getLives());
+      notifyListenerIndex(0, "changeLife", null, super.getLives());
+    }
+    checkReSpawn();
 
-    if (canBeHurt(increment)) {
-      super.incrementLives(increment);
-//    notifyListeners("playerLives", prevLives, getLives());
+  }
+
+  /**
+   *
+   */
+  @Override
+  public void kill() {
+    super.kill();
+    checkReSpawn();
+  }
+
+  private void checkReSpawn() {
+    if(health.getLives()>0 && health.getHealth()<=0) {
+      rect.setPredictedPos(initialPosition);
+      health.loseLife();
     }
   }
 
-  private boolean canBeHurt(double value) {
-    return value < 0 && frameCount > invincibilityLimit;
+  private boolean canBeHurt() {
+    return framesSinceDamage > invincibilityLimit;
   }
 
   /**

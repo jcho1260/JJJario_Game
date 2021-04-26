@@ -35,13 +35,12 @@ public class GameWorld extends Observable implements Serializable {
   private List<MovingDestroyable> runtimeCreations;
   private WorldCollisionHandling worldCollisionHandling;
   private double score;
+  private int currentFrameCount;
   private Player player;
   private Vector windowSize;
   private Vector[] frameCoords;
   private Vector screenLimitsMin;
   private Vector screenLimitsMax;
-  private Vector playerViewCoord;
-  private boolean playerWin;
 
   private final double gravity;
   private final double stepTime;
@@ -61,7 +60,7 @@ public class GameWorld extends Observable implements Serializable {
     gravity = levelGravity;
     stepTime = 1.0/frameRate;
     score = 0;
-//    playerWin = false;
+    currentFrameCount = 0;
     screenLimitsMin = minScreenLimit;
     screenLimitsMax = maxScreenLimit;
     frameCoords = new Vector[4];
@@ -75,13 +74,12 @@ public class GameWorld extends Observable implements Serializable {
     windowSize = frameSize;
     double playerViewX = frameSize.getX() * playerXLoc;
     double playerViewY = frameSize.getY() * playerYLoc;
-    playerViewCoord = new Vector(playerViewX, playerViewY);
     runtimeCreations = new ArrayList<>();
   }
 
   public void stepFrame(Action pressEffect)
       throws NoSuchMethodException, JjjanException, InvocationTargetException, IllegalAccessException {
-    player.userStep(pressEffect, stepTime, gravity);  // use setPredicted
+    player.userStep(pressEffect, stepTime, gravity, currentFrameCount);  // use setPredicted
     allGameObjectStep(stepTime);  // use setPredicted
     collisionsDetectAndExecute();
     updatePositions();
@@ -91,6 +89,15 @@ public class GameWorld extends Observable implements Serializable {
     appendRuntimeCreations();
     updateAllActiveInfo();
     sendViewCoords();
+    currentFrameCount++;
+//    System.out.println(player.getPosition());
+  }
+
+  private void printAllDest(List<GameObject> obj) {
+    for(GameObject o : obj) {
+      System.out.print(o.getEntityType().get(o.getEntityType().size()-1) +" : "+o.getId() +", ");
+    }
+    System.out.println("");
   }
 
   private void collisionsDetectAndExecute()
@@ -143,7 +150,9 @@ public class GameWorld extends Observable implements Serializable {
   }
 
   public void queueNewMovingDestroyable(List<MovingDestroyable> newMovingDestroyables) {
-    runtimeCreations.addAll(newMovingDestroyables);
+    if (newMovingDestroyables.size() != 0 && newMovingDestroyables.get(0) != null){
+      runtimeCreations.addAll(newMovingDestroyables);
+    }
   }
 
   private void appendRuntimeCreations() {

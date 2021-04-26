@@ -35,6 +35,8 @@ public class Controller {
   private final CollisionsParser collisionsParser;
   private final double frameRate;
   private final ModelListener highscoreListener;
+  private final GameSaver gameSaver;
+  private final ExceptionView exceptionView;
   private LevelParser gameWorldFactory;
   private LevelNameParser levelNameParser;
   private GameWorld gameWorld;
@@ -44,11 +46,9 @@ public class Controller {
   private String activeProfile;
   private int currentLevel;
   private int totalLevels;
-  private final GameSaver gameSaver;
   private GameMaker gameMaker;
   private BuilderView builderView;
   private String currGame;
-  private final ExceptionView exceptionView;
 
   public Controller(double frameRate, ExceptionView exceptionView) {
     collisionsParser = new CollisionsParser();
@@ -132,6 +132,8 @@ public class Controller {
     highscoreListener.reset();
     keyListener.reset();
     gameView.propertyChange(new PropertyChangeEvent(this, "addScore", null, 0));
+    gameView.propertyChange(new PropertyChangeEvent(this, "addHealth", null, 0));
+    gameView.propertyChange(new PropertyChangeEvent(this, "addLife", null, 0));
 
     addSprites(gameWorld);
     gameView.startLevel();
@@ -311,6 +313,12 @@ public class Controller {
     List<MovingDestroyable> mdList = new ArrayList<>();
     mdList.add(md);
     gameWorld.queueNewMovingDestroyable(mdList);
+    String name = md.getEntityType().get(md.getEntityType().size() - 1);
+//    System.out.println("SENDING SPRITE UP TO FRONTEND");
+    Sprite s = new Sprite(gameView.getGameName(), name, md.getSize().getX(), md.getSize().getY(),
+        md.getPosition().getX(), md.getPosition().getY());
+    md.addListener(s);
+    gameView.propertyChange(new PropertyChangeEvent(this, "addSprite", null, s));
     addSprite(md);
   }
 
@@ -329,10 +337,15 @@ public class Controller {
     } else {
       try {
         gameWorld.stepFrame(keyListener.getCurrentKey());
+
         gameView.propertyChange(
             new PropertyChangeEvent(this, "changeScore", null, (int) highscoreListener.getScore()));
+        gameView.propertyChange(new PropertyChangeEvent(this, "changeHealth", null,
+            (int) highscoreListener.getHealth()));
+        gameView.propertyChange(
+            new PropertyChangeEvent(this, "changeLife", null, (int) highscoreListener.getLives()));
       } catch (Exception e) {
-        e.printStackTrace();
+        reportError(e);
       }
     }
   }

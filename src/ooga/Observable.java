@@ -39,8 +39,19 @@ public abstract class Observable {
    * @return
    */
   public void notifyListeners(String property, Object oldValue, Object newValue) {
-    for (PropertyChangeListener l : allListeners) {
-      l.propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
+    for (int i = 0; i < allListeners.size(); i++) {
+      notifyListenerIndex(i, property, oldValue, newValue);
     }
+  }
+
+  /**
+   * Notify added listener at index i of a change.
+   * @param index
+   * @param property
+   * @param oldValue
+   * @param newValue
+   */
+  public void notifyListenerIndex(int index, String property, Object oldValue, Object newValue) {
+    allListeners.get(index).propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
   }
 }

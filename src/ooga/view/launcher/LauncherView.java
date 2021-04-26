@@ -22,7 +22,7 @@ public class LauncherView {
       stage.setScene(scene);
       stage.show();
     } catch (Exception e) {
-      e.printStackTrace();
+      new ExceptionView().displayError(e);
     }
   }
 }

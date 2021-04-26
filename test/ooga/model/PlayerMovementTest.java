@@ -45,7 +45,7 @@ public class PlayerMovementTest {
   @Test
   void moveNone() {
     try {
-      user.userStep(Action.NONE, 1, 1);
+      user.userStep(Action.NONE, 1, 1, 0);
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
@@ -58,7 +58,7 @@ public class PlayerMovementTest {
   @Test
   void moveRight() {
     try {
-      user.userStep(Action.RIGHT, 1, 1);
+      user.userStep(Action.RIGHT, 1, 1, 0);
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
@@ -71,7 +71,7 @@ public class PlayerMovementTest {
   @Test
   void moveLeft() {
     try {
-      user.userStep(Action.LEFT, 1, 1);
+      user.userStep(Action.LEFT, 1, 1, 0);
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
@@ -84,16 +84,16 @@ public class PlayerMovementTest {
   @Test
   void moveUp() {
     try {
-      user.userStep(Action.UP, 1, 1);
+      user.userStep(Action.UP, 1, 1, 0);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
-      user.userStep(Action.NONE, 1, 1);
+      user.userStep(Action.NONE, 1, 1, 0);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -2)));
-      user.userStep(Action.NONE, 1, 1);
+      user.userStep(Action.NONE, 1, 1, 0);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
-      user.userStep(Action.NONE, 1, 1);
-      assertTrue(user.getPredictedPosition().equals(new Vector(0, 0)));
-      user.userStep(Action.NONE, 1, 1);
+      user.userStep(Action.NONE, 1, 1, 0);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, 1)));
+      user.userStep(Action.NONE, 1, 1, 0);
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, 4)));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
@@ -105,11 +105,11 @@ public class PlayerMovementTest {
   @Test
   void moveDown() {
     try {
-      user.userStep(Action.DOWN, 1, 1);
+      user.userStep(Action.DOWN, 1, 1, 0);
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
-    assertTrue(user.getPredictedPosition().equals(new Vector(0, 3)));
+    assertTrue(user.getPredictedPosition().equals(new Vector(0, 1)));
   }
 
   /**
@@ -118,20 +118,16 @@ public class PlayerMovementTest {
   @Test
   void moveUpContinuous() {
     try {
-      user.userStep(Action.UP, 1, 1);
+      user.userStep(Action.UP, 1, 1, 0);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
-      user.userStep(Action.UP, 1, 1);
+      user.userStep(Action.UP, 1, 1, 0);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -2)));
-      user.userStep(Action.UP, 1, 1);
+      user.userStep(Action.UP, 1, 1, 0);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -3)));
-      user.userStep(Action.UP, 1, 1);
-      assertTrue(user.getPredictedPosition().equals(new Vector(0, -2)));
-      user.userStep(Action.UP, 1, 1);
+      user.userStep(Action.UP, 1, 1, 0);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
-      user.userStep(Action.UP, 1, 1);
-      assertTrue(user.getPredictedPosition().equals(new Vector(0, 0)));
-      user.userStep(Action.UP, 1, 1);
-      assertTrue(user.getPredictedPosition().equals(new Vector(0, 1)));
+      user.userStep(Action.UP, 1, 1, 0);
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, 2)));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
@@ -144,20 +140,16 @@ public class PlayerMovementTest {
   @Test
   void moveUpRelease() {
     try {
-      user.userStep(Action.UP, 1, 1);
+      user.userStep(Action.UP, 1, 1, 0);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
-      user.userStep(Action.UP, 1, 1);
+      user.userStep(Action.UP, 1, 1, 0);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -2)));
-      user.userStep(Action.NONE, 1, 1);
+      user.userStep(Action.NONE, 1, 1, 0);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -3)));
-      user.userStep(Action.NONE, 1, 1);
-      assertTrue(user.getPredictedPosition().equals(new Vector(0, -2)));
-      user.userStep(Action.NONE, 1, 1);
+      user.userStep(Action.NONE, 1, 1, 0);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
-      user.userStep(Action.UP, 1, 1);
-      assertTrue(user.getPredictedPosition().equals(new Vector(0, 0)));
-      user.userStep(Action.UP, 1, 1);
-      assertTrue(user.getPredictedPosition().equals(new Vector(0, 1)));
+      user.userStep(Action.UP, 1, 1, 0);
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, 2)));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
@@ -169,17 +161,17 @@ public class PlayerMovementTest {
   @Test
   void moveUpFallUpAgain() {
     try {
-      user.userStep(Action.UP, 1, 1);
+      user.userStep(Action.UP, 1, 1, 0);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
-      user.userStep(Action.NONE, 1, 1);
+      user.userStep(Action.NONE, 1, 1, 0);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -2)));
-      user.userStep(Action.NONE, 1, 1);
+      user.userStep(Action.NONE, 1, 1, 0);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
-      user.userStep(Action.NONE, 1, 1);
-      assertTrue(user.getPredictedPosition().equals(new Vector(0, 0)));
+      user.userStep(Action.NONE, 1, 1, 0);
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, 1)));
       user.generalBottomCollision();
-      user.userStep(Action.UP, 1, 1);
-      assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
+      user.userStep(Action.UP, 1, 1, 0);
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, 0)));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
@@ -199,20 +191,19 @@ public class PlayerMovementTest {
     }
     assertNotNull(user);
     try {
-      user.userStep(Action.UP, 1, 1);
+      user.userStep(Action.UP, 1, 1, 0);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
-      user.userStep(Action.UP, 1, 1);
+      user.userStep(Action.UP, 1, 1, 0);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -2)));
-      user.userStep(Action.UP, 1, 1);
+      user.userStep(Action.UP, 1, 1, 0);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -3)));
-      user.userStep(Action.UP, 1, 1);
+      user.userStep(Action.UP, 1, 1, 0);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -4)));
-      user.userStep(Action.UP, 1, 1);
-      assertTrue(user.getPredictedPosition().equals(new Vector(0, -3)));
-      user.userStep(Action.UP, 1, 1);
+      user.userStep(Action.UP, 1, 1, 0);
       assertTrue(user.getPredictedPosition().equals(new Vector(0, -2)));
-      user.userStep(Action.UP, 1, 1);
-      assertTrue(user.getPredictedPosition().equals(new Vector(0, -1)));
+      user.userStep(Action.UP, 1, 1, 0);
+      System.out.println(user.getPredictedPosition());
+      assertTrue(user.getPredictedPosition().equals(new Vector(0, 1)));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }

@@ -21,12 +21,6 @@
     </GameObject>
     <GameObject>
       <Name>ScoreBlock</Name>
-      <Method>
-        <Name>incrementHealth</Name>
-        <Args>
-          <Arg>0</Arg>
-        </Args>
-      </Method>
     </GameObject>
     <GameObject>
       <Name>WinningBlock</Name>

@@ -97,11 +97,10 @@ public class LevelParser {
     String name = entity.getElementsByTagName("Name").item(0).getTextContent();
 
     Vector offset = getVectorAttribute(entity, "Offset");
-
+    Vector velocity = getVectorAttribute(entity, "Velocity");
     GameObjectInfo info = gameObjectMap.get(name);
-    return new MovingDestroyable(info.tags,
-        new Vector(pos.getX() + offset.getX(), pos.getY() + offset.getY()), id, info.size, 0, 1, 0,
-        new Vector(0, -1), new Vector(pos.getX(), 0), info.gravity, true);
+    return new MovingDestroyable(info.tags, pos.add(offset), id, info.size, 0, 1, 0, velocity,
+        new Vector(pos.getX(), 0), info.gravity, true);
   }
 
   public List<String> getTags(String name) {
@@ -136,8 +135,8 @@ public class LevelParser {
         int startLife = (int) getNumberAttribute(entity, "StartLife");
         int startHealth = (int) getNumberAttribute(entity, "StartHealth");
         boolean vis = getVisibility(entity);
-        return new Player(info.tags, coords, 0, size, startLife, startHealth, jumpTime, vel,
-            info.gravity, getDrivingVelocity(doc), jumpLimit, 2, vis, 1);
+        return new Player(info.tags, coords, 0, info.size, startLife, startHealth, jumpTime, vel,
+            info.gravity, getDrivingVelocity(doc), jumpLimit, 30, vis, 1);
       }
     }
     return null;
@@ -160,11 +159,11 @@ public class LevelParser {
     double jumpTime = getNumberAttribute(entity, "JumpTime");
     int jumpLimit = (int) getNumberAttribute(entity, "ContinuousJumpLimit");
     Vector size = getSize(entity, info);
-
+    int shootCoolDown = (int) getNumberAttribute(entity, "ShootCoolDown");
+    double invincibility = getNumberAttribute(entity, "InvincibilityLimit");
     boolean vis = getVisibility(entity);
-    // 2 is the cooldown
     return new Player(info.tags, pos, id, size, startLife, startHealth, jumpTime, vel, info.gravity,
-        getDrivingVelocity(doc), jumpLimit, 2, vis, 1);
+        getDrivingVelocity(doc), jumpLimit, shootCoolDown, vis, invincibility);
   }
 
   private MovingDestroyable createMovingDestroyable(Element entity, GameObjectInfo info, int id) {

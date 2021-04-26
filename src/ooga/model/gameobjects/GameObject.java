@@ -16,7 +16,7 @@ public class GameObject extends Observable implements Serializable {
   private List<String> entityTypes;
   private int id;
   private boolean isActive, isVisible;
-  private Rectangle rect;
+  protected Rectangle rect;
 
   /**
    * Default constructor

@@ -62,8 +62,7 @@ public class ProfileView {
         }
       }
     } catch (Exception exception) {
-      exception.printStackTrace();
-      new ViewFactoryException(exception.getMessage()).printStackTrace();
+      new ExceptionView().displayError(exception);;
     }
   }
 
@@ -126,7 +125,7 @@ public class ProfileView {
         try {
           controller.setActiveProfile(component.getText());
         } catch (IOException e) {
-          e.printStackTrace();
+          new ExceptionView().displayError(e);
         }
         component.setPromptText(component.getText());
       }

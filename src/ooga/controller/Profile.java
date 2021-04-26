@@ -18,9 +18,9 @@ import ooga.view.launcher.ProfileView;
 public class Profile implements Serializable, PropertyChangeListener {
 
   private final Map<KeyCode, Action> keybinds;
+  private final Map<String, Map<String, Integer>> highScores;
   private String name;
   private String picture;
-  private final Map<String, Map<String, Integer>> highScores;
 
   public Profile(String name) throws IOException {
     this.name = name;
@@ -64,8 +64,8 @@ public class Profile implements Serializable, PropertyChangeListener {
   }
 
   public void display(ProfileView pv) {
-    System.out.println("name: " + name);
-    System.out.println("hs: " + highScores);
+//    System.out.println("name: " + name);
+//    System.out.println("hs: " + highScores);
     pv.makeMenu(name, picture, keybinds, highScores);
   }
 
