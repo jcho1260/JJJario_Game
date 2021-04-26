@@ -36,7 +36,6 @@ public class Controller {
   private final double frameRate;
   private final ModelListener highscoreListener;
   private final GameSaver gameSaver;
-  private final ExceptionView exceptionView;
   private LevelParser gameWorldFactory;
   private LevelNameParser levelNameParser;
   private GameWorld gameWorld;
@@ -50,10 +49,9 @@ public class Controller {
   private BuilderView builderView;
   private String currGame;
 
-  public Controller(double frameRate, ExceptionView exceptionView) {
+  public Controller(double frameRate) {
     collisionsParser = new CollisionsParser();
     this.frameRate = frameRate;
-    this.exceptionView = exceptionView;
     try {
       keyListener = new KeyListener(new Profile("default").getKeybinds());
     } catch (Exception e) {
@@ -387,6 +385,6 @@ public class Controller {
   }
 
   private void reportError(Exception e) {
-    exceptionView.displayError(e);
+    new ExceptionView().displayError(e);
   }
 }

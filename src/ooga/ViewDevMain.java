@@ -22,6 +22,6 @@ public class ViewDevMain extends Application {
 
   @Override
   public void start(Stage primaryStage) {
-    new LauncherView(primaryStage).start(new Controller(30, new ExceptionView()));
+    new LauncherView(primaryStage).start(new Controller(30));
   }
 }
