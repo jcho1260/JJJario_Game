@@ -3,24 +3,46 @@ package ooga.view;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.stream.Collectors;
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
+import javafx.css.Stylesheet;
+import javafx.event.ActionEvent;
+import javafx.geometry.Point2D;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import ooga.Observable;
 import ooga.controller.Controller;
 import ooga.model.util.Vector;
 import ooga.util.DukeApplicationTest;
 import ooga.view.launcher.ExceptionView;
 import ooga.view.launcher.LauncherView;
 import org.junit.jupiter.api.Test;
+import org.testfx.service.query.PointQuery;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -134,6 +156,16 @@ class LauncherTest extends DukeApplicationTest {
     assertNotNull(lookup("#JJJarioLevelView").query());
   }
 
+  @Test
+  void JJJarioUserLevelButton() {
+    JJJarioGameButton();
+    Button levelLibrary = lookup("#LoadLibraryButton").query();
+    clickOn(levelLibrary);
+    assertNotNull(lookup("#LoadLibraryVBox").query());
+    clickOn(lookup("#Level1Button").query());
+    assertNotNull(lookup("#Player").query());
+  }
+
   /**
    * Test to see if the user can open the JJJario Level 1
    */
@@ -142,11 +174,18 @@ class LauncherTest extends DukeApplicationTest {
     JJJarioLevel1Button();
     assertNotNull(lookup("#Player").query());
     ImageView playerImg = lookup("#Player").query();
-    double prevX = playerImg.getX();
+    double prevX = playerImg.getLayoutX();
     press(KeyCode.D);
-    double currX = playerImg.getX();
+    double currX = playerImg.getLayoutX();
     assertNotEquals(prevX, currX);
     controller.endGame();
+  }
+
+  @Test
+  void InternalGameMenuTest() {
+    JJJarioLevel1Button();
+    press(KeyCode.ESCAPE);
+    press(KeyCode.ESCAPE);
   }
 
   @Test
@@ -161,9 +200,28 @@ class LauncherTest extends DukeApplicationTest {
     clickOn(pfButton);
     TextField tf = lookup("#UsernameInputBox").query();
     assertNotNull(tf);
+    tf.setText("test");
     clickOn(tf);
-    type(KeyCode.T, KeyCode.E, KeyCode.S, KeyCode.T, KeyCode.ENTER);
+    type(KeyCode.ENTER);
     assertNotNull(lookup("#ProfileMenuVBox1").query());
+  }
+
+  @Test
+  void FailedProfileLoginTest() {
+    try {
+      controller.setActiveProfile("");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    Button pfButton = lookup("#ProfileButton").query();
+    assertNotNull(pfButton);
+    clickOn(pfButton);
+    TextField tf = lookup("#UsernameInputBox").query();
+    assertNotNull(tf);
+    clickOn(tf);
+    type(KeyCode.ENTER);
+    Node errorPane = lookup(".dialog-pane").query();
+    assertNotNull(errorPane);
   }
 
   @Test
@@ -174,5 +232,127 @@ class LauncherTest extends DukeApplicationTest {
     clickOn(upMenu);
     type(KeyCode.Q);
     assertEquals("Q", upMenu.getPromptText());
+    TextField usernameMenu = lookup("#UsernameMenuInput").query();
+    assertNotNull(usernameMenu);
+    usernameMenu.setText("test");
+    clickOn(usernameMenu);
+    type(KeyCode.ENTER);
+    assertEquals("test", usernameMenu.getPromptText().toLowerCase());
+  }
+
+  @Test
+  void ProfileFailedEditTest() {
+    ProfileLoginTest();
+    TextField usernameMenu = lookup("#UsernameMenuInput").query();
+    assertNotNull(usernameMenu);
+    clickOn(usernameMenu);
+    type(KeyCode.ENTER);
+    Node warningPane = lookup(".dialog-pane").query();
+    assertNotNull(warningPane);
+  }
+
+  @Test
+  void ProfileHighScoreTest() {
+    ProfileLoginTest();
+    assertTrue(((Pane) lookup("#JJJarioHighScores").query()).getChildren().size() > 1);
+    assertTrue(((Pane) lookup("#FlappyBirdHighScores").query()).getChildren().size() == 1);
+  }
+
+  @Test
+  void BuilderStartScreenTest() {
+    assertNotNull(lookup("#StageBuilderButton").query());
+    Button gameLibraryButton = lookup("#StageBuilderButton").query();
+    clickOn(gameLibraryButton);
+    assertNotNull(lookup("#StageBuilderInfoVBox").query());
+  }
+
+  @Test
+  void BuilderFailedStartScreen() {
+    BuilderStartScreenTest();
+    assertNotNull(lookup("#StartBuilderButton").query());
+    Button startBuilderButton = lookup("#StartBuilderButton").query();
+    clickOn(startBuilderButton);
+    Node errorPane = lookup(".dialog-pane").query();
+    assertNotNull(errorPane);
+  }
+
+  @Test
+  void BuilderCorrectStartScreen() {
+    BuilderStartScreenTest();
+
+    ((TextField) lookup("#GameNameInput").query()).setText("JJJario");
+    ((TextField) lookup("#LevelNameInput").query()).setText("testlevel");
+    ((TextField) lookup("#ViewWidthInput").query()).setText("500");
+    ((TextField) lookup("#ViewHeightInput").query()).setText("500");
+    ((TextField) lookup("#LevelWidthInput").query()).setText("500");
+    ((TextField) lookup("#LevelHeightInput").query()).setText("500");
+
+    assertNotNull(lookup("#StartBuilderButton").query());
+    Button startBuilderButton = lookup("#StartBuilderButton").query();
+    clickOn(startBuilderButton);
+    assertNotNull(lookup("#BuilderVBox").query());
+  }
+
+  @Test
+  void BuilderContextMenuTest() {
+    BuilderCorrectStartScreen();
+
+    clickOn("#BuilderScrollable", MouseButton.SECONDARY);
+  }
+
+  @Test
+  void BuilderSpriteBasicDisplay() {
+    BuilderCorrectStartScreen();
+    Platform.runLater(() -> {
+      clickOn("#BuilderScrollable");
+      controller.displayBuilderSprite("Player",new Vector(50,50), new Vector(50,50));
+      ImageView playerImage = lookup("#Player").query();
+      assertEquals(50, playerImage.getFitHeight());
+      assertEquals(50, playerImage.getFitWidth());
+      assertEquals(50, playerImage.getLayoutX());
+      assertEquals(50, playerImage.getLayoutY());
+    });
+  }
+
+  @Test
+  void ChangeColorTest() {
+    assertNotNull(lookup("#SettingsButton").query());
+    Button gameLibraryButton = lookup("#SettingsButton").query();
+    clickOn(gameLibraryButton);
+    assertNotNull(lookup("#ProfileSettingsVBox1").query());
+    ObservableList<String> prevSh = gameLibraryButton.getScene().getStylesheets();
+    clickOn("#ColorThemeSelector").moveBy(0, 100).clickOn(MouseButton.PRIMARY);
+    ObservableList<String> currSh = gameLibraryButton.getScene().getStylesheets();
+  }
+
+  @Test
+  void MakeNewProfile() {
+    try {
+      controller.setActiveProfile("");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    Button pfButton = lookup("#ProfileButton").query();
+    assertNotNull(pfButton);
+    clickOn(pfButton);
+    TextField tf = lookup("#UsernameInputBox").query();
+    assertNotNull(tf);
+    tf.setText("do_not_commit");
+    clickOn(tf);
+    type(KeyCode.ENTER);
+    assertNotNull(lookup("#ProfileMenuVBox1").query());
+  }
+
+  @Test
+  void LogoutProfile() {
+    ProfileLoginTest();
+    Button loginButton = lookup("#LogoutButton").query();
+    assertNotNull(loginButton);
+    clickOn(loginButton);
+    Button pfButton = lookup("#ProfileButton").query();
+    assertNotNull(pfButton);
+    clickOn(pfButton);
+    TextField tf = lookup("#UsernameInputBox").query();
+    assertNotNull(tf);
   }
 }

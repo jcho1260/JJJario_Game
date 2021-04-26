@@ -1,5 +1,5 @@
 <?xml version = "1.0" ?>
-<HBox id="StageBuilderInfoVBox" type="Pane" style="view_resources/launcher/builder/css/ObjectMakerHBox.css">
+<HBox id="ObjectMakerPane" type="Pane" style="view_resources/launcher/builder/css/ObjectMakerHBox.css">
   <VBox id="StageBuilderInfoVBox" type="Pane" style="view_resources/launcher/builder/css/ObjectMakerVBox.css">
     <Button id="MakeObjectButton" type="Leaf">
       <Text>Make Player!</Text>

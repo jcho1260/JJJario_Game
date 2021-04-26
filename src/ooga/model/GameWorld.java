@@ -318,5 +318,9 @@ public class GameWorld extends Observable implements Serializable {
     notifyListenerKey("highscore", "score", prevScore, score);
   }
 
-
+  public void addPlayerListener() {
+    PropertyChangeListener playerListener = evt -> notifyListenerKey("highscore", evt.getPropertyName(), null,
+        evt.getNewValue());
+    player.addListener("gameworld", playerListener);
+  }
 }

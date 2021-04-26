@@ -24,7 +24,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import ooga.controller.Controller;
 import ooga.model.util.Action;
 import ooga.view.factories.ParentComponentFactory;
-import ooga.view.factories.ViewFactoryException;
 import org.w3c.dom.Document;
 
 public class ProfileView {
@@ -62,7 +61,7 @@ public class ProfileView {
         }
       }
     } catch (Exception exception) {
-      new ExceptionView().displayError(exception);;
+      new ExceptionView().displayError(exception);
     }
   }
 
@@ -77,7 +76,7 @@ public class ProfileView {
 
   private void makeHighScores(String game, String level, Integer score) {
     ((Pane) ((ScrollPane) currMenu.lookup("#HighScoreScrollPane")).getContent()
-        .lookup("#JJJarioHighScores")).getChildren()
+        .lookup("#"+game + "HighScores")).getChildren()
         .add(new Text(level.replaceAll("([A-Za-z])(\\d)", "$1 $2") + ": " + score));
   }
 
@@ -121,6 +120,10 @@ public class ProfileView {
   private EventHandler<KeyEvent> makePCLHandler(TextField component, String label) {
     return event -> {
       if (event.getCode() == KeyCode.ENTER) {
+        if (component.getText().length() == 0) {
+          new ExceptionView().displayWarning("Invalid Input","Please provide a non-empty username");
+          return;
+        }
         pcl.propertyChange(new PropertyChangeEvent(this, "set" + label, null, component.getText()));
         try {
           controller.setActiveProfile(component.getText());

@@ -36,6 +36,7 @@ public class Sprite implements PropertyChangeListener {
     try {
       new Statement(this, mName, mArgs).execute();
     } catch (Exception e) {
+      e.printStackTrace();
       new ExceptionView().displayError(e);
     }
   }
@@ -57,10 +58,10 @@ public class Sprite implements PropertyChangeListener {
   }
 
   public void changeX(Double x) {
-    imageView.setX(x);
+    imageView.setLayoutX(x);
   }
 
   public void changeY(Double y) {
-    imageView.setY(y);
+    imageView.setLayoutY(y);
   }
 }

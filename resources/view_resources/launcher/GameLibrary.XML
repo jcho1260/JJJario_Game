@@ -52,10 +52,6 @@
           <Path>resources/view_resources/game/Menu.XML</Path>
         </Event>
       </Button>
-      <Button id="Game4Button" type="Leaf">
-        <Text>Game 4</Text>
-        <!--<Action>TODO</Action>-->
-      </Button>
     </HBox>
   </VBox>
 </ScrollPane>
