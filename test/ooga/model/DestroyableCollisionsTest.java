@@ -30,6 +30,27 @@ public class DestroyableCollisionsTest {
   }
 
   @Test
+  void incrementHealthWrongParamTest() {
+    Destroyable d = createDestroyable();
+    double[] params = new double[2];
+    params[0] = 1;
+    params[1] = 1;
+    List<MethodBundle> methods = new ArrayList<>();
+    try {
+      MethodBundle incHealth = createMethodBundle("incrementHealth", params);
+      methods.add(incHealth);
+      d.addCollision(methods);
+      d.executeCollisions();
+    } catch (NoSuchMethodException e) {
+      assertEquals(true, true);
+    } catch (IllegalAccessException e) {
+      assertEquals(true, true);
+    } catch (InvocationTargetException e) {
+      assertEquals(true, true);
+    }
+  }
+
+  @Test
   void incrementHealthToKillTest()
       throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     Destroyable d = createDestroyable();
@@ -43,6 +64,27 @@ public class DestroyableCollisionsTest {
     Method healthCheck = Destroyable.class.getDeclaredMethod("getHealth");
     healthCheck.setAccessible(true);
     assertEquals(1, (double) healthCheck.invoke(d));
+  }
+
+  @Test
+  void incrementLivesWrongParamTest() {
+    Destroyable d = createDestroyable();
+    double[] params = new double[2];
+    params[0] = 1;
+    params[1] = 1;
+    List<MethodBundle> methods = new ArrayList<>();
+    try {
+      MethodBundle incHealth = createMethodBundle("incrementLives", params);
+      methods.add(incHealth);
+      d.addCollision(methods);
+      d.executeCollisions();
+    } catch (NoSuchMethodException e) {
+      assertEquals(true, true);
+    } catch (IllegalAccessException e) {
+      assertEquals(true, true);
+    } catch (InvocationTargetException e) {
+      assertEquals(true, true);
+    }
   }
 
   @Test

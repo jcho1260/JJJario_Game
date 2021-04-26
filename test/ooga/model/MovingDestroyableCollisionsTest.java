@@ -13,25 +13,25 @@ public class MovingDestroyableCollisionsTest {
 
 
   @Test
-  void testGetVelocity() throws ClassNotFoundException {
+  void testGetVelocity(){
     MovingDestroyable p = createMovingDestroyable();
     assertEquals(new Vector(50, 0), p.getVelocity());
   }
 
   @Test
-  void testScaleVelocity() throws ClassNotFoundException {
+  void testScaleVelocity(){
     MovingDestroyable p = createMovingDestroyable();
     p.scaleVelocity(2.0, 3.0);
     assertEquals(new Vector(100, 0), p.getVelocity());
   }
 
   @Test
-  void testCreateMovingDestroyable() throws ClassNotFoundException {
+  void testCreateMovingDestroyable(){
     MovingDestroyable p = createMovingDestroyable();
     assertNotNull(p);
   }
 
-  private MovingDestroyable createMovingDestroyable() throws ClassNotFoundException {
+  private MovingDestroyable createMovingDestroyable(){
     List<String> tags = new ArrayList<>();
     tags.add("GameObject");
     tags.add("MovingDestroyable");
