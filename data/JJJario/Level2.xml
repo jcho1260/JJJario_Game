@@ -173,12 +173,12 @@
         <x>250</x>
         <y>250</y>
       </Velocity>
-      <StartLife>3</StartLife>
+      <StartLife>1</StartLife>
       <JumpTime>0.75</JumpTime>
       <ContinuousJumpLimit>1</ContinuousJumpLimit>
       <ShootCoolDown>30</ShootCoolDown>
       <InvincibilityLimit>5</InvincibilityLimit>
-      <StartHealth>2</StartHealth>
+      <StartHealth>1</StartHealth>
     </Entity>
     <Entity>
       <Name>Block</Name>
