@@ -41,7 +41,7 @@ public class BuilderView {
     this.colors = colors;
   }
 
-  public void startBuilder(Element e, String game, String levelName, Vector frameSize,
+  public void startBuilder(Stage stage, Element e, String game, String levelName, Vector frameSize,
       Vector levelSize)
       throws ViewFactoryException {
     this.game = game;
@@ -63,7 +63,7 @@ public class BuilderView {
     sp.setContextMenu(makeObjectTypeMenu());
     p.getChildren().add(builderPane);
 
-    Stage builderStage = new Stage();
+    Stage builderStage = stage;
     builderStage.setTitle("Stage Builder");
     Scene temp = new Scene(sp);
     builderStage.setScene(temp);
@@ -149,6 +149,7 @@ public class BuilderView {
   private void undoLastGameObject() {
     if (!spriteCache.isEmpty()) {
       builderPane.getChildren().remove(spriteCache.get(spriteCache.size()-1));
+      controller.undoGameMaker();
     }
   }
 }

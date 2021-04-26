@@ -47,6 +47,7 @@ public class HandlerFactory {
         Method m = HandlerFactory.class.getDeclaredMethod(eventType, Node.class, Element.class);
         m.invoke(this, component, e);
       } catch (Exception exception) {
+        exception.printStackTrace();
         new ExceptionView().displayError(exception);
       }
     };
@@ -222,6 +223,7 @@ public class HandlerFactory {
           doubleFromTextField(p, "#LevelWidthInput"),
           doubleFromTextField(p, "#LevelHeightInput"));
       new BuilderView(controller, pcf, component.getScene().getStylesheets().get(0)).startBuilder(
+          new Stage(),
           (Element) e.getElementsByTagName("FilePath").item(0),
           stringFromTextField(p, "#GameNameInput"),
           stringFromTextField(p, "#LevelNameInput"),
@@ -285,7 +287,7 @@ public class HandlerFactory {
           Method m = HandlerFactory.class
               .getDeclaredMethod(argClass.toLowerCase() + "FromTextField", Node.class,
                   String.class);
-          Object o = m.invoke(this, component.getScene().lookup("#StageBuilderInfoVBox"),
+          Object o = m.invoke(this, component.getScene().lookup("#ObjectMakerPane"),
               "#" + name + "Input");
           if (name.equals("Position")) {
             pos = (Vector) o;
@@ -312,10 +314,10 @@ public class HandlerFactory {
   private void makePlayer(Node component, Element e) {
     try {
       Vector pos = vectorFromTextField(
-          component.getScene().lookup("#StageBuilderInfoVBox"),
+          component.getScene().lookup("#ObjectMakerPane"),
           "#PositionInput");
       Vector size = vectorFromTextField(
-          component.getScene().lookup("#StageBuilderInfoVBox"),
+          component.getScene().lookup("#ObjectMakerPane"),
           "#SizeInput");
       controller.setGameMakerPlayer(pos, size);
       controller.displayBuilderSprite("Player", pos, size);

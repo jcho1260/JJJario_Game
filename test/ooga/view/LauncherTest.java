@@ -10,10 +10,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.stream.Collectors;
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
+import javafx.css.Stylesheet;
 import javafx.event.ActionEvent;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -21,18 +26,21 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import ooga.Observable;
 import ooga.controller.Controller;
 import ooga.model.util.Vector;
 import ooga.util.DukeApplicationTest;
 import ooga.view.launcher.ExceptionView;
 import ooga.view.launcher.LauncherView;
 import org.junit.jupiter.api.Test;
+import org.testfx.service.query.PointQuery;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -164,6 +172,13 @@ class LauncherTest extends DukeApplicationTest {
   }
 
   @Test
+  void InternalGameMenuTest() {
+    JJJarioLevel1Button();
+    press(KeyCode.ESCAPE);
+    press(KeyCode.ESCAPE);
+  }
+
+  @Test
   void ProfileLoginTest() {
     try {
       controller.setActiveProfile("");
@@ -269,23 +284,20 @@ class LauncherTest extends DukeApplicationTest {
   }
 
   @Test
-  void BuilderAddPlayer() {
+  void BuilderContextMenuTest() {
     BuilderCorrectStartScreen();
 
-    clickOn("#BuilderVBox", MouseButton.SECONDARY);
-//    ContextMenu cm = ((ScrollPane) lookup("#BuilderScrollable").query()).getContextMenu();
-//    MenuItem player = cm.getItems().stream().filter(menuItem -> menuItem.getText().equals("Mario")).collect(
-//        Collectors.toCollection(ArrayList::new)).get(0);
-//    player.getOnAction().handle(new ActionEvent());
-    clickOn("#PlayerMenuItem");
-    ((TextField) lookup("#PositionInput").query()).setText("50,50");
-    ((TextField) lookup("#SizeInput").query()).setText("50,50");
-    ((Button) lookup("#MakeObjectButton").query()).fire();
-    ImageView playerImage = lookup("#Player").query();
-    assertNotNull(playerImage);
-    assertEquals(50, playerImage.getLayoutX());
-    assertEquals(50, playerImage.getLayoutY());
-    assertEquals(50, playerImage.getFitHeight());
-    assertEquals(50, playerImage.getFitWidth());
+    clickOn("#BuilderScrollable", MouseButton.SECONDARY);
+  }
+
+  @Test
+  void ChangeColorTest() {
+    assertNotNull(lookup("#SettingsButton").query());
+    Button gameLibraryButton = lookup("#SettingsButton").query();
+    clickOn(gameLibraryButton);
+    assertNotNull(lookup("#ProfileSettingsVBox1").query());
+    ObservableList<String> prevSh = gameLibraryButton.getScene().getStylesheets();
+    clickOn("#ColorThemeSelector").moveBy(0, 100).clickOn(MouseButton.PRIMARY);
+    ObservableList<String> currSh = gameLibraryButton.getScene().getStylesheets();
   }
 }

@@ -160,10 +160,6 @@ public class GameView implements PropertyChangeListener {
     return this.gameName;
   }
 
-  private void addStandardLevels() {
-
-  }
-
   private EventHandler<KeyEvent> makeKeyActionRelease() {
     return event -> kl.propertyChange(new PropertyChangeEvent(this, "currKey", null, event));
   }
