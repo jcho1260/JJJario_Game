@@ -49,7 +49,7 @@ public class AutomatedMovement implements Serializable {
 
     double newX = position.getX() + (elapsedTime * velocity.getX());
     double newY = position.getY() + (elapsedTime * velocity.getY())
-        + (elapsedTime * gameGravity * gravityScale); // up = -, down = +
+        + (elapsedTime * gameGravity * gravityScale);
 
     return new Vector(newX, newY);
   }

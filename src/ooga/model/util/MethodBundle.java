@@ -31,7 +31,7 @@ public class MethodBundle implements Serializable {
   public Double[] getParameters() {
     Double[] d = new Double[parameters.length];
     for (int i = 0; i < parameters.length; i++) {
-      d[i] = (Double) parameters[i];
+      d[i] = parameters[i];
     }
     return d;
   }

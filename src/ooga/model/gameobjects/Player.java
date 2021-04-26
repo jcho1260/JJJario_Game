@@ -52,9 +52,6 @@ public class Player extends Destroyable {
     notifyListenerKey("gameworld", "changeHealth", null, super.getHealth());
     notifyListenerKey("gameworld", "changeLife", null, super.getLives());
     framesSinceDamage++;
-
-    String methodName = direction.toString().toLowerCase();
-
     if (direction.equals(Action.SHOOT)){
       move(Action.NONE, elapsedTime, gameGravity);
       if (userActions.shoot(getPosition().getX(), getPosition().getY(), currentFrame)) {
