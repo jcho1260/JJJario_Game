@@ -3,7 +3,11 @@ package ooga.controller;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.Statement;
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.input.KeyCode;
@@ -13,10 +17,10 @@ import ooga.view.launcher.ProfileView;
 
 public class Profile implements Serializable, PropertyChangeListener {
 
+  private final Map<KeyCode, Action> keybinds;
   private String name;
   private String picture;
-  private final Map<KeyCode, Action> keybinds;
-  private Map<String, Map<String, Integer>> highScores;
+  private final Map<String, Map<String, Integer>> highScores;
 
   public Profile(String name) throws IOException {
     this.name = name;
@@ -70,7 +74,8 @@ public class Profile implements Serializable, PropertyChangeListener {
     if (evt.getPropertyName().equals("mapUpdated")) {
       try {
         save();
-      } catch (IOException ignored) {}
+      } catch (IOException ignored) {
+      }
       return;
     }
     String method = evt.getPropertyName();
@@ -78,7 +83,8 @@ public class Profile implements Serializable, PropertyChangeListener {
     try {
       new Statement(this, method, args).execute();
       save();
-    } catch (Exception ignored) {}
+    } catch (Exception ignored) {
+    }
   }
 
   private void save() throws IOException {

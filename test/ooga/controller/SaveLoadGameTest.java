@@ -9,7 +9,6 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import ooga.JjjanException;
 import ooga.model.GameWorld;
-import ooga.model.util.Vector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
