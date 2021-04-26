@@ -1,6 +1,5 @@
 package ooga.controller;
 
-import java.util.Arrays;
 import ooga.model.gameobjects.GameObject;
 
 public class GameObjectMaker {

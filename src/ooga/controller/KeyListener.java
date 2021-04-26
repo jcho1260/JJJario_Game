@@ -11,8 +11,8 @@ import ooga.model.util.Action;
 
 public class KeyListener implements PropertyChangeListener {
 
-  private Action current;
   private final Map<KeyCode, Action> keybinds;
+  private Action current;
 
   public KeyListener(Map<KeyCode, Action> keybinds) {
     current = Action.NONE;
@@ -32,7 +32,7 @@ public class KeyListener implements PropertyChangeListener {
 
     if (event == KeyEvent.KEY_PRESSED && isValid(code)) {
       current = getKey(code);
-    } else if (event == KeyEvent.KEY_RELEASED && getKey(code) == current &&isValid(code)) {
+    } else if (event == KeyEvent.KEY_RELEASED && getKey(code) == current && isValid(code)) {
       current = Action.NONE;
     }
   }

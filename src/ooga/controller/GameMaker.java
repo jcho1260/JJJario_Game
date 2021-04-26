@@ -10,7 +10,6 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import javafx.util.Pair;
 import javax.xml.parsers.ParserConfigurationException;
 import ooga.model.GameWorld;
@@ -23,8 +22,8 @@ import org.xml.sax.SAXException;
 
 public class GameMaker {
 
-  private List<GameObjectMaker> gameObjectMakerList;
-  private String game;
+  private final List<GameObjectMaker> gameObjectMakerList;
+  private final String game;
   private Player player;
   private int numObjects = 1;
 
@@ -66,7 +65,7 @@ public class GameMaker {
   }
 
   public void removeGameObjectMaker() {
-    gameObjectMakerList.remove(gameObjectMakerList.size()-1);
+    gameObjectMakerList.remove(gameObjectMakerList.size() - 1);
   }
 
   public void saveGame(String name, GameWorld gameWorld) throws IOException {
@@ -84,14 +83,16 @@ public class GameMaker {
     return (GameWorld) s.readObject();
   }
 
-  public GameWorld makeGameWorld(String gameName, Vector frameSize, double frameRate, Vector minScreen, Vector maxScreen)
+  public GameWorld makeGameWorld(String gameName, Vector frameSize, double frameRate,
+      Vector minScreen, Vector maxScreen)
       throws IOException, SAXException, ParserConfigurationException, GameObjectMakerException {
 
     CollisionsParser collisionsParser = new CollisionsParser();
-    Map<String, Map<String, List<MethodBundle>>> collisions = collisionsParser.parseCollisions(new File("data/" + gameName + "/collisions.xml"));
+    Map<String, Map<String, List<MethodBundle>>> collisions = collisionsParser
+        .parseCollisions(new File("data/" + gameName + "/collisions.xml"));
 
     List<GameObject> gameObjects = new ArrayList<>();
-    List<GameObject> actors = new ArrayList<>();;
+    List<GameObject> actors = new ArrayList<>();
 
     for (GameObjectMaker gameObjectMaker : gameObjectMakerList) {
       GameObject gameObject = gameObjectMaker.createGameObject();
@@ -107,6 +108,7 @@ public class GameMaker {
     }
 
     LevelParser levelParser = new LevelParser(new File("data/" + gameName + "/Level1.xml"));
-    return new GameWorld(player, collisions, gameObjects, actors, frameSize, 3, levelParser.getGlobalGravity(), frameRate, minScreen, maxScreen);
+    return new GameWorld(player, collisions, gameObjects, actors, frameSize, 3,
+        levelParser.getGlobalGravity(), frameRate, minScreen, maxScreen);
   }
 }

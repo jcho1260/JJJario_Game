@@ -24,16 +24,19 @@ public class CollisionsParser {
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
     DocumentBuilder db = dbf.newDocumentBuilder();
     Document doc = db.parse(file);
-    NodeList actors = ((Element) doc.getElementsByTagName("Collisions").item(0).getChildNodes()).getElementsByTagName("Actor");
+    NodeList actors = ((Element) doc.getElementsByTagName("Collisions").item(0).getChildNodes())
+        .getElementsByTagName("Actor");
 
     Map<String, Map<String, List<MethodBundle>>> collisions = new HashMap<>();
     for (int i = 0; i < actors.getLength(); i++) {
-      String name = ((Element) actors.item(i)).getElementsByTagName("Name").item(0).getTextContent();
+      String name = ((Element) actors.item(i)).getElementsByTagName("Name").item(0)
+          .getTextContent();
       collisions.put(name, new HashMap<>());
 
       NodeList gameObjects = ((Element) actors.item(i)).getElementsByTagName("GameObject");
-      for(int j = 0; j < gameObjects.getLength(); j++) {
-        String objName = ((Element) gameObjects.item(j)).getElementsByTagName("Name").item(0).getTextContent();
+      for (int j = 0; j < gameObjects.getLength(); j++) {
+        String objName = ((Element) gameObjects.item(j)).getElementsByTagName("Name").item(0)
+            .getTextContent();
         List<MethodBundle> methods = getMethods(gameObjects.item(j));
         collisions.get(name).put(objName, methods);
       }
@@ -50,7 +53,8 @@ public class CollisionsParser {
       Element methodNode = (Element) methodNodes.item(i);
       String name = methodNode.getElementsByTagName("Name").item(0).getTextContent();
 
-      NodeList arguments = ((Element) methodNode.getElementsByTagName("Args").item(0)).getElementsByTagName("Arg");
+      NodeList arguments = ((Element) methodNode.getElementsByTagName("Args").item(0))
+          .getElementsByTagName("Arg");
       double[] args = new double[arguments.getLength()];
       for (int j = 0; j < arguments.getLength(); j++) {
         args[j] = Double.parseDouble(arguments.item(j).getTextContent());
