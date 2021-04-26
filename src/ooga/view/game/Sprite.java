@@ -36,6 +36,7 @@ public class Sprite implements PropertyChangeListener {
     try {
       new Statement(this, mName, mArgs).execute();
     } catch (Exception e) {
+      e.printStackTrace();
       new ExceptionView().displayError(e);
     }
   }
