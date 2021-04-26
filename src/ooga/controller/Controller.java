@@ -150,6 +150,10 @@ public class Controller {
     gameMaker = new GameMaker(game);
   }
 
+  public void undoGameMaker() {
+    gameMaker.removeGameObjectMaker();
+  }
+
   public void addObjectToGameMaker(GameObjectMaker gom) {
     gameMaker.addGameObjectMaker(gom);
   }
