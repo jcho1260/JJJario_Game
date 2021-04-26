@@ -9,30 +9,31 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.KeyListener;
-import ooga.controller.ScoreListener;
 import ooga.view.factories.SceneFactory;
+import ooga.view.launcher.ExceptionView;
 
 public class GameView implements PropertyChangeListener {
 
+  private final Controller controller;
   private final Stage stage;
   private final String gameName;
   private final KeyListener kl;
   private final SceneFactory sf;
   private final String colorTheme;
+  private Scene menuScene;
   private Scene currScene;
+  private Scene cachedScene;
+  private boolean inGameMenu = false;
 
-  public GameView(String gameName, Stage stage, KeyListener kl, Controller controller, String colorTheme) {
+  public GameView(String gameName, Stage stage, KeyListener kl, Controller controller,
+      String colorTheme) {
+    this.controller = controller;
     this.colorTheme = colorTheme;
     this.stage = stage;
     this.gameName = gameName;
@@ -44,32 +45,44 @@ public class GameView implements PropertyChangeListener {
 
   public void start(String filePath) {
     try {
-      currScene = sf.make(filePath);
-      currScene.setOnKeyPressed(makeKeyAction());
-      currScene.setOnKeyReleased(makeKeyAction());
-      currScene.getStylesheets().add(colorTheme);
+      menuScene = sf.make(filePath);
+      menuScene.getStylesheets().add(colorTheme);
+      ((ImageView) menuScene.lookup("#Logo")).setImage(
+          new Image(
+              Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+                  "view_resources/images/logo/"+gameName+"Logo.png"))));
       stage.setTitle(gameName);
-      stage.setScene(currScene);
+      stage.setScene(menuScene);
+      currScene = menuScene;
+      stage.setResizable(false);
       stage.show();
     } catch (Exception e) {
-      e.printStackTrace();
+      new ExceptionView().displayError(e);
     }
+  }
+
+  public void displayMenu() {
+    currScene = menuScene;
+    stage.setScene(menuScene);
+    stage.show();
   }
 
   public void initializeLevel(double w, double h, String imagePath) {
     Group g = new Group();
+    g.getStylesheets().add("view_resources/game/css/ScoreText.css");
     g.setId(gameName + "LevelView");
     Scene newScene = new Scene(g, w, h);
-    newScene.setOnKeyPressed(makeKeyAction());
-    newScene.setOnKeyReleased(makeKeyAction());
-    ImageView bi = new ImageView(
+    newScene.setOnKeyPressed(makeKeyActionPress());
+    newScene.setOnKeyReleased(makeKeyActionRelease());
+    ImageView background = new ImageView(
         new Image(Objects.requireNonNull(
             getClass().getClassLoader().getResourceAsStream(imagePath))));
-    bi.setX(0);
-    bi.setY(0);
-    bi.setPreserveRatio(true);
-    bi.setFitHeight(h);
-    g.getChildren().add(bi);
+    background.setX(0);
+    background.setY(0);
+//    background.setPreserveRatio(true);
+    background.setFitWidth(w);
+    background.setFitHeight(h);
+    g.getChildren().add(background);
     newScene.getStylesheets().addAll(currScene.getStylesheets());
     currScene = newScene;
   }
@@ -79,15 +92,39 @@ public class GameView implements PropertyChangeListener {
   }
 
   public void addScore(int score) {
-    Text t = new Text("Score: "+score);
+    Text t = new Text("Score: " + score);
     t.setId("ScoreText");
     t.setX(10);
-    t.setY(20);
+    t.setY(30);
+    ((Group) currScene.getRoot()).getChildren().add(t);
+  }
+
+  public void addLife(int life) {
+    Text t = new Text("Lives: " + life);
+    t.setId("LifeText");
+    t.setX(10);
+    t.setY(60);
+    ((Group) currScene.getRoot()).getChildren().add(t);
+  }
+
+  public void addHealth(int health) {
+    Text t = new Text("Health: " + health);
+    t.setId("HealthText");
+    t.setX(10);
+    t.setY(90);
     ((Group) currScene.getRoot()).getChildren().add(t);
   }
 
   public void changeScore(int score) {
-    ((Text) currScene.lookup("#ScoreText")).setText("Score: "+score);
+    ((Text) currScene.lookup("#ScoreText")).setText("Score: " + score);
+  }
+
+  public void changeLife(int newLife) {
+    ((Text) currScene.lookup("#LifeText")).setText("Lives: " + newLife);
+  }
+
+  public void changeHealth(int newHealth) {
+    ((Text) currScene.lookup("#HealthText")).setText("Health: " + newHealth);
   }
 
   public void startLevel() {
@@ -97,13 +134,25 @@ public class GameView implements PropertyChangeListener {
 
   public void gameOver() {
     try {
-      Scene newScene = sf.make("resources/view_resources/game/GameOver.XML");
+      Scene newScene = sf.make("resources/view_resources/game/GameLost.XML");
       newScene.getStylesheets().addAll(currScene.getStylesheets());
       currScene = newScene;
       stage.setScene(currScene);
       stage.show();
     } catch (Exception e) {
-      e.printStackTrace();
+      new ExceptionView().displayError(e);
+    }
+  }
+
+  public void gameWin() {
+    try {
+      Scene newScene = sf.make("resources/view_resources/game/GameWon.XML");
+      newScene.getStylesheets().addAll(currScene.getStylesheets());
+      currScene = newScene;
+      stage.setScene(currScene);
+      stage.show();
+    } catch (Exception e) {
+      new ExceptionView().displayError(e);
     }
   }
 
@@ -111,8 +160,17 @@ public class GameView implements PropertyChangeListener {
     return this.gameName;
   }
 
-  private EventHandler<KeyEvent> makeKeyAction() {
+  private EventHandler<KeyEvent> makeKeyActionRelease() {
     return event -> kl.propertyChange(new PropertyChangeEvent(this, "currKey", null, event));
+  }
+
+  private EventHandler<KeyEvent> makeKeyActionPress() {
+    return event -> {
+      if (event.getCode() == KeyCode.ESCAPE) {
+        toggleGameMenu();
+      }
+      kl.propertyChange(new PropertyChangeEvent(this, "currKey", null, event));
+    };
   }
 
   @Override
@@ -122,7 +180,35 @@ public class GameView implements PropertyChangeListener {
     try {
       new Statement(this, mName, mArgs).execute();
     } catch (Exception e) {
-      e.printStackTrace();
+      new ExceptionView().displayError(e);
+    }
+  }
+
+  private void toggleGameMenu() {
+    if (inGameMenu) {
+      currScene = cachedScene;
+      stage.setScene(currScene);
+      stage.show();
+      controller.togglePaused();
+      inGameMenu = false;
+    } else {
+      controller.togglePaused();
+      cachedScene = currScene;
+      try {
+        Scene newScene = sf.make("resources/view_resources/game/InternalMenu.XML");
+        newScene.getStylesheets().addAll(currScene.getStylesheets());
+        newScene.setOnKeyPressed(event -> {
+          if (event.getCode() == KeyCode.ESCAPE) {
+            toggleGameMenu();
+          }
+        });
+        currScene = newScene;
+        inGameMenu = true;
+        stage.setScene(currScene);
+        stage.show();
+      } catch (Exception e) {
+        new ExceptionView().displayError(e);
+      }
     }
   }
 }

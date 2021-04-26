@@ -1,0 +1,2 @@
+## Folder Purpose
+The purpose of this folder is to store any resources associated with the project that are required for running the View Module. Any resources that are not referenced by the view module should not be included in this folder.

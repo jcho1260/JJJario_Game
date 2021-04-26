@@ -24,12 +24,10 @@
       </Method>
     </GameObject>
     <GameObject>
-      <Name>Coin</Name>
+      <Name>WinningFlag</Name>
       <Method>
-        <Name>incrementScore</Name>
-        <Args>
-          <Arg>1</Arg>
-        </Args>
+        <Name>playerWinsLevel</Name>
+        <Args></Args>
       </Method>
     </GameObject>
     <GameObject>
@@ -55,14 +53,88 @@
         </Args>
       </Method>
     </GameObject>
+    <GameObject>
+      <Name>PowerUpBlock-DOWN</Name>
+      <Method>
+        <Name>generalBottomCollision</Name>
+        <Args>
+        </Args>
+      </Method>
+    </GameObject>
+    <GameObject>
+      <Name>PowerUpBlock-UP</Name>
+      <Method>
+        <Name>scaleVelocity</Name>
+        <Args>
+          <Arg>1</Arg>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+  </Actor>
+
+  <Actor>
+    <Name>Bullet</Name>
+    <GameObject>
+      <Name>Bullet</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+    <GameObject>
+      <Name>GameObject</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+  </Actor>
+
+  <Actor>
+    <Name>PowerUp</Name>
+    <GameObject>
+      <Name>Player</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
   </Actor>
   <Actor>
     <Name>Enemy</Name>
+    <GameObject>
+      <Name>Bullet</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
     <GameObject>
       <Name>PowerUp</Name>
     </GameObject>
     <GameObject>
       <Name>Player-UP</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+  </Actor>
+  <Actor>
+    <Name>Coin</Name>
+    <GameObject>
+      <Name>Player</Name>
       <Method>
         <Name>incrementHealth</Name>
         <Args>
@@ -85,7 +157,43 @@
     </GameObject>
   </Actor>
   <Actor>
-    <Name>GameObject</Name>
+    <Name>PowerUpBlock</Name>
+    <GameObject>
+      <Name>Player-DOWN</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+  </Actor>
+  <Actor>
+    <Name>Destroyable</Name>
+    <GameObject>
+      <Name>GameObject</Name>
+    </GameObject>
+    <GameObject>
+      <Name>LREdgeBlock</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+    <GameObject>
+      <Name>TBEdgeBlock</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+  </Actor>
+  <Actor>
+    <Name>MovingDestroyable</Name>
     <GameObject>
       <Name>GameObject-LEFT</Name>
       <Method>

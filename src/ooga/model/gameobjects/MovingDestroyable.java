@@ -10,8 +10,7 @@ public class MovingDestroyable extends Destroyable {
 
   /**
    * Constructor for MovingDestroyable.
-   *
-   * @param entityTypes
+   *  @param entityTypes
    * @param initialPosition
    * @param id
    * @param size
@@ -20,11 +19,12 @@ public class MovingDestroyable extends Destroyable {
    * @param initialVelocity
    * @param finalPosition
    * @param gravityScale
+   * @param vis
    */
   public MovingDestroyable(List<String> entityTypes, Vector initialPosition, int id, Vector size,
-      int startLife, int startHealth, Vector initialVelocity, Vector finalPosition,
-      double gravityScale) {
-    super(entityTypes, initialPosition, id, size, startLife, startHealth, 5);
+      int startLife, int startHealth, int points, Vector initialVelocity, Vector finalPosition,
+      double gravityScale, boolean vis) {
+    super(entityTypes, initialPosition, id, size, startLife, startHealth, points, vis);
     autoMove = new AutomatedMovement(initialPosition, finalPosition, initialVelocity, gravityScale);
   }
 

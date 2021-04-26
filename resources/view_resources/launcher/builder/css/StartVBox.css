@@ -1,0 +1,61 @@
+VBox {
+    -fx-background-color:-dark-color;
+    -fx-spacing: 20;
+    -fx-alignment: CENTER;
+    -fx-background-radius: 10;
+}
+
+HBox {
+    -fx-background-color:-dark-color;
+    -fx-spacing: 10;
+    -fx-alignment: CENTER;
+}
+
+Text {
+    -fx-fill: -text-color;
+    -fx-text-alignment: right;
+    -fx-font-family: "Roboto Light";
+    -fx-font-weight: bold;
+    -fx-font-size: 40px;
+    -fx-wrap-text: true;
+}
+
+.text-field {
+    -fx-background-color: -normal-color;
+    -fx-text-fill: -text-color;
+    -fx-text-alignment: CENTER;
+    -fx-font-family: "Roboto Light";
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-wrap-text: true;
+    -fx-prompt-text-fill: -text-color;
+    -fx-alignment: CENTER-LEFT;
+    -fx-max-width: 300;
+}
+
+.text-field:focused {
+    -fx-background-color: -light-color;
+    -fx-text-fill: -text-color;
+    -fx-text-alignment: LEFT;
+    -fx-font-family: "Roboto Light";
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-wrap-text: true;
+    -fx-prompt-text-fill: -text-color;
+    -fx-alignment: CENTER-LEFT;
+}
+
+.button {
+    -fx-text-fill: -text-color;
+    -fx-text-alignment: left;
+    -fx-font-family: "Roboto Light";
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-wrap-text: true;
+    -fx-background-color: -normal-color;
+    -fx-alignment: CENTER;
+}
+
+.button:hover {
+    -fx-background-color: -light-color;
+}

@@ -11,14 +11,15 @@ import ooga.model.util.Vector;
 public class Destroyable extends GameObject{
   private Queue<MethodBundle> collisionQueue;
   private DestroyableCollisionHandling collisionHandler;
-  private Health health;
-  protected int score; //TODO: need in player to increment score, but nonplayer destroyables also have a score
+  protected Health health;
+  protected int score;
 
   /**
    * Default constructor with default lives, health values
    */
-  public Destroyable(List<String> entityTypes, Vector position, int id, Vector size, int startLife, int startHealth, int points) {
-    super(entityTypes, position, id, size);
+  public Destroyable(List<String> entityTypes, Vector position, int id, Vector size, int startLife,
+      int startHealth, int points, boolean vis) {
+    super(entityTypes, position, id, size, vis);
     collisionQueue = new LinkedList<>();
     collisionHandler = new DestroyableCollisionHandling();
     health = new Health(startHealth, startLife);
@@ -26,22 +27,45 @@ public class Destroyable extends GameObject{
   }
 
   /**
-   *
+   * checks to see if destroyable is still alive
+   * @return true if alive
    */
   public boolean isAlive() { return health.isAlive(); }
 
+  /**
+   * checks to see if the collision is a small corner collision with the object and should be ignored
+   * @param o object destroyable is colliding with
+   * @return true if it is a small corner collision
+   */
   public boolean cornerCollision(GameObject o) {
     return collisionHandler.smallCorner(this, o);
   }
 
+  /**
+   *
+   * @param o
+   * @return
+   */
   public List<String> determineCollision(GameObject o) {
     return collisionHandler.determineCollisionMethods(this, o);
   }
 
+  /**
+   *
+   * @param myself
+   * @param o
+   * @return
+   */
   public Vector[] determineCollisionRect(GameObject myself, GameObject o) {
     return collisionHandler.determineCollisionRectangle(myself, o);
   }
 
+  /**
+   *
+   * @param myself
+   * @param collisionBox
+   * @return
+   */
   public Vector calculateCollisionDirection(GameObject myself, Vector[] collisionBox) {
     return collisionHandler.calculateCollisionDirection(myself, collisionBox);
   }
@@ -49,7 +73,7 @@ public class Destroyable extends GameObject{
   /**
    * create a Queue of all methods to invoke on self for collisions with other GameObjects
    */
-  public void addCollision(List<MethodBundle> methodList) throws NoSuchMethodException {
+  public void addCollision(List<MethodBundle> methodList) {
     for (MethodBundle mb : methodList) {
       collisionQueue.add(mb);
     }
@@ -70,6 +94,9 @@ public class Destroyable extends GameObject{
    */
   public void incrementHealth(Double increment) {
     health.incrementHealth(increment);
+    if(health.getHealth() <= 0) {
+      health.loseLife();
+    }
   }
 
   /**
@@ -77,7 +104,7 @@ public class Destroyable extends GameObject{
    *
    * @param increment
    */
-  public void incrementLives(int increment) {
+  public void incrementLives(Double increment) {
     health.incrementLives(increment);
   }
 
@@ -86,7 +113,7 @@ public class Destroyable extends GameObject{
    *
    * @return health
    */
-  protected int getHealth() {
+  protected double getHealth() {
     return health.getHealth();
   }
 
@@ -95,19 +122,25 @@ public class Destroyable extends GameObject{
    *
    * @return lives
    */
-  protected int getLives() {
+  protected double getLives() {
     return health.getLives();
   }
 
+  /**
+   * gets the number of points a destroyable is worth once destroyed
+   * @return number of points destroyable is worth
+   */
   public double getScore() { return score; }
 
+  /**
+   *
+   */
   public void kill() {
-    notifyListeners("changeVisibility", true, false);
     health.kill();
-  }
-
-  private void onDeath() {
-    //TODO: implement
+    health.loseLife();
+    if (!health.isAlive()) {
+      notifyListenerKey("sprite", "changeVisibility", true, false);
+    }
   }
 
 

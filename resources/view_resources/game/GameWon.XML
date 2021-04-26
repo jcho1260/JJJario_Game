@@ -1,0 +1,27 @@
+<?xml version = "1.0" ?>
+<HBox style="view_resources/game/css/GameOver.css" id="GameOverH" type="Pane">
+  <VBox style="view_resources/game/css/GameOver.css" id="GameOverV" type="Pane">
+    <ImageView id="GOImage" type="Leaf">
+      <Height>200</Height>
+      <Image>
+        <Path>view_resources/images/GameWon.png</Path>
+      </Image>
+      <Ratio>true</Ratio>
+      <Width>200</Width>
+    </ImageView>
+    <Button id="GWNLButton" type="Leaf">
+      <Text>Next Level?</Text>
+      <Event method="setOnAction">
+        <Type>nextLevel</Type>
+      </Event>
+    </Button>
+    <Button id="GWMButton" type="Leaf">
+      <Text>Game Menu</Text>
+      <Event method="setOnAction">
+        <Type>goToMenu</Type>
+      </Event>
+    </Button>
+    <Height>420</Height>
+    <Width>960</Width>
+  </VBox>
+</HBox>

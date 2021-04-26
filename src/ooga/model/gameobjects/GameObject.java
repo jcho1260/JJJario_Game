@@ -1,5 +1,6 @@
 package ooga.model.gameobjects;
 
+import java.io.Serializable;
 import java.util.List;
 import ooga.Observable;
 import ooga.model.gameobjectcomposites.Rectangle;
@@ -11,24 +12,25 @@ import ooga.model.util.Vector;
  *
  * @author Jin Cho, Juhyoung Lee, Jessica Yang
  */
-public class GameObject extends Observable {
+public class GameObject extends Observable implements Serializable {
   private List<String> entityTypes;
   private int id;
-  private boolean isActive;
-  private Rectangle rect;
+  private boolean isActive, isVisible;
+  protected Rectangle rect;
 
   /**
    * Default constructor
    */
-  public GameObject(List<String> entityTypes, Vector position, int id, Vector size) {
+  public GameObject(List<String> entityTypes, Vector position, int id, Vector size, boolean visible) {
     this.entityTypes = entityTypes;
     this.id = id;
     isActive = false;
     rect = new Rectangle(size, position);
+    isVisible = visible;
   }
 
   /**
-   * Returns x coordinate of position.  // TODO return the position vector instead?
+   * Returns x coordinate of position.
    *
    * @return x coordinate
    */
@@ -44,7 +46,6 @@ public class GameObject extends Observable {
     return rect;
   }
 
-  // TODO REFACTOR FOR reasons
   public Vector getPredictedPosition() {
     return rect.getPredictedPos();
   }
@@ -57,7 +58,6 @@ public class GameObject extends Observable {
    *
    */
   public List<String> getEntityType() {
-    // TODO implement here
     return entityTypes;
   }
 
@@ -75,7 +75,7 @@ public class GameObject extends Observable {
    * @param gameGravity
    */
   public void step(double elapsedTime, double gameGravity) {
-    // TODO :D
+
   }
 
   public Vector getVelocity() {
@@ -84,19 +84,18 @@ public class GameObject extends Observable {
 
   public void setActive(boolean activeState) {
     isActive = activeState;
-    notifyListeners("changeVisibility", null, isActive);
+    notifyListenerKey("sprite", "changeVisibility", null, isActive && isVisible);
   }
 
   /**
    * Converts model coordinates to view coordinates, and sends GameObject position.
    */
   public void sendToView(Vector frameTopL) {
-    // TODO LOGIC
     double viewPositionX;
     double viewPositionY;
     viewPositionX = rect.getPosition().getX() - frameTopL.getX();
     viewPositionY = rect.getPosition().getY() - frameTopL.getY();
-    notifyListeners("changeX", null, viewPositionX);
-    notifyListeners("changeY", null, viewPositionY);
+    notifyListenerKey("sprite", "changeX", null, viewPositionX);
+    notifyListenerKey("sprite", "changeY", null, viewPositionY);
   }
 }

@@ -1,10 +1,12 @@
 package ooga.model.gameobjectcomposites;
 
-public class Health {
+import java.io.Serializable;
 
-  private int startHealth;
-  private int health;
-  private int lives;
+public class Health implements Serializable {
+
+  private double startHealth;
+  private double health;
+  private double lives;
 
   public Health(int startingHealth, int startingLives) {
     startHealth = startingHealth;
@@ -19,10 +21,6 @@ public class Health {
    */
   public void incrementHealth(Double increment) {
     health += increment;
-    if (health <= 0) {
-      health = startHealth;
-      lives--;
-    }
   }
 
   /**
@@ -30,7 +28,7 @@ public class Health {
    *
    * @param increment
    */
-  public void incrementLives(int increment) {
+  public void incrementLives(Double increment) {
     lives += increment;
   }
 
@@ -48,7 +46,7 @@ public class Health {
    *
    * @return health
    */
-  public int getHealth() {
+  public double getHealth() {
     return health;
   }
 
@@ -57,12 +55,16 @@ public class Health {
    *
    * @return lives
    */
-  public int getLives() {
+  public double getLives() {
     return lives;
   }
 
-  public void kill() {
+  public void loseLife() {
     health = startHealth;
     lives--;
+  }
+
+  public void kill() {
+    health = 0;
   }
 }

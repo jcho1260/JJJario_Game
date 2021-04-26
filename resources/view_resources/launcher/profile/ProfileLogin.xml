@@ -11,7 +11,7 @@
     <TextField id="UsernameInputBox" type="Leaf">
       <Prompt>Username</Prompt>
       <Event method="setOnKeyReleased" event_type="KeyEvent">
-        <Type>ProfileLogin</Type>
+        <Type>profileLogin</Type>
         <PaneID>LauncherStackPane</PaneID>
       </Event>
     </TextField>

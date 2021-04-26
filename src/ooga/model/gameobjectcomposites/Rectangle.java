@@ -1,9 +1,9 @@
 package ooga.model.gameobjectcomposites;
 
-import ooga.model.util.Action;
+import java.io.Serializable;
 import ooga.model.util.Vector;
 
-public class Rectangle {
+public class Rectangle implements Serializable {
   private Vector position;
   private Vector size;
   private Vector predictedPos;
@@ -18,14 +18,11 @@ public class Rectangle {
   public Vector getSize() {return size.copy();}
 
   public void scaleSize(double scaleFactor) {
-    size.multiply(new Vector(scaleFactor, scaleFactor));
-    predictedPos.subtract(new Vector(0, size.getY() * (scaleFactor - 1)));
-    // TODO add listeners probably
+    size = size.multiply(new Vector(scaleFactor, scaleFactor));
+    predictedPos = predictedPos.subtract(new Vector(0, size.getY() * (scaleFactor - 1)));
   }
 
   public Vector getPosition() { return position.copy(); }
-
-  //public void setPosition(Vector newPos) { position = newPos; }
 
   public Vector getPredictedPos() { return predictedPos.copy(); }
 

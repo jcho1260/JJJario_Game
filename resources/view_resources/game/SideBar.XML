@@ -1,0 +1,38 @@
+<?xml version = "1.0" ?>
+<VBox id="SideBar" type="Pane" style="view_resources/game/css/SideBar.css">
+  <Height>360</Height>
+  <Width>320</Width>
+  <ImageView id="Logo" type="Leaf">
+    <Image>
+      <Path>view_resources/images/logo/JJJarioLogo.png</Path>
+    </Image>
+    <Width>300</Width>
+    <Height>260</Height>
+  </ImageView>
+  <Button id="LoadLibraryButton" type="Leaf">
+    <Text>Load from Save</Text>
+    <Event method="setOnAction">
+      <Type>loadLibrary</Type>
+      <PaneID>GameStackPane</PaneID>
+      <FilePath>
+        <Path>resources/view_resources/game/LoadLibrary.XML</Path>
+      </FilePath>
+      <Button id="TemplateButton" type="Leaf">
+        <Text>TEMPLATE</Text>
+      </Button>
+    </Event>
+  </Button>
+  <Button id="LevelLibraryButton" type="Leaf">
+    <Text>Choose Level</Text>
+    <Event method="setOnAction">
+      <Type>levelLibrary</Type>
+      <PaneID>GameStackPane</PaneID>
+      <FilePath>
+        <Path>resources/view_resources/game/LevelLibrary.XML</Path>
+      </FilePath>
+      <Button id="TemplateButton" type="Leaf">
+        <Text>TEMPLATE</Text>
+      </Button>
+    </Event>
+  </Button>
+</VBox>

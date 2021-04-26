@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.model.util.Vector;
+import ooga.view.launcher.ExceptionView;
 import ooga.view.launcher.LauncherView;
 
 /**
@@ -21,6 +22,6 @@ public class ViewDevMain extends Application {
 
   @Override
   public void start(Stage primaryStage) {
-    new LauncherView(primaryStage).start(new Controller(new Vector(1440, 810),30));
+    new LauncherView(primaryStage).start(new Controller(30));
   }
 }

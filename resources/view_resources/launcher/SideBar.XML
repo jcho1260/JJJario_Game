@@ -20,7 +20,7 @@
       <Width>80</Width>
     </ImageView>
     <Event method="setOnAction">
-      <Type>ProfileView</Type>
+      <Type>profileView</Type>
       <PaneID>LauncherStackPane</PaneID>
       <FilePath>
         <Path>resources/view_resources/launcher/profile/ProfileLogin.xml</Path>
@@ -38,7 +38,7 @@
       <Width>80</Width>
     </ImageView>
     <Event method="setOnAction">
-      <Type>ChangeStack</Type>
+      <Type>changeStack</Type>
       <PaneID>LauncherStackPane</PaneID>
       <FilePath>
         <Path>resources/view_resources/launcher/GameLibrary.XML</Path>
@@ -55,7 +55,13 @@
       <Height>80</Height>
       <Width>80</Width>
     </ImageView>
-    <!--<Action>TODO</Action>-->
+    <Event method="setOnAction">
+      <Type>changeStack</Type>
+      <PaneID>LauncherStackPane</PaneID>
+      <FilePath>
+        <Path>resources/view_resources/launcher/builder/StageBuilderStart.XML</Path>
+      </FilePath>
+    </Event>
   </Button>
   <Button id="SettingsButton" type="Leaf">
     <Text>Settings</Text>
@@ -68,7 +74,7 @@
       <Width>80</Width>
     </ImageView>
     <Event method="setOnAction">
-      <Type>ChangeStack</Type>
+      <Type>changeStack</Type>
       <PaneID>LauncherStackPane</PaneID>
       <FilePath>
         <Path>resources/view_resources/launcher/Settings.xml</Path>
@@ -86,7 +92,7 @@
       <Width>80</Width>
     </ImageView>
     <Event method="setOnAction">
-      <Type>Logout</Type>
+      <Type>logout</Type>
       <PaneID>LauncherStackPane</PaneID>
       <FilePath>
         <Path>resources/view_resources/launcher/GameLibrary.XML</Path>

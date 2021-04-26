@@ -1,5 +1,6 @@
 package ooga.model.gameobjects;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -9,7 +10,14 @@ import ooga.model.util.Action;
 import ooga.model.util.MethodBundle;
 import ooga.model.util.Vector;
 
-public class DestroyableCollisionHandling {
+
+/**
+ * Checks for collisions and uses reflection to create and execute the methods corresponding to the
+ * collisions that have occurred each frame
+ *
+ * @author jincho juhyounglee
+ */
+public class DestroyableCollisionHandling implements Serializable {
 
   public DestroyableCollisionHandling() { }
 
@@ -67,7 +75,6 @@ public class DestroyableCollisionHandling {
     return ret;
   }
 
-  // TODO REFACTOR
   private List<String> getCollisionMethods(GameObject myself, List<String> oTags, Vector[] collisionBox) {
     Action edgeAction = calculateCollisionDirection(myself, collisionBox).getDirection();
 
@@ -79,6 +86,12 @@ public class DestroyableCollisionHandling {
     return collisionMethods;
   }
 
+  /**
+   * determines the direction of the collision based on the rectangle overlap created by the colliding objects
+   * @param myself game object that is checking for its own collisions
+   * @param collisionBox game object that it is colliding with and checking for the direction of the collision
+   * @return the unit vector that defines the direction of the collision and can be translated into an Action
+   */
   public Vector calculateCollisionDirection(GameObject myself, Vector[] collisionBox) {
     Vector collisionCenter = (collisionBox[0].add(collisionBox[1]))
         .multiply(new Vector(0.5, 0.5));
@@ -93,7 +106,6 @@ public class DestroyableCollisionHandling {
         minDistanceEdge = edgeMidpoint;
       }
     }
-
     return minDistanceEdge.subtract(myCenter).toUnit();
   }
 
@@ -109,6 +121,12 @@ public class DestroyableCollisionHandling {
     return edges;
   }
 
+  /**
+   * checks to see if the overlap is a small corner aka a corner collision and ignores if so
+   * @param me game object that is detecting the collision
+   * @param o game object that object is colliding with
+   * @return true if it is a corner collision
+   */
   public boolean smallCorner(GameObject me, GameObject o) {
     Vector[] rect = determineCollisionRectangle(me, o);
     if (rect == null) { return false; }

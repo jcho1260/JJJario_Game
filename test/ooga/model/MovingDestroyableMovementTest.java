@@ -1,5 +1,8 @@
 package ooga.model;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import ooga.model.gameobjects.GameObject;
@@ -7,10 +10,10 @@ import ooga.model.gameobjects.MovingDestroyable;
 import ooga.model.util.Vector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 public class MovingDestroyableMovementTest {
+
   Vector start = new Vector(0, 0);
   Vector end = new Vector(5, -5);
   Vector velocity = new Vector(1, -1);
@@ -21,11 +24,13 @@ public class MovingDestroyableMovementTest {
   @BeforeEach
   public void init() {
     npc = new MovingDestroyable(new ArrayList<>(), start, 1, new Vector(1, 1),
-    3, 3, velocity, end, 0);
+        3, 3, 5, velocity, end, 0, true);
     npcReversed = new MovingDestroyable(new ArrayList<>(), end, 1, new Vector(1, 1),
-        3, 3, velocity.multiply(new Vector(-1, -1)), start, 0);
-    PropertyChangeListener standIn = evt -> {changes++;};
-    npc.addListener(standIn);
+        3, 3, 5, velocity.multiply(new Vector(-1, -1)), start, 0, true);
+    PropertyChangeListener standIn = evt -> {
+      changes++;
+    };
+    npc.addListener("temp", standIn);
   }
 
   /**
@@ -43,7 +48,8 @@ public class MovingDestroyableMovementTest {
   @Test
   void movementNoTurnReverse() {
     npcReversed.step(1, 5);
-    assertTrue(npcReversed.getPredictedPosition().getX() == 4 && npcReversed.getPredictedPosition().getY() == -4);
+    assertTrue(npcReversed.getPredictedPosition().getX() == 4
+        && npcReversed.getPredictedPosition().getY() == -4);
   }
 
   /**
@@ -65,11 +71,14 @@ public class MovingDestroyableMovementTest {
   @Test
   void movementEndTurnReverse() {
     npcReversed.step(5, 5);
-    assertTrue(npcReversed.getPredictedPosition().getX() == 0 && npcReversed.getPredictedPosition().getY() == 0);
+    assertTrue(npcReversed.getPredictedPosition().getX() == 0
+        && npcReversed.getPredictedPosition().getY() == 0);
     npcReversed.step(1, 5);
-    assertFalse(npcReversed.getPredictedPosition().getX() == 0 && npcReversed.getPredictedPosition().getY() == 0);
+    assertFalse(npcReversed.getPredictedPosition().getX() == 0
+        && npcReversed.getPredictedPosition().getY() == 0);
     npcReversed.step(1, 5);
-    assertFalse(npcReversed.getPredictedPosition().getX() == 1 && npcReversed.getPredictedPosition().getY() == -1);
+    assertFalse(npcReversed.getPredictedPosition().getX() == 1
+        && npcReversed.getPredictedPosition().getY() == -1);
   }
 
   /**
@@ -95,12 +104,15 @@ public class MovingDestroyableMovementTest {
   void movementStartTurnReverse() {
     npcReversed.step(5, 5);
     npcReversed.step(1, 5);
-    assertFalse(npcReversed.getPredictedPosition().getX() == 0 && npcReversed.getPredictedPosition().getY() == 0);
+    assertFalse(npcReversed.getPredictedPosition().getX() == 0
+        && npcReversed.getPredictedPosition().getY() == 0);
     npcReversed.step(5, 5);
     npcReversed.step(1, 5);
     npcReversed.step(1, 5);
-    assertFalse(npcReversed.getPredictedPosition().getX() == 5 && npcReversed.getPredictedPosition().getY() == -5);
+    assertFalse(npcReversed.getPredictedPosition().getX() == 5
+        && npcReversed.getPredictedPosition().getY() == -5);
     npcReversed.step(1, 5);
-    assertFalse(npcReversed.getPredictedPosition().getX() == 4 && npcReversed.getPredictedPosition().getY() == -4);
+    assertFalse(npcReversed.getPredictedPosition().getX() == 4
+        && npcReversed.getPredictedPosition().getY() == -4);
   }
 }

@@ -2,9 +2,8 @@ package ooga.model.gameobjects;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
-import ooga.model.gameobjectcomposites.UserInputMovement;
+import ooga.model.gameobjectcomposites.UserInputActions;
 import ooga.model.util.Action;
 import ooga.model.util.Vector;
 
@@ -15,42 +14,64 @@ import ooga.model.util.Vector;
  */
 public class Player extends Destroyable {
 
-  private List<GameObject> activePowerUps;
-  private final UserInputMovement userMovement;
-  private final Class<?> userMovementClass;
-  private int lives;
+  private final UserInputActions userActions;
+  private Class<?> userInputActions;
+  private final double invincibilityLimit;
+  private double framesSinceDamage;
+  private boolean win;
+  private Vector initialPosition;
 
   /**
    * Default constructor for Player.
    */
-  public Player(List<String> entityTypes, Vector initialPosition, int id, Vector objSize,
+  public Player(List<String> entityTypes, Vector initPosition, int id, Vector objSize,
       int startLife, int startHealth, double jumpTime, Vector velocityMagnitude, double gravity,
-      Vector drivingVelocity, int continuousJumpLimit)
+      Vector drivingVelocity, int continuousJumpLimit, double shootingCooldown, boolean vis, double
+      invincibility)
       throws ClassNotFoundException {
-    super(entityTypes, initialPosition, id, objSize, startLife, startHealth, 5);
-    userMovement = new UserInputMovement(jumpTime, velocityMagnitude, gravity, drivingVelocity,
-        continuousJumpLimit);
-    userMovementClass = Class.forName("ooga.model.gameobjectcomposites.UserInputMovement");
-    lives = startLife;
+    super(entityTypes, initPosition, id, objSize, startLife, startHealth, 0, vis);
+    userActions = new UserInputActions(jumpTime, velocityMagnitude, gravity, drivingVelocity,
+        continuousJumpLimit, shootingCooldown);
+    userInputActions = Class.forName("ooga.model.gameobjectcomposites.UserInputActions");
+    invincibilityLimit = invincibility;
+    win = false;
+    initialPosition = initPosition;
+    framesSinceDamage = invincibility+1;
   }
 
   /**
    * Handles player movement given user input.
    *
-   * @param direction
+   * @param direction key input respective action linked to it
    * @param elapsedTime
-   * @param gameGravity
+   * @param gameGravity the global game gravity applied to the player
    */
-  public void userStepMovement(Action direction, double elapsedTime, double gameGravity)
+  public void userStep(Action direction, double elapsedTime, double gameGravity, int currentFrame)
       throws NoSuchMethodException, SecurityException, IllegalAccessException,
       IllegalArgumentException, InvocationTargetException {
-    String methodName = "move" + direction.toString();
+    notifyListenerKey("gameworld", "changeHealth", null, super.getHealth());
+    notifyListenerKey("gameworld", "changeLife", null, super.getLives());
+    framesSinceDamage++;
+    if (direction.equals(Action.SHOOT)){
+      move(Action.NONE, elapsedTime, gameGravity);
+      if (userActions.shoot(getPosition().getX(), getPosition().getY(), currentFrame)) {
+        notifyListenerKey("gameworld", "newMovingDestroyable", null, getPosition().add(new Vector(getSize().getX()/2, 0)));
+      }
+    } else {
+      move(direction, elapsedTime, gameGravity);
+    }
+  }
+
+  private void move(Action direction, double elapsedTime, double gameGravity)
+      throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    String methodName = direction.toString().toLowerCase();
     Class<?>[] paramClasses = new Class[2];
     for (int i = 0; i < 2; i++) {
       paramClasses[i] = Double.class;
     }
-    Method moveMethod = userMovementClass.getMethod(methodName, paramClasses);
-    Vector deltaPosition = (Vector) moveMethod.invoke(userMovement, elapsedTime, gameGravity);
+    Method[] test = userInputActions.getMethods();
+    Method moveMethod = userInputActions.getMethod(methodName, paramClasses);
+    Vector deltaPosition = (Vector) moveMethod.invoke(userActions, elapsedTime, gameGravity);
     setPredictedPosition(getPredictedPosition().add(deltaPosition));
   }
 
@@ -58,29 +79,28 @@ public class Player extends Destroyable {
    * Collision method for whenever the bottom of player lands on something.
    */
   public void generalBottomCollision() {
-    userMovement.hitGround();
+    userActions.hitGround();
   }
 
   /**
    * gets velocity of player
-   * @return
+   * @return velocity vector of the player
    */
-  public Vector getVelocity() {return userMovement.getVelocity();}
+  public Vector getVelocity() {return userActions.getVelocity();}
 
   /**
-   * Collision method for adding a new power up to the Player.
+   * collision method called whenever the player hits the win checkpoint for that level
    */
-  public void addPowerUp() {
-    // TODO add actual logic for adding a powerup
-    notifyListeners("powerUpChange", null, null); // TODO what does frontend need
+  public void playerWinsLevel() {
+    win = true;
   }
 
   /**
-   * Collision method for removing an expired power up from the Player.
+   * gives winning status of the player to see if player completed level
+   * @return true if it has won the game
    */
-  public void removePowerUp() {
-    // TODO add actual logic for removing a power up
-    notifyListeners("powerUpChange", null, null); // TODO what does frontend need
+  public boolean getWinStatus() {
+    return win;
   }
 
   /**
@@ -91,15 +111,13 @@ public class Player extends Destroyable {
    */
   @Override
   public void incrementHealth(Double increment) {
-    int prevHealth = getHealth();
-    int prevLives = getLives();
-
-    super.incrementHealth(increment);
-//    notifyListeners("playerHealth", prevHealth, getHealth());
-
-    if (getHealth() != prevLives) {
-//      notifyListeners("playerLives", prevLives, getLives());
+    if (increment < 0 && canBeHurt() || increment > 0) {
+      framesSinceDamage = 0;
+      health.incrementHealth(increment);
+      notifyListenerKey("gameworld", "changeHealth", null, super.getHealth());
     }
+    checkReSpawn();
+
   }
 
   /**
@@ -108,40 +126,55 @@ public class Player extends Destroyable {
    * @param increment
    */
   @Override
-  public void incrementLives(int increment) {
-    int prevLives = getLives();
+  public void incrementLives(Double increment) {
+    if (increment < 0 && canBeHurt() || increment > 0) {
+      health.incrementLives(increment);
+      notifyListenerKey("gameworld", "changeLife", null, super.getLives());
+    }
+    checkReSpawn();
 
-    super.incrementLives(increment);
-//    notifyListeners("playerLives", prevLives, getLives());
+  }
+
+  /**
+   * kills the player in its current life and respawns it if not dead
+   */
+  @Override
+  public void kill() {
+    health.kill();
+    checkReSpawn();
+  }
+
+  private void checkReSpawn() {
+    if(health.getLives()>0 && health.getHealth()<=0) {
+      rect.setPredictedPos(initialPosition);
+      health.loseLife();
+    }
+  }
+
+  private boolean canBeHurt() {
+    return framesSinceDamage > invincibilityLimit;
   }
 
   /**
    * Scales velocity by given amount.
    *
-   * @param x
-   * @param y
+   * @param x velocity x-direction scale factor
+   * @param y velocity y-direction scale factor
    */
   public void scaleVelocity(Double x, Double y) {
-    Vector newVelocity = userMovement.getVelocity().multiply(new Vector(x, y));
-    userMovement.setVelocity(newVelocity);
+    Vector newVelocity = userActions.getVelocity().multiply(new Vector(x, y));
+    userActions.setVelocity(newVelocity);
   }
 
   /**
-   * Returns List of active power ups.
-   *
-   * @return activePowerUps
+   * scales the size the player
+   * @param scaleFactor factor to scale by
    */
-  public List<GameObject> getActivePowerUps() {
-    return new ArrayList<>(activePowerUps);
-  }
-
-  private void scaleSize(Double scaleFactor) {
+  public void scaleSize(Double scaleFactor) {
     getRect().scaleSize(scaleFactor);
+    notifyListenerKey("sprite", "changeX", null, getPredictedPosition().getX());
+    notifyListenerKey("sprite", "changeY", null, getPredictedPosition().getY());
+    notifyListenerKey("sprite", "changeWidth", null, getSize().getX());
+    notifyListenerKey("sprite", "changeHeight", null, getSize().getX());
   }
-
-  private void incrementScore(Double increment) { score += increment; }
-
-  private void incrementLife(Double increment) { lives += increment; }
-
-  private void onKeyPress() { }
 }

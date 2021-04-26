@@ -16,8 +16,8 @@
         </ImageView>
         <Event method="setOnAction">
           <Game>JJJario</Game>
-          <Type>LaunchGame</Type>
-          <Path>resources/view_resources/game/JJJario/Menu.XML</Path>
+          <Type>launchGame</Type>
+          <Path>resources/view_resources/game/Menu.XML</Path>
         </Event>
       </Button>
       <Button id="Game2Button" type="Leaf">
@@ -32,17 +32,25 @@
         </ImageView>
         <Event method="setOnAction">
           <Game>FlappyBird</Game>
-          <Type>LaunchGame</Type>
-          <Path>resources/view_resources/game/FlappyBird/Menu.XML</Path>
+          <Type>launchGame</Type>
+          <Path>resources/view_resources/game/Menu.XML</Path>
         </Event>
       </Button>
       <Button id="Game3Button" type="Leaf">
-        <Text>Game 3</Text>
-        <!--<Action>TODO</Action>-->
-      </Button>
-      <Button id="Game4Button" type="Leaf">
-        <Text>Game 4</Text>
-        <!--<Action>TODO</Action>-->
+        <Text>JJJalaga</Text>
+        <ImageView>
+          <Image>
+            <Path>view_resources/images/logo/JJJalagaLogo.png</Path>
+          </Image>
+          <Ratio>true</Ratio>
+          <Height>130</Height>
+          <Width>150</Width>
+        </ImageView>
+        <Event method="setOnAction">
+          <Game>JJJalaga</Game>
+          <Type>launchGame</Type>
+          <Path>resources/view_resources/game/Menu.XML</Path>
+        </Event>
       </Button>
     </HBox>
   </VBox>

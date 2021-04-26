@@ -1,8 +1,9 @@
 package ooga.model.util;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 
-public class MethodBundle {
+public class MethodBundle implements Serializable {
 
   private String methodName;
   private double[] parameters;
@@ -20,11 +21,9 @@ public class MethodBundle {
     }
     try {
       Method collisionResponse = destroyableClass.getMethod(methodName, paramTypes);
-      if(methodName.equals("incrementHealth")) {
-        System.out.println(methodName);
-      }
       return collisionResponse;
     } catch (Exception e){
+
       throw new NoSuchMethodException("method doesn't exist sorry :(");
     }
   }
@@ -32,11 +31,8 @@ public class MethodBundle {
   public Double[] getParameters() {
     Double[] d = new Double[parameters.length];
     for (int i = 0; i < parameters.length; i++) {
-      d[i] = (Double) parameters[i];
+      d[i] = parameters[i];
     }
     return d;
   }
-
-  public String getMethodName() {return methodName;}
-
 }

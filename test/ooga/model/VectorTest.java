@@ -1,11 +1,13 @@
 package ooga.model;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import ooga.model.util.Vector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class VectorTest {
+
   private Vector v1;
   private Vector v2;
   private Vector v3;
@@ -59,7 +61,7 @@ public class VectorTest {
   @Test
   void testInsideBox() {
     Vector topLeft = new Vector(-5, -5);
-    Vector vec = new Vector((topLeft.getX()+v2.getX())/2, (topLeft.getY()+v2.getY())/2);
+    Vector vec = new Vector((topLeft.getX() + v2.getX()) / 2, (topLeft.getY() + v2.getY()) / 2);
     assertEquals(true, vec.insideBox(topLeft, v2));
     assertEquals(false, v3.insideBox(v1, v2));
   }

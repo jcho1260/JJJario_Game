@@ -2,6 +2,15 @@
   <Actor>
     <Name>Player</Name>
     <GameObject>
+      <Name>Platform</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+    <GameObject>
       <Name>FloorPipe</Name>
       <Method>
         <Name>incrementHealth</Name>
@@ -18,6 +27,40 @@
           <Arg>-1</Arg>
         </Args>
       </Method>
+    </GameObject>
+    <GameObject>
+      <Name>ScoreBlock</Name>
+    </GameObject>
+    <GameObject>
+      <Name>WinningBlock</Name>
+      <Method>
+        <Name>playerWinsLevel</Name>
+        <Args></Args>
+      </Method>
+    </GameObject>
+    <GameObject>
+      <Name>EdgeBlock</Name>
+    </GameObject>
+  </Actor>
+  <Actor>
+    <Name>ScoreBlock</Name>
+    <GameObject>
+      <Name>Player</Name>
+      <Method>
+        <Name>incrementHealth</Name>
+        <Args>
+          <Arg>-1</Arg>
+        </Args>
+      </Method>
+    </GameObject>
+    <GameObject>
+      <Name>GameObject</Name>
+    </GameObject>
+  </Actor>
+  <Actor>
+    <Name>WinningBlock</Name>
+    <GameObject>
+      <Name>Player</Name>
     </GameObject>
   </Actor>
 </Collisions>

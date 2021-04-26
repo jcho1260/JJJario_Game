@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import ooga.view.launcher.ExceptionView;
 
 public class Sprite implements PropertyChangeListener {
 
@@ -16,7 +17,7 @@ public class Sprite implements PropertyChangeListener {
     imageView = new ImageView();
     imageView.setId(imageName);
     ResourceBundle imgKeys = ResourceBundle
-        .getBundle("view_resources/game/SpriteImageKeys/"+gameName+"SpriteKeys");
+        .getBundle("view_resources/game/SpriteImageKeys/" + gameName + "SpriteKeys");
     String imgPath = imgKeys.getString(imageName.toUpperCase());
     Image img = new Image(
         Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(imgPath)));
@@ -36,10 +37,13 @@ public class Sprite implements PropertyChangeListener {
       new Statement(this, mName, mArgs).execute();
     } catch (Exception e) {
       e.printStackTrace();
+      new ExceptionView().displayError(e);
     }
   }
 
-  public ImageView getImageView() { return this.imageView; }
+  public ImageView getImageView() {
+    return this.imageView;
+  }
 
   public void changeHeight(Double h) {
     imageView.setFitHeight(h);
@@ -54,10 +58,10 @@ public class Sprite implements PropertyChangeListener {
   }
 
   public void changeX(Double x) {
-    imageView.setX(x);
+    imageView.setLayoutX(x);
   }
 
   public void changeY(Double y) {
-    imageView.setY(y);
+    imageView.setLayoutY(y);
   }
 }
