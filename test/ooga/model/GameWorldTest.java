@@ -91,7 +91,20 @@ public class GameWorldTest {
     try {
       Vector initPos = player.getPosition();
       gw.stepFrame(Action.RIGHT);
-      assertTrue(player.getPosition().equals(initPos.add(new Vector(30, 0))));
+      assertEquals(initPos.add(new Vector(30, 0)), player.getPosition());
+    } catch (Exception ignored) {
+    }
+  }
+
+  /**
+   * Run a step with Action.SHOOT. Should not change player position.
+   */
+  @Test
+  void runPlayerShootStepTest() {
+    try {
+      Vector initPos = player.getPosition();
+      gw.stepFrame(Action.SHOOT);
+      assertEquals(initPos, player.getPosition());
     } catch (Exception ignored) {
     }
   }
@@ -114,36 +127,110 @@ public class GameWorldTest {
   }
 
   /**
+   * Add moving destroyables created during runtime.
+   */
+  @Test
+  void runTimeCreationMultipleTest() {
+    try {
+      List<MovingDestroyable> creations = new ArrayList<>();
+      creations.add(new MovingDestroyable(enemyEntityTypes, initPosition, 11,
+          enemySize, 1, 5, 10, enemyInitVelocity, enemyFinalPos, 1,
+          true));
+      creations.add(new MovingDestroyable(enemyEntityTypes, initPosition, 45,
+          enemySize, 1, 5, 10, enemyInitVelocity, enemyFinalPos, 1,
+          true));
+      creations.add(new MovingDestroyable(enemyEntityTypes, initPosition, 856,
+          enemySize, 1, 5, 10, enemyInitVelocity, enemyFinalPos, 1,
+          true));
+      gw.queueNewMovingDestroyable(creations);
+      gw.stepFrame(Action.NONE);
+      assertTrue(gw.getAllDestroyables().size() == 4 && gw.getAllGameObjects().size() == 4);
+    } catch (Exception ignored) {
+    }
+  }
+
+  /**
+   * Adds moving destroyables created during run time with empty list.
+   */
+  @Test
+  void runTimeCreationEmptyTest() {
+    try {
+      List<MovingDestroyable> creations = new ArrayList<>();
+      gw.queueNewMovingDestroyable(creations);
+      gw.stepFrame(Action.NONE);
+      assertTrue(gw.getAllDestroyables().size() == 1 && gw.getAllGameObjects().size() == 1);
+    } catch (Exception ignored) {
+    }
+  }
+
+  /**
    * Gravity getter is working.
    */
   @Test
   void getGravityTest() {
     assertEquals(gw.getGravity(), 2.0);
-    assertNotEquals(gw.getGravity(), 1.0, 0.0);
   }
 
   /**
-   * Game over signal is asserted correctly.
+   * Game over signal is asserted correctly. Should return false.
    */
   @Test
-  void gameOverTest() {
+  void gameOverFalseTest() {
     try {
       gw.stepFrame(Action.NONE);
-      assertFalse(gw.didPlayerWin());
+      assertFalse(gw.isGameOver());
+    } catch (Exception ignored) {
+    }
+  }
+
+  /**
+   * Game over signal is asserted correctly. Should return false.
+   */
+  @Test
+  void gameOverFalseLessHealthTest() {
+    try {
+      gw.stepFrame(Action.NONE);
+      player.incrementHealth(-0.05);
+      gw.stepFrame(Action.NONE);
+      assertFalse(gw.isGameOver());
+    } catch (Exception ignored) {
+    }
+  }
+
+  /**
+   * Game over signal is asserted correctly. Should return true, after killing player twice.
+   */
+  @Test
+  void gameOverTrueTest() {
+    try {
+      gw.stepFrame(Action.NONE);
       player.incrementHealth(-10.0);
       gw.stepFrame(Action.NONE);
+      assertFalse(gw.isGameOver());
+      player.incrementHealth(-10.0);
+      gw.stepFrame(Action.NONE);
+      assertTrue(gw.isGameOver());
+    } catch (Exception ignored) {
+    }
+  }
+
+  /**
+   * Simulates a check for player winning at start of game.
+   */
+  @Test
+  void playerWinFalseTest() {
+    try {
       assertFalse(gw.didPlayerWin());
     } catch (Exception ignored) {
     }
   }
 
   /**
-   * Simulates a check for player winning.
+   * Simulates a check for player winning after triggering win.
    */
   @Test
-  void playerWinTest() {
+  void playerWinTrueTest() {
     try {
-      assertFalse(gw.didPlayerWin());
       player.playerWinsLevel();
       assertTrue(gw.didPlayerWin());
     } catch (Exception ignored) {

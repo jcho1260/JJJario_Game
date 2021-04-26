@@ -139,7 +139,7 @@ public class Destroyable extends GameObject{
     health.kill();
     health.loseLife();
     if (!health.isAlive()) {
-      notifyListeners("changeVisibility", true, false);
+      notifyListenerKey("sprite", "changeVisibility", true, false);
     }
   }
 

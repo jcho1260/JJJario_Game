@@ -3,11 +3,14 @@ package ooga.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import ooga.model.gameobjects.Destroyable;
+import ooga.model.gameobjects.Player;
 import ooga.model.util.MethodBundle;
 import ooga.model.util.Vector;
 import org.junit.jupiter.api.Test;
@@ -130,5 +133,6 @@ public class DestroyableCollisionsTest {
         startHealth, 1, true);
     return d;
   }
+
 
 }

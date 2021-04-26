@@ -58,10 +58,10 @@ public class GameWorld extends Observable implements Serializable {
   public GameWorld(Player gamePlayer, Map<String, Map<String, List<MethodBundle>>> collisionMethods,
       List<GameObject> gameObjects, List<GameObject> actors, Vector frameSize, int startingLives,
       double levelGravity, double frameRate, Vector minScreenLimit, Vector maxScreenLimit) {
-    PropertyChangeListener playerListener = evt -> notifyListeners(evt.getPropertyName(), null,
+    PropertyChangeListener playerListener = evt -> notifyListenerKey("highscore", evt.getPropertyName(), null,
         evt.getNewValue());
     player = gamePlayer;
-    player.addListener(playerListener);
+    player.addListener("gameworld", playerListener);
     windowSize = frameSize;
     allGameObjects = gameObjects;
     gravity = levelGravity;
@@ -75,9 +75,7 @@ public class GameWorld extends Observable implements Serializable {
     updateFrameCoordinates(player.getPosition(), player.getSize());
     allAlwaysActive = new ArrayList<>();
     findAlwaysActive();
-    allActiveGameObjects = findActiveObjects(allGameObjects);
     allDestroyables = actors;
-    allActiveDestroyables = findActiveObjects(allDestroyables);
     worldCollisionHandling = new WorldCollisionHandling(collisionMethods, gameObjects, actors, player);
     windowSize = frameSize;
     runtimeCreations = new ArrayList<>();
@@ -91,6 +89,8 @@ public class GameWorld extends Observable implements Serializable {
 
   public void stepFrame(Action pressEffect)
       throws NoSuchMethodException, JjjanException, InvocationTargetException, IllegalAccessException {
+    allActiveGameObjects = findActiveObjects(allGameObjects);
+    allActiveDestroyables = findActiveObjects(allDestroyables);
     player.userStep(pressEffect, stepTime, gravity, currentFrameCount);
     allGameObjectStep(stepTime);
     collisionsDetectAndExecute();
@@ -179,12 +179,12 @@ public class GameWorld extends Observable implements Serializable {
     Vector frameTopL = frameCoords[0];
     Vector frameBotR = frameCoords[3];
     List<GameObject> ret = new ArrayList<>();
-    player.setActive(player.isAlive());
     for (GameObject o : allObjects) {
       boolean isActive = checkActiveState(o, frameTopL, frameBotR);
       o.setActive(isActive);
       if(isActive) {ret.add(o);}
     }
+    player.setActive(player.isAlive());
     return ret;
   }
 
@@ -315,7 +315,7 @@ public class GameWorld extends Observable implements Serializable {
   private void incrementScore(double increment) {
     double prevScore = score;
     score += increment;
-    notifyListeners("score", prevScore, score);
+    notifyListenerKey("highscore", "score", prevScore, score);
   }
 
 
