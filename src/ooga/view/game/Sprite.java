@@ -57,10 +57,10 @@ public class Sprite implements PropertyChangeListener {
   }
 
   public void changeX(Double x) {
-    imageView.setX(x);
+    imageView.setLayoutX(x);
   }
 
   public void changeY(Double y) {
-    imageView.setY(y);
+    imageView.setLayoutY(y);
   }
 }

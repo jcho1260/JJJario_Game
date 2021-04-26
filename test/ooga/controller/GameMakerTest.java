@@ -52,8 +52,26 @@ public class GameMakerTest {
 
     GameWorld gw = gm
         .makeGameWorld("JJJario", new Vector(100, 100), 60, new Vector(0, 0), new Vector(100, 40));
+    gm.saveGame("testGame", gw);
+    gw = gm.loadGame("JJJario", "testGame");
 
     assertEquals(10, gw.getAllGameObjects().get(0).getPosition().getX());
+  }
+
+  @Test
+  public void testGetTags() throws ParserConfigurationException, SAXException, IOException {
+    List<String> tags = gm.getEntityType("Mario");
+    assertEquals("GameObject", tags.get(0));
+  }
+
+  @Test
+  public void testGetNumObjects() {
+    assertEquals(1, gm.getNumObjects());
+  }
+
+  @Test
+  public void testGetGame() {
+    assertEquals("JJJario", gm.getGame());
   }
 
   @Test
