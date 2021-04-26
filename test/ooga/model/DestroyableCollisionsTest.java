@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import ooga.model.gameobjects.Destroyable;
+import ooga.model.gameobjects.GameObject;
 import ooga.model.gameobjects.Player;
 import ooga.model.util.MethodBundle;
 import ooga.model.util.Vector;
@@ -112,6 +113,7 @@ public class DestroyableCollisionsTest {
   @Test
   void checkAliveTest() {
     Destroyable d = createDestroyable();
+    addListenerSprite(d);
     assertEquals(true, d.isAlive());
     d.kill();
     assertEquals(true, d.isAlive());
@@ -132,6 +134,13 @@ public class DestroyableCollisionsTest {
     Destroyable d = new Destroyable(tags, new Vector(0, 0), 1, new Vector(5, 5), startLife,
         startHealth, 1, true);
     return d;
+  }
+
+  private void addListenerSprite(GameObject p) {
+    PropertyChangeListener standIn = evt -> {
+
+    };
+    p.addListener("sprite", standIn);
   }
 
 

@@ -3,7 +3,6 @@ package ooga.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -69,6 +68,7 @@ public class PlayerCollisionTest {
   void testRespawnAndHealth()
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     Player p = createPlayer();
+    addListenerGameWorld(p);
     addListenerPlayer(p);
     p.setPredictedPosition(new Vector(50, 50));
     p.incrementHealth(-1.0);
@@ -82,6 +82,7 @@ public class PlayerCollisionTest {
   void testIncrementLives()
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     Player p = createPlayer();
+    addListenerGameWorld(p);
     addListenerPlayer(p);
     p.incrementLives(1.0);
     Method healthCheck = Destroyable.class.getDeclaredMethod("getLives");
@@ -99,6 +100,7 @@ public class PlayerCollisionTest {
   @Test
   void testScaleSize() throws ClassNotFoundException {
     Player p = createPlayer();
+    addListenerPlayer(p);
     p.scaleSize(2.0);
     assertEquals(new Vector(10, 10), p.getSize());
   }
@@ -120,12 +122,17 @@ public class PlayerCollisionTest {
   }
 
   private void addListenerPlayer(Player p) {
-    p.addListener("test", new PropertyChangeListener() {
-      @Override
-      public void propertyChange(PropertyChangeEvent evt) {
-        System.out.println("added listener");
-      }
-    });
+    PropertyChangeListener standIn = evt -> {
+
+    };
+    p.addListener("sprite", standIn);
+  }
+
+  private void addListenerGameWorld(Player p) {
+    PropertyChangeListener standIn = evt -> {
+
+    };
+    p.addListener("gameworld", standIn);
   }
 
   private MethodBundle createMethodBundle(String name, double[] params) {
