@@ -28,7 +28,7 @@ public class CollisionHandlingTest {
   }
 
   @Test
-  void testBottomDiffAxisCollision(){
+  void testBottomDiffAxisCollision() {
     List<String> bTags = new ArrayList<>();
     bTags.add("Enemy");
     Vector bPos = new Vector(10, 20);
@@ -259,7 +259,7 @@ public class CollisionHandlingTest {
     double shootCool = 30;
     double invinc = 5;
     Player d = new Player(tags, new Vector(0, 0), 1, new Vector(5, 5), startLife,
-        startHealth, jumpTime, velo, 1, new Vector(0,0), comtJump, shootCool, true, invinc);
+        startHealth, jumpTime, velo, 1, new Vector(0, 0), comtJump, shootCool, true, invinc);
     return d;
   }
 
@@ -273,7 +273,6 @@ public class CollisionHandlingTest {
         startHealth, 1, true);
     return d;
   }
-
 
 
 }

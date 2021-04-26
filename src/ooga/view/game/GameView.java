@@ -50,7 +50,7 @@ public class GameView implements PropertyChangeListener {
       ((ImageView) menuScene.lookup("#Logo")).setImage(
           new Image(
               Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
-                  "view_resources/images/logo/"+gameName+"Logo.png"))));
+                  "view_resources/images/logo/" + gameName + "Logo.png"))));
       stage.setTitle(gameName);
       stage.setScene(menuScene);
       currScene = menuScene;

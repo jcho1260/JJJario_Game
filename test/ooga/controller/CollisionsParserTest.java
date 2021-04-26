@@ -1,6 +1,7 @@
 package ooga.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,11 +37,13 @@ public class CollisionsParserTest {
 
   @Test
   public void testMalformedCollisionsThrows() {
-    assertThrows(Exception.class, () -> collisionsParser.parseCollisions(new File("data/testgame/badCollisions.xml")));
+    assertThrows(Exception.class,
+        () -> collisionsParser.parseCollisions(new File("data/testgame/badCollisions.xml")));
   }
 
   @Test
   public void testNoCollisionsFileThrows() {
-    assertThrows(FileNotFoundException.class, () -> collisionsParser.parseCollisions(new File("this/is/not/a/valid/file")));
+    assertThrows(FileNotFoundException.class,
+        () -> collisionsParser.parseCollisions(new File("this/is/not/a/valid/file")));
   }
 }

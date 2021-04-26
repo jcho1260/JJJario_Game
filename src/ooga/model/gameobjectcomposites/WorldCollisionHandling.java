@@ -2,26 +2,29 @@ package ooga.model.gameobjectcomposites;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import ooga.JjjanException;
-import ooga.model.gameobjects.Player;
-import ooga.model.util.MethodBundle;
 import ooga.model.gameobjects.Destroyable;
 import ooga.model.gameobjects.GameObject;
+import ooga.model.gameobjects.Player;
+import ooga.model.util.MethodBundle;
 import ooga.model.util.Vector;
 
 /**
- *
  * @author: JinCho, JuhyoungLee
  */
 public class WorldCollisionHandling implements Serializable {
 
-  private Map<String, Map<String, List<MethodBundle>>> collisionMethods;
+  private final Map<String, Map<String, List<MethodBundle>>> collisionMethods;
   private List<GameObject> activeGameObjects;
   private List<GameObject> activeDestroyable;
-  private Player player;
+  private final Player player;
   private Set<Destroyable> collisions;
   private List<Entry<GameObject, GameObject>> collisionPairs;
 
@@ -29,7 +32,8 @@ public class WorldCollisionHandling implements Serializable {
    * Default constructor
    */
   public WorldCollisionHandling(Map<String, Map<String, List<MethodBundle>>> collisionMethodsMap,
-      List<GameObject> activeGameObjectsList, List<GameObject> activeActorsList, Player gamePlayer) {
+      List<GameObject> activeGameObjectsList, List<GameObject> activeActorsList,
+      Player gamePlayer) {
     collisionMethods = collisionMethodsMap;
     activeGameObjects = activeGameObjectsList;
     activeDestroyable = activeActorsList;
@@ -42,8 +46,8 @@ public class WorldCollisionHandling implements Serializable {
     collisionPairs = new ArrayList<>();
     collisions = new HashSet<>();
   }
+
   /**
-   *
    * @param gameObjects
    * @param destroyables
    */
@@ -54,6 +58,7 @@ public class WorldCollisionHandling implements Serializable {
 
   /**
    * detects all collisions between all actors and the game objects of the game.
+   *
    * @return true if there are collisions that occured between a pair of game objects
    * @throws JjjanException if a collisions wasn't defined between two gameobjects in the data file
    */
@@ -88,9 +93,11 @@ public class WorldCollisionHandling implements Serializable {
     }
   }
 
-  private void determineCollisionPairs(GameObject actor, GameObject collisionObject, List<String> directionalTags)
+  private void determineCollisionPairs(GameObject actor, GameObject collisionObject,
+      List<String> directionalTags)
       throws JjjanException {
-    List<MethodBundle> actorCollisionMethods = handleTagHierarchy(actor.getEntityType(), directionalTags);
+    List<MethodBundle> actorCollisionMethods = handleTagHierarchy(actor.getEntityType(),
+        directionalTags);
     ((Destroyable) actor).addCollision(actorCollisionMethods);
     ignoreCornerCollisions(actor, collisionObject);
     Entry<GameObject, GameObject> pair = new SimpleEntry<>(actor, collisionObject);
@@ -107,7 +114,9 @@ public class WorldCollisionHandling implements Serializable {
   }
 
   /**
-   * corrects all intersections resulting from movement and collisions and corrects them so collisions are not repeatedly detected
+   * corrects all intersections resulting from movement and collisions and corrects them so
+   * collisions are not repeatedly detected
+   *
    * @param allBricks all bricks in the game so that they don't get corrected
    */
   public void fixIntersection(List<GameObject> allBricks) {
@@ -115,7 +124,9 @@ public class WorldCollisionHandling implements Serializable {
       Destroyable destroyable = (Destroyable) pair.getKey();
       GameObject gameObject = pair.getValue();
       Vector[] collisionRect = destroyable.determineCollisionRect(destroyable, gameObject);
-      if (collisionRect == null) return;
+      if (collisionRect == null) {
+        return;
+      }
       Vector fixAmount = calculatCollisionFixAmount(destroyable, collisionRect);
       destroyable.setPredictedPosition(destroyable.getPredictedPosition().add(fixAmount));
       ignoreBrickCollisionCorrections(allBricks, destroyable, gameObject, fixAmount);
@@ -130,7 +141,8 @@ public class WorldCollisionHandling implements Serializable {
     return collisionRectSize.multiply(direction).add(direction.multiply(new Vector(0, 0)));
   }
 
-  private void ignoreBrickCollisionCorrections(List<GameObject> allBricks, Destroyable destroyable, GameObject gameObject, Vector fixAmount) {
+  private void ignoreBrickCollisionCorrections(List<GameObject> allBricks, Destroyable destroyable,
+      GameObject gameObject, Vector fixAmount) {
     if (!allBricks.contains(gameObject)) {
       gameObject.setPredictedPosition(gameObject.getPredictedPosition().add(fixAmount
           .multiply(new Vector(-1, -1))));
@@ -140,7 +152,9 @@ public class WorldCollisionHandling implements Serializable {
   }
 
   /**
-   * executes all collision methods for every destroyable that is colliding with a game object. also checks if destroyable should die.
+   * executes all collision methods for every destroyable that is colliding with a game object. also
+   * checks if destroyable should die.
+   *
    * @return
    * @throws NoSuchMethodException
    * @throws IllegalAccessException
@@ -159,7 +173,8 @@ public class WorldCollisionHandling implements Serializable {
     return toDelete;
   }
 
-  private List<MethodBundle> handleTagHierarchy(List<String> destroyableTags, List<String> collidedTags)
+  private List<MethodBundle> handleTagHierarchy(List<String> destroyableTags,
+      List<String> collidedTags)
       throws JjjanException {
     for (int d = destroyableTags.size() - 1; d >= 0; d--) {
       String dTag = destroyableTags.get(d);

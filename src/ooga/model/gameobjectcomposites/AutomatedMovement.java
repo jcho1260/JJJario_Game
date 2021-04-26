@@ -13,7 +13,7 @@ public class AutomatedMovement implements Serializable {
   private final Vector startPosition;
   private final Vector endPosition;
   private Vector velocity;
-  private double gravityScale;
+  private final double gravityScale;
   private final boolean isStartLessThanEndX;
   private final boolean isStartGreaterThanEndY;
 
@@ -21,7 +21,7 @@ public class AutomatedMovement implements Serializable {
    * Default constructor for AutomatedMovement.
    *
    * @param initialPosition Vector
-   * @param finalPosition Vector
+   * @param finalPosition   Vector
    * @param initialVelocity Vector
    */
   public AutomatedMovement(Vector initialPosition, Vector finalPosition, Vector initialVelocity,
@@ -39,7 +39,7 @@ public class AutomatedMovement implements Serializable {
    *
    * @param elapsedTime double
    * @param gameGravity double
-   * @param position Vector
+   * @param position    Vector
    * @return newPosition Vector
    */
   public Vector stepMovement(double elapsedTime, double gameGravity, Vector position) {

@@ -85,6 +85,7 @@ public class GameMakerTest {
     GameObjectMaker gom = new GameObjectMaker("ooga.model.gameobjects.GameObject", attributes);
 
     gm.addGameObjectMaker(gom);
-    assertThrows(GameObjectMakerException.class, () -> gm.makeGameWorld("JJJario", new Vector(100, 100), 60, new Vector(0, 0), new Vector(100, 40)));
+    assertThrows(GameObjectMakerException.class, () -> gm
+        .makeGameWorld("JJJario", new Vector(100, 100), 60, new Vector(0, 0), new Vector(100, 40)));
   }
 }

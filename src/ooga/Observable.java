@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public abstract class Observable {
 
-  private Map<String, PropertyChangeListener> allListeners = new HashMap<>();
+  private final Map<String, PropertyChangeListener> allListeners = new HashMap<>();
 
   /**
    * Adds single PropertyChangeListener to allListeners.
@@ -23,14 +23,17 @@ public abstract class Observable {
 
   /**
    * Notify added listener at index i of a change.
+   *
    * @param sourceKey
    * @param property
    * @param oldValue
    * @param newValue
    */
-  public void notifyListenerKey(String sourceKey, String property, Object oldValue, Object newValue) {
+  public void notifyListenerKey(String sourceKey, String property, Object oldValue,
+      Object newValue) {
     if (allListeners.containsKey(sourceKey)) {
-      allListeners.get(sourceKey).propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
+      allListeners.get(sourceKey)
+          .propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
     }
   }
 }

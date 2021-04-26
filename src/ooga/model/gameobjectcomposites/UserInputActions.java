@@ -9,20 +9,21 @@ import ooga.model.util.Vector;
 public class UserInputActions implements Serializable {
 
   private Map<String, Integer> parameterCounts;
-  private UserInputMovement movement;
-  private double shootingDelay;
+  private final UserInputMovement movement;
+  private final double shootingDelay;
   private double lastShot;
 
   public UserInputActions(double jumpTime, Vector defaultVelocity, double gravity,
       Vector autoscrollVector, int contJumpLimit, double shootingCooldown) {
-    movement = new UserInputMovement(jumpTime, defaultVelocity, gravity, autoscrollVector, contJumpLimit);
+    movement = new UserInputMovement(jumpTime, defaultVelocity, gravity, autoscrollVector,
+        contJumpLimit);
     shootingDelay = shootingCooldown;
     lastShot = shootingDelay * -1;
     createParameterCounts();
   }
 
   public boolean shoot(Double x, Double y, int currentFrame) {
-    if (currentFrame >= lastShot + shootingDelay){
+    if (currentFrame >= lastShot + shootingDelay) {
       lastShot = currentFrame;
       return true;
     }

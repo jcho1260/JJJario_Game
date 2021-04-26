@@ -8,9 +8,10 @@ import ooga.model.gameobjectcomposites.Health;
 import ooga.model.util.MethodBundle;
 import ooga.model.util.Vector;
 
-public class Destroyable extends GameObject{
-  private Queue<MethodBundle> collisionQueue;
-  private DestroyableCollisionHandling collisionHandler;
+public class Destroyable extends GameObject {
+
+  private final Queue<MethodBundle> collisionQueue;
+  private final DestroyableCollisionHandling collisionHandler;
   protected Health health;
   protected int score;
 
@@ -28,12 +29,17 @@ public class Destroyable extends GameObject{
 
   /**
    * checks to see if destroyable is still alive
+   *
    * @return true if alive
    */
-  public boolean isAlive() { return health.isAlive(); }
+  public boolean isAlive() {
+    return health.isAlive();
+  }
 
   /**
-   * checks to see if the collision is a small corner collision with the object and should be ignored
+   * checks to see if the collision is a small corner collision with the object and should be
+   * ignored
+   *
    * @param o object destroyable is colliding with
    * @return true if it is a small corner collision
    */
@@ -42,7 +48,6 @@ public class Destroyable extends GameObject{
   }
 
   /**
-   *
    * @param o
    * @return
    */
@@ -51,7 +56,6 @@ public class Destroyable extends GameObject{
   }
 
   /**
-   *
    * @param myself
    * @param o
    * @return
@@ -61,7 +65,6 @@ public class Destroyable extends GameObject{
   }
 
   /**
-   *
    * @param myself
    * @param collisionBox
    * @return
@@ -94,7 +97,7 @@ public class Destroyable extends GameObject{
    */
   public void incrementHealth(Double increment) {
     health.incrementHealth(increment);
-    if(health.getHealth() <= 0) {
+    if (health.getHealth() <= 0) {
       health.loseLife();
     }
   }
@@ -128,9 +131,12 @@ public class Destroyable extends GameObject{
 
   /**
    * gets the number of points a destroyable is worth once destroyed
+   *
    * @return number of points destroyable is worth
    */
-  public double getScore() { return score; }
+  public double getScore() {
+    return score;
+  }
 
   /**
    *

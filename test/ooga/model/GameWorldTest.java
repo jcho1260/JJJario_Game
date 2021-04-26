@@ -1,7 +1,9 @@
 package ooga.model;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,9 +21,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Test suite for GameWorld.
  *
- * @author Jessica Yang 
+ * @author Jessica Yang
  */
 public class GameWorldTest {
+
   GameWorld gw;
   Map collisionMethods = new HashMap<String, Map<String, List<MethodBundle>>>();
   List<GameObject> gameobjects = new ArrayList<>();
@@ -58,14 +61,14 @@ public class GameWorldTest {
       player = new Player(new ArrayList<>(), initPosition, 0, new Vector(1, 1),
           1, 1, 2, velocityMagnitude, 0, new Vector(0, 0),
           0, 2, true, 0);
-      gw = new GameWorld(player,collisionMethods, gameobjects, actors, frameSize, 5,
+      gw = new GameWorld(player, collisionMethods, gameobjects, actors, frameSize, 5,
           gravity, frameRate, minScreenLimit, maxScreenLimit);
       blockEntityTypes.add("GameObject");
       block = new GameObject(blockEntityTypes, blockPosition, 8, blockSize, true);
       enemyEntityTypes.add("GameObject");
       enemyEntityTypes.add("MovingDestroyable");
       enemy = new MovingDestroyable(enemyEntityTypes, enemyInitialPos, 10, enemySize,
-      1, 5, 10, enemyInitVelocity, enemyFinalPos, 1, true);
+          1, 5, 10, enemyInitVelocity, enemyFinalPos, 1, true);
     } catch (Exception ignored) {
     }
     assertNotNull(gw);

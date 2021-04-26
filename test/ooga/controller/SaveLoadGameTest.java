@@ -39,11 +39,13 @@ public class SaveLoadGameTest {
 
   @Test
   public void testNullGameWorldThrows() {
-    assertThrows(JjjanException.class, () -> gameSaver.saveGame("testGame", "level", "testSave", null));
+    assertThrows(JjjanException.class,
+        () -> gameSaver.saveGame("testGame", "level", "testSave", null));
   }
 
   @Test
   public void testLoadNonExistingSaveThrows() {
-    assertThrows(FileNotFoundException.class, () -> gameSaver.loadGame("testGame", "level", "notValid.game"));
+    assertThrows(FileNotFoundException.class,
+        () -> gameSaver.loadGame("testGame", "level", "notValid.game"));
   }
 }

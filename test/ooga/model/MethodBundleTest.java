@@ -15,6 +15,7 @@ public class MethodBundleTest {
 
   MethodBundle m;
   MethodBundle m2;
+
   @BeforeEach
   @Test
   public void init() {
@@ -37,12 +38,12 @@ public class MethodBundleTest {
 
   @Test
   void makeNoneExistMethodTest() {
-    assertThrows(NoSuchMethodException.class, () ->m.makeMethod(GameObject.class));
+    assertThrows(NoSuchMethodException.class, () -> m.makeMethod(GameObject.class));
   }
 
   @Test
   void makeWrongParamMethodTest() {
-    assertThrows(NoSuchMethodException.class, () ->m2.makeMethod(Player.class));
+    assertThrows(NoSuchMethodException.class, () -> m2.makeMethod(Player.class));
   }
 
   @Test

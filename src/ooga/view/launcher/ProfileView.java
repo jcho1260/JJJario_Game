@@ -76,7 +76,7 @@ public class ProfileView {
 
   private void makeHighScores(String game, String level, Integer score) {
     ((Pane) ((ScrollPane) currMenu.lookup("#HighScoreScrollPane")).getContent()
-        .lookup("#"+game + "HighScores")).getChildren()
+        .lookup("#" + game + "HighScores")).getChildren()
         .add(new Text(level.replaceAll("([A-Za-z])(\\d)", "$1 $2") + ": " + score));
   }
 
@@ -108,7 +108,7 @@ public class ProfileView {
 
       File selectedFile = fileChooser.showOpenDialog(currMenu.getScene().getWindow());
       if (selectedFile == null) {
-        new ExceptionView().displayWarning("Invalid File","Please choose an image!");
+        new ExceptionView().displayWarning("Invalid File", "Please choose an image!");
       } else {
         String imagePath = selectedFile.toURI().toString().split("/resources/")[1];
         pcl.propertyChange(new PropertyChangeEvent(this, "setPicture", null, imagePath));
@@ -121,7 +121,8 @@ public class ProfileView {
     return event -> {
       if (event.getCode() == KeyCode.ENTER) {
         if (component.getText().length() == 0) {
-          new ExceptionView().displayWarning("Invalid Input","Please provide a non-empty username");
+          new ExceptionView()
+              .displayWarning("Invalid Input", "Please provide a non-empty username");
           return;
         }
         pcl.propertyChange(new PropertyChangeEvent(this, "set" + label, null, component.getText()));
