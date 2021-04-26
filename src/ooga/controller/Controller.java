@@ -187,9 +187,11 @@ public class Controller {
     try {
       gameMaker = new GameMaker(currGame);
       gameWorld = gameMaker.loadGame(currGame, name);
+      gameWorldFactory = new LevelParser(new File("data/" + gameMaker.getGame() + "/Level1.xml"));
     } catch (Exception e) {
       reportError(e);
     }
+
     start();
   }
 
@@ -226,6 +228,7 @@ public class Controller {
   public void loadGame(String level, String dateString) {
     try {
       gameWorld = gameSaver.loadGame(currGame, level, dateString);
+      gameWorldFactory = new LevelParser(new File("data/" + currGame + "/Level1.xml"));
     } catch (Exception e) {
       reportError(e);
     }
