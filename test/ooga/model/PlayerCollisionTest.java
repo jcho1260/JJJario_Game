@@ -79,6 +79,17 @@ public class PlayerCollisionTest {
   }
 
   @Test
+  void testIncrementLives()
+      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    Player p = createPlayer();
+    addListenerPlayer(p);
+    p.incrementLives(1.0);
+    Method healthCheck = Destroyable.class.getDeclaredMethod("getLives");
+    healthCheck.setAccessible(true);
+    assertEquals(2, (double) healthCheck.invoke(p));
+  }
+
+  @Test
   void testScaleVelocity() throws ClassNotFoundException {
     Player p = createPlayer();
     p.scaleVelocity(2.0, 3.0);
