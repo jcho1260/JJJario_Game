@@ -67,7 +67,7 @@ public class Controller {
     try {
       levelNameParser = new LevelNameParser(new File("data/" + currGame + "/LevelNames.xml"));
     } catch (Exception e) {
-      e.printStackTrace();
+      reportError(e);
     }
     return levelNameParser.numLevels();
   }
@@ -76,7 +76,7 @@ public class Controller {
     try {
       levelNameParser = new LevelNameParser(new File("data/" + currGame + "/LevelNames.xml"));
     } catch (Exception e) {
-      e.printStackTrace();
+      reportError(e);
     }
     return levelNameParser.getLevelName(n);
   }
@@ -111,7 +111,7 @@ public class Controller {
       gameWorldFactory = new LevelParser(levelFile);
       gameWorld = gameWorldFactory.createGameWorld(collisions, frameRate);
     } catch (Exception e) {
-      e.printStackTrace();
+      reportError(e);
     }
 
     start();
@@ -160,7 +160,7 @@ public class Controller {
     try {
       gameMaker.createPlayer(pos, size);
     } catch (Exception e) {
-      e.printStackTrace();
+      reportError(e);
     }
   }
 
@@ -168,7 +168,7 @@ public class Controller {
     try {
       return gameMaker.getEntityType(name);
     } catch (Exception e) {
-      e.printStackTrace();
+      reportError(e);
     }
     return null;
   }
@@ -179,7 +179,7 @@ public class Controller {
       GameWorld gw = gameMaker.makeGameWorld(gameName, frameSize, frameRate, minScreen, maxScreen);
       gameMaker.saveGame(levelName, gw);
     } catch (Exception e) {
-      e.printStackTrace();
+      reportError(e);
     }
   }
 
@@ -201,7 +201,7 @@ public class Controller {
     try {
       return gameMaker.getGameObjects();
     } catch (Exception e) {
-      e.printStackTrace();
+      reportError(e);
     }
     return null;
   }
@@ -237,7 +237,7 @@ public class Controller {
     try {
       levelNameParser = new LevelNameParser(levelNameFile);
     } catch (Exception e) {
-      e.printStackTrace();
+      reportError(e);
     }
 
     List<Pair<String, String>> levels = new ArrayList<>();
@@ -316,7 +316,6 @@ public class Controller {
     mdList.add(md);
     gameWorld.queueNewMovingDestroyable(mdList);
     String name = md.getEntityType().get(md.getEntityType().size() - 1);
-//    System.out.println("SENDING SPRITE UP TO FRONTEND");
     Sprite s = new Sprite(gameView.getGameName(), name, md.getSize().getX(), md.getSize().getY(),
         md.getPosition().getX(), md.getPosition().getY());
     md.addListener(s);
