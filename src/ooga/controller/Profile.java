@@ -64,8 +64,6 @@ public class Profile implements Serializable, PropertyChangeListener {
   }
 
   public void display(ProfileView pv) {
-//    System.out.println("name: " + name);
-//    System.out.println("hs: " + highScores);
     pv.makeMenu(name, picture, keybinds, highScores);
   }
 
