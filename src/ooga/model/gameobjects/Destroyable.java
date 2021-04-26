@@ -10,10 +10,10 @@ import ooga.model.util.Vector;
 
 public class Destroyable extends GameObject {
 
-  protected Health health;
-  protected int score;
   private final Queue<MethodBundle> collisionQueue;
   private final DestroyableCollisionHandling collisionHandler;
+  protected Health health;
+  protected int score;
 
   /**
    * Default constructor with default lives, health values

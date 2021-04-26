@@ -14,11 +14,11 @@ import ooga.model.util.Vector;
  */
 public class GameObject extends Observable implements Serializable {
 
-  protected Rectangle rect;
   private final List<String> entityTypes;
   private final int id;
   private boolean isActive;
   private final boolean isVisible;
+  protected Rectangle rect;
 
   /**
    * Default constructor

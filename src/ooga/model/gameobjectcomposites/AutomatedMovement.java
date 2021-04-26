@@ -12,10 +12,10 @@ public class AutomatedMovement implements Serializable {
 
   private final Vector startPosition;
   private final Vector endPosition;
-  private final boolean isStartLessThanEndX;
-  private final boolean isStartGreaterThanEndY;
   private Vector velocity;
   private final double gravityScale;
+  private final boolean isStartLessThanEndX;
+  private final boolean isStartGreaterThanEndY;
 
   /**
    * Default constructor for AutomatedMovement.

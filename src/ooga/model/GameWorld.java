@@ -30,9 +30,7 @@ public class GameWorld extends Observable implements Serializable {
   private static final int correctionCycles = 10;
   private static final String TAG_SPECIFICATIONS = "ooga.model.model_resources.games.EntityTagSpecifications";
   private static final String ALL_ACTIVE_KEY = "ALWAYSACTIVE";
-  private final List<String> alwaysActiveTags;
-  private final double gravity;
-  private final double stepTime;
+
   private List<GameObject> allGameObjects;
   private List<GameObject> allActiveGameObjects;
   private List<GameObject> allDestroyables;
@@ -47,6 +45,10 @@ public class GameWorld extends Observable implements Serializable {
   private final Vector[] frameCoords;
   private final Vector screenLimitsMin;
   private final Vector screenLimitsMax;
+
+  private final List<String> alwaysActiveTags;
+  private final double gravity;
+  private final double stepTime;
 
   /**
    * Default constructor
@@ -152,7 +154,6 @@ public class GameWorld extends Observable implements Serializable {
   }
 
   /**
-   *
    * @param newMovingDestroyables
    */
   public void queueNewMovingDestroyable(List<MovingDestroyable> newMovingDestroyables) {
@@ -290,6 +291,7 @@ public class GameWorld extends Observable implements Serializable {
 
   /**
    * returns the game gravity
+   *
    * @return game gravity
    */
   public double getGravity() {
@@ -298,6 +300,7 @@ public class GameWorld extends Observable implements Serializable {
 
   /**
    * gives the status of the game
+   *
    * @return true if the game is over and the player has lost
    */
   public boolean isGameOver() {
@@ -306,6 +309,7 @@ public class GameWorld extends Observable implements Serializable {
 
   /**
    * gives the status of the player
+   *
    * @return true if the player has won
    */
   public boolean didPlayerWin() {

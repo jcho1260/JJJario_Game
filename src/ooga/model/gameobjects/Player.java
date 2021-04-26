@@ -15,8 +15,8 @@ import ooga.model.util.Vector;
 public class Player extends Destroyable {
 
   private final UserInputActions userActions;
-  private final double invincibilityLimit;
   private final Class<?> userInputActions;
+  private final double invincibilityLimit;
   private double framesSinceDamage;
   private boolean win;
   private final Vector initialPosition;
