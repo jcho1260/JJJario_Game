@@ -47,6 +47,10 @@ public class GameView implements PropertyChangeListener {
     try {
       menuScene = sf.make(filePath);
       menuScene.getStylesheets().add(colorTheme);
+      ((ImageView) menuScene.lookup("#Logo")).setImage(
+          new Image(
+              Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+                  "view_resources/images/logo/"+gameName+"Logo.png"))));
       stage.setTitle(gameName);
       stage.setScene(menuScene);
       currScene = menuScene;
@@ -160,9 +164,7 @@ public class GameView implements PropertyChangeListener {
   }
 
   private EventHandler<KeyEvent> makeKeyActionRelease() {
-    return event -> {
-      kl.propertyChange(new PropertyChangeEvent(this, "currKey", null, event));
-    };
+    return event -> kl.propertyChange(new PropertyChangeEvent(this, "currKey", null, event));
   }
 
   private EventHandler<KeyEvent> makeKeyActionPress() {

@@ -1,9 +1,9 @@
 package ooga.view.launcher;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
@@ -31,9 +31,9 @@ public class BuilderView {
   private String levelName;
   private Vector frameSize;
   private Vector levelSize;
-  private Stage builderStage;
   private final String colors;
-  private Group builderGroup;
+  private Pane builderPane;
+  private final ArrayList<ImageView> spriteCache = new ArrayList<>();
 
   public BuilderView(Controller controller, ParentComponentFactory pcf, String colors) {
     this.controller = controller;
@@ -51,8 +51,8 @@ public class BuilderView {
 
     controller.startGameMaker(game, this);
 
-    builderGroup = new Group();
-    builderGroup.setId("BuilderGroup");
+    builderPane = new Pane();
+    builderPane.setId("BuilderPane");
 
     ScrollPane sp = (ScrollPane) pcf.make(e);
     Pane p = (Pane) sp.getContent();
@@ -61,9 +61,9 @@ public class BuilderView {
     sp.setPrefViewportHeight(frameSize.getY());
     sp.setPrefViewportWidth(frameSize.getX());
     sp.setContextMenu(makeObjectTypeMenu());
-    p.getChildren().add(builderGroup);
+    p.getChildren().add(builderPane);
 
-    builderStage = new Stage();
+    Stage builderStage = new Stage();
     builderStage.setTitle("Stage Builder");
     Scene temp = new Scene(sp);
     builderStage.setScene(temp);
@@ -74,7 +74,12 @@ public class BuilderView {
     ImageView newSprite = new Sprite(game, imageName, size.getX(), size.getY(), pos.getX(),
         pos.getY()).getImageView();
     newSprite.setVisible(true);
-    builderGroup.getChildren().add(newSprite);
+    builderPane.getChildren().add(newSprite);
+    try {
+      spriteCache.add(newSprite);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   private void queryObjectInfo(String name, String type) throws ViewFactoryException {
@@ -99,6 +104,9 @@ public class BuilderView {
   private ContextMenu makeObjectTypeMenu() {
     List<Pair<String, String>> objectTypes = controller.getAllGameObjectsForMaker();
     ContextMenu contextMenu = new ContextMenu();
+    MenuItem undoItem = new MenuItem("Undo");
+    undoItem.setOnAction(event -> undoLastGameObject());
+    contextMenu.getItems().add(undoItem);
     MenuItem buildItem = new MenuItem("Build");
     buildItem.setOnAction(event -> buildCustomStage());
     contextMenu.getItems().add(buildItem);
@@ -132,5 +140,9 @@ public class BuilderView {
 
   private void buildCustomStage() {
     controller.saveGameMaker(game, levelName, frameSize, 60, new Vector(0, 0), levelSize);
+  }
+
+  private void undoLastGameObject() {
+    builderPane.getChildren().remove(spriteCache.get(spriteCache.size()-1));
   }
 }

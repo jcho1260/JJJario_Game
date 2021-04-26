@@ -7,10 +7,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -167,7 +170,35 @@ class LauncherTest extends DukeApplicationTest {
   }
 
   @Test
+  void FailedProfileLoginTest() {
+    try {
+      controller.setActiveProfile("");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    Button pfButton = lookup("#ProfileButton").query();
+    assertNotNull(pfButton);
+    clickOn(pfButton);
+    TextField tf = lookup("#UsernameInputBox").query();
+    assertNotNull(tf);
+    clickOn(tf);
+    type(KeyCode.ENTER);
+    Node errorPane = lookup(".dialog-pane").query();
+    assertNotNull(errorPane);
+  }
+
+  @Test
   void ProfileEditTest() {
+    ProfileLoginTest();
+    TextField upMenu = lookup("#UPMenuInput").query();
+    assertNotNull(upMenu);
+    clickOn(upMenu);
+    type(KeyCode.Q);
+    assertEquals("Q", upMenu.getPromptText());
+  }
+
+  @Test
+  void ProfileFailedEditTest() {
     ProfileLoginTest();
     TextField upMenu = lookup("#UPMenuInput").query();
     assertNotNull(upMenu);
