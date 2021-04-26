@@ -52,6 +52,15 @@
           <Height>130</Height>
         </ImageView>
       </VBox>
+      <VBox id="WOW_I_HATE_JFXHighScores" type="Pane" style="view_resources/launcher/profile/css/ProfileScrollVBox.css">
+        <ImageView id="WOW_I_HATE_JFXLogo" type="Leaf">
+          <Image>
+            <Path>view_resources/images/logo/JJJalagaLogo.png</Path>
+          </Image>
+          <Width>150</Width>
+          <Height>130</Height>
+        </ImageView>
+      </VBox>
     </HBox>
   </ScrollPane>
 </VBox>

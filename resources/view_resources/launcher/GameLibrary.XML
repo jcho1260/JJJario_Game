@@ -53,8 +53,20 @@
         </Event>
       </Button>
       <Button id="Game4Button" type="Leaf">
-        <Text>Game 4</Text>
-        <!--<Action>TODO</Action>-->
+        <Text>WOW_I_HATE_JFX</Text>
+        <ImageView>
+          <Image>
+            <Path>view_resources/images/logo/JJJalagaLogo.png</Path>
+          </Image>
+          <Ratio>true</Ratio>
+          <Height>130</Height>
+          <Width>150</Width>
+        </ImageView>
+        <Event method="setOnAction">
+          <Game>WOW_I_HATE_JFX</Game>
+          <Type>launchGame</Type>
+          <Path>resources/view_resources/game/Menu.XML</Path>
+        </Event>
       </Button>
     </HBox>
   </VBox>

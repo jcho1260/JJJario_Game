@@ -200,6 +200,7 @@ public class HandlerFactory {
             .format(new SimpleDateFormat("MM-dd-yyyy_HH_mm_ss").parse(save.getValue()));
         b.setText(save.getKey().replaceAll("([A-Za-z])(\\d)", "$1 $2") + "\t" + timestamp);
         b.setOnAction(event -> controller.loadGame(save.getKey(), save.getValue()));
+        b.setId(save.getKey()+"Button");
         ((Pane) sp.getContent()).getChildren().add(b);
       }
       changeStackPane(component, e, sp);

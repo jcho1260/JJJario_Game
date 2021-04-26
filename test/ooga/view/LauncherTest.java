@@ -3,6 +3,7 @@ package ooga.view;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
@@ -16,6 +17,7 @@ import javafx.css.Stylesheet;
 import javafx.event.ActionEvent;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -160,6 +162,8 @@ class LauncherTest extends DukeApplicationTest {
     Button levelLibrary = lookup("#LoadLibraryButton").query();
     clickOn(levelLibrary);
     assertNotNull(lookup("#LoadLibraryVBox").query());
+    clickOn(lookup("#Level1Button").query());
+    assertNotNull(lookup("#Player").query());
   }
 
   /**
