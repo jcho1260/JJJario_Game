@@ -112,17 +112,10 @@ public class WorldCollisionHandling implements Serializable {
     for (Entry<GameObject, GameObject> pair : collisionPairs) {
       Destroyable destroyable = (Destroyable) pair.getKey();
       GameObject gameObject = pair.getValue();
-
       Vector[] collisionRect = destroyable.determineCollisionRect(destroyable, gameObject);
       if (collisionRect == null) return;
-      Vector direction = destroyable.calculateCollisionDirection(destroyable, collisionRect)
-          .toUnit().multiply(new Vector(-0.5, -0.5));
-      Vector collisionRectSize = new Vector(collisionRect[1].getX() - collisionRect[0].getX(),
-          collisionRect[1].getY() - collisionRect[0].getY());
-      Vector fixAmount = collisionRectSize.multiply(direction).add(direction.multiply(new Vector(0, 0)));
+      Vector fixAmount = calculatCollisionFixAmount(destroyable, collisionRect);
       destroyable.setPredictedPosition(destroyable.getPredictedPosition().add(fixAmount));
-
-      // TODO use list of all blocks to check what to move
       if (!allBricks.contains(gameObject)) {
         gameObject.setPredictedPosition(gameObject.getPredictedPosition().add(fixAmount
             .multiply(new Vector(-1, -1))));
@@ -131,6 +124,14 @@ public class WorldCollisionHandling implements Serializable {
       }
     }
 
+  }
+
+  private Vector calculatCollisionFixAmount(Destroyable destroyable, Vector[] collisionRect) {
+    Vector direction = destroyable.calculateCollisionDirection(destroyable, collisionRect)
+        .toUnit().multiply(new Vector(-0.5, -0.5));
+    Vector collisionRectSize = new Vector(collisionRect[1].getX() - collisionRect[0].getX(),
+        collisionRect[1].getY() - collisionRect[0].getY());
+    return collisionRectSize.multiply(direction).add(direction.multiply(new Vector(0, 0)));
   }
 
   /**
