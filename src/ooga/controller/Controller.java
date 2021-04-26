@@ -247,7 +247,8 @@ public class Controller {
       File folder = new File("data/saves/" + currGame + "/" + level);
       if (folder.exists()) {
         levels.addAll(Arrays.stream(folder.listFiles()).map(file -> new Pair<>(level,
-            file.getName())).collect(Collectors.toList()));
+            file.getName())).filter(name -> !name.getValue().equals("FOLDER_PURPOSE.md"))
+            .collect(Collectors.toList()));
       }
     }
     return levels.toArray(Pair[]::new);
