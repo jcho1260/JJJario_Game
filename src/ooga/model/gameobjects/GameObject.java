@@ -75,7 +75,7 @@ public class GameObject extends Observable implements Serializable {
    * @param gameGravity
    */
   public void step(double elapsedTime, double gameGravity) {
-    // TODO :D
+
   }
 
   public Vector getVelocity() {
@@ -91,7 +91,6 @@ public class GameObject extends Observable implements Serializable {
    * Converts model coordinates to view coordinates, and sends GameObject position.
    */
   public void sendToView(Vector frameTopL) {
-    // TODO LOGIC
     double viewPositionX;
     double viewPositionY;
     viewPositionX = rect.getPosition().getX() - frameTopL.getX();
