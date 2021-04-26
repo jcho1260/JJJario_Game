@@ -14,7 +14,7 @@ import org.xml.sax.SAXException;
 
 public class LevelParserTest {
 
-  LevelParser gameWorldFactory;
+  private LevelParser gameWorldFactory;
 
   @BeforeEach
   public void init() throws IOException, SAXException, ParserConfigurationException {

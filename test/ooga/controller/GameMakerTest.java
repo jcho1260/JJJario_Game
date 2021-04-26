@@ -16,7 +16,7 @@ import org.xml.sax.SAXException;
 
 public class GameMakerTest {
 
-  GameMaker gm;
+  private GameMaker gm;
 
   @BeforeEach
   public void init() {
