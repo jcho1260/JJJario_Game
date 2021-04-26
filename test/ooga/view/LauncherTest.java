@@ -175,10 +175,8 @@ class LauncherTest extends DukeApplicationTest {
     assertNotNull(lookup("#Player").query());
     ImageView playerImg = lookup("#Player").query();
     double prevX = playerImg.getLayoutX();
-    System.out.println(prevX);
     press(KeyCode.D);
     double currX = playerImg.getLayoutX();
-    System.out.println(currX);
     assertNotEquals(prevX, currX);
     controller.endGame();
   }

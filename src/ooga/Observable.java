@@ -29,6 +29,8 @@ public abstract class Observable {
    * @param newValue
    */
   public void notifyListenerKey(String sourceKey, String property, Object oldValue, Object newValue) {
-    allListeners.get(sourceKey).propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
+    if (allListeners.containsKey(sourceKey)) {
+      allListeners.get(sourceKey).propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
+    }
   }
 }

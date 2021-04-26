@@ -187,6 +187,8 @@ public class Controller {
     try {
       gameMaker = new GameMaker(currGame);
       gameWorld = gameMaker.loadGame(currGame, name);
+      gameWorld.addPlayerListener();
+      gameWorldFactory = new LevelParser(new File("data/"+currGame+"/Level1.xml"));
     } catch (Exception e) {
       reportError(e);
     }
@@ -226,6 +228,7 @@ public class Controller {
   public void loadGame(String level, String dateString) {
     try {
       gameWorld = gameSaver.loadGame(currGame, level, dateString);
+      gameWorldFactory = new LevelParser(new File("data/"+currGame+"/"+level+".xml"));
     } catch (Exception e) {
       reportError(e);
     }
@@ -385,7 +388,9 @@ public class Controller {
   }
 
   private void reportError(Exception e) {
-    stop();
+    if (animation != null) {
+      stop();
+    }
     e.printStackTrace();
     new ExceptionView().displayError(e);
   }
