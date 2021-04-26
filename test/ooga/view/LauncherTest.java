@@ -3,46 +3,28 @@ package ooga.view;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.stream.Collectors;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
-import javafx.css.Stylesheet;
-import javafx.event.ActionEvent;
-import javafx.geometry.Point2D;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import ooga.Observable;
 import ooga.controller.Controller;
 import ooga.model.util.Vector;
 import ooga.util.DukeApplicationTest;
-import ooga.view.launcher.ExceptionView;
 import ooga.view.launcher.LauncherView;
 import org.junit.jupiter.api.Test;
-import org.testfx.service.query.PointQuery;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -305,24 +287,13 @@ class LauncherTest extends DukeApplicationTest {
     BuilderCorrectStartScreen();
     Platform.runLater(() -> {
       clickOn("#BuilderScrollable");
-      controller.displayBuilderSprite("Player",new Vector(50,50), new Vector(50,50));
+      controller.displayBuilderSprite("Player", new Vector(50, 50), new Vector(50, 50));
       ImageView playerImage = lookup("#Player").query();
       assertEquals(50, playerImage.getFitHeight());
       assertEquals(50, playerImage.getFitWidth());
       assertEquals(50, playerImage.getLayoutX());
       assertEquals(50, playerImage.getLayoutY());
     });
-  }
-
-  @Test
-  void ChangeColorTest() {
-    assertNotNull(lookup("#SettingsButton").query());
-    Button gameLibraryButton = lookup("#SettingsButton").query();
-    clickOn(gameLibraryButton);
-    assertNotNull(lookup("#ProfileSettingsVBox1").query());
-    ObservableList<String> prevSh = gameLibraryButton.getScene().getStylesheets();
-    clickOn("#ColorThemeSelector").moveBy(0, 100).clickOn(MouseButton.PRIMARY);
-    ObservableList<String> currSh = gameLibraryButton.getScene().getStylesheets();
   }
 
   @Test

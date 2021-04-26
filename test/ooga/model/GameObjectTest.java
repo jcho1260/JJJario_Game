@@ -1,11 +1,13 @@
 package ooga.model;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import ooga.model.gameobjects.GameObject;
 import ooga.model.util.Vector;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 public class GameObjectTest {
@@ -19,13 +21,13 @@ public class GameObjectTest {
   @Test
   void testNoVelocity() {
     GameObject o = constructGameObject();
-    assertEquals(new Vector(0,0), o.getVelocity());
+    assertEquals(new Vector(0, 0), o.getVelocity());
   }
 
   @Test
   void testGetPos() {
     GameObject o = constructGameObject();
-    assertEquals(new Vector(0,0), o.getPosition());
+    assertEquals(new Vector(0, 0), o.getPosition());
   }
 
   @Test
@@ -37,18 +39,18 @@ public class GameObjectTest {
   @Test
   void testGetSize() {
     GameObject o = constructGameObject();
-    assertEquals(new Vector(5,5), o.getSize());
+    assertEquals(new Vector(5, 5), o.getSize());
   }
 
   @Test
   void testNewPos() {
     GameObject o = constructGameObject();
-    assertEquals(new Vector(0,0), o.getPredictedPosition());
-    o.setPredictedPosition(new Vector(5,0));
-    assertEquals(new Vector(5,0), o.getPredictedPosition());
-    assertEquals(new Vector(0,0), o.getPosition());
+    assertEquals(new Vector(0, 0), o.getPredictedPosition());
+    o.setPredictedPosition(new Vector(5, 0));
+    assertEquals(new Vector(5, 0), o.getPredictedPosition());
+    assertEquals(new Vector(0, 0), o.getPosition());
     o.updatePosition();
-    assertEquals(new Vector(5,0), o.getPosition());
+    assertEquals(new Vector(5, 0), o.getPosition());
   }
 
   @Test

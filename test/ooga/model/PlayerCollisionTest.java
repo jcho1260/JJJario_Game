@@ -18,18 +18,19 @@ import org.junit.jupiter.api.Test;
 public class PlayerCollisionTest {
 
   Player player;
+
   @BeforeEach
   @Test
   public void init() {
-    List<String> entityTags = new ArrayList<>(){
+    List<String> entityTags = new ArrayList<>() {
       {
         add("GameObject");
         add("MovingDestroyable");
         add("Player");
       }
     };
-    Vector zeros = new Vector(0,0);
-    Vector ones = new Vector(1,1);
+    Vector zeros = new Vector(0, 0);
+    Vector ones = new Vector(1, 1);
     try {
       player = new Player(entityTags, zeros, 0, ones, 0, 1, 0.75,
           ones, 1, zeros, 1, 30, true, 1);
@@ -117,7 +118,7 @@ public class PlayerCollisionTest {
     double shootCool = 30;
     double invinc = 5;
     Player d = new Player(tags, new Vector(0, 0), 1, new Vector(5, 5), startLife,
-        startHealth, jumpTime, velo, 1, new Vector(0,0), comtJump, shootCool, true, invinc);
+        startHealth, jumpTime, velo, 1, new Vector(0, 0), comtJump, shootCool, true, invinc);
     return d;
   }
 

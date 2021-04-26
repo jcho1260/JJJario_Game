@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Health implements Serializable {
 
-  private double startHealth;
+  private final double startHealth;
   private double health;
   private double lives;
 

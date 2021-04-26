@@ -13,15 +13,18 @@ import ooga.model.util.Vector;
  * @author Jin Cho, Juhyoung Lee, Jessica Yang
  */
 public class GameObject extends Observable implements Serializable {
-  private List<String> entityTypes;
-  private int id;
-  private boolean isActive, isVisible;
+
   protected Rectangle rect;
+  private final List<String> entityTypes;
+  private final int id;
+  private boolean isActive;
+  private final boolean isVisible;
 
   /**
    * Default constructor
    */
-  public GameObject(List<String> entityTypes, Vector position, int id, Vector size, boolean visible) {
+  public GameObject(List<String> entityTypes, Vector position, int id, Vector size,
+      boolean visible) {
     this.entityTypes = entityTypes;
     this.id = id;
     isActive = false;
@@ -70,7 +73,6 @@ public class GameObject extends Observable implements Serializable {
   }
 
   /**
-   *
    * @param elapsedTime
    * @param gameGravity
    */
@@ -79,7 +81,7 @@ public class GameObject extends Observable implements Serializable {
   }
 
   public Vector getVelocity() {
-    return new Vector(0,0);
+    return new Vector(0, 0);
   }
 
   public void setActive(boolean activeState) {

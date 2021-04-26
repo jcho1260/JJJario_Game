@@ -42,7 +42,7 @@ public class DestroyableCollisionsTest {
     MethodBundle incHealth = createMethodBundle("incrementHealth", params);
     methods.add(incHealth);
     d.addCollision(methods);
-    assertThrows(NoSuchMethodException.class, ()-> d.executeCollisions());
+    assertThrows(NoSuchMethodException.class, () -> d.executeCollisions());
   }
 
   @Test
@@ -71,7 +71,7 @@ public class DestroyableCollisionsTest {
     MethodBundle incHealth = createMethodBundle("incrementLives", params);
     methods.add(incHealth);
     d.addCollision(methods);
-    assertThrows(NoSuchMethodException.class, ()-> d.executeCollisions());
+    assertThrows(NoSuchMethodException.class, () -> d.executeCollisions());
   }
 
   @Test
@@ -98,7 +98,7 @@ public class DestroyableCollisionsTest {
     Method healthCheck = Destroyable.class.getDeclaredMethod("getHealth");
     livesCheck.setAccessible(true);
     healthCheck.setAccessible(true);
-    assertEquals(1, (double)healthCheck.invoke(d));
+    assertEquals(1, (double) healthCheck.invoke(d));
     assertEquals(0, (double) livesCheck.invoke(d));
   }
 

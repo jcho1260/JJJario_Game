@@ -4,8 +4,6 @@ package ooga;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
-import ooga.model.util.Vector;
-import ooga.view.launcher.ExceptionView;
 import ooga.view.launcher.LauncherView;
 
 /**
@@ -16,7 +14,7 @@ public class ViewDevMain extends Application {
   /**
    * Start of the program.
    */
-  public static void main (String[] args) {
+  public static void main(String[] args) {
     launch(args);
   }
 

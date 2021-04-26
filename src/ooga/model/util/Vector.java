@@ -7,7 +7,8 @@ import java.io.Serializable;
  */
 public class Vector implements Serializable {
 
-  private double xVal, yVal;
+  private final double xVal;
+  private final double yVal;
 
   /**
    * Default constructor.
@@ -95,9 +96,7 @@ public class Vector implements Serializable {
 
   public boolean insideBox(Vector topL, Vector botR) {
     if (xVal > topL.getX() && xVal < botR.getX()) {
-      if (yVal < botR.getY() && yVal > topL.getY()) {
-        return true;
-      }
+      return yVal < botR.getY() && yVal > topL.getY();
     }
     return false;
   }

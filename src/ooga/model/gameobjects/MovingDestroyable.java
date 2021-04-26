@@ -10,7 +10,8 @@ public class MovingDestroyable extends Destroyable {
 
   /**
    * Constructor for MovingDestroyable.
-   *  @param entityTypes
+   *
+   * @param entityTypes
    * @param initialPosition
    * @param id
    * @param size
@@ -31,7 +32,7 @@ public class MovingDestroyable extends Destroyable {
   /**
    * Updates position of object with each step of animation while also calling repeated methods if
    * applicable
-   * 
+   *
    * @param elapsedTime
    * @param gameGravity
    */
