@@ -320,9 +320,7 @@ class LauncherTest extends DukeApplicationTest {
     Button gameLibraryButton = lookup("#SettingsButton").query();
     clickOn(gameLibraryButton);
     assertNotNull(lookup("#ProfileSettingsVBox1").query());
-    ObservableList<String> prevSh = gameLibraryButton.getScene().getStylesheets();
     clickOn("#ColorThemeSelector").moveBy(0, 100).clickOn(MouseButton.PRIMARY);
-    ObservableList<String> currSh = gameLibraryButton.getScene().getStylesheets();
   }
 
   @Test
