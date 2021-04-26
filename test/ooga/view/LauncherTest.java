@@ -154,6 +154,14 @@ class LauncherTest extends DukeApplicationTest {
     assertNotNull(lookup("#JJJarioLevelView").query());
   }
 
+  @Test
+  void JJJarioUserLevelButton() {
+    JJJarioGameButton();
+    Button levelLibrary = lookup("#LoadLibraryButton").query();
+    clickOn(levelLibrary);
+    assertNotNull(lookup("#LoadLibraryVBox").query());
+  }
+
   /**
    * Test to see if the user can open the JJJario Level 1
    */
@@ -291,6 +299,20 @@ class LauncherTest extends DukeApplicationTest {
   }
 
   @Test
+  void BuilderSpriteBasicDisplay() {
+    BuilderCorrectStartScreen();
+    Platform.runLater(() -> {
+      clickOn("#BuilderScrollable");
+      controller.displayBuilderSprite("Player",new Vector(50,50), new Vector(50,50));
+      ImageView playerImage = lookup("#Player").query();
+      assertEquals(50, playerImage.getFitHeight());
+      assertEquals(50, playerImage.getFitWidth());
+      assertEquals(50, playerImage.getLayoutX());
+      assertEquals(50, playerImage.getLayoutY());
+    });
+  }
+
+  @Test
   void ChangeColorTest() {
     assertNotNull(lookup("#SettingsButton").query());
     Button gameLibraryButton = lookup("#SettingsButton").query();
@@ -299,5 +321,36 @@ class LauncherTest extends DukeApplicationTest {
     ObservableList<String> prevSh = gameLibraryButton.getScene().getStylesheets();
     clickOn("#ColorThemeSelector").moveBy(0, 100).clickOn(MouseButton.PRIMARY);
     ObservableList<String> currSh = gameLibraryButton.getScene().getStylesheets();
+  }
+
+  @Test
+  void MakeNewProfile() {
+    try {
+      controller.setActiveProfile("");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    Button pfButton = lookup("#ProfileButton").query();
+    assertNotNull(pfButton);
+    clickOn(pfButton);
+    TextField tf = lookup("#UsernameInputBox").query();
+    assertNotNull(tf);
+    tf.setText("do_not_commit");
+    clickOn(tf);
+    type(KeyCode.ENTER);
+    assertNotNull(lookup("#ProfileMenuVBox1").query());
+  }
+
+  @Test
+  void LogoutProfile() {
+    ProfileLoginTest();
+    Button loginButton = lookup("#LogoutButton").query();
+    assertNotNull(loginButton);
+    clickOn(loginButton);
+    Button pfButton = lookup("#ProfileButton").query();
+    assertNotNull(pfButton);
+    clickOn(pfButton);
+    TextField tf = lookup("#UsernameInputBox").query();
+    assertNotNull(tf);
   }
 }
