@@ -315,15 +315,6 @@ class LauncherTest extends DukeApplicationTest {
   }
 
   @Test
-  void ChangeColorTest() {
-    assertNotNull(lookup("#SettingsButton").query());
-    Button gameLibraryButton = lookup("#SettingsButton").query();
-    clickOn(gameLibraryButton);
-    assertNotNull(lookup("#ProfileSettingsVBox1").query());
-    clickOn("#ColorThemeSelector").moveBy(0, 100).clickOn(MouseButton.PRIMARY);
-  }
-
-  @Test
   void MakeNewProfile() {
     try {
       controller.setActiveProfile("");
