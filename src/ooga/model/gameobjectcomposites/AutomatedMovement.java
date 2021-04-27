@@ -4,7 +4,8 @@ import java.io.Serializable;
 import ooga.model.util.Vector;
 
 /**
- * Handles auto movement for moving GameObjects.
+ * Handles auto movement for moving GameObjects. Added to GameObjects that require automated
+ * movement.
  *
  * @author Jessica Yang
  */
