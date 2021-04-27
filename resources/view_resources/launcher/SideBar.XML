@@ -99,16 +99,4 @@
       </FilePath>
     </Event>
   </Button>
-  <Button id="ExitButton" type="Leaf">
-    <Text>Exit</Text>
-    <ImageView>
-      <Image>
-        <Path>view_resources/images/button_icons/OnOff.png</Path>
-      </Image>
-      <Ratio>true</Ratio>
-      <Height>80</Height>
-      <Width>80</Width>
-    </ImageView>
-    <!--<Action>TODO</Action>-->
-  </Button>
 </VBox>
