@@ -52,6 +52,22 @@
           <Path>resources/view_resources/game/Menu.XML</Path>
         </Event>
       </Button>
+      <Button id="Game4Button" type="Leaf">
+        <Text>Wojak</Text>
+        <ImageView>
+          <Image>
+            <Path>view_resources/images/logo/WojakLogo.png</Path>
+          </Image>
+          <Ratio>true</Ratio>
+          <Height>130</Height>
+          <Width>150</Width>
+        </ImageView>
+        <Event method="setOnAction">
+          <Game>Wojak</Game>
+          <Type>launchGame</Type>
+          <Path>resources/view_resources/game/Menu.XML</Path>
+        </Event>
+      </Button>
     </HBox>
   </VBox>
 </ScrollPane>

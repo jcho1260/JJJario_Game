@@ -1,6 +1,6 @@
 <Level>
   <GlobalGravity>1</GlobalGravity>
-  <BackgroundImage>view_resources/images/backgrounds/JJJario.png</BackgroundImage>
+  <BackgroundImage>view_resources/images/backgrounds/Wojak.png</BackgroundImage>
   <Size>
     <x>1400</x>
     <y>810</y>
@@ -17,6 +17,30 @@
     <x>4000</x>
     <y>750</y>
   </ScreenLimitsMax>
+
+<!--  <Creatable>-->
+<!--    <Name>Bullet</Name>-->
+<!--    <Tags>-->
+<!--      <Tag>GameObject</Tag>-->
+<!--      <Tag>MovingDestroyable</Tag>-->
+<!--      <Tag>Bullet</Tag>-->
+<!--    </Tags>-->
+<!--    <Type>MovingDestroyable</Type>-->
+<!--    <Gravity>0</Gravity>-->
+<!--    <Size>-->
+<!--      <x>25</x>-->
+<!--      <y>25</y>-->
+<!--    </Size>-->
+<!--    <Offset>-->
+<!--      <x>0</x>-->
+<!--      <y>-50</y>-->
+<!--    </Offset>-->
+<!--    <Velocity>-->
+<!--      <x>0</x>-->
+<!--      <y>-50</y>-->
+<!--    </Velocity>-->
+<!--  </Creatable>-->
+
 
   <GameObjects>
     <GameObject>
@@ -45,8 +69,8 @@
       <Type>MovingDestroyable</Type>
       <Gravity>1</Gravity>
       <Size>
-        <x>50</x>
-        <y>50</y>
+        <x>150</x>
+        <y>150</y>
       </Size>
     </GameObject>
     <GameObject>
@@ -228,7 +252,7 @@
       <Name>Goomba</Name>
       <Location>
         <x>750</x>
-        <y>650</y>
+        <y>400</y>
       </Location>
       <Velocity>
         <x>-50</x>
@@ -239,14 +263,14 @@
       <Score>3</Score>
       <FinalLocation>
         <x>600</x>
-        <y>650</y>
+        <y>500</y>
       </FinalLocation>
     </Entity>
     <Entity>
       <Name>Goomba</Name>
       <Location>
         <x>1250</x>
-        <y>650</y>
+        <y>400</y>
       </Location>
       <Velocity>
         <x>-50</x>
@@ -257,7 +281,7 @@
       <Score>3</Score>
       <FinalLocation>
         <x>1000</x>
-        <y>650</y>
+        <y>500</y>
       </FinalLocation>
     </Entity>
     <Entity>

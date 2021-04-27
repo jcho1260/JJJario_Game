@@ -52,6 +52,15 @@
           <Height>130</Height>
         </ImageView>
       </VBox>
+      <VBox id="WojakHighScores" type="Pane" style="view_resources/launcher/profile/css/ProfileScrollVBox.css">
+        <ImageView id="WojakLogo" type="Leaf">
+          <Image>
+            <Path>view_resources/images/logo/WojakLogo.png</Path>
+          </Image>
+          <Width>150</Width>
+          <Height>130</Height>
+        </ImageView>
+      </VBox>
     </HBox>
   </ScrollPane>
 </VBox>
