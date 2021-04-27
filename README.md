@@ -31,7 +31,7 @@ Hours Spent: 5 * 70 = 350 hours
 
 ### Running the Program
 
-Main class: Main
+Main class: ViewDevMain
 
 Data files needed: XMLs configuration files for each game to run (Level#.xml, collisions.xml, LevelNames.xml); color themes; .properties for view factories; sprite property files; .css files for view; front-end XML configuration files; images for backgrounds, button icons, logos, profile, and sprites.
 
