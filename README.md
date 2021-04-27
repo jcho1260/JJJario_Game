@@ -31,7 +31,7 @@ Hours Spent: 5 * 70 = 350 hours
 
 ### Running the Program
 
-Main class: Main
+Main class: ViewDevMain
 
 Data files needed: XMLs configuration files for each game to run (Level#.xml, collisions.xml, LevelNames.xml); color themes; .properties for view factories; sprite property files; .css files for view; front-end XML configuration files; images for backgrounds, button icons, logos, profile, and sprites.
 
@@ -91,7 +91,6 @@ Interesting data files:
 
 Known Bugs:
 - Collision handling: corner collisions cause automated movement in MovingDestroyables in JJJario to stutter, and can cause FlappyBird to be hit when it shouldn't be
-- A Player is not controllable after loading a saved game file
 
 Extra credit: N/A
 
