@@ -91,7 +91,6 @@ Interesting data files:
 
 Known Bugs:
 - Collision handling: corner collisions cause automated movement in MovingDestroyables in JJJario to stutter, and can cause FlappyBird to be hit when it shouldn't be
-- A Player is not controllable after loading a saved game file
 
 Extra credit: N/A
 
