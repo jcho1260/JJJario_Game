@@ -42,31 +42,42 @@ public class Controller {
 
   public void displayBuilderSprite(String imageName, Vector pos, Vector size);
 
+  /**
+   Saving and Loading Games
+   */
+
   public void saveGame();
 
   public void loadGame(String level, String dateString);
 
   public Pair<String, String>[] getSaves();
 
+  /**
+   Game Management
+   */
   public void nextLevel();
 
   public void restartLevel();
 
   public void togglePaused();
 
+  public void endGame();
+
+  public void addCreatable(Vector pos);
+
+  public void displayMenu();
+
   public KeyListener getKeyListener();
+
+  /**
+   Profiles
+   */
 
   public Profile getProfile(String name);
 
   public String getActiveProfile();
 
   public void setActiveProfile(String name);
-
-  public void endGame();
-
-  public void addCreatable(Vector pos);
-
-  public void displayMenu();
 
 }
 
