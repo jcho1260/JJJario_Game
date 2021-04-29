@@ -73,7 +73,6 @@ public class HandlerFactory {
         Method m = HandlerFactory.class.getDeclaredMethod(eventType, Node.class, Element.class);
         m.invoke(this, component, e);
       } catch (Exception exception) {
-        exception.printStackTrace();
         new ExceptionView().displayError(exception);
       }
     };
@@ -332,7 +331,7 @@ public class HandlerFactory {
           }
           objList.add(o);
         } catch (Exception exception) {
-          exception.printStackTrace();
+          new ExceptionView().displayError(exception);
         }
       }
     }

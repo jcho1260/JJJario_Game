@@ -100,7 +100,7 @@ public class BuilderView {
     try {
       spriteCache.add(newSprite);
     } catch (Exception e) {
-      e.printStackTrace();
+      new ExceptionView().displayError(e);
     }
   }
 
