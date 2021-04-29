@@ -23,16 +23,40 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * LevelParser is responsible for extracting information from the Level.xml files for games. It is dependent on
+ * ooga.model.GameWorld, ooga.model.gameobjects.Destroyable, ooga.model.gameobjects.GameObject,
+ * ooga.model.gameobjects.MovingDestroyable, ooga.model.gameobjects.Player, ooga.model.util.MethodBundle,
+ * and ooga.model.util.Vector;
+ *
+ * @author Noah Citron
+ */
 public class LevelParser {
 
   private final Document doc;
 
+  /**
+   * Constructs a new LevelParser attached to a given Level.xml file
+   *
+   * @param file  Level.xml file
+   * @throws ParserConfigurationException
+   * @throws IOException
+   * @throws SAXException
+   */
   public LevelParser(File file) throws ParserConfigurationException, IOException, SAXException {
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
     DocumentBuilder db = dbf.newDocumentBuilder();
     doc = db.parse(file);
   }
 
+  /**
+   * Creates a GameWorld from the parameters specified in the Level.xml file
+   *
+   * @param collisions  the collisions returned by the CollisionsParser
+   * @param frameRate   the framerate for the game
+   * @return            a GameWorld for the specified game
+   * @throws ClassNotFoundException
+   */
   public GameWorld createGameWorld(Map<String, Map<String, List<MethodBundle>>> collisions,
       double frameRate) throws ClassNotFoundException {
 
@@ -79,10 +103,22 @@ public class LevelParser {
         frameRate, screenMin, screenMax);
   }
 
+  /**
+   * Gets the size of the frame from the data file
+   *
+   * @return a vector representing the frame size
+   */
   public Vector getFrameSize() {
     return getVectorAttribute(doc.getDocumentElement(), "Size");
   }
 
+  /**
+   * Creates a creatable with the given position and ID. Assumes that the data file specified a Creatable
+   *
+   * @param pos the position of the new creatable
+   * @param id  the id of the new creatable
+   * @return    the new creatable
+   */
   public MovingDestroyable makeCreatable(Vector pos, int id) {
     NodeList creatables = doc.getElementsByTagName("Creatable");
     if (creatables.getLength() == 0) {
@@ -103,6 +139,12 @@ public class LevelParser {
         new Vector(pos.getX(), 0), info.gravity, true);
   }
 
+  /**
+   * Gets the tags for a given GameObject specified in the data file. Assumes that the given GameObject name exists
+   *
+   * @param name  the name of the GameObject
+   * @return      the list of tags associated with that GameObject
+   */
   public List<String> getTags(String name) {
     NodeList objects = ((Element) doc.getElementsByTagName("GameObjects").item(0).getChildNodes())
         .getElementsByTagName("GameObject");
@@ -110,6 +152,12 @@ public class LevelParser {
     return gameObjectMap.get(name).tags;
   }
 
+  /**
+   * Gets all the GameObjects specified in the data file
+   *
+   * @return  a list of pairs representing each GameObject. The key is the name of the GameObject and the value is
+   * the subclass type of the GameObject
+   */
   public List<Pair<String, String>> getAllGameObjects() {
     NodeList objects = ((Element) doc.getElementsByTagName("GameObjects").item(0).getChildNodes())
         .getElementsByTagName("GameObject");
@@ -119,6 +167,14 @@ public class LevelParser {
         .collect(Collectors.toList());
   }
 
+  /**
+   * Creates a player given its coordinates
+   *
+   * @param coords  the coordinates of the player
+   * @param size    the size of the player
+   * @return        an instantiated player
+   * @throws ClassNotFoundException
+   */
   public Player createPlayerFromCoords(Vector coords, Vector size) throws ClassNotFoundException {
     NodeList objects = ((Element) doc.getElementsByTagName("GameObjects").item(0).getChildNodes())
         .getElementsByTagName("GameObject");
@@ -222,6 +278,12 @@ public class LevelParser {
     return Double.parseDouble(entity.getElementsByTagName(name).item(0).getTextContent());
   }
 
+  /**
+   * Gets the object map representing information about each of the available GameObjects
+   *
+   * @param objects the Element that contains the GameObject list
+   * @return        a map from string names of the GameObject to their GameObjectInfo information
+   */
   public Map<String, GameObjectInfo> getObjectMap(NodeList objects) {
     HashMap<String, GameObjectInfo> gameObjects = new HashMap<>();
     for (int i = 0; i < objects.getLength(); i++) {
@@ -249,6 +311,11 @@ public class LevelParser {
     return gameObjects;
   }
 
+  /**
+   * Gets the global gravity defined in the data file
+   *
+   * @return  global gravity value
+   */
   public double getGlobalGravity() {
     return Double.parseDouble(doc.getElementsByTagName("GlobalGravity").item(0).getTextContent());
   }
@@ -263,6 +330,15 @@ public class LevelParser {
     return getVectorAttribute(root, name);
   }
 
+  /**
+   * Gets the background image defined in the data file
+   *
+   * @param file  the data file
+   * @return
+   * @throws ParserConfigurationException
+   * @throws IOException
+   * @throws SAXException
+   */
   public String getBackground(File file)
       throws ParserConfigurationException, IOException, SAXException {
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();

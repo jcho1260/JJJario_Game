@@ -16,8 +16,25 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * CollisionsParser is responsible for parsing the collisions.xml file. It expects to be passed a file that exists.
+ * It is dependent on ooga.model.MethodBundle
+ *
+ * @author Noah Citron
+ */
 public class CollisionsParser {
 
+  /**
+   * Parses a collisions file
+   *
+   * @param file  the collisions file
+   * @return      a map of strings representing the first GameObject to a map of possible target GameObjects to collide
+   *              with. This second map contains a list of MethodBundles, which defined the methods to be reflectively
+   *              called when the two GameObjects collide
+   * @throws ParserConfigurationException
+   * @throws IOException
+   * @throws SAXException
+   */
   public Map<String, Map<String, List<MethodBundle>>> parseCollisions(File file)
       throws ParserConfigurationException, IOException, SAXException {
 
