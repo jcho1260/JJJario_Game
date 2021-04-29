@@ -30,6 +30,15 @@ import ooga.view.game.Sprite;
 import ooga.view.launcher.BuilderView;
 import ooga.view.launcher.ExceptionView;
 
+/**
+ * Controller is responsible for coordinating communication between the model and view. It contains utilities
+ * for querying information about the available games, pausing games, saving/loading games, and accessing the GameMaker.
+ * It is dependent on ooga.model.GameWorld, ooga.model.gameobjects.GameObject, ooga.model.gameobjects.MovingDestroyable,
+ * ooga.model.util.MethodBundle, ooga.model.util.Vector, ooga.view.game.GameView, ooga.view.game.Sprite, ooga.view.launcher.BuilderView,
+ * and ooga.view.launcher.ExceptionView;
+ *
+ * @author Noah Citron
+ */
 public class Controller {
 
   private final CollisionsParser collisionsParser;
@@ -49,6 +58,11 @@ public class Controller {
   private BuilderView builderView;
   private String currGame;
 
+  /**
+   * Constructs the controller
+   *
+   * @param frameRate the framerate of the game
+   */
   public Controller(double frameRate) {
     collisionsParser = new CollisionsParser();
     this.frameRate = frameRate;
@@ -63,6 +77,12 @@ public class Controller {
     gameSaver = new GameSaver();
   }
 
+  /**
+   * Gets the number of levels available in the current game. Assumes that the controller already has had the current
+   * game set
+   *
+   * @return the number of levels
+   */
   public int getNumLevels() {
     try {
       levelNameParser = new LevelNameParser(new File("data/" + currGame + "/LevelNames.xml"));
@@ -72,6 +92,12 @@ public class Controller {
     return levelNameParser.numLevels();
   }
 
+  /**
+   * Get the name of the level given the current level number. Assumes the controller already has the current game set
+   *
+   * @param n the level number
+   * @return  the name of the level with the given number
+   */
   public String getLevelName(int n) {
     try {
       levelNameParser = new LevelNameParser(new File("data/" + currGame + "/LevelNames.xml"));
@@ -87,10 +113,20 @@ public class Controller {
         .filter(name -> !name.equals("FOLDER_PURPOSE.md")).toArray(String[]::new);
   }
 
+  /**
+   * Starts a game with the given gameView. This method is called by the gameView when it is instantiated.
+   *
+   * @param gameView  the current GameView
+   */
   public void startGame(GameView gameView) {
     this.gameView = gameView;
   }
 
+  /**
+   * Starts a level
+   *
+   * @param n the level number to start
+   */
   public void startLevel(int n) {
 
     currentLevel = n;
@@ -117,6 +153,11 @@ public class Controller {
     start();
   }
 
+  /**
+   * Sets the current game being played
+   *
+   * @param game current game name
+   */
   public void setCurrGame(String game) {
     this.currGame = game;
   }
@@ -143,19 +184,41 @@ public class Controller {
     animation.play();
   }
 
+  /**
+   * Starts the GameMaker utility
+   *
+   * @param game        the game type being built
+   * @param builderView the BuilderView frontend component
+   */
   public void startGameMaker(String game, BuilderView builderView) {
     this.builderView = builderView;
     gameMaker = new GameMaker(game);
   }
 
+  /**
+   * Undoes an action performed by the GameMaker. Assumes their are actions to undo and that the GameMaker has
+   * been started
+   */
   public void undoGameMaker() {
     gameMaker.removeGameObjectMaker();
   }
 
+  /**
+   * Adds a new GameObjectMaker to the GameMaker. Assumes that the GameMaker has been started
+   *
+   * @param gom the GameObjectMaker representing the new GameObject to be added to the GameMaker
+   */
   public void addObjectToGameMaker(GameObjectMaker gom) {
     gameMaker.addGameObjectMaker(gom);
   }
 
+  /**
+   * Sets the player's location in the game currenty being built by the GameMaker. Assumes that the GameMaker has been
+   * started
+   *
+   * @param pos   the position of the player
+   * @param size  the size of the player
+   */
   public void setGameMakerPlayer(Vector pos, Vector size) {
     try {
       gameMaker.createPlayer(pos, size);
@@ -164,6 +227,12 @@ public class Controller {
     }
   }
 
+  /**
+   * Gets the tag list of a particular GameObject. Assumes that the GameMaker has been started
+   *
+   * @param name  name of the GameObject
+   * @return      the tag list of the GameObject
+   */
   public List<String> getEntityTypes(String name) {
     try {
       return gameMaker.getEntityType(name);
@@ -173,6 +242,16 @@ public class Controller {
     return null;
   }
 
+  /**
+   * Saves the GameMaker. Assumes that the GameMaker has been started and that the Player has been set
+   *
+   * @param gameName  name of the game
+   * @param levelName name of the level
+   * @param frameSize size of the screen
+   * @param frameRate framerate of the game
+   * @param minScreen the starting position of the game
+   * @param maxScreen the ending position of the game
+   */
   public void saveGameMaker(String gameName, String levelName, Vector frameSize, double frameRate,
       Vector minScreen, Vector maxScreen) {
     try {
@@ -183,6 +262,12 @@ public class Controller {
     }
   }
 
+  /**
+   * Loads a use defined game built by the GameMaker. Assumes that the current game has been set and there is a
+   * user defined game with the given name
+   *
+   * @param name
+   */
   public void loadUserDefinedName(String name) {
     try {
       gameMaker = new GameMaker(currGame);
@@ -195,10 +280,21 @@ public class Controller {
     start();
   }
 
+  /**
+   * Gets the number of objects instantiated by the GameMaker
+   *
+   * @return the number of objects instantiated by the GameMaker
+   */
   public int getNumGameMakers() {
     return gameMaker.getNumObjects();
   }
 
+  /**
+   * Get all the available GameObjects for a given game. This is used by the frontend to display exactly what is
+   * available to be built
+   *
+   * @return  a list of pairs. The key represents the name of the GameObject, while the value represents its type
+   */
   public List<Pair<String, String>> getAllGameObjectsForMaker() {
     try {
       return gameMaker.getGameObjects();
@@ -208,10 +304,20 @@ public class Controller {
     return null;
   }
 
+  /**
+   * displays a sprite in the BuilderView
+   *
+   * @param imageName the name of the image for the sprite
+   * @param pos       the position of the sprite
+   * @param size      the size of the sprite
+   */
   public void displayBuilderSprite(String imageName, Vector pos, Vector size) {
     builderView.displayBuilderSprite(imageName, pos, size);
   }
 
+  /**
+   * Saves the game that is currently being played. Assumes a game is currently being played
+   */
   public void saveGame() {
     String pattern = "MM-dd-yyyy_HH_mm_ss";
     DateFormat df = new SimpleDateFormat(pattern);
@@ -225,6 +331,12 @@ public class Controller {
     }
   }
 
+  /**
+   * Loads a previously saved game. Assumes the current game has been set
+   *
+   * @param level       the level name
+   * @param dateString  the timestamp of when the game was saved
+   */
   public void loadGame(String level, String dateString) {
     try {
       gameWorld = gameSaver.loadGame(currGame, level, dateString);
@@ -235,6 +347,11 @@ public class Controller {
     start();
   }
 
+  /**
+   * Gets an array of saves
+   *
+   * @return an array of pairs. The key represents the level and the value represents the timestamp
+   */
   public Pair<String, String>[] getSaves() {
     File levelNameFile = new File("data/" + currGame + "/LevelNames.xml");
     try {
@@ -257,6 +374,9 @@ public class Controller {
     return levels.toArray(Pair[]::new);
   }
 
+  /**
+   * Advances to the next level. Assumes that a game is currently being played
+   */
   public void nextLevel() {
     currentLevel++;
     if (currentLevel == totalLevels) {
@@ -266,10 +386,16 @@ public class Controller {
     startLevel(currentLevel);
   }
 
+  /**
+   * Restarts the current level. Assumes that the game is currently being played
+   */
   public void restartLevel() {
     startLevel(currentLevel);
   }
 
+  /**
+   * Pauses / unpauses the game. Assumes a game is currently being played
+   */
   public void togglePaused() {
     Status status = animation.getStatus();
     if (status == Status.PAUSED) {
@@ -279,10 +405,21 @@ public class Controller {
     }
   }
 
+  /**
+   * Gets the key listener
+   *
+   * @return The KeyListener
+   */
   public KeyListener getKeyListener() {
     return keyListener;
   }
 
+  /**
+   * Gets a profile given the name
+   *
+   * @param name  profile name
+   * @return      profile
+   */
   public Profile getProfile(String name) {
     try {
       FileInputStream in = new FileInputStream("data/profiles/" + name + ".player");
@@ -298,21 +435,40 @@ public class Controller {
     return null;
   }
 
+  /**
+   * Gets the name of the currently active profile. Defaults to "default"
+   *
+   * @return the name of the currently active profile
+   */
   public String getActiveProfile() {
     return activeProfile;
   }
 
+  /**
+   * Sets the currently active profile
+   *
+   * @param name  the name of the profile to set to be active
+   * @throws IOException
+   */
   public void setActiveProfile(String name) throws IOException {
     activeProfile = name;
     keyListener = new KeyListener(getProfile(activeProfile).getKeybinds());
   }
 
+  /**
+   * Ends the game. Assumes a game is currently being played
+   */
   public void endGame() {
     if (animation != null) {
       animation.stop();
     }
   }
 
+  /**
+   * Adds a creatable dynamically to the game. Assumes that Level.xml file defines that this game has creatables
+   *
+   * @param pos the position to generate the creatable at
+   */
   public void addCreatable(Vector pos) {
     int id = new Random().nextInt(Integer.MAX_VALUE);
     MovingDestroyable md = gameWorldFactory.makeCreatable(pos, id);
@@ -383,6 +539,9 @@ public class Controller {
     gameView.propertyChange(new PropertyChangeEvent(this, "addSprite", null, s));
   }
 
+  /**
+   * Displays the game menu
+   */
   public void displayMenu() {
     gameView.displayMenu();
   }
@@ -391,7 +550,6 @@ public class Controller {
     if (animation != null) {
       stop();
     }
-    e.printStackTrace();
     new ExceptionView().displayError(e);
   }
 

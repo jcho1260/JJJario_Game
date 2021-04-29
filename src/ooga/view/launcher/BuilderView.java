@@ -23,6 +23,14 @@ import ooga.view.factories.ViewFactoryException;
 import ooga.view.game.Sprite;
 import org.w3c.dom.Element;
 
+/**
+ * This class provides the user interface for the stage builder functionality of the application. It
+ * is dependent on ooga.controller.Controller, ooga.model.util.Vector,
+ * ooga.view.factories.ParentComponentFactory, import ooga.view.factories.SceneFactory,
+ * ooga.view.factories.ViewFactoryException, and ooga.view.game.Sprite.
+ *
+ * @author Adam Hufstetler
+ */
 public class BuilderView {
 
   private final ParentComponentFactory pcf;
@@ -35,12 +43,30 @@ public class BuilderView {
   private Vector levelSize;
   private Pane builderPane;
 
+  /**
+   * Constructs a BuilderView through which stage builder user interfaces can be started.
+   *
+   * @param controller Controller
+   * @param pcf ParentComponentFactory
+   * @param colors Stylesheet string that defines the default colors for the UI
+   */
   public BuilderView(Controller controller, ParentComponentFactory pcf, String colors) {
     this.controller = controller;
     this.pcf = pcf;
     this.colors = colors;
   }
 
+  /**
+   * Starts an instance of the stage builder with the provided parameters.
+   *
+   * @param stage Stage
+   * @param e Element
+   * @param game String
+   * @param levelName String
+   * @param frameSize Vector
+   * @param levelSize Vector
+   * @throws ViewFactoryException if the given element cannot be parsed correctly
+   */
   public void startBuilder(Stage stage, Element e, String game, String levelName, Vector frameSize,
       Vector levelSize)
       throws ViewFactoryException {
@@ -70,6 +96,13 @@ public class BuilderView {
     builderStage.show();
   }
 
+  /**
+   * Creates and displays the given sprite on the builder user interface
+   *
+   * @param imageName String
+   * @param pos Vector
+   * @param size Vector
+   */
   public void displayBuilderSprite(String imageName, Vector pos, Vector size) {
     ImageView newSprite = new Sprite(game, imageName, size.getX(), size.getY(), pos.getX(),
         pos.getY()).getImageView();
@@ -78,7 +111,7 @@ public class BuilderView {
     try {
       spriteCache.add(newSprite);
     } catch (Exception e) {
-      e.printStackTrace();
+      new ExceptionView().displayError(e);
     }
   }
 

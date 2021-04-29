@@ -11,14 +11,36 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+/**
+ * This class provides the functionality to generate javafx node objects from properly formatted
+ * XML data files to be used to interpret user input for use in the application. This class will
+ * fail if the XML files are not properly formatted.
+ *
+ * @author Adam Hufstetler
+ */
 public class ParentComponentFactory extends ComponentFactory {
 
   private final LeafComponentFactory lcf;
 
+  /**
+   * Constructs a ParentComponentFactory with the given handler factory to make a Leaf Factory.
+   *
+   * @param af the HandlerFactory through which user event handlers are made in the Leaf Factory
+   */
   public ParentComponentFactory(HandlerFactory af) {
     lcf = new LeafComponentFactory(af);
   }
 
+  /**
+   * Constructs a javafx node from a given element. It is assumed there is a matching ResourceBundle
+   * for the given javafx component in the directory resources/view_resources/factory_bundles. It
+   * is also assumed all elements have an id attribute and style attribute with a valid css file.
+   *
+   * @param e element which contains the requisite information to construct the expected object
+   * @return an object constructed by parsing the attributes and child elements of e
+   * @throws ViewFactoryException if the element is not properly formatted or contains requests that
+   *                              are unsupported
+   */
   @Override
   public Object make(Element e) throws ViewFactoryException {
     if (e.getAttribute("type").equals("Leaf")) {

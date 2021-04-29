@@ -15,6 +15,12 @@ import javafx.util.Pair;
 import ooga.model.util.Action;
 import ooga.view.launcher.ProfileView;
 
+/**
+ * Profiles represent user profiles. They contain functionality for modifying and saving themselves. It is dependent on
+ * ooga.model.util.Action and ooga.view.launcher.ProfileView.
+ *
+ * @author Noah Ctiron
+ */
 public class Profile implements Serializable, PropertyChangeListener {
 
   private final Map<KeyCode, Action> keybinds;
@@ -22,6 +28,12 @@ public class Profile implements Serializable, PropertyChangeListener {
   private String name;
   private String picture;
 
+  /**
+   * Creates a new profile
+   *
+   * @param name  the name of the profile
+   * @throws IOException
+   */
   public Profile(String name) throws IOException {
     this.name = name;
     this.picture = "view_resources/images/button_icons/User.png";
@@ -35,18 +47,39 @@ public class Profile implements Serializable, PropertyChangeListener {
     save();
   }
 
+  /**
+   * Gets the highscore map
+   *
+   * @return  a map representing the highscores. The keys of the outer map is the game name, while the key of the
+   *          inner map is the level name. The values of the inner map is the highscore
+   */
   public Map<String, Map<String, Integer>> getHighScores() {
     return highScores;
   }
 
+  /**
+   * Sets the username
+   *
+   * @param name  username
+   */
   public void setUsername(String name) {
     this.name = name;
   }
 
+  /**
+   * Sets the profile picture
+   *
+   * @param f profile picture path
+   */
   public void setPicture(String f) {
     this.picture = f;
   }
 
+  /**
+   * Sets a keybind
+   *
+   * @param bind  a pair from keycode to action representing the keybind
+   */
   public void setKeyBind(Pair<KeyCode, String> bind) {
     Action action = Action.valueOf(bind.getValue());
 
@@ -59,14 +92,29 @@ public class Profile implements Serializable, PropertyChangeListener {
     keybinds.put(bind.getKey(), action);
   }
 
+  /**
+   * Gets the keybind map
+   *
+   * @return  keybind map
+   */
   public Map<KeyCode, Action> getKeybinds() {
     return keybinds;
   }
 
+  /**
+   * Displays the profile on the screen
+   *
+   * @param pv  the ProfileView frontend component
+   */
   public void display(ProfileView pv) {
     pv.makeMenu(name, picture, keybinds, highScores);
   }
 
+  /**
+   * Handles incoming events
+   *
+   * @param evt the incoming PropertyChangeEvent
+   */
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
     if (evt.getPropertyName().equals("mapUpdated")) {
