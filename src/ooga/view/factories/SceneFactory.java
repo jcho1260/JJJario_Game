@@ -9,7 +9,12 @@ import ooga.controller.Controller;
 import org.w3c.dom.Document;
 
 /**
+ * This class serves as the main entrance to the ooga.factories framework. It provides the
+ * functionality to construct a javafx scene by recursively parsing an XML data file in a very
+ * declarative manner. Example data files can be found in resources/view_resources. This class
+ * depends on ooga.controller.Controller.
  *
+ * @author Adam Hufstetler
  */
 public class SceneFactory {
 
@@ -17,7 +22,9 @@ public class SceneFactory {
   private final HandlerFactory hf;
 
   /**
-   * @param controller
+   * Constructs a new SceneFactory with the given controller
+   *
+   * @param controller Controller
    */
   public SceneFactory(Controller controller) {
     this.controller = controller;
@@ -25,9 +32,11 @@ public class SceneFactory {
   }
 
   /**
-   * @param filePath
-   * @return
-   * @throws ViewFactoryException
+   * Returns a Scene constructed form the given XML data file
+   *
+   * @param filePath the path to the XML file to be parsed
+   * @return Scene constructed form the given XML data file
+   * @throws ViewFactoryException when the XML data file is not properly formatted
    */
   public Scene make(String filePath) throws ViewFactoryException {
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

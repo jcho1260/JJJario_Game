@@ -12,16 +12,20 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
+ * This class provides the functionality to generate javafx node objects from properly formatted
+ * XML data files to be used to interpret user input for use in the application. This class will
+ * fail if the XML files are not properly formatted.
  *
+ * @author Adam Hufstetler
  */
 public class ParentComponentFactory extends ComponentFactory {
 
   private final LeafComponentFactory lcf;
 
   /**
-   * Constructs a handler factory with the given controller.
+   * Constructs a ParentComponentFactory with the given handler factory to make a Leaf Factory.
    *
-   * @param af the HandlerFactory through which user event handlers are made
+   * @param af the HandlerFactory through which user event handlers are made in the Leaf Factory
    */
   public ParentComponentFactory(HandlerFactory af) {
     lcf = new LeafComponentFactory(af);
