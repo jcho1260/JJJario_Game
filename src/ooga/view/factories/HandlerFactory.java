@@ -31,15 +31,41 @@ import ooga.view.launcher.ProfileView;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+/**
+ * This class provides the functionality to generate EventHandler objects from properly formatted
+ * XML data files to be used to interpret user input for use in the application. This class will
+ * fail if the XML files are not properly formatted. To add new user actions and inputs, the
+ * required method must be added to this class so that it can be reflected by the two public
+ * methods. Examples of proper data format can be found in the XML data files of the view_resources
+ * folder. The class is dependant on ooga.controller.Controller, ooga.controller.GameObjectMaker,
+ * ooga.controller.KeyListener, ooga.controller.Profile, ooga.model.util.Vector,
+ * ooga.view.game.GameView, ooga.view.launcher.BuilderView, ooga.view.launcher.ExceptionView, and
+ * ooga.view.launcher.ProfileView.
+ *
+ * @author Adam Hufstetler
+ */
 public class HandlerFactory {
 
   private final Controller controller;
   private final ParentComponentFactory pcf = new ParentComponentFactory(this);
 
+  /**
+   * Constructs a handler factory with the given controller.
+   *
+   * @param controller the controller through which user inputs are processed
+   */
   public HandlerFactory(Controller controller) {
     this.controller = controller;
   }
 
+  /**
+   * Returns an ActionEvent handler object as described by the given element e. It is assumed the
+   * Element e is properly formatted and will fail if there is no child element with the tag "Type".
+   *
+   * @param component javafx node that the handler will be added to
+   * @param e element which describes the parameters required for the construction of the handler
+   * @return an ActionEvent handler object as described by the given element e
+   */
   public EventHandler<ActionEvent> makeActionEventHandler(Node component, Element e) {
     String eventType = e.getElementsByTagName("Type").item(0).getTextContent();
     return event -> {
@@ -47,12 +73,19 @@ public class HandlerFactory {
         Method m = HandlerFactory.class.getDeclaredMethod(eventType, Node.class, Element.class);
         m.invoke(this, component, e);
       } catch (Exception exception) {
-        exception.printStackTrace();
         new ExceptionView().displayError(exception);
       }
     };
   }
 
+  /**
+   * Returns a KeyEvent handler object as described by the given element e. It is assumed the
+   * Element e is properly formatted and will fail if there is no child element with the tag "Type".
+   *
+   * @param component javafx node that the handler will be added to
+   * @param e element which describes the parameters required for the construction of the handler
+   * @return a KeyEvent handler object as described by the given element e
+   */
   public EventHandler<KeyEvent> makeKeyEventHandler(Node component, Element e) {
     String eventType = e.getElementsByTagName("Type").item(0).getTextContent();
     return event -> {
@@ -298,7 +331,7 @@ public class HandlerFactory {
           }
           objList.add(o);
         } catch (Exception exception) {
-          exception.printStackTrace();
+          new ExceptionView().displayError(exception);
         }
       }
     }

@@ -391,7 +391,6 @@ public class Controller {
     if (animation != null) {
       stop();
     }
-    e.printStackTrace();
     new ExceptionView().displayError(e);
   }
 

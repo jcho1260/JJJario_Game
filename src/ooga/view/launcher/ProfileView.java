@@ -26,6 +26,13 @@ import ooga.model.util.Action;
 import ooga.view.factories.ParentComponentFactory;
 import org.w3c.dom.Document;
 
+/**
+ * This class provides the functionality to display user profiles to the user in the user interface.
+ * It is dependent on ooga.controller.Controller, ooga.model.util.Action,
+ * and ooga.view.factories.ParentComponentFactory.
+ *
+ * @author Adam Hufstetler
+ */
 public class ProfileView {
 
   private final ParentComponentFactory pcf;
@@ -33,6 +40,13 @@ public class ProfileView {
   private final PropertyChangeListener pcl;
   private Pane currMenu;
 
+  /**
+   * Constructs a ProfileView that can be used to display profile menus to the user.
+   *
+   * @param controller Controller
+   * @param pcf ParentComponentFactory
+   * @param pcl PropertyChangeListener used to communicate
+   */
   public ProfileView(Controller controller, ParentComponentFactory pcf,
       PropertyChangeListener pcl) {
     this.controller = controller;
@@ -40,6 +54,14 @@ public class ProfileView {
     this.pcl = pcl;
   }
 
+  /**
+   * Constructs and displays the user's profile.
+   *
+   * @param name String
+   * @param imagePath String
+   * @param keyCodeActionMap Map defining the current user keybindings
+   * @param highScoresMap Map defining the current user high scores
+   */
   public void makeMenu(String name, String imagePath, Map<KeyCode, Action> keyCodeActionMap,
       Map<String, Map<String, Integer>> highScoresMap) {
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -70,6 +92,12 @@ public class ProfileView {
         Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(imagePath))));
   }
 
+  /**
+   * Returns the current Pane that everything is displayed on. This method is assumed to only be
+   * called after a call to makeMenu().
+   *
+   * @return the current Pane that everything is displayed on
+   */
   public Parent getParent() {
     return this.currMenu;
   }
