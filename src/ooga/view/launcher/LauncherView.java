@@ -6,21 +6,26 @@ import ooga.controller.Controller;
 import ooga.view.factories.SceneFactory;
 
 /**
- *
+ * This class is the entrance to the user interface side of the application. It is dependant on
+ * ooga.controller.Controller and ooga.view.factories.SceneFactory.
  */
 public class LauncherView {
 
   private final Stage stage;
 
   /**
-   * @param stage
+   * Constructs a LauncherView which can be started later.
+   *
+   * @param stage Stage
    */
   public LauncherView(Stage stage) {
     this.stage = stage;
   }
 
   /**
-   * @param controller
+   * Starts the JJJan Launcher user interface.
+   *
+   * @param controller Controller
    */
   public void start(Controller controller) {
     try {

@@ -25,6 +25,8 @@ import org.w3c.dom.Element;
 
 /**
  *
+ *
+ * @author Adam Hufstetler
  */
 public class BuilderView {
 
@@ -39,9 +41,11 @@ public class BuilderView {
   private Pane builderPane;
 
   /**
-   * @param controller
-   * @param pcf
-   * @param colors
+   * Constructs a BuilderView through which stage builder user interfaces can be started.
+   *
+   * @param controller Controller
+   * @param pcf ParentComponentFactory
+   * @param colors Stylesheet string that defines the default colors for the UI
    */
   public BuilderView(Controller controller, ParentComponentFactory pcf, String colors) {
     this.controller = controller;
@@ -50,13 +54,15 @@ public class BuilderView {
   }
 
   /**
-   * @param stage
-   * @param e
-   * @param game
-   * @param levelName
-   * @param frameSize
-   * @param levelSize
-   * @throws ViewFactoryException
+   * Starts an instance of the stage builder with the provided parameters.
+   *
+   * @param stage Stage
+   * @param e Element
+   * @param game String
+   * @param levelName String
+   * @param frameSize Vector
+   * @param levelSize Vector
+   * @throws ViewFactoryException if the given element cannot be parsed correctly
    */
   public void startBuilder(Stage stage, Element e, String game, String levelName, Vector frameSize,
       Vector levelSize)
@@ -88,9 +94,11 @@ public class BuilderView {
   }
 
   /**
-   * @param imageName
-   * @param pos
-   * @param size
+   * Creates and displays the given sprite on the builder user interface
+   *
+   * @param imageName String
+   * @param pos Vector
+   * @param size Vector
    */
   public void displayBuilderSprite(String imageName, Vector pos, Vector size) {
     ImageView newSprite = new Sprite(game, imageName, size.getX(), size.getY(), pos.getX(),

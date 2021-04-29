@@ -37,9 +37,11 @@ public class ProfileView {
   private Pane currMenu;
 
   /**
-   * @param controller
-   * @param pcf
-   * @param pcl
+   * Constructs a ProfileView that can be used to display profile menus to the user.
+   *
+   * @param controller Controller
+   * @param pcf ParentComponentFactory
+   * @param pcl PropertyChangeListener used to communicate
    */
   public ProfileView(Controller controller, ParentComponentFactory pcf,
       PropertyChangeListener pcl) {
@@ -49,10 +51,12 @@ public class ProfileView {
   }
 
   /**
-   * @param name
-   * @param imagePath
-   * @param keyCodeActionMap
-   * @param highScoresMap
+   * Constructs and displays the user's profile.
+   *
+   * @param name String
+   * @param imagePath String
+   * @param keyCodeActionMap Map defining the current user keybindings
+   * @param highScoresMap Map defining the current user high scores
    */
   public void makeMenu(String name, String imagePath, Map<KeyCode, Action> keyCodeActionMap,
       Map<String, Map<String, Integer>> highScoresMap) {
@@ -85,7 +89,10 @@ public class ProfileView {
   }
 
   /**
-   * @return
+   * Returns the current Pane that everything is displayed on. This method is assumed to only be
+   * called after a call to makeMenu().
+   *
+   * @return the current Pane that everything is displayed on
    */
   public Parent getParent() {
     return this.currMenu;
