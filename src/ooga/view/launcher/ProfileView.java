@@ -28,6 +28,8 @@ import org.w3c.dom.Document;
 
 /**
  * This class provides the functionality to display user profiles to the user in the user interface.
+ * It is dependent on ooga.controller.Controller, ooga.model.util.Action,
+ * and ooga.view.factories.ParentComponentFactory.
  *
  * @author Adam Hufstetler
  */

@@ -19,7 +19,13 @@ import ooga.view.factories.SceneFactory;
 import ooga.view.launcher.ExceptionView;
 
 /**
+ * This class provides the user interface for playing games and levels. This class itself is a
+ * PropertyChangeListener to receive updates on the score and health of the player as well as all
+ * currently active Sprites to display. It is dependent on ooga.controller.Controller,
+ * ooga.controller.KeyListener, ooga.view.factories.SceneFactory, and
+ * ooga.view.launcher.ExceptionView.
  *
+ * @author Adam Hufstetler
  */
 public class GameView implements PropertyChangeListener {
 
@@ -35,11 +41,11 @@ public class GameView implements PropertyChangeListener {
   private boolean inGameMenu = false;
 
   /**
-   * @param gameName
-   * @param stage
-   * @param kl
-   * @param controller
-   * @param colorTheme
+   * @param gameName String
+   * @param stage Stage
+   * @param kl KeyListener for user keyboard input
+   * @param controller Controller
+   * @param colorTheme Stylesheet string that defines the default colors for the UI
    */
   public GameView(String gameName, Stage stage, KeyListener kl, Controller controller,
       String colorTheme) {
@@ -54,7 +60,9 @@ public class GameView implements PropertyChangeListener {
   }
 
   /**
-   * @param filePath
+   * Starts the game at the home menu screen.
+   *
+   * @param filePath String
    */
   public void start(String filePath) {
     try {
@@ -75,7 +83,7 @@ public class GameView implements PropertyChangeListener {
   }
 
   /**
-   *
+   * Returns the user interface to the game main menu.
    */
   public void displayMenu() {
     currScene = menuScene;
@@ -84,9 +92,11 @@ public class GameView implements PropertyChangeListener {
   }
 
   /**
-   * @param w
-   * @param h
-   * @param imagePath
+   * Initializes a level to be displayed later.
+   *
+   * @param w game viewport width
+   * @param h game viewport height
+   * @param imagePath file path for the background
    */
   public void initializeLevel(double w, double h, String imagePath) {
     Group g = new Group();
@@ -109,14 +119,18 @@ public class GameView implements PropertyChangeListener {
   }
 
   /**
-   * @param s
+   * Adds a sprite, only called via propertyChange().
+   *
+   * @param s Sprite
    */
   public void addSprite(Sprite s) {
     ((Group) currScene.getRoot()).getChildren().add(s.getImageView());
   }
 
   /**
-   * @param score
+   * Adds a score, only called via propertyChange().
+   *
+   * @param score int
    */
   public void addScore(int score) {
     Text t = new Text("Score: " + score);
@@ -127,7 +141,9 @@ public class GameView implements PropertyChangeListener {
   }
 
   /**
-   * @param life
+   * Adds player life, only called via propertyChange().
+   *
+   * @param life int
    */
   public void addLife(int life) {
     Text t = new Text("Lives: " + life);
@@ -138,7 +154,9 @@ public class GameView implements PropertyChangeListener {
   }
 
   /**
-   * @param health
+   * Adds player health, only called via propertyChange().
+   *
+   * @param health int
    */
   public void addHealth(int health) {
     Text t = new Text("Health: " + health);
@@ -149,28 +167,37 @@ public class GameView implements PropertyChangeListener {
   }
 
   /**
-   * @param score
+   * Changes the score, only called via propertyChange(). Assumed to be called only after addScore
+   * is called.
+   *
+   * @param score int
    */
   public void changeScore(int score) {
     ((Text) currScene.lookup("#ScoreText")).setText("Score: " + score);
   }
 
   /**
-   * @param newLife
+   * Changes the life, only called via propertyChange(). Assumed to be called only after addScore
+   * is called.
+   *
+   * @param newLife int
    */
   public void changeLife(int newLife) {
     ((Text) currScene.lookup("#LifeText")).setText("Lives: " + newLife);
   }
 
   /**
-   * @param newHealth
+   * Changes the health, only called via propertyChange(). Assumed to be called only after addScore
+   * is called.
+   *
+   * @param newHealth int
    */
   public void changeHealth(int newHealth) {
     ((Text) currScene.lookup("#HealthText")).setText("Health: " + newHealth);
   }
 
   /**
-   *
+   * Displays the level previously initialized.
    */
   public void startLevel() {
     stage.setScene(currScene);
@@ -178,7 +205,7 @@ public class GameView implements PropertyChangeListener {
   }
 
   /**
-   *
+   * Displays the game over screen.
    */
   public void gameOver() {
     try {
@@ -193,7 +220,7 @@ public class GameView implements PropertyChangeListener {
   }
 
   /**
-   *
+   * Displays the game win screen.
    */
   public void gameWin() {
     try {
@@ -208,7 +235,9 @@ public class GameView implements PropertyChangeListener {
   }
 
   /**
-   * @return
+   * Returns the game name.
+   *
+   * @return the game name.
    */
   public String getGameName() {
     return this.gameName;
@@ -228,7 +257,9 @@ public class GameView implements PropertyChangeListener {
   }
 
   /**
-   * @param evt
+   * Used to add images and text to the game viewport.
+   *
+   * @param evt the property change event that encapsulates the neccesary information.
    */
   @Override
   public void propertyChange(PropertyChangeEvent evt) {

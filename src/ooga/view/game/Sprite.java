@@ -10,19 +10,24 @@ import javafx.scene.image.ImageView;
 import ooga.view.launcher.ExceptionView;
 
 /**
+ * This class is used as the communication liaison between the model and view. All image updates go
+ * through this class. It is dependent on ooga.view.launcher.ExceptionView.
  *
+ * @author Adam Hufstetler
  */
 public class Sprite implements PropertyChangeListener {
 
   private final ImageView imageView;
 
   /**
-   * @param gameName
-   * @param imageName
-   * @param w
-   * @param h
-   * @param x
-   * @param y
+   * Constructs a sprite with the given parameters.
+   *
+   * @param gameName String
+   * @param imageName String
+   * @param w width
+   * @param h height
+   * @param x x-position
+   * @param y y-position
    */
   public Sprite(String gameName, String imageName, double w, double h, double x, double y) {
     imageView = new ImageView();
@@ -41,7 +46,9 @@ public class Sprite implements PropertyChangeListener {
   }
 
   /**
-   * @param evt
+   * Used to make changes to the sprite's ImageView.
+   *
+   * @param evt the property change event that encapsulates the neccesary information.
    */
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
@@ -55,42 +62,54 @@ public class Sprite implements PropertyChangeListener {
   }
 
   /**
-   * @return
+   * Returns the sprite's ImageView.
+   *
+   * @return ImageView that the sprite contains
    */
   public ImageView getImageView() {
     return this.imageView;
   }
 
   /**
-   * @param h
+   * Changes the sprite's height.
+   *
+   * @param h Double
    */
   public void changeHeight(Double h) {
     imageView.setFitHeight(h);
   }
 
   /**
-   * @param w
+   * Changes the sprite's width.
+   *
+   * @param w Double
    */
   public void changeWidth(Double w) {
     imageView.setFitWidth(w);
   }
 
   /**
-   * @param b
+   * Changes the sprite's visibility.
+   *
+   * @param b Boolean
    */
   public void changeVisibility(Boolean b) {
     imageView.setVisible(b);
   }
 
   /**
-   * @param x
+   * Changes the sprite's x-position.
+   *
+   * @param x Double
    */
   public void changeX(Double x) {
     imageView.setLayoutX(x);
   }
 
   /**
-   * @param y
+   * Changes the sprite's y-position.
+   *
+   * @param y Double
    */
   public void changeY(Double y) {
     imageView.setLayoutY(y);
