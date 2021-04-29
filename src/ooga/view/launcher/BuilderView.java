@@ -24,7 +24,7 @@ import ooga.view.game.Sprite;
 import org.w3c.dom.Element;
 
 /**
- *
+ * This class provides the user interface for the stage builder functionality of the application.
  *
  * @author Adam Hufstetler
  */

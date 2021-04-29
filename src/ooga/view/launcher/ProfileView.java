@@ -27,7 +27,9 @@ import ooga.view.factories.ParentComponentFactory;
 import org.w3c.dom.Document;
 
 /**
+ * This class provides the functionality to display user profiles to the user in the user interface.
  *
+ * @author Adam Hufstetler
  */
 public class ProfileView {
 
