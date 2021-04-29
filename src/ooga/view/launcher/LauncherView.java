@@ -5,14 +5,23 @@ import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.view.factories.SceneFactory;
 
+/**
+ *
+ */
 public class LauncherView {
 
   private final Stage stage;
 
+  /**
+   * @param stage
+   */
   public LauncherView(Stage stage) {
     this.stage = stage;
   }
 
+  /**
+   * @param controller
+   */
   public void start(Controller controller) {
     try {
       SceneFactory sf = new SceneFactory(controller);

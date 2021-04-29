@@ -18,6 +18,9 @@ import ooga.controller.KeyListener;
 import ooga.view.factories.SceneFactory;
 import ooga.view.launcher.ExceptionView;
 
+/**
+ *
+ */
 public class GameView implements PropertyChangeListener {
 
   private final Controller controller;
@@ -31,6 +34,13 @@ public class GameView implements PropertyChangeListener {
   private Scene cachedScene;
   private boolean inGameMenu = false;
 
+  /**
+   * @param gameName
+   * @param stage
+   * @param kl
+   * @param controller
+   * @param colorTheme
+   */
   public GameView(String gameName, Stage stage, KeyListener kl, Controller controller,
       String colorTheme) {
     this.controller = controller;
@@ -43,6 +53,9 @@ public class GameView implements PropertyChangeListener {
     stage.setOnCloseRequest(event -> controller.endGame());
   }
 
+  /**
+   * @param filePath
+   */
   public void start(String filePath) {
     try {
       menuScene = sf.make(filePath);
@@ -61,12 +74,20 @@ public class GameView implements PropertyChangeListener {
     }
   }
 
+  /**
+   *
+   */
   public void displayMenu() {
     currScene = menuScene;
     stage.setScene(menuScene);
     stage.show();
   }
 
+  /**
+   * @param w
+   * @param h
+   * @param imagePath
+   */
   public void initializeLevel(double w, double h, String imagePath) {
     Group g = new Group();
     g.getStylesheets().add("view_resources/game/css/ScoreText.css");
@@ -87,10 +108,16 @@ public class GameView implements PropertyChangeListener {
     currScene = newScene;
   }
 
+  /**
+   * @param s
+   */
   public void addSprite(Sprite s) {
     ((Group) currScene.getRoot()).getChildren().add(s.getImageView());
   }
 
+  /**
+   * @param score
+   */
   public void addScore(int score) {
     Text t = new Text("Score: " + score);
     t.setId("ScoreText");
@@ -99,6 +126,9 @@ public class GameView implements PropertyChangeListener {
     ((Group) currScene.getRoot()).getChildren().add(t);
   }
 
+  /**
+   * @param life
+   */
   public void addLife(int life) {
     Text t = new Text("Lives: " + life);
     t.setId("LifeText");
@@ -107,6 +137,9 @@ public class GameView implements PropertyChangeListener {
     ((Group) currScene.getRoot()).getChildren().add(t);
   }
 
+  /**
+   * @param health
+   */
   public void addHealth(int health) {
     Text t = new Text("Health: " + health);
     t.setId("HealthText");
@@ -115,23 +148,38 @@ public class GameView implements PropertyChangeListener {
     ((Group) currScene.getRoot()).getChildren().add(t);
   }
 
+  /**
+   * @param score
+   */
   public void changeScore(int score) {
     ((Text) currScene.lookup("#ScoreText")).setText("Score: " + score);
   }
 
+  /**
+   * @param newLife
+   */
   public void changeLife(int newLife) {
     ((Text) currScene.lookup("#LifeText")).setText("Lives: " + newLife);
   }
 
+  /**
+   * @param newHealth
+   */
   public void changeHealth(int newHealth) {
     ((Text) currScene.lookup("#HealthText")).setText("Health: " + newHealth);
   }
 
+  /**
+   *
+   */
   public void startLevel() {
     stage.setScene(currScene);
     stage.show();
   }
 
+  /**
+   *
+   */
   public void gameOver() {
     try {
       Scene newScene = sf.make("resources/view_resources/game/GameLost.XML");
@@ -144,6 +192,9 @@ public class GameView implements PropertyChangeListener {
     }
   }
 
+  /**
+   *
+   */
   public void gameWin() {
     try {
       Scene newScene = sf.make("resources/view_resources/game/GameWon.XML");
@@ -156,6 +207,9 @@ public class GameView implements PropertyChangeListener {
     }
   }
 
+  /**
+   * @return
+   */
   public String getGameName() {
     return this.gameName;
   }
@@ -173,6 +227,9 @@ public class GameView implements PropertyChangeListener {
     };
   }
 
+  /**
+   * @param evt
+   */
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
     String mName = evt.getPropertyName();

@@ -10,10 +10,39 @@ import javafx.scene.Node;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+/**
+ * This class provides the required framework for parsing the data file format used to build javafx
+ * frontend components. A class which extends ComponentFactory should implement the make method and
+ * use the addChild and editProperty methods to construct a frontend component.
+ * ViewFactoryExceptions are thrown when there is an issue parsing the data file or when invalid
+ * javafx component changes are attempted.
+ *
+ * @author Adam Hufstetler
+ */
 public abstract class ComponentFactory {
 
+  /**
+   * Returns an object constructed by parsing the attributes and child elements of e.
+   *
+   * @param e element which contains the requisite information to construct the expected object
+   * @return an object constructed by parsing the attributes and child elements of e
+   * @throws ViewFactoryException if the element is not properly formatted or contains requests that
+   *                              are unsupported
+   */
   public abstract Object make(Element e) throws ViewFactoryException;
 
+  /**
+   * Adds a child to the given component constructed by a make() call on the given element using the
+   * provided resource bundle. The resource bundle provided is assumed to contain the proper keys to
+   * construct the object with the information provided in e.
+   *
+   * @param rb the resource bundle that contains the class and method information for the given
+   *           component to be added to
+   * @param component the component to which the new component wil be added to
+   * @param e the element that contains the necessary information to make the child component.
+   * @throws ViewFactoryException if the element is not properly formatted or contains requests that
+   *                              are unsupported
+   */
   protected void addChild(ResourceBundle rb, Node component, Element e)
       throws ViewFactoryException {
     String mName = getMethodNameFromXML(rb, e);
@@ -25,6 +54,18 @@ public abstract class ComponentFactory {
     }
   }
 
+  /**
+   * Edits a property of the given component using the information provided in the element and the
+   * provided resource bundle. The resource bundle provided is assumed to contain the proper keys to
+   * edit the property with the information provided in e.
+   *
+   * @param rb the resource bundle that contains the class and method information for the given
+   *           component to be edited
+   * @param component the component that will be edited
+   * @param e the element that contains the necessary information to edit the component
+   * @throws ViewFactoryException if the element is not properly formatted or contains requests that
+   *                              are unsupported
+   */
   protected void editProperty(ResourceBundle rb, Node component, Element e)
       throws ViewFactoryException {
     String mName = getMethodNameFromXML(rb, e);

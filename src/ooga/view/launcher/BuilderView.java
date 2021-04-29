@@ -23,6 +23,9 @@ import ooga.view.factories.ViewFactoryException;
 import ooga.view.game.Sprite;
 import org.w3c.dom.Element;
 
+/**
+ *
+ */
 public class BuilderView {
 
   private final ParentComponentFactory pcf;
@@ -35,12 +38,26 @@ public class BuilderView {
   private Vector levelSize;
   private Pane builderPane;
 
+  /**
+   * @param controller
+   * @param pcf
+   * @param colors
+   */
   public BuilderView(Controller controller, ParentComponentFactory pcf, String colors) {
     this.controller = controller;
     this.pcf = pcf;
     this.colors = colors;
   }
 
+  /**
+   * @param stage
+   * @param e
+   * @param game
+   * @param levelName
+   * @param frameSize
+   * @param levelSize
+   * @throws ViewFactoryException
+   */
   public void startBuilder(Stage stage, Element e, String game, String levelName, Vector frameSize,
       Vector levelSize)
       throws ViewFactoryException {
@@ -70,6 +87,11 @@ public class BuilderView {
     builderStage.show();
   }
 
+  /**
+   * @param imageName
+   * @param pos
+   * @param size
+   */
   public void displayBuilderSprite(String imageName, Vector pos, Vector size) {
     ImageView newSprite = new Sprite(game, imageName, size.getX(), size.getY(), pos.getX(),
         pos.getY()).getImageView();

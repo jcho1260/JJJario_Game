@@ -26,6 +26,9 @@ import ooga.model.util.Action;
 import ooga.view.factories.ParentComponentFactory;
 import org.w3c.dom.Document;
 
+/**
+ *
+ */
 public class ProfileView {
 
   private final ParentComponentFactory pcf;
@@ -33,6 +36,11 @@ public class ProfileView {
   private final PropertyChangeListener pcl;
   private Pane currMenu;
 
+  /**
+   * @param controller
+   * @param pcf
+   * @param pcl
+   */
   public ProfileView(Controller controller, ParentComponentFactory pcf,
       PropertyChangeListener pcl) {
     this.controller = controller;
@@ -40,6 +48,12 @@ public class ProfileView {
     this.pcl = pcl;
   }
 
+  /**
+   * @param name
+   * @param imagePath
+   * @param keyCodeActionMap
+   * @param highScoresMap
+   */
   public void makeMenu(String name, String imagePath, Map<KeyCode, Action> keyCodeActionMap,
       Map<String, Map<String, Integer>> highScoresMap) {
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -70,6 +84,9 @@ public class ProfileView {
         Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(imagePath))));
   }
 
+  /**
+   * @return
+   */
   public Parent getParent() {
     return this.currMenu;
   }

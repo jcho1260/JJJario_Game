@@ -9,14 +9,33 @@ import javafx.scene.image.Image;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+/**
+ *
+ */
 public class LeafComponentFactory extends ComponentFactory {
 
   private final HandlerFactory af;
 
+  /**
+   * Constructs a handler factory with the given controller.
+   *
+   * @param af the HandlerFactory through which user event handlers are made
+   */
   public LeafComponentFactory(HandlerFactory af) {
     this.af = af;
   }
 
+  /**
+   * Constructs a javafx node that does not have the ability of having children added to it via the
+   * getChildren().add() method, for example a Button or ImageView. It is assumed there is a
+   * matching ResourceBundle for the given javafx component in the directory
+   * resources/view_resources/factory_bundles. It is also assumed all elements have an id attribute.
+   *
+   * @param e element which contains the requisite information to construct the expected object
+   * @return an object constructed by parsing the attributes and child elements of e
+   * @throws ViewFactoryException if the element is not properly formatted or contains requests that
+   *                              are unsupported
+   */
   @Override
   public Object make(Element e) throws ViewFactoryException {
     if (e.getNodeName().equals("Image")) {
