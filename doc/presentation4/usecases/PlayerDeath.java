@@ -1,6 +1,0 @@
-class PlayerDeath {
-
-  void main() {
-
-  }
-}
