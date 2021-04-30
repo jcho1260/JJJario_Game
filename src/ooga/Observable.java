@@ -6,7 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Handles listeners for observable pattern. Based off of Duvall's Observable lab example.
+ * Handles listeners for observable pattern. Based off of Duvall's Observable lab example. Extended
+ * by classes notify listeners that implement the Observer pattern.
+ *
+ * @author Jessica Yang
  */
 public abstract class Observable {
 
@@ -22,7 +25,7 @@ public abstract class Observable {
   }
 
   /**
-   * Notify added listener at index i of a change.
+   * Notify added listener with a given String key.
    *
    * @param sourceKey
    * @param property

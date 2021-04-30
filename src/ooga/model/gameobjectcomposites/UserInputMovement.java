@@ -22,9 +22,14 @@ public class UserInputMovement implements Serializable {
   private final Vector drivingVelocity;
 
   /**
-   * Constructor for UserInputMovement. jumpTime should be based of the animation frame stuff
+   * Constructor for UserInputMovement.
    *
-   * @param defaultVelocity per step
+   * @param jumpTime limit of how long a player can move upwards
+   * @param defaultVelocity
+   * @param gravity
+   * @param autoscrollVector direction in which the player is automatically moved
+   * @param contJumpLimit limit of how many times a player can jump without landing on another
+   *                      GameObject
    */
   public UserInputMovement(double jumpTime, Vector defaultVelocity, double gravity,
       Vector autoscrollVector, int contJumpLimit) {

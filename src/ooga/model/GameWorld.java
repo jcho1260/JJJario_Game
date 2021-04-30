@@ -21,7 +21,12 @@ import ooga.model.util.Vector;
 
 
 /**
+ * GameWorld instances represent a game level. It contains all instances of GameObjects defined in
+ * a level's datafiles. It calls the step method on the GameObjects and handles collisions.
+ * GameWorld also contains logic for ending levels as well information necessary for the front end's
+ * heads up display.
  *
+ * @author Jin Cho, Juhyoung Lee, Jessica Yang
  */
 public class GameWorld extends Observable implements Serializable {
 
@@ -51,7 +56,18 @@ public class GameWorld extends Observable implements Serializable {
   private final double stepTime;
 
   /**
-   * Default constructor
+   * Default constructor for initiating GameWorld. Input should be read in from datafiles.
+   *
+   * @param gamePlayer player object
+   * @param collisionMethods collision methods from datafiles
+   * @param gameObjects list of objects from datafiles
+   * @param actors list of Destroyable objects from datafiles
+   * @param frameSize size of window
+   * @param startingLives lives of player from datafiles
+   * @param levelGravity level gravity from datafiles
+   * @param frameRate frames per second
+   * @param minScreenLimit screen dimensions
+   * @param maxScreenLimit screen dimensions
    */
   public GameWorld(Player gamePlayer, Map<String, Map<String, List<MethodBundle>>> collisionMethods,
       List<GameObject> gameObjects, List<GameObject> actors, Vector frameSize, int startingLives,
@@ -87,6 +103,16 @@ public class GameWorld extends Observable implements Serializable {
     return Arrays.asList(allTags.split(" ").clone());
   }
 
+  /**
+   * Called every frame, stepFrame iterates over GameObjects, calls their step methods, handles
+   * collisions, updates GameObject positions, and recalculates active GameObjects.
+   *
+   * @param pressEffect keyboard action
+   * @throws NoSuchMethodException invalid collision method
+   * @throws JjjanException invalid attempt
+   * @throws InvocationTargetException invalid reflection call
+   * @throws IllegalAccessException invalid reflection call
+   */
   public void stepFrame(Action pressEffect)
       throws NoSuchMethodException, JjjanException, InvocationTargetException, IllegalAccessException {
     allActiveGameObjects = findActiveObjects(allGameObjects);
@@ -154,7 +180,10 @@ public class GameWorld extends Observable implements Serializable {
   }
 
   /**
-   * @param newMovingDestroyables
+   * Allows new MovingDestroyable objects to be created during runtime and added to the level. Used
+   * for shooting in games like JJJalaga.
+   *
+   * @param newMovingDestroyables created game object
    */
   public void queueNewMovingDestroyable(List<MovingDestroyable> newMovingDestroyables) {
     if (newMovingDestroyables.size() != 0 && newMovingDestroyables.get(0) != null) {
@@ -272,7 +301,7 @@ public class GameWorld extends Observable implements Serializable {
   }
 
   /**
-   * returns all destroyable game objects
+   * Returns all destroyable game objects in a new list.
    */
   public List<GameObject> getAllDestroyables() {
     List<GameObject> ret = new ArrayList<>(allDestroyables);
@@ -281,7 +310,7 @@ public class GameWorld extends Observable implements Serializable {
   }
 
   /**
-   * returns all gameobjects in the game
+   * Returns all GameObjects in the game.
    */
   public List<GameObject> getAllGameObjects() {
     List<GameObject> ret = new ArrayList<>(allGameObjects);
@@ -290,7 +319,7 @@ public class GameWorld extends Observable implements Serializable {
   }
 
   /**
-   * returns the game gravity
+   * Returns the game gravity.
    *
    * @return game gravity
    */
@@ -299,16 +328,16 @@ public class GameWorld extends Observable implements Serializable {
   }
 
   /**
-   * gives the status of the game
+   * Gives the status of the game.
    *
-   * @return true if the game is over and the player has lost
+   * @return true if the game is over and the player has lost.
    */
   public boolean isGameOver() {
     return !player.isAlive();
   }
 
   /**
-   * gives the status of the player
+   * Gives the status of the player.
    *
    * @return true if the player has won
    */
@@ -319,7 +348,7 @@ public class GameWorld extends Observable implements Serializable {
   /**
    * Adds to score by given amount. Notifies listeners of change.
    *
-   * @param increment
+   * @param increment score increment
    */
   private void incrementScore(double increment) {
     double prevScore = score;
@@ -327,6 +356,9 @@ public class GameWorld extends Observable implements Serializable {
     notifyListenerKey("highscore", "score", prevScore, score);
   }
 
+  /**
+   * Adds a listener to display send high score from the player.
+   */
   public void addPlayerListener() {
     PropertyChangeListener playerListener = evt -> notifyListenerKey("highscore",
         evt.getPropertyName(), null,
