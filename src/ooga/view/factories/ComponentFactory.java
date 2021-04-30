@@ -77,7 +77,7 @@ public abstract class ComponentFactory {
     }
   }
 
-  protected String getMethodNameFromXML(ResourceBundle rb, Element e) throws ViewFactoryException {
+  private String getMethodNameFromXML(ResourceBundle rb, Element e) throws ViewFactoryException {
     try {
       return rb.getString(e.getNodeName().toUpperCase());
     } catch (MissingResourceException mre) {
@@ -85,6 +85,15 @@ public abstract class ComponentFactory {
     }
   }
 
+  /**
+   * Reflexively constructs and returns an object of the given class name.
+   *
+   * @param rb resource bundle for the given class
+   * @param compName object class name that is tied with the class package path
+   * @return class object with default constructor used
+   * @throws ViewFactoryException if the resource bundle does not have the neccesary information or
+   * if there was a problem during reflection.
+   */
   protected Object makeComponentBase(ResourceBundle rb, String compName)
       throws ViewFactoryException {
     try {
@@ -95,6 +104,12 @@ public abstract class ComponentFactory {
     }
   }
 
+  /**
+   * Checks if a given XML element has children that are elements.
+   *
+   * @param el the element to be checked
+   * @return true if it has child elements, false if not
+   */
   protected boolean hasChildElements(Element el) {
     NodeList children = el.getChildNodes();
     for (int i = 0; i < children.getLength(); i++) {
