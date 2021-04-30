@@ -2,12 +2,23 @@ package ooga.model.gameobjectcomposites;
 
 import java.io.Serializable;
 
+/**
+ * Health composite element that adds health information to a GameObject.
+ *
+ * @author Juhyoung Lee, Jessica Yang, Jin Cho
+ */
 public class Health implements Serializable {
 
   private final double startHealth;
   private double health;
   private double lives;
 
+  /**
+   * Default constructor.
+   *
+   * @param startingHealth initial health
+   * @param startingLives initial lives
+   */
   public Health(int startingHealth, int startingLives) {
     startHealth = startingHealth;
     health = startingHealth;
@@ -17,7 +28,7 @@ public class Health implements Serializable {
   /**
    * Increments health by a given amount.
    *
-   * @param increment
+   * @param increment amount
    */
   public void incrementHealth(Double increment) {
     health += increment;
@@ -26,7 +37,7 @@ public class Health implements Serializable {
   /**
    * Increments lives by a given amount.
    *
-   * @param increment
+   * @param increment amount
    */
   public void incrementLives(Double increment) {
     lives += increment;
@@ -35,7 +46,7 @@ public class Health implements Serializable {
   /**
    * Checks if the Destroyable is alive.
    *
-   * @return boolean
+   * @return alive status
    */
   public boolean isAlive() {
     return health > 0 && lives >= 0;
@@ -59,11 +70,17 @@ public class Health implements Serializable {
     return lives;
   }
 
+  /**
+   * Subtracts one life
+   */
   public void loseLife() {
     health = startHealth;
     lives--;
   }
 
+  /**
+   * Sets health to zero
+   */
   public void kill() {
     health = 0;
   }

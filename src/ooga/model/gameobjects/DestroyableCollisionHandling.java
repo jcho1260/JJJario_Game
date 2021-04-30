@@ -13,12 +13,15 @@ import ooga.model.util.Vector;
 
 /**
  * Checks for collisions and uses reflection to create and execute the methods corresponding to the
- * collisions that have occurred each frame
+ * collisions that have occurred each frame.
  *
- * @author jincho juhyounglee
+ * @author Jin Cho, Juhyoung Lee, Jessica Yang
  */
 public class DestroyableCollisionHandling implements Serializable {
 
+  /**
+   * Default constructor.
+   */
   public DestroyableCollisionHandling() {
   }
 
@@ -42,7 +45,7 @@ public class DestroyableCollisionHandling implements Serializable {
   }
 
   /**
-   * execute all impacts of collisions with other GameObjects to self
+   * Executes all impacts of collisions with other GameObjects to self
    */
   public void executeCollisions(Object destroyable, Queue<MethodBundle> collisions)
       throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
@@ -54,10 +57,10 @@ public class DestroyableCollisionHandling implements Serializable {
   }
 
   /**
-   * returns the top left and bottom right coord of the rectangle made by the intersection
+   * Returns the top left and bottom right coord of the rectangle made by the intersection
    *
-   * @param myself
-   * @param o
+   * @param myself object 1
+   * @param o object 2
    * @return ret[0] is top left, ret[1] is bot right
    */
   public Vector[] determineCollisionRectangle(GameObject myself, GameObject o) {

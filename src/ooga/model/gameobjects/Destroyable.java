@@ -8,6 +8,11 @@ import ooga.model.gameobjectcomposites.Health;
 import ooga.model.util.MethodBundle;
 import ooga.model.util.Vector;
 
+/**
+ * Represents a destroyable object. This is a GameObject that has lives and can be destroyed.
+ *
+ * @author Jin Cho, Juhyoung Lee, Jessica Yang
+ */
 public class Destroyable extends GameObject {
 
   private final Queue<MethodBundle> collisionQueue;
@@ -16,7 +21,16 @@ public class Destroyable extends GameObject {
   protected int score;
 
   /**
-   * Default constructor with default lives, health values
+   * Default constructor. Parameters should be read in from datafiles.
+   *
+   * @param entityTypes tags
+   * @param position location
+   * @param id id
+   * @param size size
+   * @param startLife initial lives
+   * @param startHealth initial health
+   * @param points scores to be dropped on destroy
+   * @param vis visibility
    */
   public Destroyable(List<String> entityTypes, Vector position, int id, Vector size, int startLife,
       int startHealth, int points, boolean vis) {
@@ -28,7 +42,7 @@ public class Destroyable extends GameObject {
   }
 
   /**
-   * checks to see if destroyable is still alive
+   * Checks to see if destroyable is still alive
    *
    * @return true if alive
    */
@@ -37,7 +51,7 @@ public class Destroyable extends GameObject {
   }
 
   /**
-   * checks to see if the collision is a small corner collision with the object and should be
+   * Checks to see if the collision is a small corner collision with the object and should be
    * ignored
    *
    * @param o object destroyable is colliding with
@@ -48,33 +62,41 @@ public class Destroyable extends GameObject {
   }
 
   /**
-   * @param o
-   * @return
+   * Determines collision between this and new object.
+   *
+   * @param o other object
+   * @return list of collision methods to execute. Will be empty if no collision.
    */
   public List<String> determineCollision(GameObject o) {
     return collisionHandler.determineCollisionMethods(this, o);
   }
 
   /**
-   * @param myself
-   * @param o
-   * @return
+   * Returns collision rectangle.
+   *
+   * @param myself object 1
+   * @param o object 2
+   * @return collision rectangle (top left, bottom right) or empty array if no collision
    */
   public Vector[] determineCollisionRect(GameObject myself, GameObject o) {
     return collisionHandler.determineCollisionRectangle(myself, o);
   }
 
   /**
-   * @param myself
-   * @param collisionBox
-   * @return
+   * Returns direction of collision from perspective of object 1. Assumes collision does occur.
+   *
+   * @param myself object 1
+   * @param collisionBox collision location
+   * @return direction of collision
    */
   public Vector calculateCollisionDirection(GameObject myself, Vector[] collisionBox) {
     return collisionHandler.calculateCollisionDirection(myself, collisionBox);
   }
 
   /**
-   * create a Queue of all methods to invoke on self for collisions with other GameObjects
+   * Create a Queue of all methods to invoke on self for collisions with other GameObjects.
+   *
+   * @param methodList methods to be executed reflectively to handle collision
    */
   public void addCollision(List<MethodBundle> methodList) {
     for (MethodBundle mb : methodList) {
@@ -83,7 +105,7 @@ public class Destroyable extends GameObject {
   }
 
   /**
-   * execute all impacts of collisions with other GameObjects to self
+   * Execute all impacts of collisions with other GameObjects to self
    */
   public void executeCollisions()
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
@@ -93,7 +115,7 @@ public class Destroyable extends GameObject {
   /**
    * Increments health by a given amount. Uses Health methods.
    *
-   * @param increment
+   * @param increment amount
    */
   public void incrementHealth(Double increment) {
     health.incrementHealth(increment);
@@ -105,7 +127,7 @@ public class Destroyable extends GameObject {
   /**
    * Increments lives by a given amount. Uses Health methods.
    *
-   * @param increment
+   * @param increment amount
    */
   public void incrementLives(Double increment) {
     health.incrementLives(increment);
@@ -121,7 +143,7 @@ public class Destroyable extends GameObject {
   }
 
   /**
-   * Retrives lives for child classes.
+   * Retrieves lives for child classes.
    *
    * @return lives
    */
@@ -139,7 +161,7 @@ public class Destroyable extends GameObject {
   }
 
   /**
-   *
+   * Destroys object and updates visibility via listeners.
    */
   public void kill() {
     health.kill();

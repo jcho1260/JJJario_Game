@@ -17,7 +17,11 @@ import ooga.model.util.MethodBundle;
 import ooga.model.util.Vector;
 
 /**
- * @author: JinCho, JuhyoungLee
+ * Takes care of collisions for GameWorld. Checks through all active MovingDestroyable to find
+ * collisions and queues up the necessary methods in the case of collisions. Handles post collision
+ * adjustments as well to ensure that objects do not remain collided.
+ *
+ * @author: JinCho, JuhyoungLee, Jessica Yang
  */
 public class WorldCollisionHandling implements Serializable {
 
@@ -29,7 +33,12 @@ public class WorldCollisionHandling implements Serializable {
   private List<Entry<GameObject, GameObject>> collisionPairs;
 
   /**
-   * Default constructor
+   * Default constructor.
+   *
+   * @param collisionMethodsMap collision methods from data files
+   * @param activeGameObjectsList active game obects
+   * @param activeActorsList active destroyables
+   * @param gamePlayer player
    */
   public WorldCollisionHandling(Map<String, Map<String, List<MethodBundle>>> collisionMethodsMap,
       List<GameObject> activeGameObjectsList, List<GameObject> activeActorsList,
@@ -42,14 +51,19 @@ public class WorldCollisionHandling implements Serializable {
     collisionPairs = new ArrayList<>();
   }
 
+  /**
+   * Resets list of collisions to handle.
+   */
   public void clear() {
     collisionPairs = new ArrayList<>();
     collisions = new HashSet<>();
   }
 
   /**
-   * @param gameObjects
-   * @param destroyables
+   * Updates active game objects. This method is called whenever frame moves.
+   *
+   * @param gameObjects new game objects
+   * @param destroyables new active destroyables
    */
   public void updateActiveGameObjects(List<GameObject> gameObjects, List<GameObject> destroyables) {
     activeGameObjects = gameObjects;
@@ -155,10 +169,10 @@ public class WorldCollisionHandling implements Serializable {
    * executes all collision methods for every destroyable that is colliding with a game object. also
    * checks if destroyable should die.
    *
-   * @return
-   * @throws NoSuchMethodException
-   * @throws IllegalAccessException
-   * @throws InvocationTargetException
+   * @return ids to delete
+   * @throws NoSuchMethodException exception
+   * @throws IllegalAccessException exception
+   * @throws InvocationTargetException exception
    */
   public List<Integer> executeAllCollisions()
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {

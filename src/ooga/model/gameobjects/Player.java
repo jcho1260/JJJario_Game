@@ -10,7 +10,7 @@ import ooga.model.util.Vector;
 /**
  * Represents Player object that receives movement input from the user.
  *
- * @author Jessica Yang
+ * @author Jessica Yang, Jin Cho, Juhyoung Lee
  */
 public class Player extends Destroyable {
 
@@ -22,7 +22,23 @@ public class Player extends Destroyable {
   private final Vector initialPosition;
 
   /**
-   * Default constructor for Player.
+   * Default constructor that takes in values read from datafiles.
+   *
+   * @param entityTypes list of tags for Player
+   * @param initPosition starting position of Player
+   * @param id GameObject id
+   * @param objSize size of player
+   * @param startLife starting life
+   * @param startHealth starting health
+   * @param jumpTime vertical height
+   * @param velocityMagnitude velocity of user movement
+   * @param gravity multiplier
+   * @param drivingVelocity auto movement
+   * @param continuousJumpLimit repeated jumping limit
+   * @param shootingCooldown cooldown between shots
+   * @param vis visibility
+   * @param invincibility iframes after getting hurt
+   * @throws ClassNotFoundException exception
    */
   public Player(List<String> entityTypes, Vector initPosition, int id, Vector objSize,
       int startLife, int startHealth, double jumpTime, Vector velocityMagnitude, double gravity,
@@ -40,11 +56,17 @@ public class Player extends Destroyable {
   }
 
   /**
-   * Handles player movement given user input.
+   * Step method that handles player action input and movement.
    *
-   * @param direction   key input respective action linked to it
-   * @param elapsedTime
-   * @param gameGravity the global game gravity applied to the player
+   * @param direction input
+   * @param elapsedTime frame duration
+   * @param gameGravity overall gravity
+   * @param currentFrame frame count
+   * @throws NoSuchMethodException exception
+   * @throws SecurityException exception
+   * @throws IllegalAccessException exception
+   * @throws IllegalArgumentException exception
+   * @throws InvocationTargetException exception
    */
   public void userStep(Action direction, double elapsedTime, double gameGravity, int currentFrame)
       throws NoSuchMethodException, SecurityException, IllegalAccessException,

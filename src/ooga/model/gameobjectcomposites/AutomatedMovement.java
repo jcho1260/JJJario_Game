@@ -21,9 +21,10 @@ public class AutomatedMovement implements Serializable {
   /**
    * Default constructor for AutomatedMovement.
    *
-   * @param initialPosition Vector
-   * @param finalPosition   Vector
-   * @param initialVelocity Vector
+   * @param initialPosition starting location
+   * @param finalPosition   ending location
+   * @param initialVelocity velocity
+   * @param gravity gravity
    */
   public AutomatedMovement(Vector initialPosition, Vector finalPosition, Vector initialVelocity,
       double gravity) {
@@ -36,12 +37,12 @@ public class AutomatedMovement implements Serializable {
   }
 
   /**
-   * Calculated new position given starting position.
+   * Calculated new position given game information.
    *
-   * @param elapsedTime double
-   * @param gameGravity double
-   * @param position    Vector
-   * @return newPosition Vector
+   * @param elapsedTime frame duration
+   * @param gameGravity gravity
+   * @param position    location
+   * @return newPosition new location
    */
   public Vector stepMovement(double elapsedTime, double gameGravity, Vector position) {
     if (!isInPath(position)) {
